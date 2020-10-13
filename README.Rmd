@@ -1,0 +1,132 @@
+---
+output: html_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+
+# rtorch-minimal-book
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of rtorch-minimal-book is to ...
+
+What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+
+```{css echo=FALSE}
+.bad-code { background-color: red; }
+```
+
+```{r df-drop-2, class.source="bad-code"}
+mtcars[, "mpg"] 
+```
+
+
+<style>
+div.blue pre { background-color:lightblue; }
+div.blue pre.r { background-color:blue; }
+</style>
+
+
+<div class = "blue">
+```{r bluecars}
+summary(cars)
+```
+</div>
+
+```{r normal}
+summary(cars)
+```
+
+```{r class="watch-out"}
+mtcars[1:5, "mpg"]
+```
+
+
+```{r class.source="watch-out", class.source="watch-out"}
+library(rTorch)
+```
+
+```{css}
+.badCode {
+background-color: red;
+}
+```
+
+```{r torch-config, class.source="badCode"}
+library(rTorch)
+rTorch::torch_config()
+```
+
+
+
+```{r cars, class.source="bg-danger", class.output="bg-warning"}
+summary(cars)
+```
+
+You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+
+You can also embed plots, for example:
+
+```{r pressure, echo = FALSE}
+plot(pressure)
+```
+
+In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+
+This is a minimal tutorial of rTorch, a package based on PyTorch. This book has been written in R Markdown using **bookdown** (<https://github.com/rstudio/bookdown>).
+
+
+```{r class.source="bg-danger", class.output="bg-warning"}
+mtcars[1:5, "mpg"]
+```
+
+
+We have defined a few types of blocks for this book to show notes, tips, and warnings, etc. Below are some examples:
+
+```{block2, note-text, type='rmdnote'}
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under the terms of the
+GNU General Public License versions 2 or 3.
+For more information about these matters see
+http://www.gnu.org/licenses/.
+```
+
+```{block2, note-text, type='rmdcaution'}
+```
+
+
+```{block2, note-text, type='rmdimportant'}
+```
+
+```{block2, note-text, type='rmdtip'}
+```
+
+```{block2, note-text, type='rmdwarning'}
+```
+
+```{block2}
+summary(cars)
+```
+
+
+
+- blue
+```{bluecars}
+summary(cars)
+```
+```{r, echo=FALSE}
+summary(cars)
+```
+- normal
+```{r}
+summary(cars)
+```
+- red
+```{redcars}
+summary(cars)
+```
+```{r, echo=FALSE}
+summary(cars)
+```

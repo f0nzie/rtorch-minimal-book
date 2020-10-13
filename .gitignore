@@ -1,0 +1,11 @@
+_bookdown_files/*
+
+
+
+.Rproj.user/
+
+rtorch-minimal-book.rds
+
+public/
+
+datasets/
