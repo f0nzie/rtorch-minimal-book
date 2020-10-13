@@ -11,3 +11,5 @@ public/
 datasets/
 
 mnist_png_full/
+
+model.ckpt
