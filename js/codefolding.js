@@ -7,6 +7,10 @@ window.initializeCodeFolding = function(show) {
     $('div.r-code-collapse').each(function() {
       $(this).collapse('show');
     });
+    
+  $('div.py-code-collapse').each(function() {
+      $(this).collapse('show');
+    });    
   });
   $("#rmd-hide-all-code").click(function() {
     // close the dropdown menu when an option is clicked
@@ -14,11 +18,16 @@ window.initializeCodeFolding = function(show) {
     $('div.r-code-collapse').each(function() {
       $(this).collapse('hide');
     });
+    
+    $('div.py-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
   });
 
   // index for unique code element ids
   var r_currentIndex = 1;
   var py_currentIndex = 1;
+
   
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
