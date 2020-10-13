@@ -17,7 +17,8 @@ window.initializeCodeFolding = function(show) {
   });
 
   // index for unique code element ids
-  var currentIndex = 1;
+  var r_currentIndex = 1;
+  var py_currentIndex = 1;
   
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -69,7 +70,7 @@ window.initializeCodeFolding = function(show) {
     var div = $('<div class="collapse r-code-collapse"></div>');
     if (show)
       div.addClass('in');
-    var id = 'rcode-643E0F36' + currentIndex++;
+    var id = 'rcode-643E0F36' + r_currentIndex++;
     div.attr('id', id);
     $(this).before(div);
     $(this).detach().appendTo(div);
