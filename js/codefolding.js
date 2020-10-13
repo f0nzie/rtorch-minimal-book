@@ -4,24 +4,26 @@ window.initializeCodeFolding = function(show) {
   $("#rmd-show-all-code").click(function() {
     // close the dropdown menu when an option is clicked
     $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('show');
-    });
-    
-  $('div.py-code-collapse').each(function() {
-      $(this).collapse('show');
-    });    
+      // R show code
+      $('div.r-code-collapse').each(function() {
+        $(this).collapse('show');
+      });
+      // Python show code
+      $('div.py-code-collapse').each(function() {
+        $(this).collapse('show');
+      });    
   });
-  $("#rmd-hide-all-code").click(function() {
-    // close the dropdown menu when an option is clicked
-    $("#allCodeButton").dropdown("toggle");
-    $('div.r-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
-    
-    $('div.py-code-collapse').each(function() {
-      $(this).collapse('hide');
-    });
+    $("#rmd-hide-all-code").click(function() {
+      // close the dropdown menu when an option is clicked
+      $("#allCodeButton").dropdown("toggle");
+      // Hide R code
+      $('div.r-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
+      // Hide Python code
+      $('div.py-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
 
   // index for unique code element ids
