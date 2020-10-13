@@ -9,3 +9,5 @@ rtorch-minimal-book.rds
 public/
 
 datasets/
+
+mnist_png_full/
