@@ -20,8 +20,43 @@ window.initializeCodeFolding = function(show) {
   var currentIndex = 1;
   
   // select Python chunks
-   var pyCodeBlocks = $('pre.python');
-   pyCodeBlocks.each(function() {
+  var pyCodeBlocks = $('pre.python');
+  pyCodeBlocks.each(function() {
+    
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse py-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'pycode-643E0F36' + py_currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    
+  // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Python code' : 'Python code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Python code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Python code');
+    });  
    });
   
 
