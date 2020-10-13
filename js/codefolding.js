@@ -54,6 +54,9 @@ window.initializeCodeFolding = function(show) {
         .attr('aria-expanded', show)
         .attr('aria-controls', id);    
         
+    // showCodeButton.css('background-color','#f47121');
+    showCodeButton.css('background-color','#009900');
+        
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
 
@@ -96,7 +99,9 @@ window.initializeCodeFolding = function(show) {
         .attr('data-target', '#' + id)
         .attr('aria-expanded', show)
         .attr('aria-controls', id);
-
+        
+    showCodeButton.css('background-color','#0000ff');
+    
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
 
