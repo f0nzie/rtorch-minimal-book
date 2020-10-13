@@ -25,7 +25,7 @@ window.initializeCodeFolding = function(show) {
   });
 
   // index for unique code element ids
-  var r_currentIndex = 1;
+  var r_currentIndex  = 1;
   var py_currentIndex = 1;
 
   
