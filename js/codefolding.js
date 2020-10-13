@@ -43,6 +43,7 @@ window.initializeCodeFolding = function(show) {
     div.attr('id', id);
     $(this).before(div);
     $(this).detach().appendTo(div);
+    $(this).css('background-color','#ebfaeb');
     
   // add a show code button right above
     var showCodeText = $('<span>' + (show ? 'Hide Python code' : 'Python code') + '</span>');
@@ -89,6 +90,7 @@ window.initializeCodeFolding = function(show) {
     div.attr('id', id);
     $(this).before(div);
     $(this).detach().appendTo(div);
+    $(this).css('background-color','#e6e6ff');
 
     // add a show code button right above
     var showCodeText = $('<span>' + (show ? 'Hide R code' : 'R code') + '</span>');
