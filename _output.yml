@@ -3,6 +3,8 @@ bookdown::gitbook:
   includes:
     in_header: hide_code.html
   split_bib: false
+  # highlight options: tango, kate, pygments, textmate
+  highlight: kate
   toc_depth: 4
   config:
     toc:
