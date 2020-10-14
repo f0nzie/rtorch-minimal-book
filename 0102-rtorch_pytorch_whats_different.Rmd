@@ -32,6 +32,14 @@ We use the dollar sign or `$` to call a class, function or method from the rTorc
 torch$tensor
 ```
 
+```{python, engine="python3"}
+import torch
+
+torch.tensor
+
+```
+
+
 
 ## Call a module from PyTorch
 
@@ -43,6 +51,16 @@ dsets       <- torchvision$datasets
 ```
 
 Then we can proceed to extract classes, methods and functions from the `nn`, `transforms`, and `dsets` objects.
+
+```{python}
+import torch
+import torchvision
+
+torch.nn
+torchvision.transforms
+torchvision.datasets
+```
+
 
 ## Show the attributes (methods) of a class or PyTorch object
 Sometimes we are interested in knowing the internal components of a class. In that case, we use the reticulate function `py_list_attributes()`.
