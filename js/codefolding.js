@@ -90,7 +90,7 @@ window.initializeCodeFolding = function(show) {
     div.attr('id', id);
     $(this).before(div);
     $(this).detach().appendTo(div);
-    $(this).css('background-color','#e6e6ff');
+    $(this).css('background-color','#e6faff');
 
     // add a show code button right above
     var showCodeText = $('<span>' + (show ? 'Hide R code' : 'R code') + '</span>');
