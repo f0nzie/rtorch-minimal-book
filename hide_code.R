@@ -35,6 +35,7 @@ paste(buttonjs, collapse = "\n"),
 '</script>
 <script>
 $(document).ready(function () {
+  // show code by default. Use "show" === "hide" to hide
   window.initializeCodeFolding("show" === "show");
 });
 </script>', sep = "\n")
