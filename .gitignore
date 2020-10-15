@@ -29,7 +29,5 @@ libs/gitbook-2.6.7/js/plugin-clipboard.js
 libs/gitbook-2.6.7/js/plugin-fontsettings.js
 libs/gitbook-2.6.7/js/plugin-search.js
 libs/gitbook-2.6.7/js/plugin-sharing.js
-
 *.rds
-
 *.md

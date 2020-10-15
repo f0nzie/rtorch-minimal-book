@@ -4,33 +4,6 @@
 
 ## Motivation
 
-```{r}
-library(reticulate)
-
-reticulate::py_config()
-
-use_condaenv("r-torch", required = TRUE)
-
-reticulate::py_discover_config()
-```
-
-
-```{python, engine="python3"}
-a = 10
-print(a)
-
-import numpy as np
-print(np.abs(-3.14))
-```
-
-```{python, engine="python3"}
-import pandas as pd
-
-x = pd.DataFrame()
-print(x)
-```
-
-
 *Why do we want a package of something that is already working well, such as PyTorch?*
 
 There are several reasons, but the main one is to bring another machine learning framework to R. Probably it is just me but I feel _PyTorch_ very comfortable to work with. Feels pretty much like everything else in Python. Pythonic. I have tried other frameworks in R. The closest that matches a natural language like PyTorch, is [MXnet](). Unfortunately, [MXnet] it is the hardest to install and maintain after updates.
@@ -251,6 +224,28 @@ py_bi$isinstance(train_dataset, torchvision$datasets$mnist$MNIST)
 ```
 
 
+```{r}
+library(reticulate)
+use_condaenv("r-torch", required = TRUE)
 
+reticulate::py_discover_config()
+reticulate::py_config()
+```
+
+
+```{python, engine="python3"}
+a = 10
+print(a)
+
+import numpy as np
+print(np.abs(-3.14))
+```
+
+```{python, engine="python3"}
+import pandas as pd
+
+x = pd.DataFrame()
+print(x)
+```
 
 
