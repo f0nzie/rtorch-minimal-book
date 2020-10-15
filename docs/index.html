@@ -1156,44 +1156,63 @@ code span.wa { color: #bf0303; } /* Warning */
 </div>
 <div id="prerequisites" class="section level1 unnumbered">
 <h1>Prerequisites</h1>
-<p>You need two things to get <code>rTorch</code> working:</p>
+<p>You need couple of things to get <code>rTorch</code> working:</p>
 <ol style="list-style-type: decimal">
-<li><p>Install Python <a href="">Anaconda</a>. Preferrably, for 64-bits, and above Python 3.6+.</p></li>
+<li><p>Install Python <a href="https://www.anaconda.com/products/individual">Anaconda</a>. Preferrably, for 64-bits, and above Python 3.6+. I have successfully tested Anaconda under four different operating systems: Windows (Win10 and Windows Server 2008); macOS (Sierra, Mojave and Catalina); Linux (Debian, Fedora and Ubuntu); and lastly, Solaris 10. ASll these tests are required by CRAN.</p></li>
 <li><p>Install <a href="">R</a>, <a href="">Rtools</a> and <a href="">RStudio</a>.</p></li>
-<li><p>Install <code>rTorch</code> from CRAN or GitHub.</p></li>
+<li><p>Install the R package <a href="https://github.com/rstudio/reticulate">reticulate</a>, which is the one that provides the connection between R and Python.</p></li>
+<li><p>Install the stable version <code>rTorch</code> from CRAN, or the latest version under develoipment via GitHub.</p></li>
 </ol>
 <blockquote>
-<p>Note. It is not mandatory to have a previously created <code>Python</code> environment with <code>Anaconda</code>, where <code>PyTorch</code> and <code>TorchVision</code> have already been installed. This step is optional. You could also get it installed directly from the <code>R</code> console, in very similar fashion as in <a href="">R-TensorFlow</a> using the function <code>install_pytorch</code>.</p>
+<p>Note. While it is not mandatory to have a previously created <code>Python</code> environment with <code>Anaconda</code>, where <code>PyTorch</code> and <code>TorchVision</code> have already been installed, it is another option if for some reason <code>reticulate</code> refuses to communicate with the conda environment. Keep in mind that you could also get the <code>rTorch</code> <em>conda</em> environment installed directly from the <code>R</code> console, in very similar fashion as in <a href="">R-TensorFlow</a> using the function <code>install_pytorch()</code>.</p>
 </blockquote>
-<p>This book is available online via <a href="">GitHub Pages</a>, or you can also build it from source from its <a href="">repository</a>.</p>
 <div id="installation" class="section level2 unnumbered">
 <h2>Installation</h2>
-<p><code>rTorch</code> is available via CRAN or GitHub.</p>
 <p>The <strong>rTorch</strong> package can be installed from CRAN or Github.</p>
 <p>From CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;rTorch&quot;</span>)</span></code></pre></div>
 <p>From GitHub, install <code>rTorch</code> with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;f0nzie/rTorch&quot;</span>)</span></code></pre></div>
+<p>which will install rTorch from the <code>main</code> or <code>master</code> branch. To install it from the <code>develop</code> branch, you type this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;f0nzie/rTorch&quot;</span>, <span class="dt">ref=</span><span class="st">&quot;develop&quot;</span>)</span></code></pre></div>
+<p>or clone with Git with:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="index.html#cb4-1"></a><span class="fu">git</span> clone https://github.com/f0nzie/rTorch.git</span></code></pre></div>
+<p>This will allow you to build <code>rTorch</code> from source.</p>
 </div>
 <div id="python-anaconda" class="section level2 unnumbered">
 <h2>Python Anaconda</h2>
-<p>Before start running <code>rTorch</code>, install a Python Anaconda environment first.</p>
+<p>If your preference is installing an Anaconda environment first, these are the steps:</p>
 <div id="example" class="section level3 unnumbered">
 <h3>Example</h3>
 <ol style="list-style-type: decimal">
-<li><p>Create a <code>conda</code> environment from the terminal with <code>conda create -n myenv python=3.7</code></p></li>
-<li><p>Activate the new environment with <code>conda activate myenv</code></p></li>
-<li><p>Install the <code>PyTorch</code> related packages with:</p></li>
+<li>Create a <code>conda</code> environment from the terminal with</li>
 </ol>
-<p><code>conda install python=3.6.6 pytorch-cpu torchvision-cpu matplotlib pandas -c pytorch</code></p>
-<p>The last part <code>-c pytorch</code> specifies the conda channel to download the PyTorch packages. Your installation may not work if you don’t indicate the channel.</p>
-<p>Now, you can load <code>rTorch</code> in R or RStudio.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="index.html#cb5-1"></a><span class="ex">conda</span> create -n r-torch python=3.7</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Activate the new environment with</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="index.html#cb6-1"></a><span class="ex">conda</span> activate r-torch</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Install the <code>PyTorch</code> related packages with:</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="index.html#cb7-1"></a><span class="ex">conda</span> install python=3.6.6 pytorch torchvision cpuonly matplotlib pandas -c pytorch</span></code></pre></div>
+<p>The last part <code>-c pytorch</code> specifies the <strong>stable</strong> <em>conda</em> channel to download the PyTorch packages. Your <em>conda</em> installation may not work if you don’t indicate the channel.</p>
+<p>Now, you can load <code>rTorch</code> in R or RStudio with:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="index.html#cb8-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
 </div>
 <div id="automatic-installation" class="section level3 unnumbered">
 <h3>Automatic installation</h3>
-<p>I use the idea from automatic installation in <code>r-tensorflow</code>, to create the function <code>rTorch::install_pytorch()</code>. This function will allow you to install a <code>conda</code> environment complete with all <code>PyTorch</code> requirements.</p>
+<p>I used the idea for automatic installation in the <code>tensorflow</code> package for R, to create the function <code>rTorch::install_pytorch()</code>. This function will allow you to install a <code>conda</code> environment complete with all <code>PyTorch</code> requirements plus the packages you specify. Example:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="index.html#cb9-1"></a>rTorch<span class="op">:::</span><span class="kw">install_conda</span>(<span class="dt">package=</span><span class="st">&quot;pytorch=1.4&quot;</span>, <span class="dt">envname=</span><span class="st">&quot;r-torch&quot;</span>, </span>
+<span id="cb9-2"><a href="index.html#cb9-2"></a>                       <span class="dt">conda=</span><span class="st">&quot;auto&quot;</span>, <span class="dt">conda_python_version =</span> <span class="st">&quot;3.6&quot;</span>, <span class="dt">pip=</span><span class="ot">FALSE</span>, </span>
+<span id="cb9-3"><a href="index.html#cb9-3"></a>                       <span class="dt">channel=</span><span class="st">&quot;pytorch&quot;</span>, </span>
+<span id="cb9-4"><a href="index.html#cb9-4"></a>                       <span class="dt">extra_packages=</span><span class="kw">c</span>(<span class="st">&quot;torchvision&quot;</span>, </span>
+<span id="cb9-5"><a href="index.html#cb9-5"></a>                                        <span class="st">&quot;cpuonly&quot;</span>, </span>
+<span id="cb9-6"><a href="index.html#cb9-6"></a>                                        <span class="st">&quot;matplotlib&quot;</span>, </span>
+<span id="cb9-7"><a href="index.html#cb9-7"></a>                                        <span class="st">&quot;pandas&quot;</span>))</span></code></pre></div>
+<p>This is explained in more detailed in the <a href="https://f0nzie.github.io/rTorch/articles/installation.html">rTorch package manual</a>.</p>
 <blockquote>
-<p><strong>Note.</strong> <code>matplotlib</code> and <code>pandas</code> are not really necessary for <code>rTorch</code> to work, but I was asked if <code>matplotlib</code> or <code>pandas</code> would work with <code>PyTorch</code>. So, I decided to install them for testing and experimentation. They both work.</p>
+<p><strong>Note.</strong> <code>matplotlib</code> and <code>pandas</code> are not really necessary for <code>rTorch</code> to work, but I was asked if <code>matplotlib</code> or <code>pandas</code> could work with <code>PyTorch</code>. So, I decided to install them for testing and experimentation. They both work.</p>
 </blockquote>
 
 </div>

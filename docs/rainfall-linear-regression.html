@@ -1151,87 +1151,87 @@ code span.wa { color: #bf0303; } /* Warning */
             <section class="normal" id="section-">
 <div id="rainfall.-linear-regression" class="section level1">
 <h1><span class="header-section-number">Chapter 9</span> Rainfall. Linear Regression</h1>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="rainfall-linear-regression.html#cb197-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="rainfall-linear-regression.html#cb204-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
 <p>Select the device: CPU or GPU</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="rainfall-linear-regression.html#cb198-1"></a>torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">0</span>)</span>
-<span id="cb198-2"><a href="rainfall-linear-regression.html#cb198-2"></a><span class="co">#&gt; &lt;torch._C.Generator&gt;</span></span>
-<span id="cb198-3"><a href="rainfall-linear-regression.html#cb198-3"></a></span>
-<span id="cb198-4"><a href="rainfall-linear-regression.html#cb198-4"></a>device =<span class="st"> </span>torch<span class="op">$</span><span class="kw">device</span>(<span class="st">&#39;cpu&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="rainfall-linear-regression.html#cb205-1"></a>torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">0</span>)</span>
+<span id="cb205-2"><a href="rainfall-linear-regression.html#cb205-2"></a><span class="co">#&gt; &lt;torch._C.Generator&gt;</span></span>
+<span id="cb205-3"><a href="rainfall-linear-regression.html#cb205-3"></a></span>
+<span id="cb205-4"><a href="rainfall-linear-regression.html#cb205-4"></a>device =<span class="st"> </span>torch<span class="op">$</span><span class="kw">device</span>(<span class="st">&#39;cpu&#39;</span>)</span></code></pre></div>
 <div id="training-data" class="section level2">
 <h2><span class="header-section-number">9.1</span> Training data</h2>
 <p>The training data can be represented using 2 matrices (inputs and targets), each with one row per observation, and one column per variable.</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="rainfall-linear-regression.html#cb199-1"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
-<span id="cb199-2"><a href="rainfall-linear-regression.html#cb199-2"></a>inputs =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
-<span id="cb199-3"><a href="rainfall-linear-regression.html#cb199-3"></a>                   <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>),</span>
-<span id="cb199-4"><a href="rainfall-linear-regression.html#cb199-4"></a>                   <span class="kw">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
-<span id="cb199-5"><a href="rainfall-linear-regression.html#cb199-5"></a>                   <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
-<span id="cb199-6"><a href="rainfall-linear-regression.html#cb199-6"></a>                   <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
-<span id="cb199-7"><a href="rainfall-linear-regression.html#cb199-7"></a></span>
-<span id="cb199-8"><a href="rainfall-linear-regression.html#cb199-8"></a><span class="co"># Targets (apples, oranges)</span></span>
-<span id="cb199-9"><a href="rainfall-linear-regression.html#cb199-9"></a>targets =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">56</span>, <span class="dv">70</span>), </span>
-<span id="cb199-10"><a href="rainfall-linear-regression.html#cb199-10"></a>                    <span class="kw">list</span>(<span class="dv">81</span>, <span class="dv">101</span>),</span>
-<span id="cb199-11"><a href="rainfall-linear-regression.html#cb199-11"></a>                    <span class="kw">list</span>(<span class="dv">119</span>, <span class="dv">133</span>),</span>
-<span id="cb199-12"><a href="rainfall-linear-regression.html#cb199-12"></a>                    <span class="kw">list</span>(<span class="dv">22</span>, <span class="dv">37</span>), </span>
-<span id="cb199-13"><a href="rainfall-linear-regression.html#cb199-13"></a>                    <span class="kw">list</span>(<span class="dv">103</span>, <span class="dv">119</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="rainfall-linear-regression.html#cb206-1"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
+<span id="cb206-2"><a href="rainfall-linear-regression.html#cb206-2"></a>inputs =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
+<span id="cb206-3"><a href="rainfall-linear-regression.html#cb206-3"></a>                   <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>),</span>
+<span id="cb206-4"><a href="rainfall-linear-regression.html#cb206-4"></a>                   <span class="kw">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
+<span id="cb206-5"><a href="rainfall-linear-regression.html#cb206-5"></a>                   <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
+<span id="cb206-6"><a href="rainfall-linear-regression.html#cb206-6"></a>                   <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb206-7"><a href="rainfall-linear-regression.html#cb206-7"></a></span>
+<span id="cb206-8"><a href="rainfall-linear-regression.html#cb206-8"></a><span class="co"># Targets (apples, oranges)</span></span>
+<span id="cb206-9"><a href="rainfall-linear-regression.html#cb206-9"></a>targets =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">56</span>, <span class="dv">70</span>), </span>
+<span id="cb206-10"><a href="rainfall-linear-regression.html#cb206-10"></a>                    <span class="kw">list</span>(<span class="dv">81</span>, <span class="dv">101</span>),</span>
+<span id="cb206-11"><a href="rainfall-linear-regression.html#cb206-11"></a>                    <span class="kw">list</span>(<span class="dv">119</span>, <span class="dv">133</span>),</span>
+<span id="cb206-12"><a href="rainfall-linear-regression.html#cb206-12"></a>                    <span class="kw">list</span>(<span class="dv">22</span>, <span class="dv">37</span>), </span>
+<span id="cb206-13"><a href="rainfall-linear-regression.html#cb206-13"></a>                    <span class="kw">list</span>(<span class="dv">103</span>, <span class="dv">119</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span></code></pre></div>
 </div>
 <div id="convert-arrays-to-tensors-1" class="section level2">
 <h2><span class="header-section-number">9.2</span> Convert arrays to tensors</h2>
 <p>Before we build a model, we need to convert inputs and targets to PyTorch tensors.</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="rainfall-linear-regression.html#cb200-1"></a><span class="co"># Convert inputs and targets to tensors</span></span>
-<span id="cb200-2"><a href="rainfall-linear-regression.html#cb200-2"></a>inputs =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(inputs)</span>
-<span id="cb200-3"><a href="rainfall-linear-regression.html#cb200-3"></a>targets =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(targets)</span>
-<span id="cb200-4"><a href="rainfall-linear-regression.html#cb200-4"></a></span>
-<span id="cb200-5"><a href="rainfall-linear-regression.html#cb200-5"></a><span class="kw">print</span>(inputs)</span>
-<span id="cb200-6"><a href="rainfall-linear-regression.html#cb200-6"></a><span class="co">#&gt; tensor([[ 73.,  67.,  43.],</span></span>
-<span id="cb200-7"><a href="rainfall-linear-regression.html#cb200-7"></a><span class="co">#&gt;         [ 91.,  88.,  64.],</span></span>
-<span id="cb200-8"><a href="rainfall-linear-regression.html#cb200-8"></a><span class="co">#&gt;         [ 87., 134.,  58.],</span></span>
-<span id="cb200-9"><a href="rainfall-linear-regression.html#cb200-9"></a><span class="co">#&gt;         [102.,  43.,  37.],</span></span>
-<span id="cb200-10"><a href="rainfall-linear-regression.html#cb200-10"></a><span class="co">#&gt;         [ 69.,  96.,  70.]], dtype=torch.float64)</span></span>
-<span id="cb200-11"><a href="rainfall-linear-regression.html#cb200-11"></a><span class="kw">print</span>(targets)</span>
-<span id="cb200-12"><a href="rainfall-linear-regression.html#cb200-12"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
-<span id="cb200-13"><a href="rainfall-linear-regression.html#cb200-13"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
-<span id="cb200-14"><a href="rainfall-linear-regression.html#cb200-14"></a><span class="co">#&gt;         [119., 133.],</span></span>
-<span id="cb200-15"><a href="rainfall-linear-regression.html#cb200-15"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
-<span id="cb200-16"><a href="rainfall-linear-regression.html#cb200-16"></a><span class="co">#&gt;         [103., 119.]], dtype=torch.float64)</span></span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="rainfall-linear-regression.html#cb207-1"></a><span class="co"># Convert inputs and targets to tensors</span></span>
+<span id="cb207-2"><a href="rainfall-linear-regression.html#cb207-2"></a>inputs =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(inputs)</span>
+<span id="cb207-3"><a href="rainfall-linear-regression.html#cb207-3"></a>targets =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(targets)</span>
+<span id="cb207-4"><a href="rainfall-linear-regression.html#cb207-4"></a></span>
+<span id="cb207-5"><a href="rainfall-linear-regression.html#cb207-5"></a><span class="kw">print</span>(inputs)</span>
+<span id="cb207-6"><a href="rainfall-linear-regression.html#cb207-6"></a><span class="co">#&gt; tensor([[ 73.,  67.,  43.],</span></span>
+<span id="cb207-7"><a href="rainfall-linear-regression.html#cb207-7"></a><span class="co">#&gt;         [ 91.,  88.,  64.],</span></span>
+<span id="cb207-8"><a href="rainfall-linear-regression.html#cb207-8"></a><span class="co">#&gt;         [ 87., 134.,  58.],</span></span>
+<span id="cb207-9"><a href="rainfall-linear-regression.html#cb207-9"></a><span class="co">#&gt;         [102.,  43.,  37.],</span></span>
+<span id="cb207-10"><a href="rainfall-linear-regression.html#cb207-10"></a><span class="co">#&gt;         [ 69.,  96.,  70.]], dtype=torch.float64)</span></span>
+<span id="cb207-11"><a href="rainfall-linear-regression.html#cb207-11"></a><span class="kw">print</span>(targets)</span>
+<span id="cb207-12"><a href="rainfall-linear-regression.html#cb207-12"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
+<span id="cb207-13"><a href="rainfall-linear-regression.html#cb207-13"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
+<span id="cb207-14"><a href="rainfall-linear-regression.html#cb207-14"></a><span class="co">#&gt;         [119., 133.],</span></span>
+<span id="cb207-15"><a href="rainfall-linear-regression.html#cb207-15"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
+<span id="cb207-16"><a href="rainfall-linear-regression.html#cb207-16"></a><span class="co">#&gt;         [103., 119.]], dtype=torch.float64)</span></span></code></pre></div>
 <p>The weights and biases can also be represented as matrices, initialized with random values. The first row of <span class="math inline">\(w\)</span> and the first element of <span class="math inline">\(b\)</span> are used to predict the first target variable, i.e. yield for apples, and, similarly, the second for oranges.</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="rainfall-linear-regression.html#cb201-1"></a><span class="co"># random numbers for weights and biases. Then convert to double()</span></span>
-<span id="cb201-2"><a href="rainfall-linear-regression.html#cb201-2"></a>torch<span class="op">$</span><span class="kw">set_default_dtype</span>(torch<span class="op">$</span>double)</span>
-<span id="cb201-3"><a href="rainfall-linear-regression.html#cb201-3"></a></span>
-<span id="cb201-4"><a href="rainfall-linear-regression.html#cb201-4"></a>w =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, 3L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>)  <span class="co">#$double()</span></span>
-<span id="cb201-5"><a href="rainfall-linear-regression.html#cb201-5"></a>b =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>)      <span class="co">#$double()</span></span>
-<span id="cb201-6"><a href="rainfall-linear-regression.html#cb201-6"></a></span>
-<span id="cb201-7"><a href="rainfall-linear-regression.html#cb201-7"></a><span class="kw">print</span>(w)</span>
-<span id="cb201-8"><a href="rainfall-linear-regression.html#cb201-8"></a><span class="co">#&gt; tensor([[ 1.5410, -0.2934, -2.1788],</span></span>
-<span id="cb201-9"><a href="rainfall-linear-regression.html#cb201-9"></a><span class="co">#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)</span></span>
-<span id="cb201-10"><a href="rainfall-linear-regression.html#cb201-10"></a><span class="kw">print</span>(b)</span>
-<span id="cb201-11"><a href="rainfall-linear-regression.html#cb201-11"></a><span class="co">#&gt; tensor([0.4033, 0.8380], requires_grad=True)</span></span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="rainfall-linear-regression.html#cb208-1"></a><span class="co"># random numbers for weights and biases. Then convert to double()</span></span>
+<span id="cb208-2"><a href="rainfall-linear-regression.html#cb208-2"></a>torch<span class="op">$</span><span class="kw">set_default_dtype</span>(torch<span class="op">$</span>double)</span>
+<span id="cb208-3"><a href="rainfall-linear-regression.html#cb208-3"></a></span>
+<span id="cb208-4"><a href="rainfall-linear-regression.html#cb208-4"></a>w =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, 3L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>)  <span class="co">#$double()</span></span>
+<span id="cb208-5"><a href="rainfall-linear-regression.html#cb208-5"></a>b =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>)      <span class="co">#$double()</span></span>
+<span id="cb208-6"><a href="rainfall-linear-regression.html#cb208-6"></a></span>
+<span id="cb208-7"><a href="rainfall-linear-regression.html#cb208-7"></a><span class="kw">print</span>(w)</span>
+<span id="cb208-8"><a href="rainfall-linear-regression.html#cb208-8"></a><span class="co">#&gt; tensor([[ 1.5410, -0.2934, -2.1788],</span></span>
+<span id="cb208-9"><a href="rainfall-linear-regression.html#cb208-9"></a><span class="co">#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)</span></span>
+<span id="cb208-10"><a href="rainfall-linear-regression.html#cb208-10"></a><span class="kw">print</span>(b)</span>
+<span id="cb208-11"><a href="rainfall-linear-regression.html#cb208-11"></a><span class="co">#&gt; tensor([0.4033, 0.8380], requires_grad=True)</span></span></code></pre></div>
 </div>
 <div id="build-the-model" class="section level2">
 <h2><span class="header-section-number">9.3</span> Build the model</h2>
 <p>The model is simply a function that performs a matrix multiplication of the input <span class="math inline">\(x\)</span> and the weights <span class="math inline">\(w\)</span> (transposed), and adds the bias <span class="math inline">\(b\)</span> (replicated for each observation).</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="rainfall-linear-regression.html#cb202-1"></a>model &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
-<span id="cb202-2"><a href="rainfall-linear-regression.html#cb202-2"></a>  wt &lt;-<span class="st"> </span>w<span class="op">$</span><span class="kw">t</span>()</span>
-<span id="cb202-3"><a href="rainfall-linear-regression.html#cb202-3"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">add</span>(torch<span class="op">$</span><span class="kw">mm</span>(x, wt), b))</span>
-<span id="cb202-4"><a href="rainfall-linear-regression.html#cb202-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="rainfall-linear-regression.html#cb209-1"></a>model &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb209-2"><a href="rainfall-linear-regression.html#cb209-2"></a>  wt &lt;-<span class="st"> </span>w<span class="op">$</span><span class="kw">t</span>()</span>
+<span id="cb209-3"><a href="rainfall-linear-regression.html#cb209-3"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">add</span>(torch<span class="op">$</span><span class="kw">mm</span>(x, wt), b))</span>
+<span id="cb209-4"><a href="rainfall-linear-regression.html#cb209-4"></a>}</span></code></pre></div>
 </div>
 <div id="generate-predictions" class="section level2">
 <h2><span class="header-section-number">9.4</span> Generate predictions</h2>
 <p>The matrix obtained by passing the input data to the model is a set of predictions for the target variables.</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="rainfall-linear-regression.html#cb203-1"></a><span class="co"># Generate predictions</span></span>
-<span id="cb203-2"><a href="rainfall-linear-regression.html#cb203-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
-<span id="cb203-3"><a href="rainfall-linear-regression.html#cb203-3"></a><span class="kw">print</span>(preds)</span>
-<span id="cb203-4"><a href="rainfall-linear-regression.html#cb203-4"></a><span class="co">#&gt; tensor([[  -0.4516,  -90.4691],</span></span>
-<span id="cb203-5"><a href="rainfall-linear-regression.html#cb203-5"></a><span class="co">#&gt;         [ -24.6303, -132.3828],</span></span>
-<span id="cb203-6"><a href="rainfall-linear-regression.html#cb203-6"></a><span class="co">#&gt;         [ -31.2192, -176.1530],</span></span>
-<span id="cb203-7"><a href="rainfall-linear-regression.html#cb203-7"></a><span class="co">#&gt;         [  64.3523,  -39.5645],</span></span>
-<span id="cb203-8"><a href="rainfall-linear-regression.html#cb203-8"></a><span class="co">#&gt;         [ -73.9524, -161.9560]], grad_fn=&lt;AddBackward0&gt;)</span></span></code></pre></div>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="rainfall-linear-regression.html#cb204-1"></a><span class="co"># Compare with targets</span></span>
-<span id="cb204-2"><a href="rainfall-linear-regression.html#cb204-2"></a><span class="kw">print</span>(targets)</span>
-<span id="cb204-3"><a href="rainfall-linear-regression.html#cb204-3"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
-<span id="cb204-4"><a href="rainfall-linear-regression.html#cb204-4"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
-<span id="cb204-5"><a href="rainfall-linear-regression.html#cb204-5"></a><span class="co">#&gt;         [119., 133.],</span></span>
-<span id="cb204-6"><a href="rainfall-linear-regression.html#cb204-6"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
-<span id="cb204-7"><a href="rainfall-linear-regression.html#cb204-7"></a><span class="co">#&gt;         [103., 119.]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="rainfall-linear-regression.html#cb210-1"></a><span class="co"># Generate predictions</span></span>
+<span id="cb210-2"><a href="rainfall-linear-regression.html#cb210-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb210-3"><a href="rainfall-linear-regression.html#cb210-3"></a><span class="kw">print</span>(preds)</span>
+<span id="cb210-4"><a href="rainfall-linear-regression.html#cb210-4"></a><span class="co">#&gt; tensor([[  -0.4516,  -90.4691],</span></span>
+<span id="cb210-5"><a href="rainfall-linear-regression.html#cb210-5"></a><span class="co">#&gt;         [ -24.6303, -132.3828],</span></span>
+<span id="cb210-6"><a href="rainfall-linear-regression.html#cb210-6"></a><span class="co">#&gt;         [ -31.2192, -176.1530],</span></span>
+<span id="cb210-7"><a href="rainfall-linear-regression.html#cb210-7"></a><span class="co">#&gt;         [  64.3523,  -39.5645],</span></span>
+<span id="cb210-8"><a href="rainfall-linear-regression.html#cb210-8"></a><span class="co">#&gt;         [ -73.9524, -161.9560]], grad_fn=&lt;AddBackward0&gt;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="rainfall-linear-regression.html#cb211-1"></a><span class="co"># Compare with targets</span></span>
+<span id="cb211-2"><a href="rainfall-linear-regression.html#cb211-2"></a><span class="kw">print</span>(targets)</span>
+<span id="cb211-3"><a href="rainfall-linear-regression.html#cb211-3"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
+<span id="cb211-4"><a href="rainfall-linear-regression.html#cb211-4"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
+<span id="cb211-5"><a href="rainfall-linear-regression.html#cb211-5"></a><span class="co">#&gt;         [119., 133.],</span></span>
+<span id="cb211-6"><a href="rainfall-linear-regression.html#cb211-6"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
+<span id="cb211-7"><a href="rainfall-linear-regression.html#cb211-7"></a><span class="co">#&gt;         [103., 119.]])</span></span></code></pre></div>
 <p>Because we’ve started with random weights and biases, the model does not a very good job of predicting the target variables.</p>
 </div>
 <div id="loss-function" class="section level2">
@@ -1243,50 +1243,50 @@ code span.wa { color: #bf0303; } /* Warning */
 <li>Calculate the average of the elements in the resulting matrix.</li>
 </ul>
 <p>The result is a single number, known as the mean squared error (MSE).</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="rainfall-linear-regression.html#cb205-1"></a><span class="co"># MSE loss</span></span>
-<span id="cb205-2"><a href="rainfall-linear-regression.html#cb205-2"></a>mse =<span class="st"> </span><span class="cf">function</span>(t1, t2) {</span>
-<span id="cb205-3"><a href="rainfall-linear-regression.html#cb205-3"></a>  diff &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(t1, t2)</span>
-<span id="cb205-4"><a href="rainfall-linear-regression.html#cb205-4"></a>  mul &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sum</span>(torch<span class="op">$</span><span class="kw">mul</span>(diff, diff))</span>
-<span id="cb205-5"><a href="rainfall-linear-regression.html#cb205-5"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">div</span>(mul, diff<span class="op">$</span><span class="kw">numel</span>()))</span>
-<span id="cb205-6"><a href="rainfall-linear-regression.html#cb205-6"></a>}</span>
-<span id="cb205-7"><a href="rainfall-linear-regression.html#cb205-7"></a></span>
-<span id="cb205-8"><a href="rainfall-linear-regression.html#cb205-8"></a><span class="kw">print</span>(mse)</span>
-<span id="cb205-9"><a href="rainfall-linear-regression.html#cb205-9"></a><span class="co">#&gt; function(t1, t2) {</span></span>
-<span id="cb205-10"><a href="rainfall-linear-regression.html#cb205-10"></a><span class="co">#&gt;   diff &lt;- torch$sub(t1, t2)</span></span>
-<span id="cb205-11"><a href="rainfall-linear-regression.html#cb205-11"></a><span class="co">#&gt;   mul &lt;- torch$sum(torch$mul(diff, diff))</span></span>
-<span id="cb205-12"><a href="rainfall-linear-regression.html#cb205-12"></a><span class="co">#&gt;   return(torch$div(mul, diff$numel()))</span></span>
-<span id="cb205-13"><a href="rainfall-linear-regression.html#cb205-13"></a><span class="co">#&gt; }</span></span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="rainfall-linear-regression.html#cb212-1"></a><span class="co"># MSE loss</span></span>
+<span id="cb212-2"><a href="rainfall-linear-regression.html#cb212-2"></a>mse =<span class="st"> </span><span class="cf">function</span>(t1, t2) {</span>
+<span id="cb212-3"><a href="rainfall-linear-regression.html#cb212-3"></a>  diff &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(t1, t2)</span>
+<span id="cb212-4"><a href="rainfall-linear-regression.html#cb212-4"></a>  mul &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sum</span>(torch<span class="op">$</span><span class="kw">mul</span>(diff, diff))</span>
+<span id="cb212-5"><a href="rainfall-linear-regression.html#cb212-5"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">div</span>(mul, diff<span class="op">$</span><span class="kw">numel</span>()))</span>
+<span id="cb212-6"><a href="rainfall-linear-regression.html#cb212-6"></a>}</span>
+<span id="cb212-7"><a href="rainfall-linear-regression.html#cb212-7"></a></span>
+<span id="cb212-8"><a href="rainfall-linear-regression.html#cb212-8"></a><span class="kw">print</span>(mse)</span>
+<span id="cb212-9"><a href="rainfall-linear-regression.html#cb212-9"></a><span class="co">#&gt; function(t1, t2) {</span></span>
+<span id="cb212-10"><a href="rainfall-linear-regression.html#cb212-10"></a><span class="co">#&gt;   diff &lt;- torch$sub(t1, t2)</span></span>
+<span id="cb212-11"><a href="rainfall-linear-regression.html#cb212-11"></a><span class="co">#&gt;   mul &lt;- torch$sum(torch$mul(diff, diff))</span></span>
+<span id="cb212-12"><a href="rainfall-linear-regression.html#cb212-12"></a><span class="co">#&gt;   return(torch$div(mul, diff$numel()))</span></span>
+<span id="cb212-13"><a href="rainfall-linear-regression.html#cb212-13"></a><span class="co">#&gt; }</span></span></code></pre></div>
 </div>
 <div id="step-by-step-process" class="section level2">
 <h2><span class="header-section-number">9.6</span> Step by step process</h2>
 <div id="compute-the-losses" class="section level3">
 <h3><span class="header-section-number">9.6.1</span> Compute the losses</h3>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="rainfall-linear-regression.html#cb206-1"></a><span class="co"># Compute loss</span></span>
-<span id="cb206-2"><a href="rainfall-linear-regression.html#cb206-2"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
-<span id="cb206-3"><a href="rainfall-linear-regression.html#cb206-3"></a><span class="kw">print</span>(loss)</span>
-<span id="cb206-4"><a href="rainfall-linear-regression.html#cb206-4"></a><span class="co">#&gt; tensor(33060.8053, grad_fn=&lt;DivBackward0&gt;)</span></span>
-<span id="cb206-5"><a href="rainfall-linear-regression.html#cb206-5"></a><span class="co"># 46194</span></span>
-<span id="cb206-6"><a href="rainfall-linear-regression.html#cb206-6"></a><span class="co"># 33060.8070</span></span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="rainfall-linear-regression.html#cb213-1"></a><span class="co"># Compute loss</span></span>
+<span id="cb213-2"><a href="rainfall-linear-regression.html#cb213-2"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb213-3"><a href="rainfall-linear-regression.html#cb213-3"></a><span class="kw">print</span>(loss)</span>
+<span id="cb213-4"><a href="rainfall-linear-regression.html#cb213-4"></a><span class="co">#&gt; tensor(33060.8053, grad_fn=&lt;DivBackward0&gt;)</span></span>
+<span id="cb213-5"><a href="rainfall-linear-regression.html#cb213-5"></a><span class="co"># 46194</span></span>
+<span id="cb213-6"><a href="rainfall-linear-regression.html#cb213-6"></a><span class="co"># 33060.8070</span></span></code></pre></div>
 <p>The resulting number is called the <strong>loss</strong>, because it indicates how bad the model is at predicting the target variables. Lower the loss, better the model.</p>
 </div>
 <div id="compute-gradients" class="section level3">
 <h3><span class="header-section-number">9.6.2</span> Compute Gradients</h3>
 <p>With PyTorch, we can automatically compute the gradient or derivative of the loss w.r.t. to the weights and biases, because they have <code>requires_grad</code> set to True.</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="rainfall-linear-regression.html#cb207-1"></a><span class="co"># Compute gradients</span></span>
-<span id="cb207-2"><a href="rainfall-linear-regression.html#cb207-2"></a>loss<span class="op">$</span><span class="kw">backward</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="rainfall-linear-regression.html#cb214-1"></a><span class="co"># Compute gradients</span></span>
+<span id="cb214-2"><a href="rainfall-linear-regression.html#cb214-2"></a>loss<span class="op">$</span><span class="kw">backward</span>()</span></code></pre></div>
 <p>The gradients are stored in the .grad property of the respective tensors.</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="rainfall-linear-regression.html#cb208-1"></a><span class="co"># Gradients for weights</span></span>
-<span id="cb208-2"><a href="rainfall-linear-regression.html#cb208-2"></a><span class="kw">print</span>(w)</span>
-<span id="cb208-3"><a href="rainfall-linear-regression.html#cb208-3"></a><span class="co">#&gt; tensor([[ 1.5410, -0.2934, -2.1788],</span></span>
-<span id="cb208-4"><a href="rainfall-linear-regression.html#cb208-4"></a><span class="co">#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)</span></span>
-<span id="cb208-5"><a href="rainfall-linear-regression.html#cb208-5"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span>
-<span id="cb208-6"><a href="rainfall-linear-regression.html#cb208-6"></a><span class="co">#&gt; tensor([[ -6938.4351,  -9674.6757,  -5744.0206],</span></span>
-<span id="cb208-7"><a href="rainfall-linear-regression.html#cb208-7"></a><span class="co">#&gt;         [-17408.7861, -20595.9333, -12453.4702]])</span></span></code></pre></div>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="rainfall-linear-regression.html#cb209-1"></a><span class="co"># Gradients for bias</span></span>
-<span id="cb209-2"><a href="rainfall-linear-regression.html#cb209-2"></a><span class="kw">print</span>(b)</span>
-<span id="cb209-3"><a href="rainfall-linear-regression.html#cb209-3"></a><span class="co">#&gt; tensor([0.4033, 0.8380], requires_grad=True)</span></span>
-<span id="cb209-4"><a href="rainfall-linear-regression.html#cb209-4"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span>
-<span id="cb209-5"><a href="rainfall-linear-regression.html#cb209-5"></a><span class="co">#&gt; tensor([ -89.3802, -212.1051])</span></span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="rainfall-linear-regression.html#cb215-1"></a><span class="co"># Gradients for weights</span></span>
+<span id="cb215-2"><a href="rainfall-linear-regression.html#cb215-2"></a><span class="kw">print</span>(w)</span>
+<span id="cb215-3"><a href="rainfall-linear-regression.html#cb215-3"></a><span class="co">#&gt; tensor([[ 1.5410, -0.2934, -2.1788],</span></span>
+<span id="cb215-4"><a href="rainfall-linear-regression.html#cb215-4"></a><span class="co">#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)</span></span>
+<span id="cb215-5"><a href="rainfall-linear-regression.html#cb215-5"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span>
+<span id="cb215-6"><a href="rainfall-linear-regression.html#cb215-6"></a><span class="co">#&gt; tensor([[ -6938.4351,  -9674.6757,  -5744.0206],</span></span>
+<span id="cb215-7"><a href="rainfall-linear-regression.html#cb215-7"></a><span class="co">#&gt;         [-17408.7861, -20595.9333, -12453.4702]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="rainfall-linear-regression.html#cb216-1"></a><span class="co"># Gradients for bias</span></span>
+<span id="cb216-2"><a href="rainfall-linear-regression.html#cb216-2"></a><span class="kw">print</span>(b)</span>
+<span id="cb216-3"><a href="rainfall-linear-regression.html#cb216-3"></a><span class="co">#&gt; tensor([0.4033, 0.8380], requires_grad=True)</span></span>
+<span id="cb216-4"><a href="rainfall-linear-regression.html#cb216-4"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span>
+<span id="cb216-5"><a href="rainfall-linear-regression.html#cb216-5"></a><span class="co">#&gt; tensor([ -89.3802, -212.1051])</span></span></code></pre></div>
 <p>A key insight from calculus is that the gradient indicates the rate of change of the loss, or the slope of the loss function w.r.t. the weights and biases.</p>
 <ul>
 <li>If a gradient element is positive:
@@ -1305,18 +1305,18 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="reset-the-gradients" class="section level3">
 <h3><span class="header-section-number">9.6.3</span> Reset the gradients</h3>
 <p>Finally, we’ll reset the gradients to zero before moving forward, because PyTorch accumulates gradients.</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="rainfall-linear-regression.html#cb210-1"></a><span class="co"># Reset the gradients</span></span>
-<span id="cb210-2"><a href="rainfall-linear-regression.html#cb210-2"></a>w<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
-<span id="cb210-3"><a href="rainfall-linear-regression.html#cb210-3"></a><span class="co">#&gt; tensor([[0., 0., 0.],</span></span>
-<span id="cb210-4"><a href="rainfall-linear-regression.html#cb210-4"></a><span class="co">#&gt;         [0., 0., 0.]])</span></span>
-<span id="cb210-5"><a href="rainfall-linear-regression.html#cb210-5"></a>b<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
-<span id="cb210-6"><a href="rainfall-linear-regression.html#cb210-6"></a><span class="co">#&gt; tensor([0., 0.])</span></span>
-<span id="cb210-7"><a href="rainfall-linear-regression.html#cb210-7"></a></span>
-<span id="cb210-8"><a href="rainfall-linear-regression.html#cb210-8"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span>
-<span id="cb210-9"><a href="rainfall-linear-regression.html#cb210-9"></a><span class="co">#&gt; tensor([[0., 0., 0.],</span></span>
-<span id="cb210-10"><a href="rainfall-linear-regression.html#cb210-10"></a><span class="co">#&gt;         [0., 0., 0.]])</span></span>
-<span id="cb210-11"><a href="rainfall-linear-regression.html#cb210-11"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span>
-<span id="cb210-12"><a href="rainfall-linear-regression.html#cb210-12"></a><span class="co">#&gt; tensor([0., 0.])</span></span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="rainfall-linear-regression.html#cb217-1"></a><span class="co"># Reset the gradients</span></span>
+<span id="cb217-2"><a href="rainfall-linear-regression.html#cb217-2"></a>w<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb217-3"><a href="rainfall-linear-regression.html#cb217-3"></a><span class="co">#&gt; tensor([[0., 0., 0.],</span></span>
+<span id="cb217-4"><a href="rainfall-linear-regression.html#cb217-4"></a><span class="co">#&gt;         [0., 0., 0.]])</span></span>
+<span id="cb217-5"><a href="rainfall-linear-regression.html#cb217-5"></a>b<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb217-6"><a href="rainfall-linear-regression.html#cb217-6"></a><span class="co">#&gt; tensor([0., 0.])</span></span>
+<span id="cb217-7"><a href="rainfall-linear-regression.html#cb217-7"></a></span>
+<span id="cb217-8"><a href="rainfall-linear-regression.html#cb217-8"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span>
+<span id="cb217-9"><a href="rainfall-linear-regression.html#cb217-9"></a><span class="co">#&gt; tensor([[0., 0., 0.],</span></span>
+<span id="cb217-10"><a href="rainfall-linear-regression.html#cb217-10"></a><span class="co">#&gt;         [0., 0., 0.]])</span></span>
+<span id="cb217-11"><a href="rainfall-linear-regression.html#cb217-11"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span>
+<span id="cb217-12"><a href="rainfall-linear-regression.html#cb217-12"></a><span class="co">#&gt; tensor([0., 0.])</span></span></code></pre></div>
 <div id="adjust-weights-and-biases-using-gradient-descent" class="section level4">
 <h4><span class="header-section-number">9.6.3.1</span> Adjust weights and biases using gradient descent</h4>
 <p>We’ll reduce the loss and improve our model using the gradient descent algorithm, which has the following steps:</p>
@@ -1327,97 +1327,97 @@ code span.wa { color: #bf0303; } /* Warning */
 <li>Adjust the weights by subtracting a small quantity proportional to the gradient</li>
 <li>Reset the gradients to zero</li>
 </ol>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="rainfall-linear-regression.html#cb211-1"></a><span class="co"># Generate predictions</span></span>
-<span id="cb211-2"><a href="rainfall-linear-regression.html#cb211-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
-<span id="cb211-3"><a href="rainfall-linear-regression.html#cb211-3"></a><span class="kw">print</span>(preds)</span>
-<span id="cb211-4"><a href="rainfall-linear-regression.html#cb211-4"></a><span class="co">#&gt; tensor([[  -0.4516,  -90.4691],</span></span>
-<span id="cb211-5"><a href="rainfall-linear-regression.html#cb211-5"></a><span class="co">#&gt;         [ -24.6303, -132.3828],</span></span>
-<span id="cb211-6"><a href="rainfall-linear-regression.html#cb211-6"></a><span class="co">#&gt;         [ -31.2192, -176.1530],</span></span>
-<span id="cb211-7"><a href="rainfall-linear-regression.html#cb211-7"></a><span class="co">#&gt;         [  64.3523,  -39.5645],</span></span>
-<span id="cb211-8"><a href="rainfall-linear-regression.html#cb211-8"></a><span class="co">#&gt;         [ -73.9524, -161.9560]], grad_fn=&lt;AddBackward0&gt;)</span></span></code></pre></div>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="rainfall-linear-regression.html#cb212-1"></a><span class="co"># Calculate the loss</span></span>
-<span id="cb212-2"><a href="rainfall-linear-regression.html#cb212-2"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
-<span id="cb212-3"><a href="rainfall-linear-regression.html#cb212-3"></a><span class="kw">print</span>(loss)</span>
-<span id="cb212-4"><a href="rainfall-linear-regression.html#cb212-4"></a><span class="co">#&gt; tensor(33060.8053, grad_fn=&lt;DivBackward0&gt;)</span></span></code></pre></div>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="rainfall-linear-regression.html#cb213-1"></a><span class="co"># Compute gradients</span></span>
-<span id="cb213-2"><a href="rainfall-linear-regression.html#cb213-2"></a>loss<span class="op">$</span><span class="kw">backward</span>()</span>
-<span id="cb213-3"><a href="rainfall-linear-regression.html#cb213-3"></a></span>
-<span id="cb213-4"><a href="rainfall-linear-regression.html#cb213-4"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span>
-<span id="cb213-5"><a href="rainfall-linear-regression.html#cb213-5"></a><span class="co">#&gt; tensor([[ -6938.4351,  -9674.6757,  -5744.0206],</span></span>
-<span id="cb213-6"><a href="rainfall-linear-regression.html#cb213-6"></a><span class="co">#&gt;         [-17408.7861, -20595.9333, -12453.4702]])</span></span>
-<span id="cb213-7"><a href="rainfall-linear-regression.html#cb213-7"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span>
-<span id="cb213-8"><a href="rainfall-linear-regression.html#cb213-8"></a><span class="co">#&gt; tensor([ -89.3802, -212.1051])</span></span></code></pre></div>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="rainfall-linear-regression.html#cb214-1"></a><span class="co"># Adjust weights and reset gradients</span></span>
-<span id="cb214-2"><a href="rainfall-linear-regression.html#cb214-2"></a><span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
-<span id="cb214-3"><a href="rainfall-linear-regression.html#cb214-3"></a>  <span class="kw">print</span>(w); <span class="kw">print</span>(b)    <span class="co"># requires_grad attribute remains</span></span>
-<span id="cb214-4"><a href="rainfall-linear-regression.html#cb214-4"></a>  w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
-<span id="cb214-5"><a href="rainfall-linear-regression.html#cb214-5"></a>  b<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(b<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(b<span class="op">$</span>grad<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
-<span id="cb214-6"><a href="rainfall-linear-regression.html#cb214-6"></a></span>
-<span id="cb214-7"><a href="rainfall-linear-regression.html#cb214-7"></a>  <span class="kw">print</span>(w<span class="op">$</span>grad<span class="op">$</span>data<span class="op">$</span><span class="kw">zero_</span>())</span>
-<span id="cb214-8"><a href="rainfall-linear-regression.html#cb214-8"></a>  <span class="kw">print</span>(b<span class="op">$</span>grad<span class="op">$</span>data<span class="op">$</span><span class="kw">zero_</span>())</span>
-<span id="cb214-9"><a href="rainfall-linear-regression.html#cb214-9"></a>})</span>
-<span id="cb214-10"><a href="rainfall-linear-regression.html#cb214-10"></a><span class="co">#&gt; tensor([[ 1.5410, -0.2934, -2.1788],</span></span>
-<span id="cb214-11"><a href="rainfall-linear-regression.html#cb214-11"></a><span class="co">#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)</span></span>
-<span id="cb214-12"><a href="rainfall-linear-regression.html#cb214-12"></a><span class="co">#&gt; tensor([0.4033, 0.8380], requires_grad=True)</span></span>
-<span id="cb214-13"><a href="rainfall-linear-regression.html#cb214-13"></a><span class="co">#&gt; tensor([[0., 0., 0.],</span></span>
-<span id="cb214-14"><a href="rainfall-linear-regression.html#cb214-14"></a><span class="co">#&gt;         [0., 0., 0.]])</span></span>
-<span id="cb214-15"><a href="rainfall-linear-regression.html#cb214-15"></a><span class="co">#&gt; tensor([0., 0.])</span></span>
-<span id="cb214-16"><a href="rainfall-linear-regression.html#cb214-16"></a></span>
-<span id="cb214-17"><a href="rainfall-linear-regression.html#cb214-17"></a><span class="kw">print</span>(w)</span>
-<span id="cb214-18"><a href="rainfall-linear-regression.html#cb214-18"></a><span class="co">#&gt; tensor([[ 1.6104, -0.1967, -2.1213],</span></span>
-<span id="cb214-19"><a href="rainfall-linear-regression.html#cb214-19"></a><span class="co">#&gt;         [ 0.7425, -0.8786, -1.2741]], requires_grad=True)</span></span>
-<span id="cb214-20"><a href="rainfall-linear-regression.html#cb214-20"></a><span class="kw">print</span>(b)</span>
-<span id="cb214-21"><a href="rainfall-linear-regression.html#cb214-21"></a><span class="co">#&gt; tensor([0.4042, 0.8401], requires_grad=True)</span></span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="rainfall-linear-regression.html#cb218-1"></a><span class="co"># Generate predictions</span></span>
+<span id="cb218-2"><a href="rainfall-linear-regression.html#cb218-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb218-3"><a href="rainfall-linear-regression.html#cb218-3"></a><span class="kw">print</span>(preds)</span>
+<span id="cb218-4"><a href="rainfall-linear-regression.html#cb218-4"></a><span class="co">#&gt; tensor([[  -0.4516,  -90.4691],</span></span>
+<span id="cb218-5"><a href="rainfall-linear-regression.html#cb218-5"></a><span class="co">#&gt;         [ -24.6303, -132.3828],</span></span>
+<span id="cb218-6"><a href="rainfall-linear-regression.html#cb218-6"></a><span class="co">#&gt;         [ -31.2192, -176.1530],</span></span>
+<span id="cb218-7"><a href="rainfall-linear-regression.html#cb218-7"></a><span class="co">#&gt;         [  64.3523,  -39.5645],</span></span>
+<span id="cb218-8"><a href="rainfall-linear-regression.html#cb218-8"></a><span class="co">#&gt;         [ -73.9524, -161.9560]], grad_fn=&lt;AddBackward0&gt;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="rainfall-linear-regression.html#cb219-1"></a><span class="co"># Calculate the loss</span></span>
+<span id="cb219-2"><a href="rainfall-linear-regression.html#cb219-2"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb219-3"><a href="rainfall-linear-regression.html#cb219-3"></a><span class="kw">print</span>(loss)</span>
+<span id="cb219-4"><a href="rainfall-linear-regression.html#cb219-4"></a><span class="co">#&gt; tensor(33060.8053, grad_fn=&lt;DivBackward0&gt;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="rainfall-linear-regression.html#cb220-1"></a><span class="co"># Compute gradients</span></span>
+<span id="cb220-2"><a href="rainfall-linear-regression.html#cb220-2"></a>loss<span class="op">$</span><span class="kw">backward</span>()</span>
+<span id="cb220-3"><a href="rainfall-linear-regression.html#cb220-3"></a></span>
+<span id="cb220-4"><a href="rainfall-linear-regression.html#cb220-4"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span>
+<span id="cb220-5"><a href="rainfall-linear-regression.html#cb220-5"></a><span class="co">#&gt; tensor([[ -6938.4351,  -9674.6757,  -5744.0206],</span></span>
+<span id="cb220-6"><a href="rainfall-linear-regression.html#cb220-6"></a><span class="co">#&gt;         [-17408.7861, -20595.9333, -12453.4702]])</span></span>
+<span id="cb220-7"><a href="rainfall-linear-regression.html#cb220-7"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span>
+<span id="cb220-8"><a href="rainfall-linear-regression.html#cb220-8"></a><span class="co">#&gt; tensor([ -89.3802, -212.1051])</span></span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="rainfall-linear-regression.html#cb221-1"></a><span class="co"># Adjust weights and reset gradients</span></span>
+<span id="cb221-2"><a href="rainfall-linear-regression.html#cb221-2"></a><span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
+<span id="cb221-3"><a href="rainfall-linear-regression.html#cb221-3"></a>  <span class="kw">print</span>(w); <span class="kw">print</span>(b)    <span class="co"># requires_grad attribute remains</span></span>
+<span id="cb221-4"><a href="rainfall-linear-regression.html#cb221-4"></a>  w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb221-5"><a href="rainfall-linear-regression.html#cb221-5"></a>  b<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(b<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(b<span class="op">$</span>grad<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb221-6"><a href="rainfall-linear-regression.html#cb221-6"></a></span>
+<span id="cb221-7"><a href="rainfall-linear-regression.html#cb221-7"></a>  <span class="kw">print</span>(w<span class="op">$</span>grad<span class="op">$</span>data<span class="op">$</span><span class="kw">zero_</span>())</span>
+<span id="cb221-8"><a href="rainfall-linear-regression.html#cb221-8"></a>  <span class="kw">print</span>(b<span class="op">$</span>grad<span class="op">$</span>data<span class="op">$</span><span class="kw">zero_</span>())</span>
+<span id="cb221-9"><a href="rainfall-linear-regression.html#cb221-9"></a>})</span>
+<span id="cb221-10"><a href="rainfall-linear-regression.html#cb221-10"></a><span class="co">#&gt; tensor([[ 1.5410, -0.2934, -2.1788],</span></span>
+<span id="cb221-11"><a href="rainfall-linear-regression.html#cb221-11"></a><span class="co">#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)</span></span>
+<span id="cb221-12"><a href="rainfall-linear-regression.html#cb221-12"></a><span class="co">#&gt; tensor([0.4033, 0.8380], requires_grad=True)</span></span>
+<span id="cb221-13"><a href="rainfall-linear-regression.html#cb221-13"></a><span class="co">#&gt; tensor([[0., 0., 0.],</span></span>
+<span id="cb221-14"><a href="rainfall-linear-regression.html#cb221-14"></a><span class="co">#&gt;         [0., 0., 0.]])</span></span>
+<span id="cb221-15"><a href="rainfall-linear-regression.html#cb221-15"></a><span class="co">#&gt; tensor([0., 0.])</span></span>
+<span id="cb221-16"><a href="rainfall-linear-regression.html#cb221-16"></a></span>
+<span id="cb221-17"><a href="rainfall-linear-regression.html#cb221-17"></a><span class="kw">print</span>(w)</span>
+<span id="cb221-18"><a href="rainfall-linear-regression.html#cb221-18"></a><span class="co">#&gt; tensor([[ 1.6104, -0.1967, -2.1213],</span></span>
+<span id="cb221-19"><a href="rainfall-linear-regression.html#cb221-19"></a><span class="co">#&gt;         [ 0.7425, -0.8786, -1.2741]], requires_grad=True)</span></span>
+<span id="cb221-20"><a href="rainfall-linear-regression.html#cb221-20"></a><span class="kw">print</span>(b)</span>
+<span id="cb221-21"><a href="rainfall-linear-regression.html#cb221-21"></a><span class="co">#&gt; tensor([0.4042, 0.8401], requires_grad=True)</span></span></code></pre></div>
 <p>With the new weights and biases, the model should have a lower loss.</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="rainfall-linear-regression.html#cb215-1"></a><span class="co"># Calculate loss</span></span>
-<span id="cb215-2"><a href="rainfall-linear-regression.html#cb215-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
-<span id="cb215-3"><a href="rainfall-linear-regression.html#cb215-3"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
-<span id="cb215-4"><a href="rainfall-linear-regression.html#cb215-4"></a><span class="kw">print</span>(loss)</span>
-<span id="cb215-5"><a href="rainfall-linear-regression.html#cb215-5"></a><span class="co">#&gt; tensor(23432.4894, grad_fn=&lt;DivBackward0&gt;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="rainfall-linear-regression.html#cb222-1"></a><span class="co"># Calculate loss</span></span>
+<span id="cb222-2"><a href="rainfall-linear-regression.html#cb222-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb222-3"><a href="rainfall-linear-regression.html#cb222-3"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb222-4"><a href="rainfall-linear-regression.html#cb222-4"></a><span class="kw">print</span>(loss)</span>
+<span id="cb222-5"><a href="rainfall-linear-regression.html#cb222-5"></a><span class="co">#&gt; tensor(23432.4894, grad_fn=&lt;DivBackward0&gt;)</span></span></code></pre></div>
 </div>
 </div>
 </div>
 <div id="all-together-train-for-multiple-epochs" class="section level2">
 <h2><span class="header-section-number">9.7</span> All together: train for multiple epochs</h2>
 <p>To reduce the loss further, we repeat the process of adjusting the weights and biases using the gradients multiple times. Each iteration is called an <strong>epoch</strong>.</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="rainfall-linear-regression.html#cb216-1"></a><span class="co"># Running all together</span></span>
-<span id="cb216-2"><a href="rainfall-linear-regression.html#cb216-2"></a><span class="co"># Adjust weights and reset gradients</span></span>
-<span id="cb216-3"><a href="rainfall-linear-regression.html#cb216-3"></a>num_epochs &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb216-4"><a href="rainfall-linear-regression.html#cb216-4"></a></span>
-<span id="cb216-5"><a href="rainfall-linear-regression.html#cb216-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>num_epochs) {</span>
-<span id="cb216-6"><a href="rainfall-linear-regression.html#cb216-6"></a>  preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
-<span id="cb216-7"><a href="rainfall-linear-regression.html#cb216-7"></a>  loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
-<span id="cb216-8"><a href="rainfall-linear-regression.html#cb216-8"></a>  loss<span class="op">$</span><span class="kw">backward</span>()</span>
-<span id="cb216-9"><a href="rainfall-linear-regression.html#cb216-9"></a>  <span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
-<span id="cb216-10"><a href="rainfall-linear-regression.html#cb216-10"></a>    w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
-<span id="cb216-11"><a href="rainfall-linear-regression.html#cb216-11"></a>    b<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(b<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(b<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
-<span id="cb216-12"><a href="rainfall-linear-regression.html#cb216-12"></a>    </span>
-<span id="cb216-13"><a href="rainfall-linear-regression.html#cb216-13"></a>    w<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
-<span id="cb216-14"><a href="rainfall-linear-regression.html#cb216-14"></a>    b<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
-<span id="cb216-15"><a href="rainfall-linear-regression.html#cb216-15"></a>  })</span>
-<span id="cb216-16"><a href="rainfall-linear-regression.html#cb216-16"></a>}</span>
-<span id="cb216-17"><a href="rainfall-linear-regression.html#cb216-17"></a></span>
-<span id="cb216-18"><a href="rainfall-linear-regression.html#cb216-18"></a><span class="co"># Calculate loss</span></span>
-<span id="cb216-19"><a href="rainfall-linear-regression.html#cb216-19"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
-<span id="cb216-20"><a href="rainfall-linear-regression.html#cb216-20"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
-<span id="cb216-21"><a href="rainfall-linear-regression.html#cb216-21"></a><span class="kw">print</span>(loss)</span>
-<span id="cb216-22"><a href="rainfall-linear-regression.html#cb216-22"></a><span class="co">#&gt; tensor(1258.0216, grad_fn=&lt;DivBackward0&gt;)</span></span>
-<span id="cb216-23"><a href="rainfall-linear-regression.html#cb216-23"></a></span>
-<span id="cb216-24"><a href="rainfall-linear-regression.html#cb216-24"></a><span class="co"># predictions</span></span>
-<span id="cb216-25"><a href="rainfall-linear-regression.html#cb216-25"></a>preds</span>
-<span id="cb216-26"><a href="rainfall-linear-regression.html#cb216-26"></a><span class="co">#&gt; tensor([[ 69.2462,  80.2082],</span></span>
-<span id="cb216-27"><a href="rainfall-linear-regression.html#cb216-27"></a><span class="co">#&gt;         [ 73.7183,  97.2052],</span></span>
-<span id="cb216-28"><a href="rainfall-linear-regression.html#cb216-28"></a><span class="co">#&gt;         [118.5780, 124.9272],</span></span>
-<span id="cb216-29"><a href="rainfall-linear-regression.html#cb216-29"></a><span class="co">#&gt;         [ 89.2282,  92.7052],</span></span>
-<span id="cb216-30"><a href="rainfall-linear-regression.html#cb216-30"></a><span class="co">#&gt;         [ 47.4648,  80.7782]], grad_fn=&lt;AddBackward0&gt;)</span></span>
-<span id="cb216-31"><a href="rainfall-linear-regression.html#cb216-31"></a></span>
-<span id="cb216-32"><a href="rainfall-linear-regression.html#cb216-32"></a><span class="co"># Targets</span></span>
-<span id="cb216-33"><a href="rainfall-linear-regression.html#cb216-33"></a>targets</span>
-<span id="cb216-34"><a href="rainfall-linear-regression.html#cb216-34"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
-<span id="cb216-35"><a href="rainfall-linear-regression.html#cb216-35"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
-<span id="cb216-36"><a href="rainfall-linear-regression.html#cb216-36"></a><span class="co">#&gt;         [119., 133.],</span></span>
-<span id="cb216-37"><a href="rainfall-linear-regression.html#cb216-37"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
-<span id="cb216-38"><a href="rainfall-linear-regression.html#cb216-38"></a><span class="co">#&gt;         [103., 119.]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="rainfall-linear-regression.html#cb223-1"></a><span class="co"># Running all together</span></span>
+<span id="cb223-2"><a href="rainfall-linear-regression.html#cb223-2"></a><span class="co"># Adjust weights and reset gradients</span></span>
+<span id="cb223-3"><a href="rainfall-linear-regression.html#cb223-3"></a>num_epochs &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb223-4"><a href="rainfall-linear-regression.html#cb223-4"></a></span>
+<span id="cb223-5"><a href="rainfall-linear-regression.html#cb223-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>num_epochs) {</span>
+<span id="cb223-6"><a href="rainfall-linear-regression.html#cb223-6"></a>  preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb223-7"><a href="rainfall-linear-regression.html#cb223-7"></a>  loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb223-8"><a href="rainfall-linear-regression.html#cb223-8"></a>  loss<span class="op">$</span><span class="kw">backward</span>()</span>
+<span id="cb223-9"><a href="rainfall-linear-regression.html#cb223-9"></a>  <span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
+<span id="cb223-10"><a href="rainfall-linear-regression.html#cb223-10"></a>    w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb223-11"><a href="rainfall-linear-regression.html#cb223-11"></a>    b<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(b<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(b<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb223-12"><a href="rainfall-linear-regression.html#cb223-12"></a>    </span>
+<span id="cb223-13"><a href="rainfall-linear-regression.html#cb223-13"></a>    w<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb223-14"><a href="rainfall-linear-regression.html#cb223-14"></a>    b<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb223-15"><a href="rainfall-linear-regression.html#cb223-15"></a>  })</span>
+<span id="cb223-16"><a href="rainfall-linear-regression.html#cb223-16"></a>}</span>
+<span id="cb223-17"><a href="rainfall-linear-regression.html#cb223-17"></a></span>
+<span id="cb223-18"><a href="rainfall-linear-regression.html#cb223-18"></a><span class="co"># Calculate loss</span></span>
+<span id="cb223-19"><a href="rainfall-linear-regression.html#cb223-19"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb223-20"><a href="rainfall-linear-regression.html#cb223-20"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb223-21"><a href="rainfall-linear-regression.html#cb223-21"></a><span class="kw">print</span>(loss)</span>
+<span id="cb223-22"><a href="rainfall-linear-regression.html#cb223-22"></a><span class="co">#&gt; tensor(1258.0216, grad_fn=&lt;DivBackward0&gt;)</span></span>
+<span id="cb223-23"><a href="rainfall-linear-regression.html#cb223-23"></a></span>
+<span id="cb223-24"><a href="rainfall-linear-regression.html#cb223-24"></a><span class="co"># predictions</span></span>
+<span id="cb223-25"><a href="rainfall-linear-regression.html#cb223-25"></a>preds</span>
+<span id="cb223-26"><a href="rainfall-linear-regression.html#cb223-26"></a><span class="co">#&gt; tensor([[ 69.2462,  80.2082],</span></span>
+<span id="cb223-27"><a href="rainfall-linear-regression.html#cb223-27"></a><span class="co">#&gt;         [ 73.7183,  97.2052],</span></span>
+<span id="cb223-28"><a href="rainfall-linear-regression.html#cb223-28"></a><span class="co">#&gt;         [118.5780, 124.9272],</span></span>
+<span id="cb223-29"><a href="rainfall-linear-regression.html#cb223-29"></a><span class="co">#&gt;         [ 89.2282,  92.7052],</span></span>
+<span id="cb223-30"><a href="rainfall-linear-regression.html#cb223-30"></a><span class="co">#&gt;         [ 47.4648,  80.7782]], grad_fn=&lt;AddBackward0&gt;)</span></span>
+<span id="cb223-31"><a href="rainfall-linear-regression.html#cb223-31"></a></span>
+<span id="cb223-32"><a href="rainfall-linear-regression.html#cb223-32"></a><span class="co"># Targets</span></span>
+<span id="cb223-33"><a href="rainfall-linear-regression.html#cb223-33"></a>targets</span>
+<span id="cb223-34"><a href="rainfall-linear-regression.html#cb223-34"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
+<span id="cb223-35"><a href="rainfall-linear-regression.html#cb223-35"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
+<span id="cb223-36"><a href="rainfall-linear-regression.html#cb223-36"></a><span class="co">#&gt;         [119., 133.],</span></span>
+<span id="cb223-37"><a href="rainfall-linear-regression.html#cb223-37"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
+<span id="cb223-38"><a href="rainfall-linear-regression.html#cb223-38"></a><span class="co">#&gt;         [103., 119.]])</span></span></code></pre></div>
 
 </div>
 </div>

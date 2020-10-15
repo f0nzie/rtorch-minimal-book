@@ -1154,262 +1154,262 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>This chapter will explain the main differences between <code>PyTorch</code> and <code>rTorch</code>.
 Most of the things work directly in <code>PyTorch</code> but we need to be aware of some minor differences when working with rTorch.</p>
 <p>Here is a review of existing methods.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="rtorch-vs-pytorch-whats-different.html#cb24-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="rtorch-vs-pytorch-whats-different.html#cb31-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
 <div id="calling-objects-from-pytorch" class="section level2">
 <h2><span class="header-section-number">2.1</span> Calling objects from PyTorch</h2>
 <p>We use the dollar sign or <code>$</code> to call a class, function or method from the rTorch modules. In this case, from <code>torch</code> module:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="rtorch-vs-pytorch-whats-different.html#cb25-1"></a>torch<span class="op">$</span>tensor</span>
-<span id="cb25-2"><a href="rtorch-vs-pytorch-whats-different.html#cb25-2"></a><span class="co">#&gt; &lt;built-in method tensor of type&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="rtorch-vs-pytorch-whats-different.html#cb26-1"></a><span class="im">import</span> torch</span>
-<span id="cb26-2"><a href="rtorch-vs-pytorch-whats-different.html#cb26-2"></a></span>
-<span id="cb26-3"><a href="rtorch-vs-pytorch-whats-different.html#cb26-3"></a>torch.tensor</span>
-<span id="cb26-4"><a href="rtorch-vs-pytorch-whats-different.html#cb26-4"></a><span class="co">#&gt; &lt;built-in method tensor of type object at 0x7f71ea9bc000&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="rtorch-vs-pytorch-whats-different.html#cb32-1"></a>torch<span class="op">$</span>tensor</span>
+<span id="cb32-2"><a href="rtorch-vs-pytorch-whats-different.html#cb32-2"></a><span class="co">#&gt; &lt;built-in method tensor of type&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="rtorch-vs-pytorch-whats-different.html#cb33-1"></a><span class="im">import</span> torch</span>
+<span id="cb33-2"><a href="rtorch-vs-pytorch-whats-different.html#cb33-2"></a></span>
+<span id="cb33-3"><a href="rtorch-vs-pytorch-whats-different.html#cb33-3"></a>torch.tensor</span>
+<span id="cb33-4"><a href="rtorch-vs-pytorch-whats-different.html#cb33-4"></a><span class="co">#&gt; &lt;built-in method tensor of type object at 0x7fecf8bd4000&gt;</span></span></code></pre></div>
 </div>
 <div id="call-a-module-from-pytorch" class="section level2">
 <h2><span class="header-section-number">2.2</span> Call a module from PyTorch</h2>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="rtorch-vs-pytorch-whats-different.html#cb27-1"></a><span class="co"># these are the equivalents of import module</span></span>
-<span id="cb27-2"><a href="rtorch-vs-pytorch-whats-different.html#cb27-2"></a>nn          &lt;-<span class="st"> </span>torch<span class="op">$</span>nn</span>
-<span id="cb27-3"><a href="rtorch-vs-pytorch-whats-different.html#cb27-3"></a>transforms  &lt;-<span class="st"> </span>torchvision<span class="op">$</span>transforms</span>
-<span id="cb27-4"><a href="rtorch-vs-pytorch-whats-different.html#cb27-4"></a>dsets       &lt;-<span class="st"> </span>torchvision<span class="op">$</span>datasets</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="rtorch-vs-pytorch-whats-different.html#cb34-1"></a><span class="co"># these are the equivalents of import module</span></span>
+<span id="cb34-2"><a href="rtorch-vs-pytorch-whats-different.html#cb34-2"></a>nn          &lt;-<span class="st"> </span>torch<span class="op">$</span>nn</span>
+<span id="cb34-3"><a href="rtorch-vs-pytorch-whats-different.html#cb34-3"></a>transforms  &lt;-<span class="st"> </span>torchvision<span class="op">$</span>transforms</span>
+<span id="cb34-4"><a href="rtorch-vs-pytorch-whats-different.html#cb34-4"></a>dsets       &lt;-<span class="st"> </span>torchvision<span class="op">$</span>datasets</span></code></pre></div>
 <p>Then we can proceed to extract classes, methods and functions from the <code>nn</code>, <code>transforms</code>, and <code>dsets</code> objects.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="rtorch-vs-pytorch-whats-different.html#cb28-1"></a><span class="im">import</span> torch</span>
-<span id="cb28-2"><a href="rtorch-vs-pytorch-whats-different.html#cb28-2"></a><span class="im">import</span> torchvision</span>
-<span id="cb28-3"><a href="rtorch-vs-pytorch-whats-different.html#cb28-3"></a></span>
-<span id="cb28-4"><a href="rtorch-vs-pytorch-whats-different.html#cb28-4"></a>torch.nn</span>
-<span id="cb28-5"><a href="rtorch-vs-pytorch-whats-different.html#cb28-5"></a><span class="co">#&gt; &lt;module &#39;torch.nn&#39; from &#39;/home/msfz751/anaconda3/envs/r-torch/lib/python3.7/site-packages/torch/nn/__init__.py&#39;&gt;</span></span>
-<span id="cb28-6"><a href="rtorch-vs-pytorch-whats-different.html#cb28-6"></a>torchvision.transforms</span>
-<span id="cb28-7"><a href="rtorch-vs-pytorch-whats-different.html#cb28-7"></a><span class="co">#&gt; &lt;module &#39;torchvision.transforms&#39; from &#39;/home/msfz751/anaconda3/envs/r-torch/lib/python3.7/site-packages/torchvision/transforms/__init__.py&#39;&gt;</span></span>
-<span id="cb28-8"><a href="rtorch-vs-pytorch-whats-different.html#cb28-8"></a>torchvision.datasets</span>
-<span id="cb28-9"><a href="rtorch-vs-pytorch-whats-different.html#cb28-9"></a><span class="co">#&gt; &lt;module &#39;torchvision.datasets&#39; from &#39;/home/msfz751/anaconda3/envs/r-torch/lib/python3.7/site-packages/torchvision/datasets/__init__.py&#39;&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="rtorch-vs-pytorch-whats-different.html#cb35-1"></a><span class="im">import</span> torch</span>
+<span id="cb35-2"><a href="rtorch-vs-pytorch-whats-different.html#cb35-2"></a><span class="im">import</span> torchvision</span>
+<span id="cb35-3"><a href="rtorch-vs-pytorch-whats-different.html#cb35-3"></a></span>
+<span id="cb35-4"><a href="rtorch-vs-pytorch-whats-different.html#cb35-4"></a>torch.nn</span>
+<span id="cb35-5"><a href="rtorch-vs-pytorch-whats-different.html#cb35-5"></a><span class="co">#&gt; &lt;module &#39;torch.nn&#39; from &#39;/home/msfz751/anaconda3/envs/r-torch/lib/python3.7/site-packages/torch/nn/__init__.py&#39;&gt;</span></span>
+<span id="cb35-6"><a href="rtorch-vs-pytorch-whats-different.html#cb35-6"></a>torchvision.transforms</span>
+<span id="cb35-7"><a href="rtorch-vs-pytorch-whats-different.html#cb35-7"></a><span class="co">#&gt; &lt;module &#39;torchvision.transforms&#39; from &#39;/home/msfz751/anaconda3/envs/r-torch/lib/python3.7/site-packages/torchvision/transforms/__init__.py&#39;&gt;</span></span>
+<span id="cb35-8"><a href="rtorch-vs-pytorch-whats-different.html#cb35-8"></a>torchvision.datasets</span>
+<span id="cb35-9"><a href="rtorch-vs-pytorch-whats-different.html#cb35-9"></a><span class="co">#&gt; &lt;module &#39;torchvision.datasets&#39; from &#39;/home/msfz751/anaconda3/envs/r-torch/lib/python3.7/site-packages/torchvision/datasets/__init__.py&#39;&gt;</span></span></code></pre></div>
 </div>
 <div id="show-the-attributes-methods-of-a-class-or-pytorch-object" class="section level2">
 <h2><span class="header-section-number">2.3</span> Show the attributes (methods) of a class or PyTorch object</h2>
 <p>Sometimes we are interested in knowing the internal components of a class. In that case, we use the reticulate function <code>py_list_attributes()</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="rtorch-vs-pytorch-whats-different.html#cb29-1"></a>local_folder &lt;-<span class="st"> &#39;./datasets/mnist_digits&#39;</span></span>
-<span id="cb29-2"><a href="rtorch-vs-pytorch-whats-different.html#cb29-2"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root =</span> local_folder, </span>
-<span id="cb29-3"><a href="rtorch-vs-pytorch-whats-different.html#cb29-3"></a>                                           <span class="dt">train =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb29-4"><a href="rtorch-vs-pytorch-whats-different.html#cb29-4"></a>                                           <span class="dt">transform =</span> transforms<span class="op">$</span><span class="kw">ToTensor</span>(),</span>
-<span id="cb29-5"><a href="rtorch-vs-pytorch-whats-different.html#cb29-5"></a>                                           <span class="dt">download =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb29-6"><a href="rtorch-vs-pytorch-whats-different.html#cb29-6"></a></span>
-<span id="cb29-7"><a href="rtorch-vs-pytorch-whats-different.html#cb29-7"></a>train_dataset</span>
-<span id="cb29-8"><a href="rtorch-vs-pytorch-whats-different.html#cb29-8"></a><span class="co">#&gt; Dataset MNIST</span></span>
-<span id="cb29-9"><a href="rtorch-vs-pytorch-whats-different.html#cb29-9"></a><span class="co">#&gt;     Number of datapoints: 60000</span></span>
-<span id="cb29-10"><a href="rtorch-vs-pytorch-whats-different.html#cb29-10"></a><span class="co">#&gt;     Root location: ./datasets/mnist_digits</span></span>
-<span id="cb29-11"><a href="rtorch-vs-pytorch-whats-different.html#cb29-11"></a><span class="co">#&gt;     Split: Train</span></span>
-<span id="cb29-12"><a href="rtorch-vs-pytorch-whats-different.html#cb29-12"></a><span class="co">#&gt;     StandardTransform</span></span>
-<span id="cb29-13"><a href="rtorch-vs-pytorch-whats-different.html#cb29-13"></a><span class="co">#&gt; Transform: ToTensor()</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="rtorch-vs-pytorch-whats-different.html#cb36-1"></a>local_folder &lt;-<span class="st"> &#39;./datasets/mnist_digits&#39;</span></span>
+<span id="cb36-2"><a href="rtorch-vs-pytorch-whats-different.html#cb36-2"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root =</span> local_folder, </span>
+<span id="cb36-3"><a href="rtorch-vs-pytorch-whats-different.html#cb36-3"></a>                                           <span class="dt">train =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb36-4"><a href="rtorch-vs-pytorch-whats-different.html#cb36-4"></a>                                           <span class="dt">transform =</span> transforms<span class="op">$</span><span class="kw">ToTensor</span>(),</span>
+<span id="cb36-5"><a href="rtorch-vs-pytorch-whats-different.html#cb36-5"></a>                                           <span class="dt">download =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb36-6"><a href="rtorch-vs-pytorch-whats-different.html#cb36-6"></a></span>
+<span id="cb36-7"><a href="rtorch-vs-pytorch-whats-different.html#cb36-7"></a>train_dataset</span>
+<span id="cb36-8"><a href="rtorch-vs-pytorch-whats-different.html#cb36-8"></a><span class="co">#&gt; Dataset MNIST</span></span>
+<span id="cb36-9"><a href="rtorch-vs-pytorch-whats-different.html#cb36-9"></a><span class="co">#&gt;     Number of datapoints: 60000</span></span>
+<span id="cb36-10"><a href="rtorch-vs-pytorch-whats-different.html#cb36-10"></a><span class="co">#&gt;     Root location: ./datasets/mnist_digits</span></span>
+<span id="cb36-11"><a href="rtorch-vs-pytorch-whats-different.html#cb36-11"></a><span class="co">#&gt;     Split: Train</span></span>
+<span id="cb36-12"><a href="rtorch-vs-pytorch-whats-different.html#cb36-12"></a><span class="co">#&gt;     StandardTransform</span></span>
+<span id="cb36-13"><a href="rtorch-vs-pytorch-whats-different.html#cb36-13"></a><span class="co">#&gt; Transform: ToTensor()</span></span></code></pre></div>
 <p>Show the attributes of <code>train_dataset</code>:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="rtorch-vs-pytorch-whats-different.html#cb30-1"></a>reticulate<span class="op">::</span><span class="kw">py_list_attributes</span>(train_dataset)</span>
-<span id="cb30-2"><a href="rtorch-vs-pytorch-whats-different.html#cb30-2"></a><span class="co">#&gt;  [1] &quot;__add__&quot;                &quot;__class__&quot;              &quot;__delattr__&quot;           </span></span>
-<span id="cb30-3"><a href="rtorch-vs-pytorch-whats-different.html#cb30-3"></a><span class="co">#&gt;  [4] &quot;__dict__&quot;               &quot;__dir__&quot;                &quot;__doc__&quot;               </span></span>
-<span id="cb30-4"><a href="rtorch-vs-pytorch-whats-different.html#cb30-4"></a><span class="co">#&gt;  [7] &quot;__eq__&quot;                 &quot;__format__&quot;             &quot;__ge__&quot;                </span></span>
-<span id="cb30-5"><a href="rtorch-vs-pytorch-whats-different.html#cb30-5"></a><span class="co">#&gt; [10] &quot;__getattribute__&quot;       &quot;__getitem__&quot;            &quot;__gt__&quot;                </span></span>
-<span id="cb30-6"><a href="rtorch-vs-pytorch-whats-different.html#cb30-6"></a><span class="co">#&gt; [13] &quot;__hash__&quot;               &quot;__init__&quot;               &quot;__init_subclass__&quot;     </span></span>
-<span id="cb30-7"><a href="rtorch-vs-pytorch-whats-different.html#cb30-7"></a><span class="co">#&gt; [16] &quot;__le__&quot;                 &quot;__len__&quot;                &quot;__lt__&quot;                </span></span>
-<span id="cb30-8"><a href="rtorch-vs-pytorch-whats-different.html#cb30-8"></a><span class="co">#&gt; [19] &quot;__module__&quot;             &quot;__ne__&quot;                 &quot;__new__&quot;               </span></span>
-<span id="cb30-9"><a href="rtorch-vs-pytorch-whats-different.html#cb30-9"></a><span class="co">#&gt; [22] &quot;__reduce__&quot;             &quot;__reduce_ex__&quot;          &quot;__repr__&quot;              </span></span>
-<span id="cb30-10"><a href="rtorch-vs-pytorch-whats-different.html#cb30-10"></a><span class="co">#&gt; [25] &quot;__setattr__&quot;            &quot;__sizeof__&quot;             &quot;__str__&quot;               </span></span>
-<span id="cb30-11"><a href="rtorch-vs-pytorch-whats-different.html#cb30-11"></a><span class="co">#&gt; [28] &quot;__subclasshook__&quot;       &quot;__weakref__&quot;            &quot;_check_exists&quot;         </span></span>
-<span id="cb30-12"><a href="rtorch-vs-pytorch-whats-different.html#cb30-12"></a><span class="co">#&gt; [31] &quot;_format_transform_repr&quot; &quot;_repr_indent&quot;           &quot;class_to_idx&quot;          </span></span>
-<span id="cb30-13"><a href="rtorch-vs-pytorch-whats-different.html#cb30-13"></a><span class="co">#&gt; [34] &quot;classes&quot;                &quot;data&quot;                   &quot;download&quot;              </span></span>
-<span id="cb30-14"><a href="rtorch-vs-pytorch-whats-different.html#cb30-14"></a><span class="co">#&gt; [37] &quot;extra_repr&quot;             &quot;processed_folder&quot;       &quot;raw_folder&quot;            </span></span>
-<span id="cb30-15"><a href="rtorch-vs-pytorch-whats-different.html#cb30-15"></a><span class="co">#&gt; [40] &quot;resources&quot;              &quot;root&quot;                   &quot;target_transform&quot;      </span></span>
-<span id="cb30-16"><a href="rtorch-vs-pytorch-whats-different.html#cb30-16"></a><span class="co">#&gt; [43] &quot;targets&quot;                &quot;test_data&quot;              &quot;test_file&quot;             </span></span>
-<span id="cb30-17"><a href="rtorch-vs-pytorch-whats-different.html#cb30-17"></a><span class="co">#&gt; [46] &quot;test_labels&quot;            &quot;train&quot;                  &quot;train_data&quot;            </span></span>
-<span id="cb30-18"><a href="rtorch-vs-pytorch-whats-different.html#cb30-18"></a><span class="co">#&gt; [49] &quot;train_labels&quot;           &quot;training_file&quot;          &quot;transform&quot;             </span></span>
-<span id="cb30-19"><a href="rtorch-vs-pytorch-whats-different.html#cb30-19"></a><span class="co">#&gt; [52] &quot;transforms&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="rtorch-vs-pytorch-whats-different.html#cb37-1"></a>reticulate<span class="op">::</span><span class="kw">py_list_attributes</span>(train_dataset)</span>
+<span id="cb37-2"><a href="rtorch-vs-pytorch-whats-different.html#cb37-2"></a><span class="co">#&gt;  [1] &quot;__add__&quot;                &quot;__class__&quot;              &quot;__delattr__&quot;           </span></span>
+<span id="cb37-3"><a href="rtorch-vs-pytorch-whats-different.html#cb37-3"></a><span class="co">#&gt;  [4] &quot;__dict__&quot;               &quot;__dir__&quot;                &quot;__doc__&quot;               </span></span>
+<span id="cb37-4"><a href="rtorch-vs-pytorch-whats-different.html#cb37-4"></a><span class="co">#&gt;  [7] &quot;__eq__&quot;                 &quot;__format__&quot;             &quot;__ge__&quot;                </span></span>
+<span id="cb37-5"><a href="rtorch-vs-pytorch-whats-different.html#cb37-5"></a><span class="co">#&gt; [10] &quot;__getattribute__&quot;       &quot;__getitem__&quot;            &quot;__gt__&quot;                </span></span>
+<span id="cb37-6"><a href="rtorch-vs-pytorch-whats-different.html#cb37-6"></a><span class="co">#&gt; [13] &quot;__hash__&quot;               &quot;__init__&quot;               &quot;__init_subclass__&quot;     </span></span>
+<span id="cb37-7"><a href="rtorch-vs-pytorch-whats-different.html#cb37-7"></a><span class="co">#&gt; [16] &quot;__le__&quot;                 &quot;__len__&quot;                &quot;__lt__&quot;                </span></span>
+<span id="cb37-8"><a href="rtorch-vs-pytorch-whats-different.html#cb37-8"></a><span class="co">#&gt; [19] &quot;__module__&quot;             &quot;__ne__&quot;                 &quot;__new__&quot;               </span></span>
+<span id="cb37-9"><a href="rtorch-vs-pytorch-whats-different.html#cb37-9"></a><span class="co">#&gt; [22] &quot;__reduce__&quot;             &quot;__reduce_ex__&quot;          &quot;__repr__&quot;              </span></span>
+<span id="cb37-10"><a href="rtorch-vs-pytorch-whats-different.html#cb37-10"></a><span class="co">#&gt; [25] &quot;__setattr__&quot;            &quot;__sizeof__&quot;             &quot;__str__&quot;               </span></span>
+<span id="cb37-11"><a href="rtorch-vs-pytorch-whats-different.html#cb37-11"></a><span class="co">#&gt; [28] &quot;__subclasshook__&quot;       &quot;__weakref__&quot;            &quot;_check_exists&quot;         </span></span>
+<span id="cb37-12"><a href="rtorch-vs-pytorch-whats-different.html#cb37-12"></a><span class="co">#&gt; [31] &quot;_format_transform_repr&quot; &quot;_repr_indent&quot;           &quot;class_to_idx&quot;          </span></span>
+<span id="cb37-13"><a href="rtorch-vs-pytorch-whats-different.html#cb37-13"></a><span class="co">#&gt; [34] &quot;classes&quot;                &quot;data&quot;                   &quot;download&quot;              </span></span>
+<span id="cb37-14"><a href="rtorch-vs-pytorch-whats-different.html#cb37-14"></a><span class="co">#&gt; [37] &quot;extra_repr&quot;             &quot;processed_folder&quot;       &quot;raw_folder&quot;            </span></span>
+<span id="cb37-15"><a href="rtorch-vs-pytorch-whats-different.html#cb37-15"></a><span class="co">#&gt; [40] &quot;resources&quot;              &quot;root&quot;                   &quot;target_transform&quot;      </span></span>
+<span id="cb37-16"><a href="rtorch-vs-pytorch-whats-different.html#cb37-16"></a><span class="co">#&gt; [43] &quot;targets&quot;                &quot;test_data&quot;              &quot;test_file&quot;             </span></span>
+<span id="cb37-17"><a href="rtorch-vs-pytorch-whats-different.html#cb37-17"></a><span class="co">#&gt; [46] &quot;test_labels&quot;            &quot;train&quot;                  &quot;train_data&quot;            </span></span>
+<span id="cb37-18"><a href="rtorch-vs-pytorch-whats-different.html#cb37-18"></a><span class="co">#&gt; [49] &quot;train_labels&quot;           &quot;training_file&quot;          &quot;transform&quot;             </span></span>
+<span id="cb37-19"><a href="rtorch-vs-pytorch-whats-different.html#cb37-19"></a><span class="co">#&gt; [52] &quot;transforms&quot;</span></span></code></pre></div>
 <p>Knowing the internal methods of a class could be useful when we want to refer to a specific property of such class. For example, from the list above, we know that the object <code>train_dataset</code> has an attribute <code>__len__</code>. We can call it like this:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="rtorch-vs-pytorch-whats-different.html#cb31-1"></a>train_dataset<span class="op">$</span><span class="st">`</span><span class="dt">__len__</span><span class="st">`</span>()</span>
-<span id="cb31-2"><a href="rtorch-vs-pytorch-whats-different.html#cb31-2"></a><span class="co">#&gt; [1] 60000</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="rtorch-vs-pytorch-whats-different.html#cb38-1"></a>train_dataset<span class="op">$</span><span class="st">`</span><span class="dt">__len__</span><span class="st">`</span>()</span>
+<span id="cb38-2"><a href="rtorch-vs-pytorch-whats-different.html#cb38-2"></a><span class="co">#&gt; [1] 60000</span></span></code></pre></div>
 </div>
 <div id="enumeration" class="section level2">
 <h2><span class="header-section-number">2.4</span> Enumeration</h2>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="rtorch-vs-pytorch-whats-different.html#cb32-1"></a></span>
-<span id="cb32-2"><a href="rtorch-vs-pytorch-whats-different.html#cb32-2"></a>x_train =<span class="st"> </span><span class="kw">array</span>(<span class="kw">c</span>(<span class="fl">3.3</span>, <span class="fl">4.4</span>, <span class="fl">5.5</span>, <span class="fl">6.71</span>, <span class="fl">6.93</span>, <span class="fl">4.168</span>, </span>
-<span id="cb32-3"><a href="rtorch-vs-pytorch-whats-different.html#cb32-3"></a>                  <span class="fl">9.779</span>, <span class="fl">6.182</span>, <span class="fl">7.59</span>, <span class="fl">2.167</span>, <span class="fl">7.042</span>,</span>
-<span id="cb32-4"><a href="rtorch-vs-pytorch-whats-different.html#cb32-4"></a>                  <span class="fl">10.791</span>, <span class="fl">5.313</span>, <span class="fl">7.997</span>, <span class="fl">3.1</span>), <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">15</span>,<span class="dv">1</span>))</span>
-<span id="cb32-5"><a href="rtorch-vs-pytorch-whats-different.html#cb32-5"></a></span>
-<span id="cb32-6"><a href="rtorch-vs-pytorch-whats-different.html#cb32-6"></a>x_train &lt;-<span class="st"> </span><span class="kw">r_to_py</span>(x_train)</span>
-<span id="cb32-7"><a href="rtorch-vs-pytorch-whats-different.html#cb32-7"></a>x_train &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(x_train)         <span class="co"># convert to tensor</span></span>
-<span id="cb32-8"><a href="rtorch-vs-pytorch-whats-different.html#cb32-8"></a>x_train &lt;-<span class="st"> </span>x_train<span class="op">$</span><span class="kw">type</span>(torch<span class="op">$</span>FloatTensor)   <span class="co"># make it a a FloatTensor</span></span>
-<span id="cb32-9"><a href="rtorch-vs-pytorch-whats-different.html#cb32-9"></a></span>
-<span id="cb32-10"><a href="rtorch-vs-pytorch-whats-different.html#cb32-10"></a>x_train</span>
-<span id="cb32-11"><a href="rtorch-vs-pytorch-whats-different.html#cb32-11"></a><span class="co">#&gt; tensor([[ 3.3000],</span></span>
-<span id="cb32-12"><a href="rtorch-vs-pytorch-whats-different.html#cb32-12"></a><span class="co">#&gt;         [ 4.4000],</span></span>
-<span id="cb32-13"><a href="rtorch-vs-pytorch-whats-different.html#cb32-13"></a><span class="co">#&gt;         [ 5.5000],</span></span>
-<span id="cb32-14"><a href="rtorch-vs-pytorch-whats-different.html#cb32-14"></a><span class="co">#&gt;         [ 6.7100],</span></span>
-<span id="cb32-15"><a href="rtorch-vs-pytorch-whats-different.html#cb32-15"></a><span class="co">#&gt;         [ 6.9300],</span></span>
-<span id="cb32-16"><a href="rtorch-vs-pytorch-whats-different.html#cb32-16"></a><span class="co">#&gt;         [ 4.1680],</span></span>
-<span id="cb32-17"><a href="rtorch-vs-pytorch-whats-different.html#cb32-17"></a><span class="co">#&gt;         [ 9.7790],</span></span>
-<span id="cb32-18"><a href="rtorch-vs-pytorch-whats-different.html#cb32-18"></a><span class="co">#&gt;         [ 6.1820],</span></span>
-<span id="cb32-19"><a href="rtorch-vs-pytorch-whats-different.html#cb32-19"></a><span class="co">#&gt;         [ 7.5900],</span></span>
-<span id="cb32-20"><a href="rtorch-vs-pytorch-whats-different.html#cb32-20"></a><span class="co">#&gt;         [ 2.1670],</span></span>
-<span id="cb32-21"><a href="rtorch-vs-pytorch-whats-different.html#cb32-21"></a><span class="co">#&gt;         [ 7.0420],</span></span>
-<span id="cb32-22"><a href="rtorch-vs-pytorch-whats-different.html#cb32-22"></a><span class="co">#&gt;         [10.7910],</span></span>
-<span id="cb32-23"><a href="rtorch-vs-pytorch-whats-different.html#cb32-23"></a><span class="co">#&gt;         [ 5.3130],</span></span>
-<span id="cb32-24"><a href="rtorch-vs-pytorch-whats-different.html#cb32-24"></a><span class="co">#&gt;         [ 7.9970],</span></span>
-<span id="cb32-25"><a href="rtorch-vs-pytorch-whats-different.html#cb32-25"></a><span class="co">#&gt;         [ 3.1000]])</span></span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="rtorch-vs-pytorch-whats-different.html#cb33-1"></a>x_train<span class="op">$</span><span class="kw">nelement</span>()    <span class="co"># number of elements in the tensor</span></span>
-<span id="cb33-2"><a href="rtorch-vs-pytorch-whats-different.html#cb33-2"></a><span class="co">#&gt; [1] 15</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="rtorch-vs-pytorch-whats-different.html#cb39-1"></a></span>
+<span id="cb39-2"><a href="rtorch-vs-pytorch-whats-different.html#cb39-2"></a>x_train =<span class="st"> </span><span class="kw">array</span>(<span class="kw">c</span>(<span class="fl">3.3</span>, <span class="fl">4.4</span>, <span class="fl">5.5</span>, <span class="fl">6.71</span>, <span class="fl">6.93</span>, <span class="fl">4.168</span>, </span>
+<span id="cb39-3"><a href="rtorch-vs-pytorch-whats-different.html#cb39-3"></a>                  <span class="fl">9.779</span>, <span class="fl">6.182</span>, <span class="fl">7.59</span>, <span class="fl">2.167</span>, <span class="fl">7.042</span>,</span>
+<span id="cb39-4"><a href="rtorch-vs-pytorch-whats-different.html#cb39-4"></a>                  <span class="fl">10.791</span>, <span class="fl">5.313</span>, <span class="fl">7.997</span>, <span class="fl">3.1</span>), <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">15</span>,<span class="dv">1</span>))</span>
+<span id="cb39-5"><a href="rtorch-vs-pytorch-whats-different.html#cb39-5"></a></span>
+<span id="cb39-6"><a href="rtorch-vs-pytorch-whats-different.html#cb39-6"></a>x_train &lt;-<span class="st"> </span><span class="kw">r_to_py</span>(x_train)</span>
+<span id="cb39-7"><a href="rtorch-vs-pytorch-whats-different.html#cb39-7"></a>x_train &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(x_train)         <span class="co"># convert to tensor</span></span>
+<span id="cb39-8"><a href="rtorch-vs-pytorch-whats-different.html#cb39-8"></a>x_train &lt;-<span class="st"> </span>x_train<span class="op">$</span><span class="kw">type</span>(torch<span class="op">$</span>FloatTensor)   <span class="co"># make it a a FloatTensor</span></span>
+<span id="cb39-9"><a href="rtorch-vs-pytorch-whats-different.html#cb39-9"></a></span>
+<span id="cb39-10"><a href="rtorch-vs-pytorch-whats-different.html#cb39-10"></a>x_train</span>
+<span id="cb39-11"><a href="rtorch-vs-pytorch-whats-different.html#cb39-11"></a><span class="co">#&gt; tensor([[ 3.3000],</span></span>
+<span id="cb39-12"><a href="rtorch-vs-pytorch-whats-different.html#cb39-12"></a><span class="co">#&gt;         [ 4.4000],</span></span>
+<span id="cb39-13"><a href="rtorch-vs-pytorch-whats-different.html#cb39-13"></a><span class="co">#&gt;         [ 5.5000],</span></span>
+<span id="cb39-14"><a href="rtorch-vs-pytorch-whats-different.html#cb39-14"></a><span class="co">#&gt;         [ 6.7100],</span></span>
+<span id="cb39-15"><a href="rtorch-vs-pytorch-whats-different.html#cb39-15"></a><span class="co">#&gt;         [ 6.9300],</span></span>
+<span id="cb39-16"><a href="rtorch-vs-pytorch-whats-different.html#cb39-16"></a><span class="co">#&gt;         [ 4.1680],</span></span>
+<span id="cb39-17"><a href="rtorch-vs-pytorch-whats-different.html#cb39-17"></a><span class="co">#&gt;         [ 9.7790],</span></span>
+<span id="cb39-18"><a href="rtorch-vs-pytorch-whats-different.html#cb39-18"></a><span class="co">#&gt;         [ 6.1820],</span></span>
+<span id="cb39-19"><a href="rtorch-vs-pytorch-whats-different.html#cb39-19"></a><span class="co">#&gt;         [ 7.5900],</span></span>
+<span id="cb39-20"><a href="rtorch-vs-pytorch-whats-different.html#cb39-20"></a><span class="co">#&gt;         [ 2.1670],</span></span>
+<span id="cb39-21"><a href="rtorch-vs-pytorch-whats-different.html#cb39-21"></a><span class="co">#&gt;         [ 7.0420],</span></span>
+<span id="cb39-22"><a href="rtorch-vs-pytorch-whats-different.html#cb39-22"></a><span class="co">#&gt;         [10.7910],</span></span>
+<span id="cb39-23"><a href="rtorch-vs-pytorch-whats-different.html#cb39-23"></a><span class="co">#&gt;         [ 5.3130],</span></span>
+<span id="cb39-24"><a href="rtorch-vs-pytorch-whats-different.html#cb39-24"></a><span class="co">#&gt;         [ 7.9970],</span></span>
+<span id="cb39-25"><a href="rtorch-vs-pytorch-whats-different.html#cb39-25"></a><span class="co">#&gt;         [ 3.1000]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="rtorch-vs-pytorch-whats-different.html#cb40-1"></a>x_train<span class="op">$</span><span class="kw">nelement</span>()    <span class="co"># number of elements in the tensor</span></span>
+<span id="cb40-2"><a href="rtorch-vs-pytorch-whats-different.html#cb40-2"></a><span class="co">#&gt; [1] 15</span></span></code></pre></div>
 </div>
 <div id="how-to-iterate" class="section level2">
 <h2><span class="header-section-number">2.5</span> How to iterate</h2>
 <div id="using-enumerate-and-iterate" class="section level3">
 <h3><span class="header-section-number">2.5.1</span> Using <code>enumerate</code> and <code>iterate</code></h3>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="rtorch-vs-pytorch-whats-different.html#cb34-1"></a>py =<span class="st"> </span><span class="kw">import_builtins</span>()</span>
-<span id="cb34-2"><a href="rtorch-vs-pytorch-whats-different.html#cb34-2"></a></span>
-<span id="cb34-3"><a href="rtorch-vs-pytorch-whats-different.html#cb34-3"></a>enum_x_train =<span class="st"> </span>py<span class="op">$</span><span class="kw">enumerate</span>(x_train)</span>
-<span id="cb34-4"><a href="rtorch-vs-pytorch-whats-different.html#cb34-4"></a>enum_x_train</span>
-<span id="cb34-5"><a href="rtorch-vs-pytorch-whats-different.html#cb34-5"></a><span class="co">#&gt; &lt;enumerate&gt;</span></span>
-<span id="cb34-6"><a href="rtorch-vs-pytorch-whats-different.html#cb34-6"></a></span>
-<span id="cb34-7"><a href="rtorch-vs-pytorch-whats-different.html#cb34-7"></a>py<span class="op">$</span><span class="kw">len</span>(x_train)</span>
-<span id="cb34-8"><a href="rtorch-vs-pytorch-whats-different.html#cb34-8"></a><span class="co">#&gt; [1] 15</span></span></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="rtorch-vs-pytorch-whats-different.html#cb35-1"></a>xit =<span class="st"> </span><span class="kw">iterate</span>(enum_x_train, <span class="dt">simplify =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb35-2"><a href="rtorch-vs-pytorch-whats-different.html#cb35-2"></a>xit</span>
-<span id="cb35-3"><a href="rtorch-vs-pytorch-whats-different.html#cb35-3"></a><span class="co">#&gt; [[1]]</span></span>
-<span id="cb35-4"><a href="rtorch-vs-pytorch-whats-different.html#cb35-4"></a><span class="co">#&gt; [[1]][[1]]</span></span>
-<span id="cb35-5"><a href="rtorch-vs-pytorch-whats-different.html#cb35-5"></a><span class="co">#&gt; [1] 0</span></span>
-<span id="cb35-6"><a href="rtorch-vs-pytorch-whats-different.html#cb35-6"></a><span class="co">#&gt; </span></span>
-<span id="cb35-7"><a href="rtorch-vs-pytorch-whats-different.html#cb35-7"></a><span class="co">#&gt; [[1]][[2]]</span></span>
-<span id="cb35-8"><a href="rtorch-vs-pytorch-whats-different.html#cb35-8"></a><span class="co">#&gt; tensor([3.3000])</span></span>
-<span id="cb35-9"><a href="rtorch-vs-pytorch-whats-different.html#cb35-9"></a><span class="co">#&gt; </span></span>
-<span id="cb35-10"><a href="rtorch-vs-pytorch-whats-different.html#cb35-10"></a><span class="co">#&gt; </span></span>
-<span id="cb35-11"><a href="rtorch-vs-pytorch-whats-different.html#cb35-11"></a><span class="co">#&gt; [[2]]</span></span>
-<span id="cb35-12"><a href="rtorch-vs-pytorch-whats-different.html#cb35-12"></a><span class="co">#&gt; [[2]][[1]]</span></span>
-<span id="cb35-13"><a href="rtorch-vs-pytorch-whats-different.html#cb35-13"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb35-14"><a href="rtorch-vs-pytorch-whats-different.html#cb35-14"></a><span class="co">#&gt; </span></span>
-<span id="cb35-15"><a href="rtorch-vs-pytorch-whats-different.html#cb35-15"></a><span class="co">#&gt; [[2]][[2]]</span></span>
-<span id="cb35-16"><a href="rtorch-vs-pytorch-whats-different.html#cb35-16"></a><span class="co">#&gt; tensor([4.4000])</span></span>
-<span id="cb35-17"><a href="rtorch-vs-pytorch-whats-different.html#cb35-17"></a><span class="co">#&gt; </span></span>
-<span id="cb35-18"><a href="rtorch-vs-pytorch-whats-different.html#cb35-18"></a><span class="co">#&gt; </span></span>
-<span id="cb35-19"><a href="rtorch-vs-pytorch-whats-different.html#cb35-19"></a><span class="co">#&gt; [[3]]</span></span>
-<span id="cb35-20"><a href="rtorch-vs-pytorch-whats-different.html#cb35-20"></a><span class="co">#&gt; [[3]][[1]]</span></span>
-<span id="cb35-21"><a href="rtorch-vs-pytorch-whats-different.html#cb35-21"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb35-22"><a href="rtorch-vs-pytorch-whats-different.html#cb35-22"></a><span class="co">#&gt; </span></span>
-<span id="cb35-23"><a href="rtorch-vs-pytorch-whats-different.html#cb35-23"></a><span class="co">#&gt; [[3]][[2]]</span></span>
-<span id="cb35-24"><a href="rtorch-vs-pytorch-whats-different.html#cb35-24"></a><span class="co">#&gt; tensor([5.5000])</span></span>
-<span id="cb35-25"><a href="rtorch-vs-pytorch-whats-different.html#cb35-25"></a><span class="co">#&gt; </span></span>
-<span id="cb35-26"><a href="rtorch-vs-pytorch-whats-different.html#cb35-26"></a><span class="co">#&gt; </span></span>
-<span id="cb35-27"><a href="rtorch-vs-pytorch-whats-different.html#cb35-27"></a><span class="co">#&gt; [[4]]</span></span>
-<span id="cb35-28"><a href="rtorch-vs-pytorch-whats-different.html#cb35-28"></a><span class="co">#&gt; [[4]][[1]]</span></span>
-<span id="cb35-29"><a href="rtorch-vs-pytorch-whats-different.html#cb35-29"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb35-30"><a href="rtorch-vs-pytorch-whats-different.html#cb35-30"></a><span class="co">#&gt; </span></span>
-<span id="cb35-31"><a href="rtorch-vs-pytorch-whats-different.html#cb35-31"></a><span class="co">#&gt; [[4]][[2]]</span></span>
-<span id="cb35-32"><a href="rtorch-vs-pytorch-whats-different.html#cb35-32"></a><span class="co">#&gt; tensor([6.7100])</span></span>
-<span id="cb35-33"><a href="rtorch-vs-pytorch-whats-different.html#cb35-33"></a><span class="co">#&gt; </span></span>
-<span id="cb35-34"><a href="rtorch-vs-pytorch-whats-different.html#cb35-34"></a><span class="co">#&gt; </span></span>
-<span id="cb35-35"><a href="rtorch-vs-pytorch-whats-different.html#cb35-35"></a><span class="co">#&gt; [[5]]</span></span>
-<span id="cb35-36"><a href="rtorch-vs-pytorch-whats-different.html#cb35-36"></a><span class="co">#&gt; [[5]][[1]]</span></span>
-<span id="cb35-37"><a href="rtorch-vs-pytorch-whats-different.html#cb35-37"></a><span class="co">#&gt; [1] 4</span></span>
-<span id="cb35-38"><a href="rtorch-vs-pytorch-whats-different.html#cb35-38"></a><span class="co">#&gt; </span></span>
-<span id="cb35-39"><a href="rtorch-vs-pytorch-whats-different.html#cb35-39"></a><span class="co">#&gt; [[5]][[2]]</span></span>
-<span id="cb35-40"><a href="rtorch-vs-pytorch-whats-different.html#cb35-40"></a><span class="co">#&gt; tensor([6.9300])</span></span>
-<span id="cb35-41"><a href="rtorch-vs-pytorch-whats-different.html#cb35-41"></a><span class="co">#&gt; </span></span>
-<span id="cb35-42"><a href="rtorch-vs-pytorch-whats-different.html#cb35-42"></a><span class="co">#&gt; </span></span>
-<span id="cb35-43"><a href="rtorch-vs-pytorch-whats-different.html#cb35-43"></a><span class="co">#&gt; [[6]]</span></span>
-<span id="cb35-44"><a href="rtorch-vs-pytorch-whats-different.html#cb35-44"></a><span class="co">#&gt; [[6]][[1]]</span></span>
-<span id="cb35-45"><a href="rtorch-vs-pytorch-whats-different.html#cb35-45"></a><span class="co">#&gt; [1] 5</span></span>
-<span id="cb35-46"><a href="rtorch-vs-pytorch-whats-different.html#cb35-46"></a><span class="co">#&gt; </span></span>
-<span id="cb35-47"><a href="rtorch-vs-pytorch-whats-different.html#cb35-47"></a><span class="co">#&gt; [[6]][[2]]</span></span>
-<span id="cb35-48"><a href="rtorch-vs-pytorch-whats-different.html#cb35-48"></a><span class="co">#&gt; tensor([4.1680])</span></span>
-<span id="cb35-49"><a href="rtorch-vs-pytorch-whats-different.html#cb35-49"></a><span class="co">#&gt; </span></span>
-<span id="cb35-50"><a href="rtorch-vs-pytorch-whats-different.html#cb35-50"></a><span class="co">#&gt; </span></span>
-<span id="cb35-51"><a href="rtorch-vs-pytorch-whats-different.html#cb35-51"></a><span class="co">#&gt; [[7]]</span></span>
-<span id="cb35-52"><a href="rtorch-vs-pytorch-whats-different.html#cb35-52"></a><span class="co">#&gt; [[7]][[1]]</span></span>
-<span id="cb35-53"><a href="rtorch-vs-pytorch-whats-different.html#cb35-53"></a><span class="co">#&gt; [1] 6</span></span>
-<span id="cb35-54"><a href="rtorch-vs-pytorch-whats-different.html#cb35-54"></a><span class="co">#&gt; </span></span>
-<span id="cb35-55"><a href="rtorch-vs-pytorch-whats-different.html#cb35-55"></a><span class="co">#&gt; [[7]][[2]]</span></span>
-<span id="cb35-56"><a href="rtorch-vs-pytorch-whats-different.html#cb35-56"></a><span class="co">#&gt; tensor([9.7790])</span></span>
-<span id="cb35-57"><a href="rtorch-vs-pytorch-whats-different.html#cb35-57"></a><span class="co">#&gt; </span></span>
-<span id="cb35-58"><a href="rtorch-vs-pytorch-whats-different.html#cb35-58"></a><span class="co">#&gt; </span></span>
-<span id="cb35-59"><a href="rtorch-vs-pytorch-whats-different.html#cb35-59"></a><span class="co">#&gt; [[8]]</span></span>
-<span id="cb35-60"><a href="rtorch-vs-pytorch-whats-different.html#cb35-60"></a><span class="co">#&gt; [[8]][[1]]</span></span>
-<span id="cb35-61"><a href="rtorch-vs-pytorch-whats-different.html#cb35-61"></a><span class="co">#&gt; [1] 7</span></span>
-<span id="cb35-62"><a href="rtorch-vs-pytorch-whats-different.html#cb35-62"></a><span class="co">#&gt; </span></span>
-<span id="cb35-63"><a href="rtorch-vs-pytorch-whats-different.html#cb35-63"></a><span class="co">#&gt; [[8]][[2]]</span></span>
-<span id="cb35-64"><a href="rtorch-vs-pytorch-whats-different.html#cb35-64"></a><span class="co">#&gt; tensor([6.1820])</span></span>
-<span id="cb35-65"><a href="rtorch-vs-pytorch-whats-different.html#cb35-65"></a><span class="co">#&gt; </span></span>
-<span id="cb35-66"><a href="rtorch-vs-pytorch-whats-different.html#cb35-66"></a><span class="co">#&gt; </span></span>
-<span id="cb35-67"><a href="rtorch-vs-pytorch-whats-different.html#cb35-67"></a><span class="co">#&gt; [[9]]</span></span>
-<span id="cb35-68"><a href="rtorch-vs-pytorch-whats-different.html#cb35-68"></a><span class="co">#&gt; [[9]][[1]]</span></span>
-<span id="cb35-69"><a href="rtorch-vs-pytorch-whats-different.html#cb35-69"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb35-70"><a href="rtorch-vs-pytorch-whats-different.html#cb35-70"></a><span class="co">#&gt; </span></span>
-<span id="cb35-71"><a href="rtorch-vs-pytorch-whats-different.html#cb35-71"></a><span class="co">#&gt; [[9]][[2]]</span></span>
-<span id="cb35-72"><a href="rtorch-vs-pytorch-whats-different.html#cb35-72"></a><span class="co">#&gt; tensor([7.5900])</span></span>
-<span id="cb35-73"><a href="rtorch-vs-pytorch-whats-different.html#cb35-73"></a><span class="co">#&gt; </span></span>
-<span id="cb35-74"><a href="rtorch-vs-pytorch-whats-different.html#cb35-74"></a><span class="co">#&gt; </span></span>
-<span id="cb35-75"><a href="rtorch-vs-pytorch-whats-different.html#cb35-75"></a><span class="co">#&gt; [[10]]</span></span>
-<span id="cb35-76"><a href="rtorch-vs-pytorch-whats-different.html#cb35-76"></a><span class="co">#&gt; [[10]][[1]]</span></span>
-<span id="cb35-77"><a href="rtorch-vs-pytorch-whats-different.html#cb35-77"></a><span class="co">#&gt; [1] 9</span></span>
-<span id="cb35-78"><a href="rtorch-vs-pytorch-whats-different.html#cb35-78"></a><span class="co">#&gt; </span></span>
-<span id="cb35-79"><a href="rtorch-vs-pytorch-whats-different.html#cb35-79"></a><span class="co">#&gt; [[10]][[2]]</span></span>
-<span id="cb35-80"><a href="rtorch-vs-pytorch-whats-different.html#cb35-80"></a><span class="co">#&gt; tensor([2.1670])</span></span>
-<span id="cb35-81"><a href="rtorch-vs-pytorch-whats-different.html#cb35-81"></a><span class="co">#&gt; </span></span>
-<span id="cb35-82"><a href="rtorch-vs-pytorch-whats-different.html#cb35-82"></a><span class="co">#&gt; </span></span>
-<span id="cb35-83"><a href="rtorch-vs-pytorch-whats-different.html#cb35-83"></a><span class="co">#&gt; [[11]]</span></span>
-<span id="cb35-84"><a href="rtorch-vs-pytorch-whats-different.html#cb35-84"></a><span class="co">#&gt; [[11]][[1]]</span></span>
-<span id="cb35-85"><a href="rtorch-vs-pytorch-whats-different.html#cb35-85"></a><span class="co">#&gt; [1] 10</span></span>
-<span id="cb35-86"><a href="rtorch-vs-pytorch-whats-different.html#cb35-86"></a><span class="co">#&gt; </span></span>
-<span id="cb35-87"><a href="rtorch-vs-pytorch-whats-different.html#cb35-87"></a><span class="co">#&gt; [[11]][[2]]</span></span>
-<span id="cb35-88"><a href="rtorch-vs-pytorch-whats-different.html#cb35-88"></a><span class="co">#&gt; tensor([7.0420])</span></span>
-<span id="cb35-89"><a href="rtorch-vs-pytorch-whats-different.html#cb35-89"></a><span class="co">#&gt; </span></span>
-<span id="cb35-90"><a href="rtorch-vs-pytorch-whats-different.html#cb35-90"></a><span class="co">#&gt; </span></span>
-<span id="cb35-91"><a href="rtorch-vs-pytorch-whats-different.html#cb35-91"></a><span class="co">#&gt; [[12]]</span></span>
-<span id="cb35-92"><a href="rtorch-vs-pytorch-whats-different.html#cb35-92"></a><span class="co">#&gt; [[12]][[1]]</span></span>
-<span id="cb35-93"><a href="rtorch-vs-pytorch-whats-different.html#cb35-93"></a><span class="co">#&gt; [1] 11</span></span>
-<span id="cb35-94"><a href="rtorch-vs-pytorch-whats-different.html#cb35-94"></a><span class="co">#&gt; </span></span>
-<span id="cb35-95"><a href="rtorch-vs-pytorch-whats-different.html#cb35-95"></a><span class="co">#&gt; [[12]][[2]]</span></span>
-<span id="cb35-96"><a href="rtorch-vs-pytorch-whats-different.html#cb35-96"></a><span class="co">#&gt; tensor([10.7910])</span></span>
-<span id="cb35-97"><a href="rtorch-vs-pytorch-whats-different.html#cb35-97"></a><span class="co">#&gt; </span></span>
-<span id="cb35-98"><a href="rtorch-vs-pytorch-whats-different.html#cb35-98"></a><span class="co">#&gt; </span></span>
-<span id="cb35-99"><a href="rtorch-vs-pytorch-whats-different.html#cb35-99"></a><span class="co">#&gt; [[13]]</span></span>
-<span id="cb35-100"><a href="rtorch-vs-pytorch-whats-different.html#cb35-100"></a><span class="co">#&gt; [[13]][[1]]</span></span>
-<span id="cb35-101"><a href="rtorch-vs-pytorch-whats-different.html#cb35-101"></a><span class="co">#&gt; [1] 12</span></span>
-<span id="cb35-102"><a href="rtorch-vs-pytorch-whats-different.html#cb35-102"></a><span class="co">#&gt; </span></span>
-<span id="cb35-103"><a href="rtorch-vs-pytorch-whats-different.html#cb35-103"></a><span class="co">#&gt; [[13]][[2]]</span></span>
-<span id="cb35-104"><a href="rtorch-vs-pytorch-whats-different.html#cb35-104"></a><span class="co">#&gt; tensor([5.3130])</span></span>
-<span id="cb35-105"><a href="rtorch-vs-pytorch-whats-different.html#cb35-105"></a><span class="co">#&gt; </span></span>
-<span id="cb35-106"><a href="rtorch-vs-pytorch-whats-different.html#cb35-106"></a><span class="co">#&gt; </span></span>
-<span id="cb35-107"><a href="rtorch-vs-pytorch-whats-different.html#cb35-107"></a><span class="co">#&gt; [[14]]</span></span>
-<span id="cb35-108"><a href="rtorch-vs-pytorch-whats-different.html#cb35-108"></a><span class="co">#&gt; [[14]][[1]]</span></span>
-<span id="cb35-109"><a href="rtorch-vs-pytorch-whats-different.html#cb35-109"></a><span class="co">#&gt; [1] 13</span></span>
-<span id="cb35-110"><a href="rtorch-vs-pytorch-whats-different.html#cb35-110"></a><span class="co">#&gt; </span></span>
-<span id="cb35-111"><a href="rtorch-vs-pytorch-whats-different.html#cb35-111"></a><span class="co">#&gt; [[14]][[2]]</span></span>
-<span id="cb35-112"><a href="rtorch-vs-pytorch-whats-different.html#cb35-112"></a><span class="co">#&gt; tensor([7.9970])</span></span>
-<span id="cb35-113"><a href="rtorch-vs-pytorch-whats-different.html#cb35-113"></a><span class="co">#&gt; </span></span>
-<span id="cb35-114"><a href="rtorch-vs-pytorch-whats-different.html#cb35-114"></a><span class="co">#&gt; </span></span>
-<span id="cb35-115"><a href="rtorch-vs-pytorch-whats-different.html#cb35-115"></a><span class="co">#&gt; [[15]]</span></span>
-<span id="cb35-116"><a href="rtorch-vs-pytorch-whats-different.html#cb35-116"></a><span class="co">#&gt; [[15]][[1]]</span></span>
-<span id="cb35-117"><a href="rtorch-vs-pytorch-whats-different.html#cb35-117"></a><span class="co">#&gt; [1] 14</span></span>
-<span id="cb35-118"><a href="rtorch-vs-pytorch-whats-different.html#cb35-118"></a><span class="co">#&gt; </span></span>
-<span id="cb35-119"><a href="rtorch-vs-pytorch-whats-different.html#cb35-119"></a><span class="co">#&gt; [[15]][[2]]</span></span>
-<span id="cb35-120"><a href="rtorch-vs-pytorch-whats-different.html#cb35-120"></a><span class="co">#&gt; tensor([3.1000])</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="rtorch-vs-pytorch-whats-different.html#cb41-1"></a>py =<span class="st"> </span><span class="kw">import_builtins</span>()</span>
+<span id="cb41-2"><a href="rtorch-vs-pytorch-whats-different.html#cb41-2"></a></span>
+<span id="cb41-3"><a href="rtorch-vs-pytorch-whats-different.html#cb41-3"></a>enum_x_train =<span class="st"> </span>py<span class="op">$</span><span class="kw">enumerate</span>(x_train)</span>
+<span id="cb41-4"><a href="rtorch-vs-pytorch-whats-different.html#cb41-4"></a>enum_x_train</span>
+<span id="cb41-5"><a href="rtorch-vs-pytorch-whats-different.html#cb41-5"></a><span class="co">#&gt; &lt;enumerate&gt;</span></span>
+<span id="cb41-6"><a href="rtorch-vs-pytorch-whats-different.html#cb41-6"></a></span>
+<span id="cb41-7"><a href="rtorch-vs-pytorch-whats-different.html#cb41-7"></a>py<span class="op">$</span><span class="kw">len</span>(x_train)</span>
+<span id="cb41-8"><a href="rtorch-vs-pytorch-whats-different.html#cb41-8"></a><span class="co">#&gt; [1] 15</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="rtorch-vs-pytorch-whats-different.html#cb42-1"></a>xit =<span class="st"> </span><span class="kw">iterate</span>(enum_x_train, <span class="dt">simplify =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb42-2"><a href="rtorch-vs-pytorch-whats-different.html#cb42-2"></a>xit</span>
+<span id="cb42-3"><a href="rtorch-vs-pytorch-whats-different.html#cb42-3"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb42-4"><a href="rtorch-vs-pytorch-whats-different.html#cb42-4"></a><span class="co">#&gt; [[1]][[1]]</span></span>
+<span id="cb42-5"><a href="rtorch-vs-pytorch-whats-different.html#cb42-5"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb42-6"><a href="rtorch-vs-pytorch-whats-different.html#cb42-6"></a><span class="co">#&gt; </span></span>
+<span id="cb42-7"><a href="rtorch-vs-pytorch-whats-different.html#cb42-7"></a><span class="co">#&gt; [[1]][[2]]</span></span>
+<span id="cb42-8"><a href="rtorch-vs-pytorch-whats-different.html#cb42-8"></a><span class="co">#&gt; tensor([3.3000])</span></span>
+<span id="cb42-9"><a href="rtorch-vs-pytorch-whats-different.html#cb42-9"></a><span class="co">#&gt; </span></span>
+<span id="cb42-10"><a href="rtorch-vs-pytorch-whats-different.html#cb42-10"></a><span class="co">#&gt; </span></span>
+<span id="cb42-11"><a href="rtorch-vs-pytorch-whats-different.html#cb42-11"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb42-12"><a href="rtorch-vs-pytorch-whats-different.html#cb42-12"></a><span class="co">#&gt; [[2]][[1]]</span></span>
+<span id="cb42-13"><a href="rtorch-vs-pytorch-whats-different.html#cb42-13"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb42-14"><a href="rtorch-vs-pytorch-whats-different.html#cb42-14"></a><span class="co">#&gt; </span></span>
+<span id="cb42-15"><a href="rtorch-vs-pytorch-whats-different.html#cb42-15"></a><span class="co">#&gt; [[2]][[2]]</span></span>
+<span id="cb42-16"><a href="rtorch-vs-pytorch-whats-different.html#cb42-16"></a><span class="co">#&gt; tensor([4.4000])</span></span>
+<span id="cb42-17"><a href="rtorch-vs-pytorch-whats-different.html#cb42-17"></a><span class="co">#&gt; </span></span>
+<span id="cb42-18"><a href="rtorch-vs-pytorch-whats-different.html#cb42-18"></a><span class="co">#&gt; </span></span>
+<span id="cb42-19"><a href="rtorch-vs-pytorch-whats-different.html#cb42-19"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb42-20"><a href="rtorch-vs-pytorch-whats-different.html#cb42-20"></a><span class="co">#&gt; [[3]][[1]]</span></span>
+<span id="cb42-21"><a href="rtorch-vs-pytorch-whats-different.html#cb42-21"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb42-22"><a href="rtorch-vs-pytorch-whats-different.html#cb42-22"></a><span class="co">#&gt; </span></span>
+<span id="cb42-23"><a href="rtorch-vs-pytorch-whats-different.html#cb42-23"></a><span class="co">#&gt; [[3]][[2]]</span></span>
+<span id="cb42-24"><a href="rtorch-vs-pytorch-whats-different.html#cb42-24"></a><span class="co">#&gt; tensor([5.5000])</span></span>
+<span id="cb42-25"><a href="rtorch-vs-pytorch-whats-different.html#cb42-25"></a><span class="co">#&gt; </span></span>
+<span id="cb42-26"><a href="rtorch-vs-pytorch-whats-different.html#cb42-26"></a><span class="co">#&gt; </span></span>
+<span id="cb42-27"><a href="rtorch-vs-pytorch-whats-different.html#cb42-27"></a><span class="co">#&gt; [[4]]</span></span>
+<span id="cb42-28"><a href="rtorch-vs-pytorch-whats-different.html#cb42-28"></a><span class="co">#&gt; [[4]][[1]]</span></span>
+<span id="cb42-29"><a href="rtorch-vs-pytorch-whats-different.html#cb42-29"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb42-30"><a href="rtorch-vs-pytorch-whats-different.html#cb42-30"></a><span class="co">#&gt; </span></span>
+<span id="cb42-31"><a href="rtorch-vs-pytorch-whats-different.html#cb42-31"></a><span class="co">#&gt; [[4]][[2]]</span></span>
+<span id="cb42-32"><a href="rtorch-vs-pytorch-whats-different.html#cb42-32"></a><span class="co">#&gt; tensor([6.7100])</span></span>
+<span id="cb42-33"><a href="rtorch-vs-pytorch-whats-different.html#cb42-33"></a><span class="co">#&gt; </span></span>
+<span id="cb42-34"><a href="rtorch-vs-pytorch-whats-different.html#cb42-34"></a><span class="co">#&gt; </span></span>
+<span id="cb42-35"><a href="rtorch-vs-pytorch-whats-different.html#cb42-35"></a><span class="co">#&gt; [[5]]</span></span>
+<span id="cb42-36"><a href="rtorch-vs-pytorch-whats-different.html#cb42-36"></a><span class="co">#&gt; [[5]][[1]]</span></span>
+<span id="cb42-37"><a href="rtorch-vs-pytorch-whats-different.html#cb42-37"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb42-38"><a href="rtorch-vs-pytorch-whats-different.html#cb42-38"></a><span class="co">#&gt; </span></span>
+<span id="cb42-39"><a href="rtorch-vs-pytorch-whats-different.html#cb42-39"></a><span class="co">#&gt; [[5]][[2]]</span></span>
+<span id="cb42-40"><a href="rtorch-vs-pytorch-whats-different.html#cb42-40"></a><span class="co">#&gt; tensor([6.9300])</span></span>
+<span id="cb42-41"><a href="rtorch-vs-pytorch-whats-different.html#cb42-41"></a><span class="co">#&gt; </span></span>
+<span id="cb42-42"><a href="rtorch-vs-pytorch-whats-different.html#cb42-42"></a><span class="co">#&gt; </span></span>
+<span id="cb42-43"><a href="rtorch-vs-pytorch-whats-different.html#cb42-43"></a><span class="co">#&gt; [[6]]</span></span>
+<span id="cb42-44"><a href="rtorch-vs-pytorch-whats-different.html#cb42-44"></a><span class="co">#&gt; [[6]][[1]]</span></span>
+<span id="cb42-45"><a href="rtorch-vs-pytorch-whats-different.html#cb42-45"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb42-46"><a href="rtorch-vs-pytorch-whats-different.html#cb42-46"></a><span class="co">#&gt; </span></span>
+<span id="cb42-47"><a href="rtorch-vs-pytorch-whats-different.html#cb42-47"></a><span class="co">#&gt; [[6]][[2]]</span></span>
+<span id="cb42-48"><a href="rtorch-vs-pytorch-whats-different.html#cb42-48"></a><span class="co">#&gt; tensor([4.1680])</span></span>
+<span id="cb42-49"><a href="rtorch-vs-pytorch-whats-different.html#cb42-49"></a><span class="co">#&gt; </span></span>
+<span id="cb42-50"><a href="rtorch-vs-pytorch-whats-different.html#cb42-50"></a><span class="co">#&gt; </span></span>
+<span id="cb42-51"><a href="rtorch-vs-pytorch-whats-different.html#cb42-51"></a><span class="co">#&gt; [[7]]</span></span>
+<span id="cb42-52"><a href="rtorch-vs-pytorch-whats-different.html#cb42-52"></a><span class="co">#&gt; [[7]][[1]]</span></span>
+<span id="cb42-53"><a href="rtorch-vs-pytorch-whats-different.html#cb42-53"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb42-54"><a href="rtorch-vs-pytorch-whats-different.html#cb42-54"></a><span class="co">#&gt; </span></span>
+<span id="cb42-55"><a href="rtorch-vs-pytorch-whats-different.html#cb42-55"></a><span class="co">#&gt; [[7]][[2]]</span></span>
+<span id="cb42-56"><a href="rtorch-vs-pytorch-whats-different.html#cb42-56"></a><span class="co">#&gt; tensor([9.7790])</span></span>
+<span id="cb42-57"><a href="rtorch-vs-pytorch-whats-different.html#cb42-57"></a><span class="co">#&gt; </span></span>
+<span id="cb42-58"><a href="rtorch-vs-pytorch-whats-different.html#cb42-58"></a><span class="co">#&gt; </span></span>
+<span id="cb42-59"><a href="rtorch-vs-pytorch-whats-different.html#cb42-59"></a><span class="co">#&gt; [[8]]</span></span>
+<span id="cb42-60"><a href="rtorch-vs-pytorch-whats-different.html#cb42-60"></a><span class="co">#&gt; [[8]][[1]]</span></span>
+<span id="cb42-61"><a href="rtorch-vs-pytorch-whats-different.html#cb42-61"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb42-62"><a href="rtorch-vs-pytorch-whats-different.html#cb42-62"></a><span class="co">#&gt; </span></span>
+<span id="cb42-63"><a href="rtorch-vs-pytorch-whats-different.html#cb42-63"></a><span class="co">#&gt; [[8]][[2]]</span></span>
+<span id="cb42-64"><a href="rtorch-vs-pytorch-whats-different.html#cb42-64"></a><span class="co">#&gt; tensor([6.1820])</span></span>
+<span id="cb42-65"><a href="rtorch-vs-pytorch-whats-different.html#cb42-65"></a><span class="co">#&gt; </span></span>
+<span id="cb42-66"><a href="rtorch-vs-pytorch-whats-different.html#cb42-66"></a><span class="co">#&gt; </span></span>
+<span id="cb42-67"><a href="rtorch-vs-pytorch-whats-different.html#cb42-67"></a><span class="co">#&gt; [[9]]</span></span>
+<span id="cb42-68"><a href="rtorch-vs-pytorch-whats-different.html#cb42-68"></a><span class="co">#&gt; [[9]][[1]]</span></span>
+<span id="cb42-69"><a href="rtorch-vs-pytorch-whats-different.html#cb42-69"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb42-70"><a href="rtorch-vs-pytorch-whats-different.html#cb42-70"></a><span class="co">#&gt; </span></span>
+<span id="cb42-71"><a href="rtorch-vs-pytorch-whats-different.html#cb42-71"></a><span class="co">#&gt; [[9]][[2]]</span></span>
+<span id="cb42-72"><a href="rtorch-vs-pytorch-whats-different.html#cb42-72"></a><span class="co">#&gt; tensor([7.5900])</span></span>
+<span id="cb42-73"><a href="rtorch-vs-pytorch-whats-different.html#cb42-73"></a><span class="co">#&gt; </span></span>
+<span id="cb42-74"><a href="rtorch-vs-pytorch-whats-different.html#cb42-74"></a><span class="co">#&gt; </span></span>
+<span id="cb42-75"><a href="rtorch-vs-pytorch-whats-different.html#cb42-75"></a><span class="co">#&gt; [[10]]</span></span>
+<span id="cb42-76"><a href="rtorch-vs-pytorch-whats-different.html#cb42-76"></a><span class="co">#&gt; [[10]][[1]]</span></span>
+<span id="cb42-77"><a href="rtorch-vs-pytorch-whats-different.html#cb42-77"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb42-78"><a href="rtorch-vs-pytorch-whats-different.html#cb42-78"></a><span class="co">#&gt; </span></span>
+<span id="cb42-79"><a href="rtorch-vs-pytorch-whats-different.html#cb42-79"></a><span class="co">#&gt; [[10]][[2]]</span></span>
+<span id="cb42-80"><a href="rtorch-vs-pytorch-whats-different.html#cb42-80"></a><span class="co">#&gt; tensor([2.1670])</span></span>
+<span id="cb42-81"><a href="rtorch-vs-pytorch-whats-different.html#cb42-81"></a><span class="co">#&gt; </span></span>
+<span id="cb42-82"><a href="rtorch-vs-pytorch-whats-different.html#cb42-82"></a><span class="co">#&gt; </span></span>
+<span id="cb42-83"><a href="rtorch-vs-pytorch-whats-different.html#cb42-83"></a><span class="co">#&gt; [[11]]</span></span>
+<span id="cb42-84"><a href="rtorch-vs-pytorch-whats-different.html#cb42-84"></a><span class="co">#&gt; [[11]][[1]]</span></span>
+<span id="cb42-85"><a href="rtorch-vs-pytorch-whats-different.html#cb42-85"></a><span class="co">#&gt; [1] 10</span></span>
+<span id="cb42-86"><a href="rtorch-vs-pytorch-whats-different.html#cb42-86"></a><span class="co">#&gt; </span></span>
+<span id="cb42-87"><a href="rtorch-vs-pytorch-whats-different.html#cb42-87"></a><span class="co">#&gt; [[11]][[2]]</span></span>
+<span id="cb42-88"><a href="rtorch-vs-pytorch-whats-different.html#cb42-88"></a><span class="co">#&gt; tensor([7.0420])</span></span>
+<span id="cb42-89"><a href="rtorch-vs-pytorch-whats-different.html#cb42-89"></a><span class="co">#&gt; </span></span>
+<span id="cb42-90"><a href="rtorch-vs-pytorch-whats-different.html#cb42-90"></a><span class="co">#&gt; </span></span>
+<span id="cb42-91"><a href="rtorch-vs-pytorch-whats-different.html#cb42-91"></a><span class="co">#&gt; [[12]]</span></span>
+<span id="cb42-92"><a href="rtorch-vs-pytorch-whats-different.html#cb42-92"></a><span class="co">#&gt; [[12]][[1]]</span></span>
+<span id="cb42-93"><a href="rtorch-vs-pytorch-whats-different.html#cb42-93"></a><span class="co">#&gt; [1] 11</span></span>
+<span id="cb42-94"><a href="rtorch-vs-pytorch-whats-different.html#cb42-94"></a><span class="co">#&gt; </span></span>
+<span id="cb42-95"><a href="rtorch-vs-pytorch-whats-different.html#cb42-95"></a><span class="co">#&gt; [[12]][[2]]</span></span>
+<span id="cb42-96"><a href="rtorch-vs-pytorch-whats-different.html#cb42-96"></a><span class="co">#&gt; tensor([10.7910])</span></span>
+<span id="cb42-97"><a href="rtorch-vs-pytorch-whats-different.html#cb42-97"></a><span class="co">#&gt; </span></span>
+<span id="cb42-98"><a href="rtorch-vs-pytorch-whats-different.html#cb42-98"></a><span class="co">#&gt; </span></span>
+<span id="cb42-99"><a href="rtorch-vs-pytorch-whats-different.html#cb42-99"></a><span class="co">#&gt; [[13]]</span></span>
+<span id="cb42-100"><a href="rtorch-vs-pytorch-whats-different.html#cb42-100"></a><span class="co">#&gt; [[13]][[1]]</span></span>
+<span id="cb42-101"><a href="rtorch-vs-pytorch-whats-different.html#cb42-101"></a><span class="co">#&gt; [1] 12</span></span>
+<span id="cb42-102"><a href="rtorch-vs-pytorch-whats-different.html#cb42-102"></a><span class="co">#&gt; </span></span>
+<span id="cb42-103"><a href="rtorch-vs-pytorch-whats-different.html#cb42-103"></a><span class="co">#&gt; [[13]][[2]]</span></span>
+<span id="cb42-104"><a href="rtorch-vs-pytorch-whats-different.html#cb42-104"></a><span class="co">#&gt; tensor([5.3130])</span></span>
+<span id="cb42-105"><a href="rtorch-vs-pytorch-whats-different.html#cb42-105"></a><span class="co">#&gt; </span></span>
+<span id="cb42-106"><a href="rtorch-vs-pytorch-whats-different.html#cb42-106"></a><span class="co">#&gt; </span></span>
+<span id="cb42-107"><a href="rtorch-vs-pytorch-whats-different.html#cb42-107"></a><span class="co">#&gt; [[14]]</span></span>
+<span id="cb42-108"><a href="rtorch-vs-pytorch-whats-different.html#cb42-108"></a><span class="co">#&gt; [[14]][[1]]</span></span>
+<span id="cb42-109"><a href="rtorch-vs-pytorch-whats-different.html#cb42-109"></a><span class="co">#&gt; [1] 13</span></span>
+<span id="cb42-110"><a href="rtorch-vs-pytorch-whats-different.html#cb42-110"></a><span class="co">#&gt; </span></span>
+<span id="cb42-111"><a href="rtorch-vs-pytorch-whats-different.html#cb42-111"></a><span class="co">#&gt; [[14]][[2]]</span></span>
+<span id="cb42-112"><a href="rtorch-vs-pytorch-whats-different.html#cb42-112"></a><span class="co">#&gt; tensor([7.9970])</span></span>
+<span id="cb42-113"><a href="rtorch-vs-pytorch-whats-different.html#cb42-113"></a><span class="co">#&gt; </span></span>
+<span id="cb42-114"><a href="rtorch-vs-pytorch-whats-different.html#cb42-114"></a><span class="co">#&gt; </span></span>
+<span id="cb42-115"><a href="rtorch-vs-pytorch-whats-different.html#cb42-115"></a><span class="co">#&gt; [[15]]</span></span>
+<span id="cb42-116"><a href="rtorch-vs-pytorch-whats-different.html#cb42-116"></a><span class="co">#&gt; [[15]][[1]]</span></span>
+<span id="cb42-117"><a href="rtorch-vs-pytorch-whats-different.html#cb42-117"></a><span class="co">#&gt; [1] 14</span></span>
+<span id="cb42-118"><a href="rtorch-vs-pytorch-whats-different.html#cb42-118"></a><span class="co">#&gt; </span></span>
+<span id="cb42-119"><a href="rtorch-vs-pytorch-whats-different.html#cb42-119"></a><span class="co">#&gt; [[15]][[2]]</span></span>
+<span id="cb42-120"><a href="rtorch-vs-pytorch-whats-different.html#cb42-120"></a><span class="co">#&gt; tensor([3.1000])</span></span></code></pre></div>
 </div>
 <div id="using-a-for-loop-to-iterate" class="section level3">
 <h3><span class="header-section-number">2.5.2</span> Using a <code>for-loop</code> to iterate</h3>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="rtorch-vs-pytorch-whats-different.html#cb36-1"></a><span class="co"># reset the iterator</span></span>
-<span id="cb36-2"><a href="rtorch-vs-pytorch-whats-different.html#cb36-2"></a>enum_x_train =<span class="st"> </span>py<span class="op">$</span><span class="kw">enumerate</span>(x_train)</span>
-<span id="cb36-3"><a href="rtorch-vs-pytorch-whats-different.html#cb36-3"></a></span>
-<span id="cb36-4"><a href="rtorch-vs-pytorch-whats-different.html#cb36-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>py<span class="op">$</span><span class="kw">len</span>(x_train)) {</span>
-<span id="cb36-5"><a href="rtorch-vs-pytorch-whats-different.html#cb36-5"></a>    obj &lt;-<span class="st"> </span><span class="kw">iter_next</span>(enum_x_train)    <span class="co"># next item</span></span>
-<span id="cb36-6"><a href="rtorch-vs-pytorch-whats-different.html#cb36-6"></a>    <span class="kw">cat</span>(obj[[<span class="dv">1</span>]], <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)     <span class="co"># 1st part or index</span></span>
-<span id="cb36-7"><a href="rtorch-vs-pytorch-whats-different.html#cb36-7"></a>    <span class="kw">print</span>(obj[[<span class="dv">2</span>]])         <span class="co"># 2nd part or tensor</span></span>
-<span id="cb36-8"><a href="rtorch-vs-pytorch-whats-different.html#cb36-8"></a>}</span>
-<span id="cb36-9"><a href="rtorch-vs-pytorch-whats-different.html#cb36-9"></a><span class="co">#&gt; 0    tensor([3.3000])</span></span>
-<span id="cb36-10"><a href="rtorch-vs-pytorch-whats-different.html#cb36-10"></a><span class="co">#&gt; 1    tensor([4.4000])</span></span>
-<span id="cb36-11"><a href="rtorch-vs-pytorch-whats-different.html#cb36-11"></a><span class="co">#&gt; 2    tensor([5.5000])</span></span>
-<span id="cb36-12"><a href="rtorch-vs-pytorch-whats-different.html#cb36-12"></a><span class="co">#&gt; 3    tensor([6.7100])</span></span>
-<span id="cb36-13"><a href="rtorch-vs-pytorch-whats-different.html#cb36-13"></a><span class="co">#&gt; 4    tensor([6.9300])</span></span>
-<span id="cb36-14"><a href="rtorch-vs-pytorch-whats-different.html#cb36-14"></a><span class="co">#&gt; 5    tensor([4.1680])</span></span>
-<span id="cb36-15"><a href="rtorch-vs-pytorch-whats-different.html#cb36-15"></a><span class="co">#&gt; 6    tensor([9.7790])</span></span>
-<span id="cb36-16"><a href="rtorch-vs-pytorch-whats-different.html#cb36-16"></a><span class="co">#&gt; 7    tensor([6.1820])</span></span>
-<span id="cb36-17"><a href="rtorch-vs-pytorch-whats-different.html#cb36-17"></a><span class="co">#&gt; 8    tensor([7.5900])</span></span>
-<span id="cb36-18"><a href="rtorch-vs-pytorch-whats-different.html#cb36-18"></a><span class="co">#&gt; 9    tensor([2.1670])</span></span>
-<span id="cb36-19"><a href="rtorch-vs-pytorch-whats-different.html#cb36-19"></a><span class="co">#&gt; 10   tensor([7.0420])</span></span>
-<span id="cb36-20"><a href="rtorch-vs-pytorch-whats-different.html#cb36-20"></a><span class="co">#&gt; 11   tensor([10.7910])</span></span>
-<span id="cb36-21"><a href="rtorch-vs-pytorch-whats-different.html#cb36-21"></a><span class="co">#&gt; 12   tensor([5.3130])</span></span>
-<span id="cb36-22"><a href="rtorch-vs-pytorch-whats-different.html#cb36-22"></a><span class="co">#&gt; 13   tensor([7.9970])</span></span>
-<span id="cb36-23"><a href="rtorch-vs-pytorch-whats-different.html#cb36-23"></a><span class="co">#&gt; 14   tensor([3.1000])</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="rtorch-vs-pytorch-whats-different.html#cb43-1"></a><span class="co"># reset the iterator</span></span>
+<span id="cb43-2"><a href="rtorch-vs-pytorch-whats-different.html#cb43-2"></a>enum_x_train =<span class="st"> </span>py<span class="op">$</span><span class="kw">enumerate</span>(x_train)</span>
+<span id="cb43-3"><a href="rtorch-vs-pytorch-whats-different.html#cb43-3"></a></span>
+<span id="cb43-4"><a href="rtorch-vs-pytorch-whats-different.html#cb43-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>py<span class="op">$</span><span class="kw">len</span>(x_train)) {</span>
+<span id="cb43-5"><a href="rtorch-vs-pytorch-whats-different.html#cb43-5"></a>    obj &lt;-<span class="st"> </span><span class="kw">iter_next</span>(enum_x_train)    <span class="co"># next item</span></span>
+<span id="cb43-6"><a href="rtorch-vs-pytorch-whats-different.html#cb43-6"></a>    <span class="kw">cat</span>(obj[[<span class="dv">1</span>]], <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)     <span class="co"># 1st part or index</span></span>
+<span id="cb43-7"><a href="rtorch-vs-pytorch-whats-different.html#cb43-7"></a>    <span class="kw">print</span>(obj[[<span class="dv">2</span>]])         <span class="co"># 2nd part or tensor</span></span>
+<span id="cb43-8"><a href="rtorch-vs-pytorch-whats-different.html#cb43-8"></a>}</span>
+<span id="cb43-9"><a href="rtorch-vs-pytorch-whats-different.html#cb43-9"></a><span class="co">#&gt; 0    tensor([3.3000])</span></span>
+<span id="cb43-10"><a href="rtorch-vs-pytorch-whats-different.html#cb43-10"></a><span class="co">#&gt; 1    tensor([4.4000])</span></span>
+<span id="cb43-11"><a href="rtorch-vs-pytorch-whats-different.html#cb43-11"></a><span class="co">#&gt; 2    tensor([5.5000])</span></span>
+<span id="cb43-12"><a href="rtorch-vs-pytorch-whats-different.html#cb43-12"></a><span class="co">#&gt; 3    tensor([6.7100])</span></span>
+<span id="cb43-13"><a href="rtorch-vs-pytorch-whats-different.html#cb43-13"></a><span class="co">#&gt; 4    tensor([6.9300])</span></span>
+<span id="cb43-14"><a href="rtorch-vs-pytorch-whats-different.html#cb43-14"></a><span class="co">#&gt; 5    tensor([4.1680])</span></span>
+<span id="cb43-15"><a href="rtorch-vs-pytorch-whats-different.html#cb43-15"></a><span class="co">#&gt; 6    tensor([9.7790])</span></span>
+<span id="cb43-16"><a href="rtorch-vs-pytorch-whats-different.html#cb43-16"></a><span class="co">#&gt; 7    tensor([6.1820])</span></span>
+<span id="cb43-17"><a href="rtorch-vs-pytorch-whats-different.html#cb43-17"></a><span class="co">#&gt; 8    tensor([7.5900])</span></span>
+<span id="cb43-18"><a href="rtorch-vs-pytorch-whats-different.html#cb43-18"></a><span class="co">#&gt; 9    tensor([2.1670])</span></span>
+<span id="cb43-19"><a href="rtorch-vs-pytorch-whats-different.html#cb43-19"></a><span class="co">#&gt; 10   tensor([7.0420])</span></span>
+<span id="cb43-20"><a href="rtorch-vs-pytorch-whats-different.html#cb43-20"></a><span class="co">#&gt; 11   tensor([10.7910])</span></span>
+<span id="cb43-21"><a href="rtorch-vs-pytorch-whats-different.html#cb43-21"></a><span class="co">#&gt; 12   tensor([5.3130])</span></span>
+<span id="cb43-22"><a href="rtorch-vs-pytorch-whats-different.html#cb43-22"></a><span class="co">#&gt; 13   tensor([7.9970])</span></span>
+<span id="cb43-23"><a href="rtorch-vs-pytorch-whats-different.html#cb43-23"></a><span class="co">#&gt; 14   tensor([3.1000])</span></span></code></pre></div>
 <blockquote>
 <p>We will find very frequently this kind of iterators when we read a dataset using <code>torchvision</code>. There are different ways to iterate through these objects.</p>
 </blockquote>
@@ -1423,182 +1423,182 @@ Most of the things work directly in <code>PyTorch</code> but we need to be aware
 </blockquote>
 <div id="version-in-python" class="section level3">
 <h3><span class="header-section-number">2.6.1</span> Version in Python</h3>
-<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="rtorch-vs-pytorch-whats-different.html#cb37-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb37-2"><a href="rtorch-vs-pytorch-whats-different.html#cb37-2"></a><span class="im">import</span> torch</span>
-<span id="cb37-3"><a href="rtorch-vs-pytorch-whats-different.html#cb37-3"></a></span>
-<span id="cb37-4"><a href="rtorch-vs-pytorch-whats-different.html#cb37-4"></a>torch.manual_seed(<span class="dv">0</span>)  <span class="co"># reproducible</span></span>
-<span id="cb37-5"><a href="rtorch-vs-pytorch-whats-different.html#cb37-5"></a></span>
-<span id="cb37-6"><a href="rtorch-vs-pytorch-whats-different.html#cb37-6"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
-<span id="cb37-7"><a href="rtorch-vs-pytorch-whats-different.html#cb37-7"></a><span class="co">#&gt; &lt;torch._C.Generator object at 0x7f71e243a3d0&gt;</span></span>
-<span id="cb37-8"><a href="rtorch-vs-pytorch-whats-different.html#cb37-8"></a>inputs <span class="op">=</span> np.array([[<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>],</span>
-<span id="cb37-9"><a href="rtorch-vs-pytorch-whats-different.html#cb37-9"></a>                   [<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>],</span>
-<span id="cb37-10"><a href="rtorch-vs-pytorch-whats-different.html#cb37-10"></a>                   [<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>],</span>
-<span id="cb37-11"><a href="rtorch-vs-pytorch-whats-different.html#cb37-11"></a>                   [<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>],</span>
-<span id="cb37-12"><a href="rtorch-vs-pytorch-whats-different.html#cb37-12"></a>                   [<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>]], dtype<span class="op">=</span><span class="st">&#39;float32&#39;</span>)</span>
-<span id="cb37-13"><a href="rtorch-vs-pytorch-whats-different.html#cb37-13"></a></span>
-<span id="cb37-14"><a href="rtorch-vs-pytorch-whats-different.html#cb37-14"></a><span class="co"># Targets (apples, oranges)</span></span>
-<span id="cb37-15"><a href="rtorch-vs-pytorch-whats-different.html#cb37-15"></a>targets <span class="op">=</span> np.array([[<span class="dv">56</span>, <span class="dv">70</span>],</span>
-<span id="cb37-16"><a href="rtorch-vs-pytorch-whats-different.html#cb37-16"></a>                    [<span class="dv">81</span>, <span class="dv">101</span>],</span>
-<span id="cb37-17"><a href="rtorch-vs-pytorch-whats-different.html#cb37-17"></a>                    [<span class="dv">119</span>, <span class="dv">133</span>],</span>
-<span id="cb37-18"><a href="rtorch-vs-pytorch-whats-different.html#cb37-18"></a>                    [<span class="dv">22</span>, <span class="dv">37</span>],</span>
-<span id="cb37-19"><a href="rtorch-vs-pytorch-whats-different.html#cb37-19"></a>                    [<span class="dv">103</span>, <span class="dv">119</span>]], dtype<span class="op">=</span><span class="st">&#39;float32&#39;</span>)</span>
-<span id="cb37-20"><a href="rtorch-vs-pytorch-whats-different.html#cb37-20"></a>                    </span>
-<span id="cb37-21"><a href="rtorch-vs-pytorch-whats-different.html#cb37-21"></a></span>
-<span id="cb37-22"><a href="rtorch-vs-pytorch-whats-different.html#cb37-22"></a><span class="co"># Convert inputs and targets to tensors</span></span>
-<span id="cb37-23"><a href="rtorch-vs-pytorch-whats-different.html#cb37-23"></a>inputs <span class="op">=</span> torch.from_numpy(inputs)</span>
-<span id="cb37-24"><a href="rtorch-vs-pytorch-whats-different.html#cb37-24"></a>targets <span class="op">=</span> torch.from_numpy(targets)</span>
-<span id="cb37-25"><a href="rtorch-vs-pytorch-whats-different.html#cb37-25"></a></span>
-<span id="cb37-26"><a href="rtorch-vs-pytorch-whats-different.html#cb37-26"></a><span class="co"># random weights and biases</span></span>
-<span id="cb37-27"><a href="rtorch-vs-pytorch-whats-different.html#cb37-27"></a>w <span class="op">=</span> torch.randn(<span class="dv">2</span>, <span class="dv">3</span>, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb37-28"><a href="rtorch-vs-pytorch-whats-different.html#cb37-28"></a>b <span class="op">=</span> torch.randn(<span class="dv">2</span>, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb37-29"><a href="rtorch-vs-pytorch-whats-different.html#cb37-29"></a></span>
-<span id="cb37-30"><a href="rtorch-vs-pytorch-whats-different.html#cb37-30"></a><span class="co"># function for the model</span></span>
-<span id="cb37-31"><a href="rtorch-vs-pytorch-whats-different.html#cb37-31"></a><span class="kw">def</span> model(x):</span>
-<span id="cb37-32"><a href="rtorch-vs-pytorch-whats-different.html#cb37-32"></a>  wt <span class="op">=</span> w.t()</span>
-<span id="cb37-33"><a href="rtorch-vs-pytorch-whats-different.html#cb37-33"></a>  mm <span class="op">=</span> x <span class="op">@</span> w.t()</span>
-<span id="cb37-34"><a href="rtorch-vs-pytorch-whats-different.html#cb37-34"></a>  <span class="cf">return</span> x <span class="op">@</span> w.t() <span class="op">+</span> b       <span class="co"># @ represents matrix multiplication in PyTorch</span></span>
-<span id="cb37-35"><a href="rtorch-vs-pytorch-whats-different.html#cb37-35"></a></span>
-<span id="cb37-36"><a href="rtorch-vs-pytorch-whats-different.html#cb37-36"></a><span class="co"># MSE loss function</span></span>
-<span id="cb37-37"><a href="rtorch-vs-pytorch-whats-different.html#cb37-37"></a><span class="kw">def</span> mse(t1, t2):</span>
-<span id="cb37-38"><a href="rtorch-vs-pytorch-whats-different.html#cb37-38"></a>  diff <span class="op">=</span> t1 <span class="op">-</span> t2</span>
-<span id="cb37-39"><a href="rtorch-vs-pytorch-whats-different.html#cb37-39"></a>  <span class="cf">return</span> torch.<span class="bu">sum</span>(diff <span class="op">*</span> diff) <span class="op">/</span> diff.numel()</span>
-<span id="cb37-40"><a href="rtorch-vs-pytorch-whats-different.html#cb37-40"></a></span>
-<span id="cb37-41"><a href="rtorch-vs-pytorch-whats-different.html#cb37-41"></a><span class="co"># Running all together</span></span>
-<span id="cb37-42"><a href="rtorch-vs-pytorch-whats-different.html#cb37-42"></a><span class="co"># Train for 100 epochs</span></span>
-<span id="cb37-43"><a href="rtorch-vs-pytorch-whats-different.html#cb37-43"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb37-44"><a href="rtorch-vs-pytorch-whats-different.html#cb37-44"></a>  preds <span class="op">=</span> model(inputs)</span>
-<span id="cb37-45"><a href="rtorch-vs-pytorch-whats-different.html#cb37-45"></a>  loss <span class="op">=</span> mse(preds, targets)</span>
-<span id="cb37-46"><a href="rtorch-vs-pytorch-whats-different.html#cb37-46"></a>  loss.backward()</span>
-<span id="cb37-47"><a href="rtorch-vs-pytorch-whats-different.html#cb37-47"></a>  <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb37-48"><a href="rtorch-vs-pytorch-whats-different.html#cb37-48"></a>    w <span class="op">-=</span> w.grad <span class="op">*</span> <span class="fl">0.00001</span></span>
-<span id="cb37-49"><a href="rtorch-vs-pytorch-whats-different.html#cb37-49"></a>    b <span class="op">-=</span> b.grad <span class="op">*</span> <span class="fl">0.00001</span></span>
-<span id="cb37-50"><a href="rtorch-vs-pytorch-whats-different.html#cb37-50"></a>    w_gz <span class="op">=</span> w.grad.zero_()</span>
-<span id="cb37-51"><a href="rtorch-vs-pytorch-whats-different.html#cb37-51"></a>    b_gz <span class="op">=</span> b.grad.zero_()</span>
-<span id="cb37-52"><a href="rtorch-vs-pytorch-whats-different.html#cb37-52"></a>    </span>
-<span id="cb37-53"><a href="rtorch-vs-pytorch-whats-different.html#cb37-53"></a><span class="co"># Calculate loss</span></span>
-<span id="cb37-54"><a href="rtorch-vs-pytorch-whats-different.html#cb37-54"></a>preds <span class="op">=</span> model(inputs)</span>
-<span id="cb37-55"><a href="rtorch-vs-pytorch-whats-different.html#cb37-55"></a>loss <span class="op">=</span> mse(preds, targets)</span>
-<span id="cb37-56"><a href="rtorch-vs-pytorch-whats-different.html#cb37-56"></a><span class="bu">print</span>(<span class="st">&quot;Loss: &quot;</span>, loss)    </span>
-<span id="cb37-57"><a href="rtorch-vs-pytorch-whats-different.html#cb37-57"></a></span>
-<span id="cb37-58"><a href="rtorch-vs-pytorch-whats-different.html#cb37-58"></a><span class="co"># predictions</span></span>
-<span id="cb37-59"><a href="rtorch-vs-pytorch-whats-different.html#cb37-59"></a><span class="co">#&gt; Loss:  tensor(1270.1233, grad_fn=&lt;DivBackward0&gt;)</span></span>
-<span id="cb37-60"><a href="rtorch-vs-pytorch-whats-different.html#cb37-60"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Predictions:&quot;</span>)</span>
-<span id="cb37-61"><a href="rtorch-vs-pytorch-whats-different.html#cb37-61"></a><span class="co">#&gt; </span></span>
-<span id="cb37-62"><a href="rtorch-vs-pytorch-whats-different.html#cb37-62"></a><span class="co">#&gt; Predictions:</span></span>
-<span id="cb37-63"><a href="rtorch-vs-pytorch-whats-different.html#cb37-63"></a>preds</span>
-<span id="cb37-64"><a href="rtorch-vs-pytorch-whats-different.html#cb37-64"></a></span>
-<span id="cb37-65"><a href="rtorch-vs-pytorch-whats-different.html#cb37-65"></a><span class="co"># Targets</span></span>
-<span id="cb37-66"><a href="rtorch-vs-pytorch-whats-different.html#cb37-66"></a><span class="co">#&gt; tensor([[ 69.3122,  80.2639],</span></span>
-<span id="cb37-67"><a href="rtorch-vs-pytorch-whats-different.html#cb37-67"></a><span class="co">#&gt;         [ 73.7528,  97.2381],</span></span>
-<span id="cb37-68"><a href="rtorch-vs-pytorch-whats-different.html#cb37-68"></a><span class="co">#&gt;         [118.3933, 124.7628],</span></span>
-<span id="cb37-69"><a href="rtorch-vs-pytorch-whats-different.html#cb37-69"></a><span class="co">#&gt;         [ 89.6111,  93.0286],</span></span>
-<span id="cb37-70"><a href="rtorch-vs-pytorch-whats-different.html#cb37-70"></a><span class="co">#&gt;         [ 47.3014,  80.6467]], grad_fn=&lt;AddBackward0&gt;)</span></span>
-<span id="cb37-71"><a href="rtorch-vs-pytorch-whats-different.html#cb37-71"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Targets:&quot;</span>)</span>
-<span id="cb37-72"><a href="rtorch-vs-pytorch-whats-different.html#cb37-72"></a><span class="co">#&gt; </span></span>
-<span id="cb37-73"><a href="rtorch-vs-pytorch-whats-different.html#cb37-73"></a><span class="co">#&gt; Targets:</span></span>
-<span id="cb37-74"><a href="rtorch-vs-pytorch-whats-different.html#cb37-74"></a>targets</span>
-<span id="cb37-75"><a href="rtorch-vs-pytorch-whats-different.html#cb37-75"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
-<span id="cb37-76"><a href="rtorch-vs-pytorch-whats-different.html#cb37-76"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
-<span id="cb37-77"><a href="rtorch-vs-pytorch-whats-different.html#cb37-77"></a><span class="co">#&gt;         [119., 133.],</span></span>
-<span id="cb37-78"><a href="rtorch-vs-pytorch-whats-different.html#cb37-78"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
-<span id="cb37-79"><a href="rtorch-vs-pytorch-whats-different.html#cb37-79"></a><span class="co">#&gt;         [103., 119.]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="rtorch-vs-pytorch-whats-different.html#cb44-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb44-2"><a href="rtorch-vs-pytorch-whats-different.html#cb44-2"></a><span class="im">import</span> torch</span>
+<span id="cb44-3"><a href="rtorch-vs-pytorch-whats-different.html#cb44-3"></a></span>
+<span id="cb44-4"><a href="rtorch-vs-pytorch-whats-different.html#cb44-4"></a>torch.manual_seed(<span class="dv">0</span>)  <span class="co"># reproducible</span></span>
+<span id="cb44-5"><a href="rtorch-vs-pytorch-whats-different.html#cb44-5"></a></span>
+<span id="cb44-6"><a href="rtorch-vs-pytorch-whats-different.html#cb44-6"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
+<span id="cb44-7"><a href="rtorch-vs-pytorch-whats-different.html#cb44-7"></a><span class="co">#&gt; &lt;torch._C.Generator object at 0x7fecf06523d0&gt;</span></span>
+<span id="cb44-8"><a href="rtorch-vs-pytorch-whats-different.html#cb44-8"></a>inputs <span class="op">=</span> np.array([[<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>],</span>
+<span id="cb44-9"><a href="rtorch-vs-pytorch-whats-different.html#cb44-9"></a>                   [<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>],</span>
+<span id="cb44-10"><a href="rtorch-vs-pytorch-whats-different.html#cb44-10"></a>                   [<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>],</span>
+<span id="cb44-11"><a href="rtorch-vs-pytorch-whats-different.html#cb44-11"></a>                   [<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>],</span>
+<span id="cb44-12"><a href="rtorch-vs-pytorch-whats-different.html#cb44-12"></a>                   [<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>]], dtype<span class="op">=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb44-13"><a href="rtorch-vs-pytorch-whats-different.html#cb44-13"></a></span>
+<span id="cb44-14"><a href="rtorch-vs-pytorch-whats-different.html#cb44-14"></a><span class="co"># Targets (apples, oranges)</span></span>
+<span id="cb44-15"><a href="rtorch-vs-pytorch-whats-different.html#cb44-15"></a>targets <span class="op">=</span> np.array([[<span class="dv">56</span>, <span class="dv">70</span>],</span>
+<span id="cb44-16"><a href="rtorch-vs-pytorch-whats-different.html#cb44-16"></a>                    [<span class="dv">81</span>, <span class="dv">101</span>],</span>
+<span id="cb44-17"><a href="rtorch-vs-pytorch-whats-different.html#cb44-17"></a>                    [<span class="dv">119</span>, <span class="dv">133</span>],</span>
+<span id="cb44-18"><a href="rtorch-vs-pytorch-whats-different.html#cb44-18"></a>                    [<span class="dv">22</span>, <span class="dv">37</span>],</span>
+<span id="cb44-19"><a href="rtorch-vs-pytorch-whats-different.html#cb44-19"></a>                    [<span class="dv">103</span>, <span class="dv">119</span>]], dtype<span class="op">=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb44-20"><a href="rtorch-vs-pytorch-whats-different.html#cb44-20"></a>                    </span>
+<span id="cb44-21"><a href="rtorch-vs-pytorch-whats-different.html#cb44-21"></a></span>
+<span id="cb44-22"><a href="rtorch-vs-pytorch-whats-different.html#cb44-22"></a><span class="co"># Convert inputs and targets to tensors</span></span>
+<span id="cb44-23"><a href="rtorch-vs-pytorch-whats-different.html#cb44-23"></a>inputs <span class="op">=</span> torch.from_numpy(inputs)</span>
+<span id="cb44-24"><a href="rtorch-vs-pytorch-whats-different.html#cb44-24"></a>targets <span class="op">=</span> torch.from_numpy(targets)</span>
+<span id="cb44-25"><a href="rtorch-vs-pytorch-whats-different.html#cb44-25"></a></span>
+<span id="cb44-26"><a href="rtorch-vs-pytorch-whats-different.html#cb44-26"></a><span class="co"># random weights and biases</span></span>
+<span id="cb44-27"><a href="rtorch-vs-pytorch-whats-different.html#cb44-27"></a>w <span class="op">=</span> torch.randn(<span class="dv">2</span>, <span class="dv">3</span>, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb44-28"><a href="rtorch-vs-pytorch-whats-different.html#cb44-28"></a>b <span class="op">=</span> torch.randn(<span class="dv">2</span>, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb44-29"><a href="rtorch-vs-pytorch-whats-different.html#cb44-29"></a></span>
+<span id="cb44-30"><a href="rtorch-vs-pytorch-whats-different.html#cb44-30"></a><span class="co"># function for the model</span></span>
+<span id="cb44-31"><a href="rtorch-vs-pytorch-whats-different.html#cb44-31"></a><span class="kw">def</span> model(x):</span>
+<span id="cb44-32"><a href="rtorch-vs-pytorch-whats-different.html#cb44-32"></a>  wt <span class="op">=</span> w.t()</span>
+<span id="cb44-33"><a href="rtorch-vs-pytorch-whats-different.html#cb44-33"></a>  mm <span class="op">=</span> x <span class="op">@</span> w.t()</span>
+<span id="cb44-34"><a href="rtorch-vs-pytorch-whats-different.html#cb44-34"></a>  <span class="cf">return</span> x <span class="op">@</span> w.t() <span class="op">+</span> b       <span class="co"># @ represents matrix multiplication in PyTorch</span></span>
+<span id="cb44-35"><a href="rtorch-vs-pytorch-whats-different.html#cb44-35"></a></span>
+<span id="cb44-36"><a href="rtorch-vs-pytorch-whats-different.html#cb44-36"></a><span class="co"># MSE loss function</span></span>
+<span id="cb44-37"><a href="rtorch-vs-pytorch-whats-different.html#cb44-37"></a><span class="kw">def</span> mse(t1, t2):</span>
+<span id="cb44-38"><a href="rtorch-vs-pytorch-whats-different.html#cb44-38"></a>  diff <span class="op">=</span> t1 <span class="op">-</span> t2</span>
+<span id="cb44-39"><a href="rtorch-vs-pytorch-whats-different.html#cb44-39"></a>  <span class="cf">return</span> torch.<span class="bu">sum</span>(diff <span class="op">*</span> diff) <span class="op">/</span> diff.numel()</span>
+<span id="cb44-40"><a href="rtorch-vs-pytorch-whats-different.html#cb44-40"></a></span>
+<span id="cb44-41"><a href="rtorch-vs-pytorch-whats-different.html#cb44-41"></a><span class="co"># Running all together</span></span>
+<span id="cb44-42"><a href="rtorch-vs-pytorch-whats-different.html#cb44-42"></a><span class="co"># Train for 100 epochs</span></span>
+<span id="cb44-43"><a href="rtorch-vs-pytorch-whats-different.html#cb44-43"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb44-44"><a href="rtorch-vs-pytorch-whats-different.html#cb44-44"></a>  preds <span class="op">=</span> model(inputs)</span>
+<span id="cb44-45"><a href="rtorch-vs-pytorch-whats-different.html#cb44-45"></a>  loss <span class="op">=</span> mse(preds, targets)</span>
+<span id="cb44-46"><a href="rtorch-vs-pytorch-whats-different.html#cb44-46"></a>  loss.backward()</span>
+<span id="cb44-47"><a href="rtorch-vs-pytorch-whats-different.html#cb44-47"></a>  <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb44-48"><a href="rtorch-vs-pytorch-whats-different.html#cb44-48"></a>    w <span class="op">-=</span> w.grad <span class="op">*</span> <span class="fl">0.00001</span></span>
+<span id="cb44-49"><a href="rtorch-vs-pytorch-whats-different.html#cb44-49"></a>    b <span class="op">-=</span> b.grad <span class="op">*</span> <span class="fl">0.00001</span></span>
+<span id="cb44-50"><a href="rtorch-vs-pytorch-whats-different.html#cb44-50"></a>    w_gz <span class="op">=</span> w.grad.zero_()</span>
+<span id="cb44-51"><a href="rtorch-vs-pytorch-whats-different.html#cb44-51"></a>    b_gz <span class="op">=</span> b.grad.zero_()</span>
+<span id="cb44-52"><a href="rtorch-vs-pytorch-whats-different.html#cb44-52"></a>    </span>
+<span id="cb44-53"><a href="rtorch-vs-pytorch-whats-different.html#cb44-53"></a><span class="co"># Calculate loss</span></span>
+<span id="cb44-54"><a href="rtorch-vs-pytorch-whats-different.html#cb44-54"></a>preds <span class="op">=</span> model(inputs)</span>
+<span id="cb44-55"><a href="rtorch-vs-pytorch-whats-different.html#cb44-55"></a>loss <span class="op">=</span> mse(preds, targets)</span>
+<span id="cb44-56"><a href="rtorch-vs-pytorch-whats-different.html#cb44-56"></a><span class="bu">print</span>(<span class="st">&quot;Loss: &quot;</span>, loss)    </span>
+<span id="cb44-57"><a href="rtorch-vs-pytorch-whats-different.html#cb44-57"></a></span>
+<span id="cb44-58"><a href="rtorch-vs-pytorch-whats-different.html#cb44-58"></a><span class="co"># predictions</span></span>
+<span id="cb44-59"><a href="rtorch-vs-pytorch-whats-different.html#cb44-59"></a><span class="co">#&gt; Loss:  tensor(1270.1233, grad_fn=&lt;DivBackward0&gt;)</span></span>
+<span id="cb44-60"><a href="rtorch-vs-pytorch-whats-different.html#cb44-60"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Predictions:&quot;</span>)</span>
+<span id="cb44-61"><a href="rtorch-vs-pytorch-whats-different.html#cb44-61"></a><span class="co">#&gt; </span></span>
+<span id="cb44-62"><a href="rtorch-vs-pytorch-whats-different.html#cb44-62"></a><span class="co">#&gt; Predictions:</span></span>
+<span id="cb44-63"><a href="rtorch-vs-pytorch-whats-different.html#cb44-63"></a>preds</span>
+<span id="cb44-64"><a href="rtorch-vs-pytorch-whats-different.html#cb44-64"></a></span>
+<span id="cb44-65"><a href="rtorch-vs-pytorch-whats-different.html#cb44-65"></a><span class="co"># Targets</span></span>
+<span id="cb44-66"><a href="rtorch-vs-pytorch-whats-different.html#cb44-66"></a><span class="co">#&gt; tensor([[ 69.3122,  80.2639],</span></span>
+<span id="cb44-67"><a href="rtorch-vs-pytorch-whats-different.html#cb44-67"></a><span class="co">#&gt;         [ 73.7528,  97.2381],</span></span>
+<span id="cb44-68"><a href="rtorch-vs-pytorch-whats-different.html#cb44-68"></a><span class="co">#&gt;         [118.3933, 124.7628],</span></span>
+<span id="cb44-69"><a href="rtorch-vs-pytorch-whats-different.html#cb44-69"></a><span class="co">#&gt;         [ 89.6111,  93.0286],</span></span>
+<span id="cb44-70"><a href="rtorch-vs-pytorch-whats-different.html#cb44-70"></a><span class="co">#&gt;         [ 47.3014,  80.6467]], grad_fn=&lt;AddBackward0&gt;)</span></span>
+<span id="cb44-71"><a href="rtorch-vs-pytorch-whats-different.html#cb44-71"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Targets:&quot;</span>)</span>
+<span id="cb44-72"><a href="rtorch-vs-pytorch-whats-different.html#cb44-72"></a><span class="co">#&gt; </span></span>
+<span id="cb44-73"><a href="rtorch-vs-pytorch-whats-different.html#cb44-73"></a><span class="co">#&gt; Targets:</span></span>
+<span id="cb44-74"><a href="rtorch-vs-pytorch-whats-different.html#cb44-74"></a>targets</span>
+<span id="cb44-75"><a href="rtorch-vs-pytorch-whats-different.html#cb44-75"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
+<span id="cb44-76"><a href="rtorch-vs-pytorch-whats-different.html#cb44-76"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
+<span id="cb44-77"><a href="rtorch-vs-pytorch-whats-different.html#cb44-77"></a><span class="co">#&gt;         [119., 133.],</span></span>
+<span id="cb44-78"><a href="rtorch-vs-pytorch-whats-different.html#cb44-78"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
+<span id="cb44-79"><a href="rtorch-vs-pytorch-whats-different.html#cb44-79"></a><span class="co">#&gt;         [103., 119.]])</span></span></code></pre></div>
 </div>
 <div id="version-in-r" class="section level3">
 <h3><span class="header-section-number">2.6.2</span> Version in R</h3>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="rtorch-vs-pytorch-whats-different.html#cb38-1"></a><span class="kw">library</span>(rTorch)</span>
-<span id="cb38-2"><a href="rtorch-vs-pytorch-whats-different.html#cb38-2"></a></span>
-<span id="cb38-3"><a href="rtorch-vs-pytorch-whats-different.html#cb38-3"></a>torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">0</span>)</span>
-<span id="cb38-4"><a href="rtorch-vs-pytorch-whats-different.html#cb38-4"></a><span class="co">#&gt; &lt;torch._C.Generator&gt;</span></span>
-<span id="cb38-5"><a href="rtorch-vs-pytorch-whats-different.html#cb38-5"></a></span>
-<span id="cb38-6"><a href="rtorch-vs-pytorch-whats-different.html#cb38-6"></a>device =<span class="st"> </span>torch<span class="op">$</span><span class="kw">device</span>(<span class="st">&#39;cpu&#39;</span>)</span>
-<span id="cb38-7"><a href="rtorch-vs-pytorch-whats-different.html#cb38-7"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
-<span id="cb38-8"><a href="rtorch-vs-pytorch-whats-different.html#cb38-8"></a>inputs =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
-<span id="cb38-9"><a href="rtorch-vs-pytorch-whats-different.html#cb38-9"></a>                   <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>),</span>
-<span id="cb38-10"><a href="rtorch-vs-pytorch-whats-different.html#cb38-10"></a>                   <span class="kw">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
-<span id="cb38-11"><a href="rtorch-vs-pytorch-whats-different.html#cb38-11"></a>                   <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
-<span id="cb38-12"><a href="rtorch-vs-pytorch-whats-different.html#cb38-12"></a>                   <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
-<span id="cb38-13"><a href="rtorch-vs-pytorch-whats-different.html#cb38-13"></a></span>
-<span id="cb38-14"><a href="rtorch-vs-pytorch-whats-different.html#cb38-14"></a><span class="co"># Targets (apples, oranges)</span></span>
-<span id="cb38-15"><a href="rtorch-vs-pytorch-whats-different.html#cb38-15"></a>targets =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">56</span>, <span class="dv">70</span>), </span>
-<span id="cb38-16"><a href="rtorch-vs-pytorch-whats-different.html#cb38-16"></a>                    <span class="kw">list</span>(<span class="dv">81</span>, <span class="dv">101</span>),</span>
-<span id="cb38-17"><a href="rtorch-vs-pytorch-whats-different.html#cb38-17"></a>                    <span class="kw">list</span>(<span class="dv">119</span>, <span class="dv">133</span>),</span>
-<span id="cb38-18"><a href="rtorch-vs-pytorch-whats-different.html#cb38-18"></a>                    <span class="kw">list</span>(<span class="dv">22</span>, <span class="dv">37</span>), </span>
-<span id="cb38-19"><a href="rtorch-vs-pytorch-whats-different.html#cb38-19"></a>                    <span class="kw">list</span>(<span class="dv">103</span>, <span class="dv">119</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
-<span id="cb38-20"><a href="rtorch-vs-pytorch-whats-different.html#cb38-20"></a></span>
-<span id="cb38-21"><a href="rtorch-vs-pytorch-whats-different.html#cb38-21"></a></span>
-<span id="cb38-22"><a href="rtorch-vs-pytorch-whats-different.html#cb38-22"></a><span class="co"># Convert inputs and targets to tensors</span></span>
-<span id="cb38-23"><a href="rtorch-vs-pytorch-whats-different.html#cb38-23"></a>inputs =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(inputs)</span>
-<span id="cb38-24"><a href="rtorch-vs-pytorch-whats-different.html#cb38-24"></a>targets =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(targets)</span>
-<span id="cb38-25"><a href="rtorch-vs-pytorch-whats-different.html#cb38-25"></a></span>
-<span id="cb38-26"><a href="rtorch-vs-pytorch-whats-different.html#cb38-26"></a><span class="co"># random numbers for weights and biases. Then convert to double()</span></span>
-<span id="cb38-27"><a href="rtorch-vs-pytorch-whats-different.html#cb38-27"></a>torch<span class="op">$</span><span class="kw">set_default_dtype</span>(torch<span class="op">$</span>float64)</span>
-<span id="cb38-28"><a href="rtorch-vs-pytorch-whats-different.html#cb38-28"></a></span>
-<span id="cb38-29"><a href="rtorch-vs-pytorch-whats-different.html#cb38-29"></a>w =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, 3L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>) <span class="co">#$double()</span></span>
-<span id="cb38-30"><a href="rtorch-vs-pytorch-whats-different.html#cb38-30"></a>b =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>) <span class="co">#$double()</span></span>
-<span id="cb38-31"><a href="rtorch-vs-pytorch-whats-different.html#cb38-31"></a></span>
-<span id="cb38-32"><a href="rtorch-vs-pytorch-whats-different.html#cb38-32"></a>model &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
-<span id="cb38-33"><a href="rtorch-vs-pytorch-whats-different.html#cb38-33"></a>  wt &lt;-<span class="st"> </span>w<span class="op">$</span><span class="kw">t</span>()</span>
-<span id="cb38-34"><a href="rtorch-vs-pytorch-whats-different.html#cb38-34"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">add</span>(torch<span class="op">$</span><span class="kw">mm</span>(x, wt), b))</span>
-<span id="cb38-35"><a href="rtorch-vs-pytorch-whats-different.html#cb38-35"></a>}</span>
-<span id="cb38-36"><a href="rtorch-vs-pytorch-whats-different.html#cb38-36"></a></span>
-<span id="cb38-37"><a href="rtorch-vs-pytorch-whats-different.html#cb38-37"></a><span class="co"># MSE loss</span></span>
-<span id="cb38-38"><a href="rtorch-vs-pytorch-whats-different.html#cb38-38"></a>mse =<span class="st"> </span><span class="cf">function</span>(t1, t2) {</span>
-<span id="cb38-39"><a href="rtorch-vs-pytorch-whats-different.html#cb38-39"></a>  diff &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(t1, t2)</span>
-<span id="cb38-40"><a href="rtorch-vs-pytorch-whats-different.html#cb38-40"></a>  mul &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sum</span>(torch<span class="op">$</span><span class="kw">mul</span>(diff, diff))</span>
-<span id="cb38-41"><a href="rtorch-vs-pytorch-whats-different.html#cb38-41"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">div</span>(mul, diff<span class="op">$</span><span class="kw">numel</span>()))</span>
-<span id="cb38-42"><a href="rtorch-vs-pytorch-whats-different.html#cb38-42"></a>}</span>
-<span id="cb38-43"><a href="rtorch-vs-pytorch-whats-different.html#cb38-43"></a></span>
-<span id="cb38-44"><a href="rtorch-vs-pytorch-whats-different.html#cb38-44"></a><span class="co"># Running all together</span></span>
-<span id="cb38-45"><a href="rtorch-vs-pytorch-whats-different.html#cb38-45"></a><span class="co"># Adjust weights and reset gradients</span></span>
-<span id="cb38-46"><a href="rtorch-vs-pytorch-whats-different.html#cb38-46"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>) {</span>
-<span id="cb38-47"><a href="rtorch-vs-pytorch-whats-different.html#cb38-47"></a>  preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
-<span id="cb38-48"><a href="rtorch-vs-pytorch-whats-different.html#cb38-48"></a>  loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
-<span id="cb38-49"><a href="rtorch-vs-pytorch-whats-different.html#cb38-49"></a>  loss<span class="op">$</span><span class="kw">backward</span>()</span>
-<span id="cb38-50"><a href="rtorch-vs-pytorch-whats-different.html#cb38-50"></a>  <span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
-<span id="cb38-51"><a href="rtorch-vs-pytorch-whats-different.html#cb38-51"></a>    w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
-<span id="cb38-52"><a href="rtorch-vs-pytorch-whats-different.html#cb38-52"></a>    b<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(b<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(b<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
-<span id="cb38-53"><a href="rtorch-vs-pytorch-whats-different.html#cb38-53"></a>    </span>
-<span id="cb38-54"><a href="rtorch-vs-pytorch-whats-different.html#cb38-54"></a>    w<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
-<span id="cb38-55"><a href="rtorch-vs-pytorch-whats-different.html#cb38-55"></a>    b<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
-<span id="cb38-56"><a href="rtorch-vs-pytorch-whats-different.html#cb38-56"></a>  })</span>
-<span id="cb38-57"><a href="rtorch-vs-pytorch-whats-different.html#cb38-57"></a>}</span>
-<span id="cb38-58"><a href="rtorch-vs-pytorch-whats-different.html#cb38-58"></a></span>
-<span id="cb38-59"><a href="rtorch-vs-pytorch-whats-different.html#cb38-59"></a><span class="co"># Calculate loss</span></span>
-<span id="cb38-60"><a href="rtorch-vs-pytorch-whats-different.html#cb38-60"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
-<span id="cb38-61"><a href="rtorch-vs-pytorch-whats-different.html#cb38-61"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
-<span id="cb38-62"><a href="rtorch-vs-pytorch-whats-different.html#cb38-62"></a><span class="kw">cat</span>(<span class="st">&quot;Loss: &quot;</span>); <span class="kw">print</span>(loss)</span>
-<span id="cb38-63"><a href="rtorch-vs-pytorch-whats-different.html#cb38-63"></a><span class="co">#&gt; Loss:</span></span>
-<span id="cb38-64"><a href="rtorch-vs-pytorch-whats-different.html#cb38-64"></a><span class="co">#&gt; tensor(1270.1237, grad_fn=&lt;DivBackward0&gt;)</span></span>
-<span id="cb38-65"><a href="rtorch-vs-pytorch-whats-different.html#cb38-65"></a></span>
-<span id="cb38-66"><a href="rtorch-vs-pytorch-whats-different.html#cb38-66"></a><span class="co"># predictions</span></span>
-<span id="cb38-67"><a href="rtorch-vs-pytorch-whats-different.html#cb38-67"></a><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Predictions:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb38-68"><a href="rtorch-vs-pytorch-whats-different.html#cb38-68"></a><span class="co">#&gt; </span></span>
-<span id="cb38-69"><a href="rtorch-vs-pytorch-whats-different.html#cb38-69"></a><span class="co">#&gt; Predictions:</span></span>
-<span id="cb38-70"><a href="rtorch-vs-pytorch-whats-different.html#cb38-70"></a>preds</span>
-<span id="cb38-71"><a href="rtorch-vs-pytorch-whats-different.html#cb38-71"></a><span class="co">#&gt; tensor([[ 69.3122,  80.2639],</span></span>
-<span id="cb38-72"><a href="rtorch-vs-pytorch-whats-different.html#cb38-72"></a><span class="co">#&gt;         [ 73.7528,  97.2381],</span></span>
-<span id="cb38-73"><a href="rtorch-vs-pytorch-whats-different.html#cb38-73"></a><span class="co">#&gt;         [118.3933, 124.7628],</span></span>
-<span id="cb38-74"><a href="rtorch-vs-pytorch-whats-different.html#cb38-74"></a><span class="co">#&gt;         [ 89.6111,  93.0286],</span></span>
-<span id="cb38-75"><a href="rtorch-vs-pytorch-whats-different.html#cb38-75"></a><span class="co">#&gt;         [ 47.3013,  80.6467]], grad_fn=&lt;AddBackward0&gt;)</span></span>
-<span id="cb38-76"><a href="rtorch-vs-pytorch-whats-different.html#cb38-76"></a></span>
-<span id="cb38-77"><a href="rtorch-vs-pytorch-whats-different.html#cb38-77"></a><span class="co"># Targets</span></span>
-<span id="cb38-78"><a href="rtorch-vs-pytorch-whats-different.html#cb38-78"></a><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Targets:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb38-79"><a href="rtorch-vs-pytorch-whats-different.html#cb38-79"></a><span class="co">#&gt; </span></span>
-<span id="cb38-80"><a href="rtorch-vs-pytorch-whats-different.html#cb38-80"></a><span class="co">#&gt; Targets:</span></span>
-<span id="cb38-81"><a href="rtorch-vs-pytorch-whats-different.html#cb38-81"></a>targets</span>
-<span id="cb38-82"><a href="rtorch-vs-pytorch-whats-different.html#cb38-82"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
-<span id="cb38-83"><a href="rtorch-vs-pytorch-whats-different.html#cb38-83"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
-<span id="cb38-84"><a href="rtorch-vs-pytorch-whats-different.html#cb38-84"></a><span class="co">#&gt;         [119., 133.],</span></span>
-<span id="cb38-85"><a href="rtorch-vs-pytorch-whats-different.html#cb38-85"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
-<span id="cb38-86"><a href="rtorch-vs-pytorch-whats-different.html#cb38-86"></a><span class="co">#&gt;         [103., 119.]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="rtorch-vs-pytorch-whats-different.html#cb45-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb45-2"><a href="rtorch-vs-pytorch-whats-different.html#cb45-2"></a></span>
+<span id="cb45-3"><a href="rtorch-vs-pytorch-whats-different.html#cb45-3"></a>torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">0</span>)</span>
+<span id="cb45-4"><a href="rtorch-vs-pytorch-whats-different.html#cb45-4"></a><span class="co">#&gt; &lt;torch._C.Generator&gt;</span></span>
+<span id="cb45-5"><a href="rtorch-vs-pytorch-whats-different.html#cb45-5"></a></span>
+<span id="cb45-6"><a href="rtorch-vs-pytorch-whats-different.html#cb45-6"></a>device =<span class="st"> </span>torch<span class="op">$</span><span class="kw">device</span>(<span class="st">&#39;cpu&#39;</span>)</span>
+<span id="cb45-7"><a href="rtorch-vs-pytorch-whats-different.html#cb45-7"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
+<span id="cb45-8"><a href="rtorch-vs-pytorch-whats-different.html#cb45-8"></a>inputs =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
+<span id="cb45-9"><a href="rtorch-vs-pytorch-whats-different.html#cb45-9"></a>                   <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>),</span>
+<span id="cb45-10"><a href="rtorch-vs-pytorch-whats-different.html#cb45-10"></a>                   <span class="kw">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
+<span id="cb45-11"><a href="rtorch-vs-pytorch-whats-different.html#cb45-11"></a>                   <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
+<span id="cb45-12"><a href="rtorch-vs-pytorch-whats-different.html#cb45-12"></a>                   <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb45-13"><a href="rtorch-vs-pytorch-whats-different.html#cb45-13"></a></span>
+<span id="cb45-14"><a href="rtorch-vs-pytorch-whats-different.html#cb45-14"></a><span class="co"># Targets (apples, oranges)</span></span>
+<span id="cb45-15"><a href="rtorch-vs-pytorch-whats-different.html#cb45-15"></a>targets =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">56</span>, <span class="dv">70</span>), </span>
+<span id="cb45-16"><a href="rtorch-vs-pytorch-whats-different.html#cb45-16"></a>                    <span class="kw">list</span>(<span class="dv">81</span>, <span class="dv">101</span>),</span>
+<span id="cb45-17"><a href="rtorch-vs-pytorch-whats-different.html#cb45-17"></a>                    <span class="kw">list</span>(<span class="dv">119</span>, <span class="dv">133</span>),</span>
+<span id="cb45-18"><a href="rtorch-vs-pytorch-whats-different.html#cb45-18"></a>                    <span class="kw">list</span>(<span class="dv">22</span>, <span class="dv">37</span>), </span>
+<span id="cb45-19"><a href="rtorch-vs-pytorch-whats-different.html#cb45-19"></a>                    <span class="kw">list</span>(<span class="dv">103</span>, <span class="dv">119</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb45-20"><a href="rtorch-vs-pytorch-whats-different.html#cb45-20"></a></span>
+<span id="cb45-21"><a href="rtorch-vs-pytorch-whats-different.html#cb45-21"></a></span>
+<span id="cb45-22"><a href="rtorch-vs-pytorch-whats-different.html#cb45-22"></a><span class="co"># Convert inputs and targets to tensors</span></span>
+<span id="cb45-23"><a href="rtorch-vs-pytorch-whats-different.html#cb45-23"></a>inputs =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(inputs)</span>
+<span id="cb45-24"><a href="rtorch-vs-pytorch-whats-different.html#cb45-24"></a>targets =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(targets)</span>
+<span id="cb45-25"><a href="rtorch-vs-pytorch-whats-different.html#cb45-25"></a></span>
+<span id="cb45-26"><a href="rtorch-vs-pytorch-whats-different.html#cb45-26"></a><span class="co"># random numbers for weights and biases. Then convert to double()</span></span>
+<span id="cb45-27"><a href="rtorch-vs-pytorch-whats-different.html#cb45-27"></a>torch<span class="op">$</span><span class="kw">set_default_dtype</span>(torch<span class="op">$</span>float64)</span>
+<span id="cb45-28"><a href="rtorch-vs-pytorch-whats-different.html#cb45-28"></a></span>
+<span id="cb45-29"><a href="rtorch-vs-pytorch-whats-different.html#cb45-29"></a>w =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, 3L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>) <span class="co">#$double()</span></span>
+<span id="cb45-30"><a href="rtorch-vs-pytorch-whats-different.html#cb45-30"></a>b =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>) <span class="co">#$double()</span></span>
+<span id="cb45-31"><a href="rtorch-vs-pytorch-whats-different.html#cb45-31"></a></span>
+<span id="cb45-32"><a href="rtorch-vs-pytorch-whats-different.html#cb45-32"></a>model &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb45-33"><a href="rtorch-vs-pytorch-whats-different.html#cb45-33"></a>  wt &lt;-<span class="st"> </span>w<span class="op">$</span><span class="kw">t</span>()</span>
+<span id="cb45-34"><a href="rtorch-vs-pytorch-whats-different.html#cb45-34"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">add</span>(torch<span class="op">$</span><span class="kw">mm</span>(x, wt), b))</span>
+<span id="cb45-35"><a href="rtorch-vs-pytorch-whats-different.html#cb45-35"></a>}</span>
+<span id="cb45-36"><a href="rtorch-vs-pytorch-whats-different.html#cb45-36"></a></span>
+<span id="cb45-37"><a href="rtorch-vs-pytorch-whats-different.html#cb45-37"></a><span class="co"># MSE loss</span></span>
+<span id="cb45-38"><a href="rtorch-vs-pytorch-whats-different.html#cb45-38"></a>mse =<span class="st"> </span><span class="cf">function</span>(t1, t2) {</span>
+<span id="cb45-39"><a href="rtorch-vs-pytorch-whats-different.html#cb45-39"></a>  diff &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(t1, t2)</span>
+<span id="cb45-40"><a href="rtorch-vs-pytorch-whats-different.html#cb45-40"></a>  mul &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sum</span>(torch<span class="op">$</span><span class="kw">mul</span>(diff, diff))</span>
+<span id="cb45-41"><a href="rtorch-vs-pytorch-whats-different.html#cb45-41"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">div</span>(mul, diff<span class="op">$</span><span class="kw">numel</span>()))</span>
+<span id="cb45-42"><a href="rtorch-vs-pytorch-whats-different.html#cb45-42"></a>}</span>
+<span id="cb45-43"><a href="rtorch-vs-pytorch-whats-different.html#cb45-43"></a></span>
+<span id="cb45-44"><a href="rtorch-vs-pytorch-whats-different.html#cb45-44"></a><span class="co"># Running all together</span></span>
+<span id="cb45-45"><a href="rtorch-vs-pytorch-whats-different.html#cb45-45"></a><span class="co"># Adjust weights and reset gradients</span></span>
+<span id="cb45-46"><a href="rtorch-vs-pytorch-whats-different.html#cb45-46"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>) {</span>
+<span id="cb45-47"><a href="rtorch-vs-pytorch-whats-different.html#cb45-47"></a>  preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb45-48"><a href="rtorch-vs-pytorch-whats-different.html#cb45-48"></a>  loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb45-49"><a href="rtorch-vs-pytorch-whats-different.html#cb45-49"></a>  loss<span class="op">$</span><span class="kw">backward</span>()</span>
+<span id="cb45-50"><a href="rtorch-vs-pytorch-whats-different.html#cb45-50"></a>  <span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
+<span id="cb45-51"><a href="rtorch-vs-pytorch-whats-different.html#cb45-51"></a>    w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb45-52"><a href="rtorch-vs-pytorch-whats-different.html#cb45-52"></a>    b<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(b<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(b<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb45-53"><a href="rtorch-vs-pytorch-whats-different.html#cb45-53"></a>    </span>
+<span id="cb45-54"><a href="rtorch-vs-pytorch-whats-different.html#cb45-54"></a>    w<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb45-55"><a href="rtorch-vs-pytorch-whats-different.html#cb45-55"></a>    b<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb45-56"><a href="rtorch-vs-pytorch-whats-different.html#cb45-56"></a>  })</span>
+<span id="cb45-57"><a href="rtorch-vs-pytorch-whats-different.html#cb45-57"></a>}</span>
+<span id="cb45-58"><a href="rtorch-vs-pytorch-whats-different.html#cb45-58"></a></span>
+<span id="cb45-59"><a href="rtorch-vs-pytorch-whats-different.html#cb45-59"></a><span class="co"># Calculate loss</span></span>
+<span id="cb45-60"><a href="rtorch-vs-pytorch-whats-different.html#cb45-60"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb45-61"><a href="rtorch-vs-pytorch-whats-different.html#cb45-61"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb45-62"><a href="rtorch-vs-pytorch-whats-different.html#cb45-62"></a><span class="kw">cat</span>(<span class="st">&quot;Loss: &quot;</span>); <span class="kw">print</span>(loss)</span>
+<span id="cb45-63"><a href="rtorch-vs-pytorch-whats-different.html#cb45-63"></a><span class="co">#&gt; Loss:</span></span>
+<span id="cb45-64"><a href="rtorch-vs-pytorch-whats-different.html#cb45-64"></a><span class="co">#&gt; tensor(1270.1237, grad_fn=&lt;DivBackward0&gt;)</span></span>
+<span id="cb45-65"><a href="rtorch-vs-pytorch-whats-different.html#cb45-65"></a></span>
+<span id="cb45-66"><a href="rtorch-vs-pytorch-whats-different.html#cb45-66"></a><span class="co"># predictions</span></span>
+<span id="cb45-67"><a href="rtorch-vs-pytorch-whats-different.html#cb45-67"></a><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Predictions:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb45-68"><a href="rtorch-vs-pytorch-whats-different.html#cb45-68"></a><span class="co">#&gt; </span></span>
+<span id="cb45-69"><a href="rtorch-vs-pytorch-whats-different.html#cb45-69"></a><span class="co">#&gt; Predictions:</span></span>
+<span id="cb45-70"><a href="rtorch-vs-pytorch-whats-different.html#cb45-70"></a>preds</span>
+<span id="cb45-71"><a href="rtorch-vs-pytorch-whats-different.html#cb45-71"></a><span class="co">#&gt; tensor([[ 69.3122,  80.2639],</span></span>
+<span id="cb45-72"><a href="rtorch-vs-pytorch-whats-different.html#cb45-72"></a><span class="co">#&gt;         [ 73.7528,  97.2381],</span></span>
+<span id="cb45-73"><a href="rtorch-vs-pytorch-whats-different.html#cb45-73"></a><span class="co">#&gt;         [118.3933, 124.7628],</span></span>
+<span id="cb45-74"><a href="rtorch-vs-pytorch-whats-different.html#cb45-74"></a><span class="co">#&gt;         [ 89.6111,  93.0286],</span></span>
+<span id="cb45-75"><a href="rtorch-vs-pytorch-whats-different.html#cb45-75"></a><span class="co">#&gt;         [ 47.3013,  80.6467]], grad_fn=&lt;AddBackward0&gt;)</span></span>
+<span id="cb45-76"><a href="rtorch-vs-pytorch-whats-different.html#cb45-76"></a></span>
+<span id="cb45-77"><a href="rtorch-vs-pytorch-whats-different.html#cb45-77"></a><span class="co"># Targets</span></span>
+<span id="cb45-78"><a href="rtorch-vs-pytorch-whats-different.html#cb45-78"></a><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Targets:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb45-79"><a href="rtorch-vs-pytorch-whats-different.html#cb45-79"></a><span class="co">#&gt; </span></span>
+<span id="cb45-80"><a href="rtorch-vs-pytorch-whats-different.html#cb45-80"></a><span class="co">#&gt; Targets:</span></span>
+<span id="cb45-81"><a href="rtorch-vs-pytorch-whats-different.html#cb45-81"></a>targets</span>
+<span id="cb45-82"><a href="rtorch-vs-pytorch-whats-different.html#cb45-82"></a><span class="co">#&gt; tensor([[ 56.,  70.],</span></span>
+<span id="cb45-83"><a href="rtorch-vs-pytorch-whats-different.html#cb45-83"></a><span class="co">#&gt;         [ 81., 101.],</span></span>
+<span id="cb45-84"><a href="rtorch-vs-pytorch-whats-different.html#cb45-84"></a><span class="co">#&gt;         [119., 133.],</span></span>
+<span id="cb45-85"><a href="rtorch-vs-pytorch-whats-different.html#cb45-85"></a><span class="co">#&gt;         [ 22.,  37.],</span></span>
+<span id="cb45-86"><a href="rtorch-vs-pytorch-whats-different.html#cb45-86"></a><span class="co">#&gt;         [103., 119.]])</span></span></code></pre></div>
 <p>Notice that while in Python, the tensor operation, gradient of the weights times the <strong>Learning Rate</strong>, is:</p>
 <p><span class="math display">\[w = -w + \nabla w \; \alpha\]</span></p>
 <p>is a very straight forwward and clean code:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="rtorch-vs-pytorch-whats-different.html#cb39-1"></a>w <span class="op">-=</span> w.grad <span class="op">*</span> <span class="fl">1e-5</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="rtorch-vs-pytorch-whats-different.html#cb46-1"></a>w <span class="op">-=</span> w.grad <span class="op">*</span> <span class="fl">1e-5</span></span></code></pre></div>
 <p>In R shows a little bit more convoluted:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="rtorch-vs-pytorch-whats-different.html#cb40-1"></a>w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="rtorch-vs-pytorch-whats-different.html#cb47-1"></a>w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span></code></pre></div>
 <p>Which is simpliefied when we use the generic methods from rTorch as:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="rtorch-vs-pytorch-whats-different.html#cb41-1"></a>w<span class="op">$</span>data &lt;-<span class="st"> </span>w<span class="op">$</span>data <span class="op">-</span><span class="st"> </span>w<span class="op">$</span>grad <span class="op">*</span><span class="st"> </span><span class="fl">1e-5</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="rtorch-vs-pytorch-whats-different.html#cb48-1"></a>w<span class="op">$</span>data &lt;-<span class="st"> </span>w<span class="op">$</span>data <span class="op">-</span><span class="st"> </span>w<span class="op">$</span>grad <span class="op">*</span><span class="st"> </span><span class="fl">1e-5</span></span></code></pre></div>
 <p>These two expression are equivalent, with the first being the long version natural way of doing it in <strong>PyTorch</strong>. The second is using the generics in R for subtraction, multiplication and scalar conversion.</p>
 <pre><code>param$data &lt;- torch$sub(param$data,
                         torch$mul(param$grad$float(),
@@ -1617,43 +1617,43 @@ Why is this important?</p>
 <p>PyTorch classes cannot not directly be instantiated from <code>R</code>. We need an intermediate step to create a class. For this, we use <code>reticulate</code> functions that will read the class implementation in <code>Python</code> code.</p>
 <div id="example-1" class="section level3">
 <h3><span class="header-section-number">2.8.1</span> Example 1</h3>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="rtorch-vs-pytorch-whats-different.html#cb44-1"></a><span class="kw">py_run_string</span>(<span class="st">&quot;import torch&quot;</span>)</span>
-<span id="cb44-2"><a href="rtorch-vs-pytorch-whats-different.html#cb44-2"></a>main =<span class="st"> </span><span class="kw">py_run_string</span>(</span>
-<span id="cb44-3"><a href="rtorch-vs-pytorch-whats-different.html#cb44-3"></a><span class="st">&quot;</span></span>
-<span id="cb44-4"><a href="rtorch-vs-pytorch-whats-different.html#cb44-4"></a><span class="st">import torch.nn as nn</span></span>
-<span id="cb44-5"><a href="rtorch-vs-pytorch-whats-different.html#cb44-5"></a></span>
-<span id="cb44-6"><a href="rtorch-vs-pytorch-whats-different.html#cb44-6"></a><span class="st">class Net(nn.Module):</span></span>
-<span id="cb44-7"><a href="rtorch-vs-pytorch-whats-different.html#cb44-7"></a><span class="st">   def __init__(self):</span></span>
-<span id="cb44-8"><a href="rtorch-vs-pytorch-whats-different.html#cb44-8"></a><span class="st">       super(Net, self).__init__()</span></span>
-<span id="cb44-9"><a href="rtorch-vs-pytorch-whats-different.html#cb44-9"></a><span class="st">       self.layer = torch.nn.Linear(1, 1)</span></span>
-<span id="cb44-10"><a href="rtorch-vs-pytorch-whats-different.html#cb44-10"></a></span>
-<span id="cb44-11"><a href="rtorch-vs-pytorch-whats-different.html#cb44-11"></a><span class="st">   def forward(self, x):</span></span>
-<span id="cb44-12"><a href="rtorch-vs-pytorch-whats-different.html#cb44-12"></a><span class="st">       x = self.layer(x)      </span></span>
-<span id="cb44-13"><a href="rtorch-vs-pytorch-whats-different.html#cb44-13"></a><span class="st">       return x</span></span>
-<span id="cb44-14"><a href="rtorch-vs-pytorch-whats-different.html#cb44-14"></a><span class="st">&quot;</span>)</span>
-<span id="cb44-15"><a href="rtorch-vs-pytorch-whats-different.html#cb44-15"></a></span>
-<span id="cb44-16"><a href="rtorch-vs-pytorch-whats-different.html#cb44-16"></a></span>
-<span id="cb44-17"><a href="rtorch-vs-pytorch-whats-different.html#cb44-17"></a><span class="co"># build a Linear Rgression model</span></span>
-<span id="cb44-18"><a href="rtorch-vs-pytorch-whats-different.html#cb44-18"></a>net &lt;-<span class="st"> </span>main<span class="op">$</span><span class="kw">Net</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="rtorch-vs-pytorch-whats-different.html#cb51-1"></a><span class="kw">py_run_string</span>(<span class="st">&quot;import torch&quot;</span>)</span>
+<span id="cb51-2"><a href="rtorch-vs-pytorch-whats-different.html#cb51-2"></a>main =<span class="st"> </span><span class="kw">py_run_string</span>(</span>
+<span id="cb51-3"><a href="rtorch-vs-pytorch-whats-different.html#cb51-3"></a><span class="st">&quot;</span></span>
+<span id="cb51-4"><a href="rtorch-vs-pytorch-whats-different.html#cb51-4"></a><span class="st">import torch.nn as nn</span></span>
+<span id="cb51-5"><a href="rtorch-vs-pytorch-whats-different.html#cb51-5"></a></span>
+<span id="cb51-6"><a href="rtorch-vs-pytorch-whats-different.html#cb51-6"></a><span class="st">class Net(nn.Module):</span></span>
+<span id="cb51-7"><a href="rtorch-vs-pytorch-whats-different.html#cb51-7"></a><span class="st">   def __init__(self):</span></span>
+<span id="cb51-8"><a href="rtorch-vs-pytorch-whats-different.html#cb51-8"></a><span class="st">       super(Net, self).__init__()</span></span>
+<span id="cb51-9"><a href="rtorch-vs-pytorch-whats-different.html#cb51-9"></a><span class="st">       self.layer = torch.nn.Linear(1, 1)</span></span>
+<span id="cb51-10"><a href="rtorch-vs-pytorch-whats-different.html#cb51-10"></a></span>
+<span id="cb51-11"><a href="rtorch-vs-pytorch-whats-different.html#cb51-11"></a><span class="st">   def forward(self, x):</span></span>
+<span id="cb51-12"><a href="rtorch-vs-pytorch-whats-different.html#cb51-12"></a><span class="st">       x = self.layer(x)      </span></span>
+<span id="cb51-13"><a href="rtorch-vs-pytorch-whats-different.html#cb51-13"></a><span class="st">       return x</span></span>
+<span id="cb51-14"><a href="rtorch-vs-pytorch-whats-different.html#cb51-14"></a><span class="st">&quot;</span>)</span>
+<span id="cb51-15"><a href="rtorch-vs-pytorch-whats-different.html#cb51-15"></a></span>
+<span id="cb51-16"><a href="rtorch-vs-pytorch-whats-different.html#cb51-16"></a></span>
+<span id="cb51-17"><a href="rtorch-vs-pytorch-whats-different.html#cb51-17"></a><span class="co"># build a Linear Rgression model</span></span>
+<span id="cb51-18"><a href="rtorch-vs-pytorch-whats-different.html#cb51-18"></a>net &lt;-<span class="st"> </span>main<span class="op">$</span><span class="kw">Net</span>()</span></code></pre></div>
 </div>
 <div id="example-2-logistic-regression" class="section level3">
 <h3><span class="header-section-number">2.8.2</span> Example 2: Logistic Regression</h3>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="rtorch-vs-pytorch-whats-different.html#cb45-1"></a>main &lt;-<span class="st"> </span><span class="kw">py_run_string</span>(</span>
-<span id="cb45-2"><a href="rtorch-vs-pytorch-whats-different.html#cb45-2"></a><span class="st">&quot;</span></span>
-<span id="cb45-3"><a href="rtorch-vs-pytorch-whats-different.html#cb45-3"></a><span class="st">import torch.nn as nn</span></span>
-<span id="cb45-4"><a href="rtorch-vs-pytorch-whats-different.html#cb45-4"></a></span>
-<span id="cb45-5"><a href="rtorch-vs-pytorch-whats-different.html#cb45-5"></a><span class="st">class LogisticRegressionModel(nn.Module):</span></span>
-<span id="cb45-6"><a href="rtorch-vs-pytorch-whats-different.html#cb45-6"></a><span class="st">    def __init__(self, input_dim, output_dim):</span></span>
-<span id="cb45-7"><a href="rtorch-vs-pytorch-whats-different.html#cb45-7"></a><span class="st">        super(LogisticRegressionModel, self).__init__()</span></span>
-<span id="cb45-8"><a href="rtorch-vs-pytorch-whats-different.html#cb45-8"></a><span class="st">        self.linear = nn.Linear(input_dim, output_dim)</span></span>
-<span id="cb45-9"><a href="rtorch-vs-pytorch-whats-different.html#cb45-9"></a></span>
-<span id="cb45-10"><a href="rtorch-vs-pytorch-whats-different.html#cb45-10"></a><span class="st">    def forward(self, x):</span></span>
-<span id="cb45-11"><a href="rtorch-vs-pytorch-whats-different.html#cb45-11"></a><span class="st">        out = self.linear(x)</span></span>
-<span id="cb45-12"><a href="rtorch-vs-pytorch-whats-different.html#cb45-12"></a><span class="st">        return out</span></span>
-<span id="cb45-13"><a href="rtorch-vs-pytorch-whats-different.html#cb45-13"></a><span class="st">&quot;</span>)</span>
-<span id="cb45-14"><a href="rtorch-vs-pytorch-whats-different.html#cb45-14"></a></span>
-<span id="cb45-15"><a href="rtorch-vs-pytorch-whats-different.html#cb45-15"></a><span class="co"># build a Logistic Rgression model</span></span>
-<span id="cb45-16"><a href="rtorch-vs-pytorch-whats-different.html#cb45-16"></a>LogisticRegressionModel &lt;-<span class="st"> </span>main<span class="op">$</span>LogisticRegressionModel</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="rtorch-vs-pytorch-whats-different.html#cb52-1"></a>main &lt;-<span class="st"> </span><span class="kw">py_run_string</span>(</span>
+<span id="cb52-2"><a href="rtorch-vs-pytorch-whats-different.html#cb52-2"></a><span class="st">&quot;</span></span>
+<span id="cb52-3"><a href="rtorch-vs-pytorch-whats-different.html#cb52-3"></a><span class="st">import torch.nn as nn</span></span>
+<span id="cb52-4"><a href="rtorch-vs-pytorch-whats-different.html#cb52-4"></a></span>
+<span id="cb52-5"><a href="rtorch-vs-pytorch-whats-different.html#cb52-5"></a><span class="st">class LogisticRegressionModel(nn.Module):</span></span>
+<span id="cb52-6"><a href="rtorch-vs-pytorch-whats-different.html#cb52-6"></a><span class="st">    def __init__(self, input_dim, output_dim):</span></span>
+<span id="cb52-7"><a href="rtorch-vs-pytorch-whats-different.html#cb52-7"></a><span class="st">        super(LogisticRegressionModel, self).__init__()</span></span>
+<span id="cb52-8"><a href="rtorch-vs-pytorch-whats-different.html#cb52-8"></a><span class="st">        self.linear = nn.Linear(input_dim, output_dim)</span></span>
+<span id="cb52-9"><a href="rtorch-vs-pytorch-whats-different.html#cb52-9"></a></span>
+<span id="cb52-10"><a href="rtorch-vs-pytorch-whats-different.html#cb52-10"></a><span class="st">    def forward(self, x):</span></span>
+<span id="cb52-11"><a href="rtorch-vs-pytorch-whats-different.html#cb52-11"></a><span class="st">        out = self.linear(x)</span></span>
+<span id="cb52-12"><a href="rtorch-vs-pytorch-whats-different.html#cb52-12"></a><span class="st">        return out</span></span>
+<span id="cb52-13"><a href="rtorch-vs-pytorch-whats-different.html#cb52-13"></a><span class="st">&quot;</span>)</span>
+<span id="cb52-14"><a href="rtorch-vs-pytorch-whats-different.html#cb52-14"></a></span>
+<span id="cb52-15"><a href="rtorch-vs-pytorch-whats-different.html#cb52-15"></a><span class="co"># build a Logistic Rgression model</span></span>
+<span id="cb52-16"><a href="rtorch-vs-pytorch-whats-different.html#cb52-16"></a>LogisticRegressionModel &lt;-<span class="st"> </span>main<span class="op">$</span>LogisticRegressionModel</span></code></pre></div>
 </div>
 </div>
 <div id="convert-a-tensor-to-numpy-object" class="section level2">

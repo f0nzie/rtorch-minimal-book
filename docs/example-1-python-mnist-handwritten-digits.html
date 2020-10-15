@@ -1151,41 +1151,41 @@ code span.wa { color: #bf0303; } /* Warning */
             <section class="normal" id="section-">
 <div id="example-1-python-mnist-handwritten-digits" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Example 1 (Python): MNIST handwritten digits</h1>
-<div class="sourceCode" id="cb181"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb181-1"><a href="example-1-python-mnist-handwritten-digits.html#cb181-1"></a><span class="im">import</span> torch</span>
-<span id="cb181-2"><a href="example-1-python-mnist-handwritten-digits.html#cb181-2"></a><span class="im">import</span> torchvision</span>
-<span id="cb181-3"><a href="example-1-python-mnist-handwritten-digits.html#cb181-3"></a></span>
-<span id="cb181-4"><a href="example-1-python-mnist-handwritten-digits.html#cb181-4"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
-<span id="cb181-5"><a href="example-1-python-mnist-handwritten-digits.html#cb181-5"></a><span class="im">import</span> torchvision.transforms <span class="im">as</span> transforms</span>
-<span id="cb181-6"><a href="example-1-python-mnist-handwritten-digits.html#cb181-6"></a></span>
-<span id="cb181-7"><a href="example-1-python-mnist-handwritten-digits.html#cb181-7"></a></span>
-<span id="cb181-8"><a href="example-1-python-mnist-handwritten-digits.html#cb181-8"></a><span class="co"># Hyper-parameters</span></span>
-<span id="cb181-9"><a href="example-1-python-mnist-handwritten-digits.html#cb181-9"></a>input_size    <span class="op">=</span> <span class="dv">784</span></span>
-<span id="cb181-10"><a href="example-1-python-mnist-handwritten-digits.html#cb181-10"></a>num_classes   <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb181-11"><a href="example-1-python-mnist-handwritten-digits.html#cb181-11"></a>num_epochs    <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb181-12"><a href="example-1-python-mnist-handwritten-digits.html#cb181-12"></a>batch_size    <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb181-13"><a href="example-1-python-mnist-handwritten-digits.html#cb181-13"></a>learning_rate <span class="op">=</span> <span class="fl">0.001</span></span>
-<span id="cb181-14"><a href="example-1-python-mnist-handwritten-digits.html#cb181-14"></a></span>
-<span id="cb181-15"><a href="example-1-python-mnist-handwritten-digits.html#cb181-15"></a></span>
-<span id="cb181-16"><a href="example-1-python-mnist-handwritten-digits.html#cb181-16"></a><span class="co"># MNIST dataset (images and labels)</span></span>
-<span id="cb181-17"><a href="example-1-python-mnist-handwritten-digits.html#cb181-17"></a><span class="co"># IDX format</span></span>
-<span id="cb181-18"><a href="example-1-python-mnist-handwritten-digits.html#cb181-18"></a>local_folder <span class="op">=</span> <span class="st">&#39;./datasets/raw_data&#39;</span></span>
-<span id="cb181-19"><a href="example-1-python-mnist-handwritten-digits.html#cb181-19"></a>train_dataset <span class="op">=</span> torchvision.datasets.MNIST(root<span class="op">=</span>local_folder,</span>
-<span id="cb181-20"><a href="example-1-python-mnist-handwritten-digits.html#cb181-20"></a>                                           train<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb181-21"><a href="example-1-python-mnist-handwritten-digits.html#cb181-21"></a>                                           transform<span class="op">=</span>transforms.ToTensor(),</span>
-<span id="cb181-22"><a href="example-1-python-mnist-handwritten-digits.html#cb181-22"></a>                                           download<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb181-23"><a href="example-1-python-mnist-handwritten-digits.html#cb181-23"></a></span>
-<span id="cb181-24"><a href="example-1-python-mnist-handwritten-digits.html#cb181-24"></a>test_dataset <span class="op">=</span> torchvision.datasets.MNIST(root<span class="op">=</span>local_folder,</span>
-<span id="cb181-25"><a href="example-1-python-mnist-handwritten-digits.html#cb181-25"></a>                                          train<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb181-26"><a href="example-1-python-mnist-handwritten-digits.html#cb181-26"></a>                                          transform<span class="op">=</span>transforms.ToTensor())</span>
-<span id="cb181-27"><a href="example-1-python-mnist-handwritten-digits.html#cb181-27"></a></span>
-<span id="cb181-28"><a href="example-1-python-mnist-handwritten-digits.html#cb181-28"></a><span class="co"># Data loader (input pipeline). Make the datasets iteratble</span></span>
-<span id="cb181-29"><a href="example-1-python-mnist-handwritten-digits.html#cb181-29"></a>train_loader <span class="op">=</span> torch.utils.data.DataLoader(dataset<span class="op">=</span>train_dataset,</span>
-<span id="cb181-30"><a href="example-1-python-mnist-handwritten-digits.html#cb181-30"></a>                                           batch_size<span class="op">=</span>batch_size,</span>
-<span id="cb181-31"><a href="example-1-python-mnist-handwritten-digits.html#cb181-31"></a>                                           shuffle<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb181-32"><a href="example-1-python-mnist-handwritten-digits.html#cb181-32"></a></span>
-<span id="cb181-33"><a href="example-1-python-mnist-handwritten-digits.html#cb181-33"></a>test_loader <span class="op">=</span> torch.utils.data.DataLoader(dataset<span class="op">=</span>test_dataset,</span>
-<span id="cb181-34"><a href="example-1-python-mnist-handwritten-digits.html#cb181-34"></a>                                          batch_size<span class="op">=</span>batch_size,</span>
-<span id="cb181-35"><a href="example-1-python-mnist-handwritten-digits.html#cb181-35"></a>                                          shuffle<span class="op">=</span><span class="va">False</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb188-1"><a href="example-1-python-mnist-handwritten-digits.html#cb188-1"></a><span class="im">import</span> torch</span>
+<span id="cb188-2"><a href="example-1-python-mnist-handwritten-digits.html#cb188-2"></a><span class="im">import</span> torchvision</span>
+<span id="cb188-3"><a href="example-1-python-mnist-handwritten-digits.html#cb188-3"></a></span>
+<span id="cb188-4"><a href="example-1-python-mnist-handwritten-digits.html#cb188-4"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb188-5"><a href="example-1-python-mnist-handwritten-digits.html#cb188-5"></a><span class="im">import</span> torchvision.transforms <span class="im">as</span> transforms</span>
+<span id="cb188-6"><a href="example-1-python-mnist-handwritten-digits.html#cb188-6"></a></span>
+<span id="cb188-7"><a href="example-1-python-mnist-handwritten-digits.html#cb188-7"></a></span>
+<span id="cb188-8"><a href="example-1-python-mnist-handwritten-digits.html#cb188-8"></a><span class="co"># Hyper-parameters</span></span>
+<span id="cb188-9"><a href="example-1-python-mnist-handwritten-digits.html#cb188-9"></a>input_size    <span class="op">=</span> <span class="dv">784</span></span>
+<span id="cb188-10"><a href="example-1-python-mnist-handwritten-digits.html#cb188-10"></a>num_classes   <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb188-11"><a href="example-1-python-mnist-handwritten-digits.html#cb188-11"></a>num_epochs    <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb188-12"><a href="example-1-python-mnist-handwritten-digits.html#cb188-12"></a>batch_size    <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb188-13"><a href="example-1-python-mnist-handwritten-digits.html#cb188-13"></a>learning_rate <span class="op">=</span> <span class="fl">0.001</span></span>
+<span id="cb188-14"><a href="example-1-python-mnist-handwritten-digits.html#cb188-14"></a></span>
+<span id="cb188-15"><a href="example-1-python-mnist-handwritten-digits.html#cb188-15"></a></span>
+<span id="cb188-16"><a href="example-1-python-mnist-handwritten-digits.html#cb188-16"></a><span class="co"># MNIST dataset (images and labels)</span></span>
+<span id="cb188-17"><a href="example-1-python-mnist-handwritten-digits.html#cb188-17"></a><span class="co"># IDX format</span></span>
+<span id="cb188-18"><a href="example-1-python-mnist-handwritten-digits.html#cb188-18"></a>local_folder <span class="op">=</span> <span class="st">&#39;./datasets/raw_data&#39;</span></span>
+<span id="cb188-19"><a href="example-1-python-mnist-handwritten-digits.html#cb188-19"></a>train_dataset <span class="op">=</span> torchvision.datasets.MNIST(root<span class="op">=</span>local_folder,</span>
+<span id="cb188-20"><a href="example-1-python-mnist-handwritten-digits.html#cb188-20"></a>                                           train<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb188-21"><a href="example-1-python-mnist-handwritten-digits.html#cb188-21"></a>                                           transform<span class="op">=</span>transforms.ToTensor(),</span>
+<span id="cb188-22"><a href="example-1-python-mnist-handwritten-digits.html#cb188-22"></a>                                           download<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb188-23"><a href="example-1-python-mnist-handwritten-digits.html#cb188-23"></a></span>
+<span id="cb188-24"><a href="example-1-python-mnist-handwritten-digits.html#cb188-24"></a>test_dataset <span class="op">=</span> torchvision.datasets.MNIST(root<span class="op">=</span>local_folder,</span>
+<span id="cb188-25"><a href="example-1-python-mnist-handwritten-digits.html#cb188-25"></a>                                          train<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb188-26"><a href="example-1-python-mnist-handwritten-digits.html#cb188-26"></a>                                          transform<span class="op">=</span>transforms.ToTensor())</span>
+<span id="cb188-27"><a href="example-1-python-mnist-handwritten-digits.html#cb188-27"></a></span>
+<span id="cb188-28"><a href="example-1-python-mnist-handwritten-digits.html#cb188-28"></a><span class="co"># Data loader (input pipeline). Make the datasets iteratble</span></span>
+<span id="cb188-29"><a href="example-1-python-mnist-handwritten-digits.html#cb188-29"></a>train_loader <span class="op">=</span> torch.utils.data.DataLoader(dataset<span class="op">=</span>train_dataset,</span>
+<span id="cb188-30"><a href="example-1-python-mnist-handwritten-digits.html#cb188-30"></a>                                           batch_size<span class="op">=</span>batch_size,</span>
+<span id="cb188-31"><a href="example-1-python-mnist-handwritten-digits.html#cb188-31"></a>                                           shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb188-32"><a href="example-1-python-mnist-handwritten-digits.html#cb188-32"></a></span>
+<span id="cb188-33"><a href="example-1-python-mnist-handwritten-digits.html#cb188-33"></a>test_loader <span class="op">=</span> torch.utils.data.DataLoader(dataset<span class="op">=</span>test_dataset,</span>
+<span id="cb188-34"><a href="example-1-python-mnist-handwritten-digits.html#cb188-34"></a>                                          batch_size<span class="op">=</span>batch_size,</span>
+<span id="cb188-35"><a href="example-1-python-mnist-handwritten-digits.html#cb188-35"></a>                                          shuffle<span class="op">=</span><span class="va">False</span>)</span></code></pre></div>
 
 </div>
             </section>
