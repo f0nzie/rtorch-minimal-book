@@ -100,16 +100,14 @@ for (t in 1:500) {
    })
 }  
 ```
+These two expressions are equivalent, with the first being the long version natural way of doing it in __PyTorch__. The second is using the generics in R for subtraction, multiplication and scalar conversion.
 
-These two expression are equivalent, with the first being the long version natural way of doing it in __PyTorch__. The second is using the generics in R for subtraction, multiplication and scalar conversion.
-
-```
+```{r eval=FALSE}
 param$data <- torch$sub(param$data,
                         torch$mul(param$grad$float(),
                           torch$scalar_tensor(learning_rate)))
-}
 ```
 
-```
+```{r eval=FALSE}
 param$data <- param$data - param$grad * learning_rate
 ```

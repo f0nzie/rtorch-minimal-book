@@ -2,8 +2,8 @@ set.seed(1234)
 options(digits = 3)
 
 knitr::opts_chunk$set(
-    comment = "#>",
-    collapse = TRUE,
+    comment = "#>",      # characters to show in the output box
+    collapse = TRUE,     # output will not be shown; figures will show
     cache = FALSE,
     out.width = "70%",
     fig.align = 'center',

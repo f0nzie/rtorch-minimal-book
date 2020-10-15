@@ -219,6 +219,21 @@ $$dot(a,b)_{i,j,k,a,b,c} = \sum_m a_{i,j,k,m}b_{a,b,m,c}$$
 torch$dot(torch$tensor(c(2, 3)), torch$tensor(c(2, 1)))
 ```
 
+### Dot product of 2D array using Python
+
+```{python, engine = "python3"}
+import numpy as np
+
+a = np.array([[1, 2], [3, 4]])
+b = np.array([[1, 2], [3, 4]])
+print(a)
+print(b)
+
+np.dot(a, b)
+```
+
+### Dot product of 2D array using R
+
 ```{r numpy-dot}
 a <- np$array(list(list(1, 2), list(3, 4)))
 a
@@ -228,7 +243,7 @@ b
 np$dot(a, b)
 ```
 
-`torch.dot()` treats both a and b as 1D vectors (irrespective of their original shape) and computes their inner product. 
+`torch.dot()` treats both $a$ and $b$ as __1D__ vectors (irrespective of their original shape) and computes their inner product. 
 
 ```{r dot-error, error=TRUE}
 at <- torch$as_tensor(a)
@@ -239,7 +254,6 @@ bt <- torch$as_tensor(b)
 ```
 
 If we perform the same dot product operation in Python, we get the same error:
-
 
 ```{python, error=TRUE}
 import torch
@@ -293,6 +307,9 @@ r = torch$dot(torch$Tensor(list(4L, 2L, 4L)), torch$Tensor(list(3L, 4L, 1L)))
 r
 ```
 
+### Dot product with `mm` and `matmul` functions
+So, if we cannor perform 2D tensor operations with the `dot` product, how do we manage then?
+
 ```{r tensor-matmul}
 ## mm and matmul seem to address the dot product we are looking for in tensors
 a = torch$randn(2L, 3L)
@@ -302,7 +319,11 @@ a$mm(b)
 a$matmul(b)
 ```
 
-Here is agood explanation: https://stackoverflow.com/a/44525687/5270873
+Here is a good explanation: https://stackoverflow.com/a/44525687/5270873
+
+Let's now prove the associative property of tensors:
+
+$$(A B)^T = B^T A^T$$
 
 ```{r tensor-mm}
 abt <- torch$mm(a, b)$transpose(dim0=0L, dim1=1L)
@@ -317,7 +338,7 @@ btat <- torch$matmul(bt, at)
 btat
 ```
 
-$$(A B)^T = B^T A^T$$
+And we could unit test if the results are nearly the same with `allclose()`:
 
 ```{r tensor-operation-tolerance}
 # tolerance

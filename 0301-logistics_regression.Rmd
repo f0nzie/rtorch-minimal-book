@@ -1,6 +1,6 @@
 # (PART) Logistic Regression {-}
 
-# Example 1: MNIST handwritten digits {#mnistdigits}
+# Example 1 (R): MNIST handwritten digits {#mnistdigits}
 
 Source: https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/01-basics/logistic_regression/main.py
 
@@ -140,3 +140,46 @@ with(torch$no_grad(), {
 # Save the model checkpoint
 torch$save(model$state_dict(), 'model.ckpt')
 ```
+
+
+# Example 1 (Python): MNIST handwritten digits
+
+```{python}
+import torch
+import torchvision
+
+import torch.nn as nn
+import torchvision.transforms as transforms
+
+
+# Hyper-parameters
+input_size    = 784
+num_classes   = 10
+num_epochs    = 5
+batch_size    = 100
+learning_rate = 0.001
+
+
+# MNIST dataset (images and labels)
+# IDX format
+local_folder = './datasets/raw_data'
+train_dataset = torchvision.datasets.MNIST(root=local_folder,
+                                           train=True,
+                                           transform=transforms.ToTensor(),
+                                           download=True)
+
+test_dataset = torchvision.datasets.MNIST(root=local_folder,
+                                          train=False,
+                                          transform=transforms.ToTensor())
+
+# Data loader (input pipeline). Make the datasets iteratble
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
+                                           batch_size=batch_size,
+                                           shuffle=True)
+
+test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
+                                          batch_size=batch_size,
+                                          shuffle=False)
+
+```
+
