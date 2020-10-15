@@ -2,7 +2,7 @@ book_filename: "rtorch-minimal-book"
 delete_merged_file: true
 new_session: yes
 repo: https://github.com/f0nzie/rtorch-minimal-book.git
-output_dir: "public"
+output_dir: "docs"
 language:
   ui:
     chapter_name: "Chapter "
