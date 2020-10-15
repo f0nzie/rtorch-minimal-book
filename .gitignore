@@ -1,7 +1,7 @@
 _bookdown_files/*
 .Rproj.user/
 rtorch-minimal-book.rds
-public/
+# public/
 datasets/
 mnist_png_full/
 model.ckpt
