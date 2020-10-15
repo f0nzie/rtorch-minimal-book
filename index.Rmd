@@ -12,64 +12,99 @@ description: "This is a minimal tutorial about using the `rTorch` package to hav
 
 # Prerequisites {-}
 
-You need two things to get `rTorch` working:
+You need couple of things to get `rTorch` working:
 
-1. Install Python [Anaconda](). Preferrably, for 64-bits, and above Python 3.6+.
+1. Install Python [Anaconda](https://www.anaconda.com/products/individual). Preferrably, for 64-bits, and above Python 3.6+. I have successfully tested Anaconda under four different operating systems: Windows (Win10 and Windows Server 2008); macOS (Sierra, Mojave and Catalina); Linux (Debian, Fedora and Ubuntu); and lastly, Solaris 10. ASll these tests are required by CRAN.
 
 2. Install [R](), [Rtools]() and [RStudio]().
 
-3. Install `rTorch` from CRAN or GitHub.
+3. Install the R package [reticulate](https://github.com/rstudio/reticulate), which is the one that provides the connection between R and Python.
 
+4. Install the stable version `rTorch` from CRAN, or the latest version under develoipment via GitHub.
 
-> Note. It is not mandatory to have a previously created `Python` environment  with `Anaconda`, where `PyTorch` and `TorchVision` have already been installed. This step is optional. You could also get it installed directly from the `R` console, in very similar fashion as in [R-TensorFlow]() using the function `install_pytorch`.
-
-
-This book is available online via [GitHub Pages](), or you can also build it from source from its [repository]().
+> Note. While it is not mandatory to have a previously created `Python` environment with `Anaconda`, where `PyTorch` and `TorchVision` have already been installed, it is another option if for some reason `reticulate` refuses to communicate with the conda environment. Keep in mind that you could also get the `rTorch` _conda_ environment installed directly from the `R` console, in very similar fashion as in [R-TensorFlow]() using the function `install_pytorch()`.
 
 
 ## Installation {-}
-
-`rTorch` is available via CRAN or GitHub.
 
 The **rTorch** package can be installed from CRAN or Github.
 
 From CRAN:
 
-```{r eval=FALSE}
+```{r rtorch-install-cran, eval=FALSE}
 install.packages("rTorch")
 ```
 
 
 From GitHub, install `rTorch` with: 
 
-```{r eval=FALSE}
+```{r rtorch-install-github, eval=FALSE}
 devtools::install_github("f0nzie/rTorch")
 ```
 
+which will install rTorch from the `main` or `master` branch. To install it from the `develop` branch, you type this:
+
+```{r install-github-develop, eval=FALSE}
+devtools::install_github("f0nzie/rTorch", ref="develop")
+```
+
+or clone with Git with:
+
+```{bash github-clone, eval=FALSE}
+git clone https://github.com/f0nzie/rTorch.git
+```
+
+This will allow you to build `rTorch` from source.
+
 
 ## Python Anaconda {-}
-Before start running `rTorch`, install a Python Anaconda environment first. 
+If your preference is installing an Anaconda environment first, these are the steps:
 
 ### Example {-}
 
-1. Create a `conda` environment from the terminal with `conda create -n myenv python=3.7`
+1. Create a `conda` environment from the terminal with 
+```{bash, create-conda-env, eval=FALSE}
+conda create -n r-torch python=3.7
+```
 
-2. Activate the new environment with `conda activate myenv`
+2. Activate the new environment with 
+```{bash, activate-conda-env, eval=FALSE}
+conda activate r-torch
+```
 
 3. Install the `PyTorch` related packages with:  
+```{bash, install-conda-packages, eval=FALSE}
+conda install python=3.6.6 pytorch torchvision cpuonly matplotlib pandas -c pytorch
+```
 
-`conda install python=3.6.6 pytorch-cpu torchvision-cpu matplotlib pandas -c pytorch`
-
-The last part `-c pytorch` specifies the conda channel to download the PyTorch packages. Your installation may not work if you don't indicate the channel.
+The last part `-c pytorch` specifies the __stable__ _conda_ channel to download the PyTorch packages. Your _conda_ installation may not work if you don't indicate the channel.
 
 
-Now, you can load `rTorch` in R or RStudio.
+Now, you can load `rTorch` in R or RStudio with:
+
+```{r load-rtorch, eval=FALSE}
+library(rTorch)
+```
+
 
 ### Automatic installation {-}
-I use the idea from automatic installation in `r-tensorflow`, to create the function `rTorch::install_pytorch()`. This function will allow you to install a `conda` environment complete with all `PyTorch` requirements.
+I used the idea for automatic installation in the `tensorflow` package for R, to create the function `rTorch::install_pytorch()`. This function will allow you to install a `conda` environment complete with all `PyTorch` requirements plus the packages you specify. Example:
+
+```{r, eval=FALSE}
+rTorch:::install_conda(package="pytorch=1.4", envname="r-torch", 
+                       conda="auto", conda_python_version = "3.6", pip=FALSE, 
+                       channel="pytorch", 
+                       extra_packages=c("torchvision", 
+                                        "cpuonly", 
+                                        "matplotlib", 
+                                        "pandas"))
+```
+
+This is explained in more detailed in the [rTorch package manual](https://f0nzie.github.io/rTorch/articles/installation.html).
 
 
->**Note.** `matplotlib` and `pandas` are not really necessary for `rTorch` to work, but I was asked if `matplotlib` or `pandas` would work with `PyTorch`. So,  I decided to install them for testing and experimentation. They both work.
+>**Note.** `matplotlib` and `pandas` are not really necessary for `rTorch` to work, but I was asked if `matplotlib` or `pandas` could work with `PyTorch`. So,  I decided to install them for testing and experimentation. They both work.
+
 
 
 ```{r include=FALSE}

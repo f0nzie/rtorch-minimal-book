@@ -341,7 +341,12 @@ window.initializeCodeFolding = function(show) {
       // Python show code
       $('div.py-code-collapse').each(function() {
         $(this).collapse('show');
-      });    
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
   });
   $("#rmd-hide-all-code").click(function() {
       // close the dropdown menu when an option is clicked
@@ -354,11 +359,17 @@ window.initializeCodeFolding = function(show) {
       $('div.py-code-collapse').each(function() {
         $(this).collapse('hide');
       });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
+
 
   // index for unique code element ids
   var r_currentIndex  = 1;   // for R code
   var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
 
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -389,10 +400,8 @@ window.initializeCodeFolding = function(show) {
         
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);    
     
     // update state of button on show/hide
@@ -404,11 +413,55 @@ window.initializeCodeFolding = function(show) {
     });  
    });
   
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
 
   // select all R code blocks
   // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
   // adding pre.sourceCode confuses the Python button
-  var rCodeBlocks = $('pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
   rCodeBlocks.each(function() {
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -435,10 +488,8 @@ window.initializeCodeFolding = function(show) {
     
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);
 
     // update state of button on show/hide
@@ -1153,92 +1204,92 @@ code span.wa { color: #bf0303; } /* Warning */
 <h1><span class="header-section-number">Chapter 14</span> Working with data.table</h1>
 <div id="load-pytorch-libraries-1" class="section level2">
 <h2><span class="header-section-number">14.1</span> Load PyTorch libraries</h2>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="working-with-data-table.html#cb238-1"></a><span class="kw">library</span>(rTorch)</span>
-<span id="cb238-2"><a href="working-with-data-table.html#cb238-2"></a></span>
-<span id="cb238-3"><a href="working-with-data-table.html#cb238-3"></a>torch       &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torch&quot;</span>)</span>
-<span id="cb238-4"><a href="working-with-data-table.html#cb238-4"></a>torchvision &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision&quot;</span>)</span>
-<span id="cb238-5"><a href="working-with-data-table.html#cb238-5"></a>nn          &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torch.nn&quot;</span>)</span>
-<span id="cb238-6"><a href="working-with-data-table.html#cb238-6"></a>transforms  &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision.transforms&quot;</span>)</span>
-<span id="cb238-7"><a href="working-with-data-table.html#cb238-7"></a>dsets       &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision.datasets&quot;</span>)</span>
-<span id="cb238-8"><a href="working-with-data-table.html#cb238-8"></a>builtins    &lt;-<span class="st"> </span><span class="kw">import_builtins</span>()</span>
-<span id="cb238-9"><a href="working-with-data-table.html#cb238-9"></a>np          &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;numpy&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="working-with-data-table.html#cb245-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb245-2"><a href="working-with-data-table.html#cb245-2"></a></span>
+<span id="cb245-3"><a href="working-with-data-table.html#cb245-3"></a>torch       &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torch&quot;</span>)</span>
+<span id="cb245-4"><a href="working-with-data-table.html#cb245-4"></a>torchvision &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision&quot;</span>)</span>
+<span id="cb245-5"><a href="working-with-data-table.html#cb245-5"></a>nn          &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torch.nn&quot;</span>)</span>
+<span id="cb245-6"><a href="working-with-data-table.html#cb245-6"></a>transforms  &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision.transforms&quot;</span>)</span>
+<span id="cb245-7"><a href="working-with-data-table.html#cb245-7"></a>dsets       &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision.datasets&quot;</span>)</span>
+<span id="cb245-8"><a href="working-with-data-table.html#cb245-8"></a>builtins    &lt;-<span class="st"> </span><span class="kw">import_builtins</span>()</span>
+<span id="cb245-9"><a href="working-with-data-table.html#cb245-9"></a>np          &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;numpy&quot;</span>)</span></code></pre></div>
 </div>
 <div id="load-dataset-1" class="section level2">
 <h2><span class="header-section-number">14.2</span> Load dataset</h2>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="working-with-data-table.html#cb239-1"></a><span class="co">## Dataset iteration batch settings</span></span>
-<span id="cb239-2"><a href="working-with-data-table.html#cb239-2"></a><span class="co"># folders where the images are located</span></span>
-<span id="cb239-3"><a href="working-with-data-table.html#cb239-3"></a>train_data_path =<span class="st"> &#39;./mnist_png_full/training/&#39;</span></span>
-<span id="cb239-4"><a href="working-with-data-table.html#cb239-4"></a>test_data_path  =<span class="st"> &#39;./mnist_png_full/testing/&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="working-with-data-table.html#cb246-1"></a><span class="co">## Dataset iteration batch settings</span></span>
+<span id="cb246-2"><a href="working-with-data-table.html#cb246-2"></a><span class="co"># folders where the images are located</span></span>
+<span id="cb246-3"><a href="working-with-data-table.html#cb246-3"></a>train_data_path =<span class="st"> &#39;./mnist_png_full/training/&#39;</span></span>
+<span id="cb246-4"><a href="working-with-data-table.html#cb246-4"></a>test_data_path  =<span class="st"> &#39;./mnist_png_full/testing/&#39;</span></span></code></pre></div>
 </div>
 <div id="read-the-datasets-without-normalization" class="section level2">
 <h2><span class="header-section-number">14.3</span> Read the datasets without normalization</h2>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="working-with-data-table.html#cb240-1"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">ImageFolder</span>(<span class="dt">root =</span> train_data_path, </span>
-<span id="cb240-2"><a href="working-with-data-table.html#cb240-2"></a>    <span class="dt">transform =</span> torchvision<span class="op">$</span>transforms<span class="op">$</span><span class="kw">ToTensor</span>()</span>
-<span id="cb240-3"><a href="working-with-data-table.html#cb240-3"></a>)</span>
-<span id="cb240-4"><a href="working-with-data-table.html#cb240-4"></a></span>
-<span id="cb240-5"><a href="working-with-data-table.html#cb240-5"></a><span class="kw">print</span>(train_dataset)</span>
-<span id="cb240-6"><a href="working-with-data-table.html#cb240-6"></a><span class="co">#&gt; Dataset ImageFolder</span></span>
-<span id="cb240-7"><a href="working-with-data-table.html#cb240-7"></a><span class="co">#&gt;     Number of datapoints: 60000</span></span>
-<span id="cb240-8"><a href="working-with-data-table.html#cb240-8"></a><span class="co">#&gt;     Root location: ./mnist_png_full/training/</span></span>
-<span id="cb240-9"><a href="working-with-data-table.html#cb240-9"></a><span class="co">#&gt;     StandardTransform</span></span>
-<span id="cb240-10"><a href="working-with-data-table.html#cb240-10"></a><span class="co">#&gt; Transform: ToTensor()</span></span></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="working-with-data-table.html#cb247-1"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">ImageFolder</span>(<span class="dt">root =</span> train_data_path, </span>
+<span id="cb247-2"><a href="working-with-data-table.html#cb247-2"></a>    <span class="dt">transform =</span> torchvision<span class="op">$</span>transforms<span class="op">$</span><span class="kw">ToTensor</span>()</span>
+<span id="cb247-3"><a href="working-with-data-table.html#cb247-3"></a>)</span>
+<span id="cb247-4"><a href="working-with-data-table.html#cb247-4"></a></span>
+<span id="cb247-5"><a href="working-with-data-table.html#cb247-5"></a><span class="kw">print</span>(train_dataset)</span>
+<span id="cb247-6"><a href="working-with-data-table.html#cb247-6"></a><span class="co">#&gt; Dataset ImageFolder</span></span>
+<span id="cb247-7"><a href="working-with-data-table.html#cb247-7"></a><span class="co">#&gt;     Number of datapoints: 60000</span></span>
+<span id="cb247-8"><a href="working-with-data-table.html#cb247-8"></a><span class="co">#&gt;     Root location: ./mnist_png_full/training/</span></span>
+<span id="cb247-9"><a href="working-with-data-table.html#cb247-9"></a><span class="co">#&gt;     StandardTransform</span></span>
+<span id="cb247-10"><a href="working-with-data-table.html#cb247-10"></a><span class="co">#&gt; Transform: ToTensor()</span></span></code></pre></div>
 </div>
 <div id="using-data.table" class="section level2">
 <h2><span class="header-section-number">14.4</span> Using <code>data.table</code></h2>
-<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="working-with-data-table.html#cb241-1"></a><span class="kw">library</span>(data.table)</span>
-<span id="cb241-2"><a href="working-with-data-table.html#cb241-2"></a><span class="kw">library</span>(tictoc)</span>
-<span id="cb241-3"><a href="working-with-data-table.html#cb241-3"></a></span>
-<span id="cb241-4"><a href="working-with-data-table.html#cb241-4"></a></span>
-<span id="cb241-5"><a href="working-with-data-table.html#cb241-5"></a><span class="kw">tic</span>()</span>
-<span id="cb241-6"><a href="working-with-data-table.html#cb241-6"></a></span>
-<span id="cb241-7"><a href="working-with-data-table.html#cb241-7"></a>fun_list &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb241-8"><a href="working-with-data-table.html#cb241-8"></a>    <span class="dt">numel =</span> <span class="kw">c</span>(<span class="st">&quot;numel&quot;</span>),</span>
-<span id="cb241-9"><a href="working-with-data-table.html#cb241-9"></a>    <span class="dt">sum   =</span> <span class="kw">c</span>(<span class="st">&quot;sum&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb241-10"><a href="working-with-data-table.html#cb241-10"></a>    <span class="dt">mean  =</span> <span class="kw">c</span>(<span class="st">&quot;mean&quot;</span>,   <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb241-11"><a href="working-with-data-table.html#cb241-11"></a>    <span class="dt">std   =</span> <span class="kw">c</span>(<span class="st">&quot;std&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb241-12"><a href="working-with-data-table.html#cb241-12"></a>    <span class="dt">med   =</span> <span class="kw">c</span>(<span class="st">&quot;median&quot;</span>, <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb241-13"><a href="working-with-data-table.html#cb241-13"></a>    <span class="dt">max   =</span> <span class="kw">c</span>(<span class="st">&quot;max&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb241-14"><a href="working-with-data-table.html#cb241-14"></a>    <span class="dt">min   =</span> <span class="kw">c</span>(<span class="st">&quot;min&quot;</span>,    <span class="st">&quot;item&quot;</span>)</span>
-<span id="cb241-15"><a href="working-with-data-table.html#cb241-15"></a>    )</span>
-<span id="cb241-16"><a href="working-with-data-table.html#cb241-16"></a></span>
-<span id="cb241-17"><a href="working-with-data-table.html#cb241-17"></a>idx &lt;-<span class="st"> </span><span class="kw">seq</span>(0L, 599L)</span>
-<span id="cb241-18"><a href="working-with-data-table.html#cb241-18"></a></span>
-<span id="cb241-19"><a href="working-with-data-table.html#cb241-19"></a>fun_get_tensor &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">py_get_item</span>(train_dataset, x)[[<span class="dv">0</span>]]</span>
-<span id="cb241-20"><a href="working-with-data-table.html#cb241-20"></a></span>
-<span id="cb241-21"><a href="working-with-data-table.html#cb241-21"></a>stat_fun &lt;-<span class="st"> </span><span class="cf">function</span>(x, str_fun) {</span>
-<span id="cb241-22"><a href="working-with-data-table.html#cb241-22"></a>  fun_var &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;fun_get_tensor(x)&quot;</span>, <span class="st">&quot;$&quot;</span>, str_fun, <span class="st">&quot;()&quot;</span>)</span>
-<span id="cb241-23"><a href="working-with-data-table.html#cb241-23"></a>  <span class="kw">sapply</span>(idx, <span class="cf">function</span>(x) </span>
-<span id="cb241-24"><a href="working-with-data-table.html#cb241-24"></a>    <span class="kw">ifelse</span>(<span class="kw">is.numeric</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var))),  <span class="co"># size return character</span></span>
-<span id="cb241-25"><a href="working-with-data-table.html#cb241-25"></a>           <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var)),              <span class="co"># all else are numeric</span></span>
-<span id="cb241-26"><a href="working-with-data-table.html#cb241-26"></a>           <span class="kw">as.character</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var)))))</span>
-<span id="cb241-27"><a href="working-with-data-table.html#cb241-27"></a>}  </span>
-<span id="cb241-28"><a href="working-with-data-table.html#cb241-28"></a></span>
-<span id="cb241-29"><a href="working-with-data-table.html#cb241-29"></a></span>
-<span id="cb241-30"><a href="working-with-data-table.html#cb241-30"></a>dt &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">ridx =</span> idx<span class="op">+</span><span class="dv">1</span>,</span>
-<span id="cb241-31"><a href="working-with-data-table.html#cb241-31"></a>  <span class="kw">do.call</span>(data.table, </span>
-<span id="cb241-32"><a href="working-with-data-table.html#cb241-32"></a>          <span class="kw">lapply</span>(</span>
-<span id="cb241-33"><a href="working-with-data-table.html#cb241-33"></a>            <span class="kw">sapply</span>(fun_list, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;()$&quot;</span>)), </span>
-<span id="cb241-34"><a href="working-with-data-table.html#cb241-34"></a>            <span class="cf">function</span>(y) <span class="kw">stat_fun</span>(<span class="dv">1</span>, y)</span>
-<span id="cb241-35"><a href="working-with-data-table.html#cb241-35"></a>          )</span>
-<span id="cb241-36"><a href="working-with-data-table.html#cb241-36"></a>  )</span>
-<span id="cb241-37"><a href="working-with-data-table.html#cb241-37"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="working-with-data-table.html#cb248-1"></a><span class="kw">library</span>(data.table)</span>
+<span id="cb248-2"><a href="working-with-data-table.html#cb248-2"></a><span class="kw">library</span>(tictoc)</span>
+<span id="cb248-3"><a href="working-with-data-table.html#cb248-3"></a></span>
+<span id="cb248-4"><a href="working-with-data-table.html#cb248-4"></a></span>
+<span id="cb248-5"><a href="working-with-data-table.html#cb248-5"></a><span class="kw">tic</span>()</span>
+<span id="cb248-6"><a href="working-with-data-table.html#cb248-6"></a></span>
+<span id="cb248-7"><a href="working-with-data-table.html#cb248-7"></a>fun_list &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb248-8"><a href="working-with-data-table.html#cb248-8"></a>    <span class="dt">numel =</span> <span class="kw">c</span>(<span class="st">&quot;numel&quot;</span>),</span>
+<span id="cb248-9"><a href="working-with-data-table.html#cb248-9"></a>    <span class="dt">sum   =</span> <span class="kw">c</span>(<span class="st">&quot;sum&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb248-10"><a href="working-with-data-table.html#cb248-10"></a>    <span class="dt">mean  =</span> <span class="kw">c</span>(<span class="st">&quot;mean&quot;</span>,   <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb248-11"><a href="working-with-data-table.html#cb248-11"></a>    <span class="dt">std   =</span> <span class="kw">c</span>(<span class="st">&quot;std&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb248-12"><a href="working-with-data-table.html#cb248-12"></a>    <span class="dt">med   =</span> <span class="kw">c</span>(<span class="st">&quot;median&quot;</span>, <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb248-13"><a href="working-with-data-table.html#cb248-13"></a>    <span class="dt">max   =</span> <span class="kw">c</span>(<span class="st">&quot;max&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb248-14"><a href="working-with-data-table.html#cb248-14"></a>    <span class="dt">min   =</span> <span class="kw">c</span>(<span class="st">&quot;min&quot;</span>,    <span class="st">&quot;item&quot;</span>)</span>
+<span id="cb248-15"><a href="working-with-data-table.html#cb248-15"></a>    )</span>
+<span id="cb248-16"><a href="working-with-data-table.html#cb248-16"></a></span>
+<span id="cb248-17"><a href="working-with-data-table.html#cb248-17"></a>idx &lt;-<span class="st"> </span><span class="kw">seq</span>(0L, 599L)</span>
+<span id="cb248-18"><a href="working-with-data-table.html#cb248-18"></a></span>
+<span id="cb248-19"><a href="working-with-data-table.html#cb248-19"></a>fun_get_tensor &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">py_get_item</span>(train_dataset, x)[[<span class="dv">0</span>]]</span>
+<span id="cb248-20"><a href="working-with-data-table.html#cb248-20"></a></span>
+<span id="cb248-21"><a href="working-with-data-table.html#cb248-21"></a>stat_fun &lt;-<span class="st"> </span><span class="cf">function</span>(x, str_fun) {</span>
+<span id="cb248-22"><a href="working-with-data-table.html#cb248-22"></a>  fun_var &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;fun_get_tensor(x)&quot;</span>, <span class="st">&quot;$&quot;</span>, str_fun, <span class="st">&quot;()&quot;</span>)</span>
+<span id="cb248-23"><a href="working-with-data-table.html#cb248-23"></a>  <span class="kw">sapply</span>(idx, <span class="cf">function</span>(x) </span>
+<span id="cb248-24"><a href="working-with-data-table.html#cb248-24"></a>    <span class="kw">ifelse</span>(<span class="kw">is.numeric</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var))),  <span class="co"># size return character</span></span>
+<span id="cb248-25"><a href="working-with-data-table.html#cb248-25"></a>           <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var)),              <span class="co"># all else are numeric</span></span>
+<span id="cb248-26"><a href="working-with-data-table.html#cb248-26"></a>           <span class="kw">as.character</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var)))))</span>
+<span id="cb248-27"><a href="working-with-data-table.html#cb248-27"></a>}  </span>
+<span id="cb248-28"><a href="working-with-data-table.html#cb248-28"></a></span>
+<span id="cb248-29"><a href="working-with-data-table.html#cb248-29"></a></span>
+<span id="cb248-30"><a href="working-with-data-table.html#cb248-30"></a>dt &lt;-<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">ridx =</span> idx<span class="op">+</span><span class="dv">1</span>,</span>
+<span id="cb248-31"><a href="working-with-data-table.html#cb248-31"></a>  <span class="kw">do.call</span>(data.table, </span>
+<span id="cb248-32"><a href="working-with-data-table.html#cb248-32"></a>          <span class="kw">lapply</span>(</span>
+<span id="cb248-33"><a href="working-with-data-table.html#cb248-33"></a>            <span class="kw">sapply</span>(fun_list, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;()$&quot;</span>)), </span>
+<span id="cb248-34"><a href="working-with-data-table.html#cb248-34"></a>            <span class="cf">function</span>(y) <span class="kw">stat_fun</span>(<span class="dv">1</span>, y)</span>
+<span id="cb248-35"><a href="working-with-data-table.html#cb248-35"></a>          )</span>
+<span id="cb248-36"><a href="working-with-data-table.html#cb248-36"></a>  )</span>
+<span id="cb248-37"><a href="working-with-data-table.html#cb248-37"></a>)</span></code></pre></div>
 <p>Summary statistics:</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="working-with-data-table.html#cb242-1"></a><span class="kw">head</span>(dt)</span>
-<span id="cb242-2"><a href="working-with-data-table.html#cb242-2"></a><span class="co">#&gt;    ridx numel sum  mean   std med max min</span></span>
-<span id="cb242-3"><a href="working-with-data-table.html#cb242-3"></a><span class="co">#&gt; 1:    1  2352 366 0.156 0.329   0   1   0</span></span>
-<span id="cb242-4"><a href="working-with-data-table.html#cb242-4"></a><span class="co">#&gt; 2:    2  2352 284 0.121 0.297   0   1   0</span></span>
-<span id="cb242-5"><a href="working-with-data-table.html#cb242-5"></a><span class="co">#&gt; 3:    3  2352 645 0.274 0.420   0   1   0</span></span>
-<span id="cb242-6"><a href="working-with-data-table.html#cb242-6"></a><span class="co">#&gt; 4:    4  2352 410 0.174 0.355   0   1   0</span></span>
-<span id="cb242-7"><a href="working-with-data-table.html#cb242-7"></a><span class="co">#&gt; 5:    5  2352 321 0.137 0.312   0   1   0</span></span>
-<span id="cb242-8"><a href="working-with-data-table.html#cb242-8"></a><span class="co">#&gt; 6:    6  2352 654 0.278 0.421   0   1   0</span></span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="working-with-data-table.html#cb249-1"></a><span class="kw">head</span>(dt)</span>
+<span id="cb249-2"><a href="working-with-data-table.html#cb249-2"></a><span class="co">#&gt;    ridx numel sum  mean   std med max min</span></span>
+<span id="cb249-3"><a href="working-with-data-table.html#cb249-3"></a><span class="co">#&gt; 1:    1  2352 366 0.156 0.329   0   1   0</span></span>
+<span id="cb249-4"><a href="working-with-data-table.html#cb249-4"></a><span class="co">#&gt; 2:    2  2352 284 0.121 0.297   0   1   0</span></span>
+<span id="cb249-5"><a href="working-with-data-table.html#cb249-5"></a><span class="co">#&gt; 3:    3  2352 645 0.274 0.420   0   1   0</span></span>
+<span id="cb249-6"><a href="working-with-data-table.html#cb249-6"></a><span class="co">#&gt; 4:    4  2352 410 0.174 0.355   0   1   0</span></span>
+<span id="cb249-7"><a href="working-with-data-table.html#cb249-7"></a><span class="co">#&gt; 5:    5  2352 321 0.137 0.312   0   1   0</span></span>
+<span id="cb249-8"><a href="working-with-data-table.html#cb249-8"></a><span class="co">#&gt; 6:    6  2352 654 0.278 0.421   0   1   0</span></span></code></pre></div>
 <p>Elapsed time per size of sample:</p>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="working-with-data-table.html#cb243-1"></a><span class="kw">toc</span>()</span>
-<span id="cb243-2"><a href="working-with-data-table.html#cb243-2"></a><span class="co">#&gt; 9.11 sec elapsed</span></span>
-<span id="cb243-3"><a href="working-with-data-table.html#cb243-3"></a></span>
-<span id="cb243-4"><a href="working-with-data-table.html#cb243-4"></a><span class="co">#    60    1.266 sec elapsed</span></span>
-<span id="cb243-5"><a href="working-with-data-table.html#cb243-5"></a><span class="co">#   600   11.798 sec elapsed;</span></span>
-<span id="cb243-6"><a href="working-with-data-table.html#cb243-6"></a><span class="co">#  6000  119.256 sec elapsed;</span></span>
-<span id="cb243-7"><a href="working-with-data-table.html#cb243-7"></a><span class="co"># 60000 1117.619 sec elapsed</span></span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="working-with-data-table.html#cb250-1"></a><span class="kw">toc</span>()</span>
+<span id="cb250-2"><a href="working-with-data-table.html#cb250-2"></a><span class="co">#&gt; 10.77 sec elapsed</span></span>
+<span id="cb250-3"><a href="working-with-data-table.html#cb250-3"></a></span>
+<span id="cb250-4"><a href="working-with-data-table.html#cb250-4"></a><span class="co">#    60    1.266 sec elapsed</span></span>
+<span id="cb250-5"><a href="working-with-data-table.html#cb250-5"></a><span class="co">#   600   11.798 sec elapsed;</span></span>
+<span id="cb250-6"><a href="working-with-data-table.html#cb250-6"></a><span class="co">#  6000  119.256 sec elapsed;</span></span>
+<span id="cb250-7"><a href="working-with-data-table.html#cb250-7"></a><span class="co"># 60000 1117.619 sec elapsed</span></span></code></pre></div>
 
 
 </div>

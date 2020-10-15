@@ -341,7 +341,12 @@ window.initializeCodeFolding = function(show) {
       // Python show code
       $('div.py-code-collapse').each(function() {
         $(this).collapse('show');
-      });    
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
   });
   $("#rmd-hide-all-code").click(function() {
       // close the dropdown menu when an option is clicked
@@ -354,11 +359,17 @@ window.initializeCodeFolding = function(show) {
       $('div.py-code-collapse').each(function() {
         $(this).collapse('hide');
       });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
+
 
   // index for unique code element ids
   var r_currentIndex  = 1;   // for R code
   var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
 
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -389,10 +400,8 @@ window.initializeCodeFolding = function(show) {
         
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);    
     
     // update state of button on show/hide
@@ -404,11 +413,55 @@ window.initializeCodeFolding = function(show) {
     });  
    });
   
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
 
   // select all R code blocks
   // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
   // adding pre.sourceCode confuses the Python button
-  var rCodeBlocks = $('pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
   rCodeBlocks.each(function() {
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -435,10 +488,8 @@ window.initializeCodeFolding = function(show) {
     
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);
 
     // update state of button on show/hide
@@ -1153,101 +1204,101 @@ code span.wa { color: #bf0303; } /* Warning */
 <h1><span class="header-section-number">Chapter 13</span> Working with data.frame</h1>
 <div id="load-pytorch-libraries" class="section level2">
 <h2><span class="header-section-number">13.1</span> Load PyTorch libraries</h2>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="working-with-data-frame.html#cb232-1"></a><span class="kw">library</span>(rTorch)</span>
-<span id="cb232-2"><a href="working-with-data-frame.html#cb232-2"></a></span>
-<span id="cb232-3"><a href="working-with-data-frame.html#cb232-3"></a>torch       &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torch&quot;</span>)</span>
-<span id="cb232-4"><a href="working-with-data-frame.html#cb232-4"></a>torchvision &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision&quot;</span>)</span>
-<span id="cb232-5"><a href="working-with-data-frame.html#cb232-5"></a>nn          &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torch.nn&quot;</span>)</span>
-<span id="cb232-6"><a href="working-with-data-frame.html#cb232-6"></a>transforms  &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision.transforms&quot;</span>)</span>
-<span id="cb232-7"><a href="working-with-data-frame.html#cb232-7"></a>dsets       &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision.datasets&quot;</span>)</span>
-<span id="cb232-8"><a href="working-with-data-frame.html#cb232-8"></a>builtins    &lt;-<span class="st"> </span><span class="kw">import_builtins</span>()</span>
-<span id="cb232-9"><a href="working-with-data-frame.html#cb232-9"></a>np          &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;numpy&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="working-with-data-frame.html#cb239-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb239-2"><a href="working-with-data-frame.html#cb239-2"></a></span>
+<span id="cb239-3"><a href="working-with-data-frame.html#cb239-3"></a>torch       &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torch&quot;</span>)</span>
+<span id="cb239-4"><a href="working-with-data-frame.html#cb239-4"></a>torchvision &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision&quot;</span>)</span>
+<span id="cb239-5"><a href="working-with-data-frame.html#cb239-5"></a>nn          &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torch.nn&quot;</span>)</span>
+<span id="cb239-6"><a href="working-with-data-frame.html#cb239-6"></a>transforms  &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision.transforms&quot;</span>)</span>
+<span id="cb239-7"><a href="working-with-data-frame.html#cb239-7"></a>dsets       &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;torchvision.datasets&quot;</span>)</span>
+<span id="cb239-8"><a href="working-with-data-frame.html#cb239-8"></a>builtins    &lt;-<span class="st"> </span><span class="kw">import_builtins</span>()</span>
+<span id="cb239-9"><a href="working-with-data-frame.html#cb239-9"></a>np          &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;numpy&quot;</span>)</span></code></pre></div>
 </div>
 <div id="load-dataset" class="section level2">
 <h2><span class="header-section-number">13.2</span> Load dataset</h2>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="working-with-data-frame.html#cb233-1"></a><span class="co"># folders where the images are located</span></span>
-<span id="cb233-2"><a href="working-with-data-frame.html#cb233-2"></a>train_data_path =<span class="st"> &#39;./mnist_png_full/training/&#39;</span></span>
-<span id="cb233-3"><a href="working-with-data-frame.html#cb233-3"></a>test_data_path  =<span class="st"> &#39;./mnist_png_full/testing/&#39;</span></span></code></pre></div>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="working-with-data-frame.html#cb234-1"></a><span class="co"># read the datasets without normalization</span></span>
-<span id="cb234-2"><a href="working-with-data-frame.html#cb234-2"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">ImageFolder</span>(<span class="dt">root =</span> train_data_path, </span>
-<span id="cb234-3"><a href="working-with-data-frame.html#cb234-3"></a>    <span class="dt">transform =</span> torchvision<span class="op">$</span>transforms<span class="op">$</span><span class="kw">ToTensor</span>()</span>
-<span id="cb234-4"><a href="working-with-data-frame.html#cb234-4"></a>)</span>
-<span id="cb234-5"><a href="working-with-data-frame.html#cb234-5"></a></span>
-<span id="cb234-6"><a href="working-with-data-frame.html#cb234-6"></a><span class="kw">print</span>(train_dataset)</span>
-<span id="cb234-7"><a href="working-with-data-frame.html#cb234-7"></a><span class="co">#&gt; Dataset ImageFolder</span></span>
-<span id="cb234-8"><a href="working-with-data-frame.html#cb234-8"></a><span class="co">#&gt;     Number of datapoints: 60000</span></span>
-<span id="cb234-9"><a href="working-with-data-frame.html#cb234-9"></a><span class="co">#&gt;     Root location: ./mnist_png_full/training/</span></span>
-<span id="cb234-10"><a href="working-with-data-frame.html#cb234-10"></a><span class="co">#&gt;     StandardTransform</span></span>
-<span id="cb234-11"><a href="working-with-data-frame.html#cb234-11"></a><span class="co">#&gt; Transform: ToTensor()</span></span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="working-with-data-frame.html#cb240-1"></a><span class="co"># folders where the images are located</span></span>
+<span id="cb240-2"><a href="working-with-data-frame.html#cb240-2"></a>train_data_path =<span class="st"> &#39;./mnist_png_full/training/&#39;</span></span>
+<span id="cb240-3"><a href="working-with-data-frame.html#cb240-3"></a>test_data_path  =<span class="st"> &#39;./mnist_png_full/testing/&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="working-with-data-frame.html#cb241-1"></a><span class="co"># read the datasets without normalization</span></span>
+<span id="cb241-2"><a href="working-with-data-frame.html#cb241-2"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">ImageFolder</span>(<span class="dt">root =</span> train_data_path, </span>
+<span id="cb241-3"><a href="working-with-data-frame.html#cb241-3"></a>    <span class="dt">transform =</span> torchvision<span class="op">$</span>transforms<span class="op">$</span><span class="kw">ToTensor</span>()</span>
+<span id="cb241-4"><a href="working-with-data-frame.html#cb241-4"></a>)</span>
+<span id="cb241-5"><a href="working-with-data-frame.html#cb241-5"></a></span>
+<span id="cb241-6"><a href="working-with-data-frame.html#cb241-6"></a><span class="kw">print</span>(train_dataset)</span>
+<span id="cb241-7"><a href="working-with-data-frame.html#cb241-7"></a><span class="co">#&gt; Dataset ImageFolder</span></span>
+<span id="cb241-8"><a href="working-with-data-frame.html#cb241-8"></a><span class="co">#&gt;     Number of datapoints: 60000</span></span>
+<span id="cb241-9"><a href="working-with-data-frame.html#cb241-9"></a><span class="co">#&gt;     Root location: ./mnist_png_full/training/</span></span>
+<span id="cb241-10"><a href="working-with-data-frame.html#cb241-10"></a><span class="co">#&gt;     StandardTransform</span></span>
+<span id="cb241-11"><a href="working-with-data-frame.html#cb241-11"></a><span class="co">#&gt; Transform: ToTensor()</span></span></code></pre></div>
 </div>
 <div id="summary-statistics-for-tensors" class="section level2">
 <h2><span class="header-section-number">13.3</span> Summary statistics for tensors</h2>
 <div id="using-data.frame" class="section level3">
 <h3><span class="header-section-number">13.3.1</span> using <code>data.frame</code></h3>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="working-with-data-frame.html#cb235-1"></a><span class="kw">library</span>(tictoc)</span>
-<span id="cb235-2"><a href="working-with-data-frame.html#cb235-2"></a><span class="kw">tic</span>()</span>
-<span id="cb235-3"><a href="working-with-data-frame.html#cb235-3"></a></span>
-<span id="cb235-4"><a href="working-with-data-frame.html#cb235-4"></a>fun_list &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb235-5"><a href="working-with-data-frame.html#cb235-5"></a>    <span class="dt">size  =</span> <span class="kw">c</span>(<span class="st">&quot;size&quot;</span>),</span>
-<span id="cb235-6"><a href="working-with-data-frame.html#cb235-6"></a>    <span class="dt">numel =</span> <span class="kw">c</span>(<span class="st">&quot;numel&quot;</span>),</span>
-<span id="cb235-7"><a href="working-with-data-frame.html#cb235-7"></a>    <span class="dt">sum   =</span> <span class="kw">c</span>(<span class="st">&quot;sum&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb235-8"><a href="working-with-data-frame.html#cb235-8"></a>    <span class="dt">mean  =</span> <span class="kw">c</span>(<span class="st">&quot;mean&quot;</span>,   <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb235-9"><a href="working-with-data-frame.html#cb235-9"></a>    <span class="dt">std   =</span> <span class="kw">c</span>(<span class="st">&quot;std&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb235-10"><a href="working-with-data-frame.html#cb235-10"></a>    <span class="dt">med   =</span> <span class="kw">c</span>(<span class="st">&quot;median&quot;</span>, <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb235-11"><a href="working-with-data-frame.html#cb235-11"></a>    <span class="dt">max   =</span> <span class="kw">c</span>(<span class="st">&quot;max&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
-<span id="cb235-12"><a href="working-with-data-frame.html#cb235-12"></a>    <span class="dt">min   =</span> <span class="kw">c</span>(<span class="st">&quot;min&quot;</span>,    <span class="st">&quot;item&quot;</span>)</span>
-<span id="cb235-13"><a href="working-with-data-frame.html#cb235-13"></a>    )</span>
-<span id="cb235-14"><a href="working-with-data-frame.html#cb235-14"></a></span>
-<span id="cb235-15"><a href="working-with-data-frame.html#cb235-15"></a>idx &lt;-<span class="st"> </span><span class="kw">seq</span>(0L, 599L)    <span class="co"># how many samples</span></span>
-<span id="cb235-16"><a href="working-with-data-frame.html#cb235-16"></a></span>
-<span id="cb235-17"><a href="working-with-data-frame.html#cb235-17"></a>fun_get_tensor &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">py_get_item</span>(train_dataset, x)[[<span class="dv">0</span>]]</span>
-<span id="cb235-18"><a href="working-with-data-frame.html#cb235-18"></a></span>
-<span id="cb235-19"><a href="working-with-data-frame.html#cb235-19"></a>stat_fun &lt;-<span class="st"> </span><span class="cf">function</span>(x, str_fun) {</span>
-<span id="cb235-20"><a href="working-with-data-frame.html#cb235-20"></a>  fun_var &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;fun_get_tensor(x)&quot;</span>, <span class="st">&quot;$&quot;</span>, str_fun, <span class="st">&quot;()&quot;</span>)</span>
-<span id="cb235-21"><a href="working-with-data-frame.html#cb235-21"></a>  <span class="kw">sapply</span>(idx, <span class="cf">function</span>(x) </span>
-<span id="cb235-22"><a href="working-with-data-frame.html#cb235-22"></a>    <span class="kw">ifelse</span>(<span class="kw">is.numeric</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var))),  <span class="co"># size return chracater</span></span>
-<span id="cb235-23"><a href="working-with-data-frame.html#cb235-23"></a>           <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var)),              <span class="co"># all else are numeric</span></span>
-<span id="cb235-24"><a href="working-with-data-frame.html#cb235-24"></a>           <span class="kw">as.character</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var)))))</span>
-<span id="cb235-25"><a href="working-with-data-frame.html#cb235-25"></a>}  </span>
-<span id="cb235-26"><a href="working-with-data-frame.html#cb235-26"></a></span>
-<span id="cb235-27"><a href="working-with-data-frame.html#cb235-27"></a>df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ridx =</span> idx<span class="op">+</span><span class="dv">1</span>,      <span class="co"># index number for the sample</span></span>
-<span id="cb235-28"><a href="working-with-data-frame.html#cb235-28"></a>  <span class="kw">do.call</span>(data.frame, </span>
-<span id="cb235-29"><a href="working-with-data-frame.html#cb235-29"></a>          <span class="kw">lapply</span>(</span>
-<span id="cb235-30"><a href="working-with-data-frame.html#cb235-30"></a>              <span class="kw">sapply</span>(fun_list, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;()$&quot;</span>)), </span>
-<span id="cb235-31"><a href="working-with-data-frame.html#cb235-31"></a>              <span class="cf">function</span>(y) <span class="kw">stat_fun</span>(<span class="dv">1</span>, y)</span>
-<span id="cb235-32"><a href="working-with-data-frame.html#cb235-32"></a>          )</span>
-<span id="cb235-33"><a href="working-with-data-frame.html#cb235-33"></a>  )</span>
-<span id="cb235-34"><a href="working-with-data-frame.html#cb235-34"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="working-with-data-frame.html#cb242-1"></a><span class="kw">library</span>(tictoc)</span>
+<span id="cb242-2"><a href="working-with-data-frame.html#cb242-2"></a><span class="kw">tic</span>()</span>
+<span id="cb242-3"><a href="working-with-data-frame.html#cb242-3"></a></span>
+<span id="cb242-4"><a href="working-with-data-frame.html#cb242-4"></a>fun_list &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb242-5"><a href="working-with-data-frame.html#cb242-5"></a>    <span class="dt">size  =</span> <span class="kw">c</span>(<span class="st">&quot;size&quot;</span>),</span>
+<span id="cb242-6"><a href="working-with-data-frame.html#cb242-6"></a>    <span class="dt">numel =</span> <span class="kw">c</span>(<span class="st">&quot;numel&quot;</span>),</span>
+<span id="cb242-7"><a href="working-with-data-frame.html#cb242-7"></a>    <span class="dt">sum   =</span> <span class="kw">c</span>(<span class="st">&quot;sum&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb242-8"><a href="working-with-data-frame.html#cb242-8"></a>    <span class="dt">mean  =</span> <span class="kw">c</span>(<span class="st">&quot;mean&quot;</span>,   <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb242-9"><a href="working-with-data-frame.html#cb242-9"></a>    <span class="dt">std   =</span> <span class="kw">c</span>(<span class="st">&quot;std&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb242-10"><a href="working-with-data-frame.html#cb242-10"></a>    <span class="dt">med   =</span> <span class="kw">c</span>(<span class="st">&quot;median&quot;</span>, <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb242-11"><a href="working-with-data-frame.html#cb242-11"></a>    <span class="dt">max   =</span> <span class="kw">c</span>(<span class="st">&quot;max&quot;</span>,    <span class="st">&quot;item&quot;</span>),</span>
+<span id="cb242-12"><a href="working-with-data-frame.html#cb242-12"></a>    <span class="dt">min   =</span> <span class="kw">c</span>(<span class="st">&quot;min&quot;</span>,    <span class="st">&quot;item&quot;</span>)</span>
+<span id="cb242-13"><a href="working-with-data-frame.html#cb242-13"></a>    )</span>
+<span id="cb242-14"><a href="working-with-data-frame.html#cb242-14"></a></span>
+<span id="cb242-15"><a href="working-with-data-frame.html#cb242-15"></a>idx &lt;-<span class="st"> </span><span class="kw">seq</span>(0L, 599L)    <span class="co"># how many samples</span></span>
+<span id="cb242-16"><a href="working-with-data-frame.html#cb242-16"></a></span>
+<span id="cb242-17"><a href="working-with-data-frame.html#cb242-17"></a>fun_get_tensor &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">py_get_item</span>(train_dataset, x)[[<span class="dv">0</span>]]</span>
+<span id="cb242-18"><a href="working-with-data-frame.html#cb242-18"></a></span>
+<span id="cb242-19"><a href="working-with-data-frame.html#cb242-19"></a>stat_fun &lt;-<span class="st"> </span><span class="cf">function</span>(x, str_fun) {</span>
+<span id="cb242-20"><a href="working-with-data-frame.html#cb242-20"></a>  fun_var &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;fun_get_tensor(x)&quot;</span>, <span class="st">&quot;$&quot;</span>, str_fun, <span class="st">&quot;()&quot;</span>)</span>
+<span id="cb242-21"><a href="working-with-data-frame.html#cb242-21"></a>  <span class="kw">sapply</span>(idx, <span class="cf">function</span>(x) </span>
+<span id="cb242-22"><a href="working-with-data-frame.html#cb242-22"></a>    <span class="kw">ifelse</span>(<span class="kw">is.numeric</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var))),  <span class="co"># size return chracater</span></span>
+<span id="cb242-23"><a href="working-with-data-frame.html#cb242-23"></a>           <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var)),              <span class="co"># all else are numeric</span></span>
+<span id="cb242-24"><a href="working-with-data-frame.html#cb242-24"></a>           <span class="kw">as.character</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> fun_var)))))</span>
+<span id="cb242-25"><a href="working-with-data-frame.html#cb242-25"></a>}  </span>
+<span id="cb242-26"><a href="working-with-data-frame.html#cb242-26"></a></span>
+<span id="cb242-27"><a href="working-with-data-frame.html#cb242-27"></a>df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ridx =</span> idx<span class="op">+</span><span class="dv">1</span>,      <span class="co"># index number for the sample</span></span>
+<span id="cb242-28"><a href="working-with-data-frame.html#cb242-28"></a>  <span class="kw">do.call</span>(data.frame, </span>
+<span id="cb242-29"><a href="working-with-data-frame.html#cb242-29"></a>          <span class="kw">lapply</span>(</span>
+<span id="cb242-30"><a href="working-with-data-frame.html#cb242-30"></a>              <span class="kw">sapply</span>(fun_list, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;()$&quot;</span>)), </span>
+<span id="cb242-31"><a href="working-with-data-frame.html#cb242-31"></a>              <span class="cf">function</span>(y) <span class="kw">stat_fun</span>(<span class="dv">1</span>, y)</span>
+<span id="cb242-32"><a href="working-with-data-frame.html#cb242-32"></a>          )</span>
+<span id="cb242-33"><a href="working-with-data-frame.html#cb242-33"></a>  )</span>
+<span id="cb242-34"><a href="working-with-data-frame.html#cb242-34"></a>)</span></code></pre></div>
 <p>Summary statistics:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="working-with-data-frame.html#cb236-1"></a><span class="kw">head</span>(df, <span class="dv">20</span>)</span>
-<span id="cb236-2"><a href="working-with-data-frame.html#cb236-2"></a><span class="co">#&gt;    ridx                    size numel sum  mean   std med   max min</span></span>
-<span id="cb236-3"><a href="working-with-data-frame.html#cb236-3"></a><span class="co">#&gt; 1     1 torch.Size([3, 28, 28])  2352 366 0.156 0.329   0 1.000   0</span></span>
-<span id="cb236-4"><a href="working-with-data-frame.html#cb236-4"></a><span class="co">#&gt; 2     2 torch.Size([3, 28, 28])  2352 284 0.121 0.297   0 1.000   0</span></span>
-<span id="cb236-5"><a href="working-with-data-frame.html#cb236-5"></a><span class="co">#&gt; 3     3 torch.Size([3, 28, 28])  2352 645 0.274 0.420   0 1.000   0</span></span>
-<span id="cb236-6"><a href="working-with-data-frame.html#cb236-6"></a><span class="co">#&gt; 4     4 torch.Size([3, 28, 28])  2352 410 0.174 0.355   0 1.000   0</span></span>
-<span id="cb236-7"><a href="working-with-data-frame.html#cb236-7"></a><span class="co">#&gt; 5     5 torch.Size([3, 28, 28])  2352 321 0.137 0.312   0 1.000   0</span></span>
-<span id="cb236-8"><a href="working-with-data-frame.html#cb236-8"></a><span class="co">#&gt; 6     6 torch.Size([3, 28, 28])  2352 654 0.278 0.421   0 1.000   0</span></span>
-<span id="cb236-9"><a href="working-with-data-frame.html#cb236-9"></a><span class="co">#&gt; 7     7 torch.Size([3, 28, 28])  2352 496 0.211 0.374   0 1.000   0</span></span>
-<span id="cb236-10"><a href="working-with-data-frame.html#cb236-10"></a><span class="co">#&gt; 8     8 torch.Size([3, 28, 28])  2352 549 0.233 0.399   0 1.000   0</span></span>
-<span id="cb236-11"><a href="working-with-data-frame.html#cb236-11"></a><span class="co">#&gt; 9     9 torch.Size([3, 28, 28])  2352 449 0.191 0.365   0 1.000   0</span></span>
-<span id="cb236-12"><a href="working-with-data-frame.html#cb236-12"></a><span class="co">#&gt; 10   10 torch.Size([3, 28, 28])  2352 465 0.198 0.367   0 1.000   0</span></span>
-<span id="cb236-13"><a href="working-with-data-frame.html#cb236-13"></a><span class="co">#&gt; 11   11 torch.Size([3, 28, 28])  2352 383 0.163 0.338   0 1.000   0</span></span>
-<span id="cb236-14"><a href="working-with-data-frame.html#cb236-14"></a><span class="co">#&gt; 12   12 torch.Size([3, 28, 28])  2352 499 0.212 0.378   0 1.000   0</span></span>
-<span id="cb236-15"><a href="working-with-data-frame.html#cb236-15"></a><span class="co">#&gt; 13   13 torch.Size([3, 28, 28])  2352 313 0.133 0.309   0 0.996   0</span></span>
-<span id="cb236-16"><a href="working-with-data-frame.html#cb236-16"></a><span class="co">#&gt; 14   14 torch.Size([3, 28, 28])  2352 360 0.153 0.325   0 1.000   0</span></span>
-<span id="cb236-17"><a href="working-with-data-frame.html#cb236-17"></a><span class="co">#&gt; 15   15 torch.Size([3, 28, 28])  2352 435 0.185 0.358   0 0.996   0</span></span>
-<span id="cb236-18"><a href="working-with-data-frame.html#cb236-18"></a><span class="co">#&gt; 16   16 torch.Size([3, 28, 28])  2352 429 0.182 0.358   0 1.000   0</span></span>
-<span id="cb236-19"><a href="working-with-data-frame.html#cb236-19"></a><span class="co">#&gt; 17   17 torch.Size([3, 28, 28])  2352 596 0.254 0.408   0 1.000   0</span></span>
-<span id="cb236-20"><a href="working-with-data-frame.html#cb236-20"></a><span class="co">#&gt; 18   18 torch.Size([3, 28, 28])  2352 527 0.224 0.392   0 1.000   0</span></span>
-<span id="cb236-21"><a href="working-with-data-frame.html#cb236-21"></a><span class="co">#&gt; 19   19 torch.Size([3, 28, 28])  2352 303 0.129 0.301   0 1.000   0</span></span>
-<span id="cb236-22"><a href="working-with-data-frame.html#cb236-22"></a><span class="co">#&gt; 20   20 torch.Size([3, 28, 28])  2352 458 0.195 0.364   0 1.000   0</span></span></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="working-with-data-frame.html#cb243-1"></a><span class="kw">head</span>(df, <span class="dv">20</span>)</span>
+<span id="cb243-2"><a href="working-with-data-frame.html#cb243-2"></a><span class="co">#&gt;    ridx                    size numel sum  mean   std med   max min</span></span>
+<span id="cb243-3"><a href="working-with-data-frame.html#cb243-3"></a><span class="co">#&gt; 1     1 torch.Size([3, 28, 28])  2352 366 0.156 0.329   0 1.000   0</span></span>
+<span id="cb243-4"><a href="working-with-data-frame.html#cb243-4"></a><span class="co">#&gt; 2     2 torch.Size([3, 28, 28])  2352 284 0.121 0.297   0 1.000   0</span></span>
+<span id="cb243-5"><a href="working-with-data-frame.html#cb243-5"></a><span class="co">#&gt; 3     3 torch.Size([3, 28, 28])  2352 645 0.274 0.420   0 1.000   0</span></span>
+<span id="cb243-6"><a href="working-with-data-frame.html#cb243-6"></a><span class="co">#&gt; 4     4 torch.Size([3, 28, 28])  2352 410 0.174 0.355   0 1.000   0</span></span>
+<span id="cb243-7"><a href="working-with-data-frame.html#cb243-7"></a><span class="co">#&gt; 5     5 torch.Size([3, 28, 28])  2352 321 0.137 0.312   0 1.000   0</span></span>
+<span id="cb243-8"><a href="working-with-data-frame.html#cb243-8"></a><span class="co">#&gt; 6     6 torch.Size([3, 28, 28])  2352 654 0.278 0.421   0 1.000   0</span></span>
+<span id="cb243-9"><a href="working-with-data-frame.html#cb243-9"></a><span class="co">#&gt; 7     7 torch.Size([3, 28, 28])  2352 496 0.211 0.374   0 1.000   0</span></span>
+<span id="cb243-10"><a href="working-with-data-frame.html#cb243-10"></a><span class="co">#&gt; 8     8 torch.Size([3, 28, 28])  2352 549 0.233 0.399   0 1.000   0</span></span>
+<span id="cb243-11"><a href="working-with-data-frame.html#cb243-11"></a><span class="co">#&gt; 9     9 torch.Size([3, 28, 28])  2352 449 0.191 0.365   0 1.000   0</span></span>
+<span id="cb243-12"><a href="working-with-data-frame.html#cb243-12"></a><span class="co">#&gt; 10   10 torch.Size([3, 28, 28])  2352 465 0.198 0.367   0 1.000   0</span></span>
+<span id="cb243-13"><a href="working-with-data-frame.html#cb243-13"></a><span class="co">#&gt; 11   11 torch.Size([3, 28, 28])  2352 383 0.163 0.338   0 1.000   0</span></span>
+<span id="cb243-14"><a href="working-with-data-frame.html#cb243-14"></a><span class="co">#&gt; 12   12 torch.Size([3, 28, 28])  2352 499 0.212 0.378   0 1.000   0</span></span>
+<span id="cb243-15"><a href="working-with-data-frame.html#cb243-15"></a><span class="co">#&gt; 13   13 torch.Size([3, 28, 28])  2352 313 0.133 0.309   0 0.996   0</span></span>
+<span id="cb243-16"><a href="working-with-data-frame.html#cb243-16"></a><span class="co">#&gt; 14   14 torch.Size([3, 28, 28])  2352 360 0.153 0.325   0 1.000   0</span></span>
+<span id="cb243-17"><a href="working-with-data-frame.html#cb243-17"></a><span class="co">#&gt; 15   15 torch.Size([3, 28, 28])  2352 435 0.185 0.358   0 0.996   0</span></span>
+<span id="cb243-18"><a href="working-with-data-frame.html#cb243-18"></a><span class="co">#&gt; 16   16 torch.Size([3, 28, 28])  2352 429 0.182 0.358   0 1.000   0</span></span>
+<span id="cb243-19"><a href="working-with-data-frame.html#cb243-19"></a><span class="co">#&gt; 17   17 torch.Size([3, 28, 28])  2352 596 0.254 0.408   0 1.000   0</span></span>
+<span id="cb243-20"><a href="working-with-data-frame.html#cb243-20"></a><span class="co">#&gt; 18   18 torch.Size([3, 28, 28])  2352 527 0.224 0.392   0 1.000   0</span></span>
+<span id="cb243-21"><a href="working-with-data-frame.html#cb243-21"></a><span class="co">#&gt; 19   19 torch.Size([3, 28, 28])  2352 303 0.129 0.301   0 1.000   0</span></span>
+<span id="cb243-22"><a href="working-with-data-frame.html#cb243-22"></a><span class="co">#&gt; 20   20 torch.Size([3, 28, 28])  2352 458 0.195 0.364   0 1.000   0</span></span></code></pre></div>
 <p>Elapsed time per size of sample:</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="working-with-data-frame.html#cb237-1"></a><span class="kw">toc</span>()</span>
-<span id="cb237-2"><a href="working-with-data-frame.html#cb237-2"></a><span class="co">#&gt; 10.386 sec elapsed</span></span>
-<span id="cb237-3"><a href="working-with-data-frame.html#cb237-3"></a><span class="co">#    60   1.663s</span></span>
-<span id="cb237-4"><a href="working-with-data-frame.html#cb237-4"></a><span class="co">#   600  13.5s</span></span>
-<span id="cb237-5"><a href="working-with-data-frame.html#cb237-5"></a><span class="co">#  6000  54.321 sec;</span></span>
-<span id="cb237-6"><a href="working-with-data-frame.html#cb237-6"></a><span class="co"># 60000 553.489 sec elapsed</span></span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="working-with-data-frame.html#cb244-1"></a><span class="kw">toc</span>()</span>
+<span id="cb244-2"><a href="working-with-data-frame.html#cb244-2"></a><span class="co">#&gt; 15.129 sec elapsed</span></span>
+<span id="cb244-3"><a href="working-with-data-frame.html#cb244-3"></a><span class="co">#    60   1.663s</span></span>
+<span id="cb244-4"><a href="working-with-data-frame.html#cb244-4"></a><span class="co">#   600  13.5s</span></span>
+<span id="cb244-5"><a href="working-with-data-frame.html#cb244-5"></a><span class="co">#  6000  54.321 sec;</span></span>
+<span id="cb244-6"><a href="working-with-data-frame.html#cb244-6"></a><span class="co"># 60000 553.489 sec elapsed</span></span></code></pre></div>
 
 </div>
 </div>

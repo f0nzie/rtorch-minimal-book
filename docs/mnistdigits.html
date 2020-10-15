@@ -341,7 +341,12 @@ window.initializeCodeFolding = function(show) {
       // Python show code
       $('div.py-code-collapse').each(function() {
         $(this).collapse('show');
-      });    
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
   });
   $("#rmd-hide-all-code").click(function() {
       // close the dropdown menu when an option is clicked
@@ -354,11 +359,17 @@ window.initializeCodeFolding = function(show) {
       $('div.py-code-collapse').each(function() {
         $(this).collapse('hide');
       });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
+
 
   // index for unique code element ids
   var r_currentIndex  = 1;   // for R code
   var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
 
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -389,10 +400,8 @@ window.initializeCodeFolding = function(show) {
         
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);    
     
     // update state of button on show/hide
@@ -404,11 +413,55 @@ window.initializeCodeFolding = function(show) {
     });  
    });
   
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
 
   // select all R code blocks
   // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
   // adding pre.sourceCode confuses the Python button
-  var rCodeBlocks = $('pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
   rCodeBlocks.each(function() {
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -435,10 +488,8 @@ window.initializeCodeFolding = function(show) {
     
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);
 
     // update state of button on show/hide
@@ -1152,153 +1203,153 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="mnistdigits" class="section level1">
 <h1><span class="header-section-number">Chapter 5</span> Example 1 (R): MNIST handwritten digits</h1>
 <p>Source: <a href="https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/01-basics/logistic_regression/main.py" class="uri">https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/01-basics/logistic_regression/main.py</a></p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="mnistdigits.html#cb172-1"></a><span class="kw">library</span>(rTorch)</span>
-<span id="cb172-2"><a href="mnistdigits.html#cb172-2"></a></span>
-<span id="cb172-3"><a href="mnistdigits.html#cb172-3"></a>nn          &lt;-<span class="st"> </span>torch<span class="op">$</span>nn</span>
-<span id="cb172-4"><a href="mnistdigits.html#cb172-4"></a>transforms  &lt;-<span class="st"> </span>torchvision<span class="op">$</span>transforms</span>
-<span id="cb172-5"><a href="mnistdigits.html#cb172-5"></a></span>
-<span id="cb172-6"><a href="mnistdigits.html#cb172-6"></a>torch<span class="op">$</span><span class="kw">set_default_dtype</span>(torch<span class="op">$</span>float)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="mnistdigits.html#cb179-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb179-2"><a href="mnistdigits.html#cb179-2"></a></span>
+<span id="cb179-3"><a href="mnistdigits.html#cb179-3"></a>nn          &lt;-<span class="st"> </span>torch<span class="op">$</span>nn</span>
+<span id="cb179-4"><a href="mnistdigits.html#cb179-4"></a>transforms  &lt;-<span class="st"> </span>torchvision<span class="op">$</span>transforms</span>
+<span id="cb179-5"><a href="mnistdigits.html#cb179-5"></a></span>
+<span id="cb179-6"><a href="mnistdigits.html#cb179-6"></a>torch<span class="op">$</span><span class="kw">set_default_dtype</span>(torch<span class="op">$</span>float)</span></code></pre></div>
 <div id="hyperparameters" class="section level2">
 <h2><span class="header-section-number">5.1</span> Hyperparameters</h2>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="mnistdigits.html#cb173-1"></a><span class="co"># Hyper-parameters </span></span>
-<span id="cb173-2"><a href="mnistdigits.html#cb173-2"></a>input_size    &lt;-<span class="st"> </span>784L</span>
-<span id="cb173-3"><a href="mnistdigits.html#cb173-3"></a>num_classes   &lt;-<span class="st"> </span>10L</span>
-<span id="cb173-4"><a href="mnistdigits.html#cb173-4"></a>num_epochs    &lt;-<span class="st"> </span>5L</span>
-<span id="cb173-5"><a href="mnistdigits.html#cb173-5"></a>batch_size    &lt;-<span class="st"> </span>100L</span>
-<span id="cb173-6"><a href="mnistdigits.html#cb173-6"></a>learning_rate &lt;-<span class="st"> </span><span class="fl">0.001</span></span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="mnistdigits.html#cb180-1"></a><span class="co"># Hyper-parameters </span></span>
+<span id="cb180-2"><a href="mnistdigits.html#cb180-2"></a>input_size    &lt;-<span class="st"> </span>784L</span>
+<span id="cb180-3"><a href="mnistdigits.html#cb180-3"></a>num_classes   &lt;-<span class="st"> </span>10L</span>
+<span id="cb180-4"><a href="mnistdigits.html#cb180-4"></a>num_epochs    &lt;-<span class="st"> </span>5L</span>
+<span id="cb180-5"><a href="mnistdigits.html#cb180-5"></a>batch_size    &lt;-<span class="st"> </span>100L</span>
+<span id="cb180-6"><a href="mnistdigits.html#cb180-6"></a>learning_rate &lt;-<span class="st"> </span><span class="fl">0.001</span></span></code></pre></div>
 </div>
 <div id="read-datasets" class="section level2">
 <h2><span class="header-section-number">5.2</span> Read datasets</h2>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="mnistdigits.html#cb174-1"></a><span class="co"># MNIST dataset (images and labels)</span></span>
-<span id="cb174-2"><a href="mnistdigits.html#cb174-2"></a><span class="co"># IDX format</span></span>
-<span id="cb174-3"><a href="mnistdigits.html#cb174-3"></a>local_folder &lt;-<span class="st"> &#39;./datasets/raw_data&#39;</span></span>
-<span id="cb174-4"><a href="mnistdigits.html#cb174-4"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root=</span>local_folder, </span>
-<span id="cb174-5"><a href="mnistdigits.html#cb174-5"></a>                                           <span class="dt">train=</span><span class="ot">TRUE</span>, </span>
-<span id="cb174-6"><a href="mnistdigits.html#cb174-6"></a>                                           <span class="dt">transform=</span>transforms<span class="op">$</span><span class="kw">ToTensor</span>(),</span>
-<span id="cb174-7"><a href="mnistdigits.html#cb174-7"></a>                                           <span class="dt">download=</span><span class="ot">TRUE</span>)</span>
-<span id="cb174-8"><a href="mnistdigits.html#cb174-8"></a></span>
-<span id="cb174-9"><a href="mnistdigits.html#cb174-9"></a>test_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root=</span>local_folder, </span>
-<span id="cb174-10"><a href="mnistdigits.html#cb174-10"></a>                                          <span class="dt">train=</span><span class="ot">FALSE</span>, </span>
-<span id="cb174-11"><a href="mnistdigits.html#cb174-11"></a>                                          <span class="dt">transform=</span>transforms<span class="op">$</span><span class="kw">ToTensor</span>())</span>
-<span id="cb174-12"><a href="mnistdigits.html#cb174-12"></a></span>
-<span id="cb174-13"><a href="mnistdigits.html#cb174-13"></a><span class="co"># Data loader (input pipeline). Make the datasets iteratble</span></span>
-<span id="cb174-14"><a href="mnistdigits.html#cb174-14"></a>train_loader =<span class="st"> </span>torch<span class="op">$</span>utils<span class="op">$</span>data<span class="op">$</span><span class="kw">DataLoader</span>(<span class="dt">dataset=</span>train_dataset, </span>
-<span id="cb174-15"><a href="mnistdigits.html#cb174-15"></a>                                           <span class="dt">batch_size=</span>batch_size, </span>
-<span id="cb174-16"><a href="mnistdigits.html#cb174-16"></a>                                           <span class="dt">shuffle=</span><span class="ot">TRUE</span>)</span>
-<span id="cb174-17"><a href="mnistdigits.html#cb174-17"></a></span>
-<span id="cb174-18"><a href="mnistdigits.html#cb174-18"></a>test_loader =<span class="st"> </span>torch<span class="op">$</span>utils<span class="op">$</span>data<span class="op">$</span><span class="kw">DataLoader</span>(<span class="dt">dataset=</span>test_dataset, </span>
-<span id="cb174-19"><a href="mnistdigits.html#cb174-19"></a>                                          <span class="dt">batch_size=</span>batch_size, </span>
-<span id="cb174-20"><a href="mnistdigits.html#cb174-20"></a>                                          <span class="dt">shuffle=</span><span class="ot">FALSE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="mnistdigits.html#cb175-1"></a><span class="kw">class</span>(train_loader)</span>
-<span id="cb175-2"><a href="mnistdigits.html#cb175-2"></a><span class="co">#&gt; [1] &quot;torch.utils.data.dataloader.DataLoader&quot;</span></span>
-<span id="cb175-3"><a href="mnistdigits.html#cb175-3"></a><span class="co">#&gt; [2] &quot;python.builtin.object&quot;</span></span>
-<span id="cb175-4"><a href="mnistdigits.html#cb175-4"></a><span class="kw">length</span>(train_loader)</span>
-<span id="cb175-5"><a href="mnistdigits.html#cb175-5"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="mnistdigits.html#cb181-1"></a><span class="co"># MNIST dataset (images and labels)</span></span>
+<span id="cb181-2"><a href="mnistdigits.html#cb181-2"></a><span class="co"># IDX format</span></span>
+<span id="cb181-3"><a href="mnistdigits.html#cb181-3"></a>local_folder &lt;-<span class="st"> &#39;./datasets/raw_data&#39;</span></span>
+<span id="cb181-4"><a href="mnistdigits.html#cb181-4"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root=</span>local_folder, </span>
+<span id="cb181-5"><a href="mnistdigits.html#cb181-5"></a>                                           <span class="dt">train=</span><span class="ot">TRUE</span>, </span>
+<span id="cb181-6"><a href="mnistdigits.html#cb181-6"></a>                                           <span class="dt">transform=</span>transforms<span class="op">$</span><span class="kw">ToTensor</span>(),</span>
+<span id="cb181-7"><a href="mnistdigits.html#cb181-7"></a>                                           <span class="dt">download=</span><span class="ot">TRUE</span>)</span>
+<span id="cb181-8"><a href="mnistdigits.html#cb181-8"></a></span>
+<span id="cb181-9"><a href="mnistdigits.html#cb181-9"></a>test_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root=</span>local_folder, </span>
+<span id="cb181-10"><a href="mnistdigits.html#cb181-10"></a>                                          <span class="dt">train=</span><span class="ot">FALSE</span>, </span>
+<span id="cb181-11"><a href="mnistdigits.html#cb181-11"></a>                                          <span class="dt">transform=</span>transforms<span class="op">$</span><span class="kw">ToTensor</span>())</span>
+<span id="cb181-12"><a href="mnistdigits.html#cb181-12"></a></span>
+<span id="cb181-13"><a href="mnistdigits.html#cb181-13"></a><span class="co"># Data loader (input pipeline). Make the datasets iteratble</span></span>
+<span id="cb181-14"><a href="mnistdigits.html#cb181-14"></a>train_loader =<span class="st"> </span>torch<span class="op">$</span>utils<span class="op">$</span>data<span class="op">$</span><span class="kw">DataLoader</span>(<span class="dt">dataset=</span>train_dataset, </span>
+<span id="cb181-15"><a href="mnistdigits.html#cb181-15"></a>                                           <span class="dt">batch_size=</span>batch_size, </span>
+<span id="cb181-16"><a href="mnistdigits.html#cb181-16"></a>                                           <span class="dt">shuffle=</span><span class="ot">TRUE</span>)</span>
+<span id="cb181-17"><a href="mnistdigits.html#cb181-17"></a></span>
+<span id="cb181-18"><a href="mnistdigits.html#cb181-18"></a>test_loader =<span class="st"> </span>torch<span class="op">$</span>utils<span class="op">$</span>data<span class="op">$</span><span class="kw">DataLoader</span>(<span class="dt">dataset=</span>test_dataset, </span>
+<span id="cb181-19"><a href="mnistdigits.html#cb181-19"></a>                                          <span class="dt">batch_size=</span>batch_size, </span>
+<span id="cb181-20"><a href="mnistdigits.html#cb181-20"></a>                                          <span class="dt">shuffle=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="mnistdigits.html#cb182-1"></a><span class="kw">class</span>(train_loader)</span>
+<span id="cb182-2"><a href="mnistdigits.html#cb182-2"></a><span class="co">#&gt; [1] &quot;torch.utils.data.dataloader.DataLoader&quot;</span></span>
+<span id="cb182-3"><a href="mnistdigits.html#cb182-3"></a><span class="co">#&gt; [2] &quot;python.builtin.object&quot;</span></span>
+<span id="cb182-4"><a href="mnistdigits.html#cb182-4"></a><span class="kw">length</span>(train_loader)</span>
+<span id="cb182-5"><a href="mnistdigits.html#cb182-5"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 </div>
 <div id="define-the-model" class="section level2">
 <h2><span class="header-section-number">5.3</span> Define the model</h2>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="mnistdigits.html#cb176-1"></a><span class="co"># Logistic regression model</span></span>
-<span id="cb176-2"><a href="mnistdigits.html#cb176-2"></a>model =<span class="st"> </span>nn<span class="op">$</span><span class="kw">Linear</span>(input_size, num_classes)</span>
-<span id="cb176-3"><a href="mnistdigits.html#cb176-3"></a></span>
-<span id="cb176-4"><a href="mnistdigits.html#cb176-4"></a><span class="co"># Loss and optimizer</span></span>
-<span id="cb176-5"><a href="mnistdigits.html#cb176-5"></a><span class="co"># nn.CrossEntropyLoss() computes softmax internally</span></span>
-<span id="cb176-6"><a href="mnistdigits.html#cb176-6"></a>criterion =<span class="st"> </span>nn<span class="op">$</span><span class="kw">CrossEntropyLoss</span>()  </span>
-<span id="cb176-7"><a href="mnistdigits.html#cb176-7"></a>optimizer =<span class="st"> </span>torch<span class="op">$</span>optim<span class="op">$</span><span class="kw">SGD</span>(model<span class="op">$</span><span class="kw">parameters</span>(), <span class="dt">lr=</span>learning_rate)  </span>
-<span id="cb176-8"><a href="mnistdigits.html#cb176-8"></a><span class="kw">print</span>(model)</span>
-<span id="cb176-9"><a href="mnistdigits.html#cb176-9"></a><span class="co">#&gt; Linear(in_features=784, out_features=10, bias=True)</span></span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="mnistdigits.html#cb183-1"></a><span class="co"># Logistic regression model</span></span>
+<span id="cb183-2"><a href="mnistdigits.html#cb183-2"></a>model =<span class="st"> </span>nn<span class="op">$</span><span class="kw">Linear</span>(input_size, num_classes)</span>
+<span id="cb183-3"><a href="mnistdigits.html#cb183-3"></a></span>
+<span id="cb183-4"><a href="mnistdigits.html#cb183-4"></a><span class="co"># Loss and optimizer</span></span>
+<span id="cb183-5"><a href="mnistdigits.html#cb183-5"></a><span class="co"># nn.CrossEntropyLoss() computes softmax internally</span></span>
+<span id="cb183-6"><a href="mnistdigits.html#cb183-6"></a>criterion =<span class="st"> </span>nn<span class="op">$</span><span class="kw">CrossEntropyLoss</span>()  </span>
+<span id="cb183-7"><a href="mnistdigits.html#cb183-7"></a>optimizer =<span class="st"> </span>torch<span class="op">$</span>optim<span class="op">$</span><span class="kw">SGD</span>(model<span class="op">$</span><span class="kw">parameters</span>(), <span class="dt">lr=</span>learning_rate)  </span>
+<span id="cb183-8"><a href="mnistdigits.html#cb183-8"></a><span class="kw">print</span>(model)</span>
+<span id="cb183-9"><a href="mnistdigits.html#cb183-9"></a><span class="co">#&gt; Linear(in_features=784, out_features=10, bias=True)</span></span></code></pre></div>
 </div>
 <div id="training" class="section level2">
 <h2><span class="header-section-number">5.4</span> Training</h2>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="mnistdigits.html#cb177-1"></a><span class="co"># Train the model</span></span>
-<span id="cb177-2"><a href="mnistdigits.html#cb177-2"></a>iter_train_loader &lt;-<span class="st"> </span><span class="kw">iterate</span>(train_loader)</span>
-<span id="cb177-3"><a href="mnistdigits.html#cb177-3"></a>total_step &lt;-<span class="kw">length</span>(iter_train_loader)</span></code></pre></div>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="mnistdigits.html#cb178-1"></a><span class="cf">for</span> (epoch <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>num_epochs) {</span>
-<span id="cb178-2"><a href="mnistdigits.html#cb178-2"></a>    i &lt;-<span class="st">  </span><span class="dv">0</span></span>
-<span id="cb178-3"><a href="mnistdigits.html#cb178-3"></a>    <span class="cf">for</span> (obj <span class="cf">in</span> iter_train_loader) {</span>
-<span id="cb178-4"><a href="mnistdigits.html#cb178-4"></a>        </span>
-<span id="cb178-5"><a href="mnistdigits.html#cb178-5"></a>        images &lt;-<span class="st"> </span>obj[[<span class="dv">1</span>]]   <span class="co"># tensor torch.Size([64, 3, 28, 28])</span></span>
-<span id="cb178-6"><a href="mnistdigits.html#cb178-6"></a>        labels &lt;-<span class="st"> </span>obj[[<span class="dv">2</span>]]   <span class="co"># tensor torch.Size([64]), labels from 0 to 9</span></span>
-<span id="cb178-7"><a href="mnistdigits.html#cb178-7"></a>        <span class="co"># cat(i, &quot;\t&quot;); print(images$shape)</span></span>
-<span id="cb178-8"><a href="mnistdigits.html#cb178-8"></a></span>
-<span id="cb178-9"><a href="mnistdigits.html#cb178-9"></a>        <span class="co"># Reshape images to (batch_size, input_size)</span></span>
-<span id="cb178-10"><a href="mnistdigits.html#cb178-10"></a>        images &lt;-<span class="st"> </span>images<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 28L<span class="op">*</span>28L)</span>
-<span id="cb178-11"><a href="mnistdigits.html#cb178-11"></a>        <span class="co"># images &lt;- torch$as_tensor(images$reshape(-1L, 28L*28L), dtype=torch$double)</span></span>
-<span id="cb178-12"><a href="mnistdigits.html#cb178-12"></a></span>
-<span id="cb178-13"><a href="mnistdigits.html#cb178-13"></a>        <span class="co"># Forward pass</span></span>
-<span id="cb178-14"><a href="mnistdigits.html#cb178-14"></a>        outputs &lt;-<span class="st"> </span><span class="kw">model</span>(images)</span>
-<span id="cb178-15"><a href="mnistdigits.html#cb178-15"></a>        loss &lt;-<span class="st"> </span><span class="kw">criterion</span>(outputs, labels)</span>
-<span id="cb178-16"><a href="mnistdigits.html#cb178-16"></a></span>
-<span id="cb178-17"><a href="mnistdigits.html#cb178-17"></a>        <span class="co"># Backward and optimize</span></span>
-<span id="cb178-18"><a href="mnistdigits.html#cb178-18"></a>        optimizer<span class="op">$</span><span class="kw">zero_grad</span>()</span>
-<span id="cb178-19"><a href="mnistdigits.html#cb178-19"></a>        loss<span class="op">$</span><span class="kw">backward</span>()</span>
-<span id="cb178-20"><a href="mnistdigits.html#cb178-20"></a>        optimizer<span class="op">$</span><span class="kw">step</span>()</span>
-<span id="cb178-21"><a href="mnistdigits.html#cb178-21"></a></span>
-<span id="cb178-22"><a href="mnistdigits.html#cb178-22"></a>        <span class="cf">if</span> ((i<span class="op">+</span><span class="dv">1</span>) <span class="op">%%</span><span class="st"> </span><span class="dv">100</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</span>
-<span id="cb178-23"><a href="mnistdigits.html#cb178-23"></a>            <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&#39;Epoch [%d/%d], Step [%d/%d], Loss: %f </span><span class="ch">\n</span><span class="st">&#39;</span>,</span>
-<span id="cb178-24"><a href="mnistdigits.html#cb178-24"></a>                epoch<span class="op">+</span><span class="dv">1</span>, num_epochs, i<span class="op">+</span><span class="dv">1</span>, total_step, loss<span class="op">$</span><span class="kw">item</span>()))</span>
-<span id="cb178-25"><a href="mnistdigits.html#cb178-25"></a>        }</span>
-<span id="cb178-26"><a href="mnistdigits.html#cb178-26"></a>        i &lt;-<span class="st">  </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb178-27"><a href="mnistdigits.html#cb178-27"></a>    }</span>
-<span id="cb178-28"><a href="mnistdigits.html#cb178-28"></a>}  </span>
-<span id="cb178-29"><a href="mnistdigits.html#cb178-29"></a><span class="co">#&gt; Epoch [2/5], Step [100/600], Loss: 2.209354 </span></span>
-<span id="cb178-30"><a href="mnistdigits.html#cb178-30"></a><span class="co">#&gt; Epoch [2/5], Step [200/600], Loss: 2.119449 </span></span>
-<span id="cb178-31"><a href="mnistdigits.html#cb178-31"></a><span class="co">#&gt; Epoch [2/5], Step [300/600], Loss: 2.008579 </span></span>
-<span id="cb178-32"><a href="mnistdigits.html#cb178-32"></a><span class="co">#&gt; Epoch [2/5], Step [400/600], Loss: 1.882590 </span></span>
-<span id="cb178-33"><a href="mnistdigits.html#cb178-33"></a><span class="co">#&gt; Epoch [2/5], Step [500/600], Loss: 1.916824 </span></span>
-<span id="cb178-34"><a href="mnistdigits.html#cb178-34"></a><span class="co">#&gt; Epoch [2/5], Step [600/600], Loss: 1.810867 </span></span>
-<span id="cb178-35"><a href="mnistdigits.html#cb178-35"></a><span class="co">#&gt; Epoch [3/5], Step [100/600], Loss: 1.792244 </span></span>
-<span id="cb178-36"><a href="mnistdigits.html#cb178-36"></a><span class="co">#&gt; Epoch [3/5], Step [200/600], Loss: 1.676368 </span></span>
-<span id="cb178-37"><a href="mnistdigits.html#cb178-37"></a><span class="co">#&gt; Epoch [3/5], Step [300/600], Loss: 1.583182 </span></span>
-<span id="cb178-38"><a href="mnistdigits.html#cb178-38"></a><span class="co">#&gt; Epoch [3/5], Step [400/600], Loss: 1.474889 </span></span>
-<span id="cb178-39"><a href="mnistdigits.html#cb178-39"></a><span class="co">#&gt; Epoch [3/5], Step [500/600], Loss: 1.594804 </span></span>
-<span id="cb178-40"><a href="mnistdigits.html#cb178-40"></a><span class="co">#&gt; Epoch [3/5], Step [600/600], Loss: 1.502411 </span></span>
-<span id="cb178-41"><a href="mnistdigits.html#cb178-41"></a><span class="co">#&gt; Epoch [4/5], Step [100/600], Loss: 1.515124 </span></span>
-<span id="cb178-42"><a href="mnistdigits.html#cb178-42"></a><span class="co">#&gt; Epoch [4/5], Step [200/600], Loss: 1.391025 </span></span>
-<span id="cb178-43"><a href="mnistdigits.html#cb178-43"></a><span class="co">#&gt; Epoch [4/5], Step [300/600], Loss: 1.315072 </span></span>
-<span id="cb178-44"><a href="mnistdigits.html#cb178-44"></a><span class="co">#&gt; Epoch [4/5], Step [400/600], Loss: 1.224669 </span></span>
-<span id="cb178-45"><a href="mnistdigits.html#cb178-45"></a><span class="co">#&gt; Epoch [4/5], Step [500/600], Loss: 1.378947 </span></span>
-<span id="cb178-46"><a href="mnistdigits.html#cb178-46"></a><span class="co">#&gt; Epoch [4/5], Step [600/600], Loss: 1.301334 </span></span>
-<span id="cb178-47"><a href="mnistdigits.html#cb178-47"></a><span class="co">#&gt; Epoch [5/5], Step [100/600], Loss: 1.325539 </span></span>
-<span id="cb178-48"><a href="mnistdigits.html#cb178-48"></a><span class="co">#&gt; Epoch [5/5], Step [200/600], Loss: 1.202310 </span></span>
-<span id="cb178-49"><a href="mnistdigits.html#cb178-49"></a><span class="co">#&gt; Epoch [5/5], Step [300/600], Loss: 1.137919 </span></span>
-<span id="cb178-50"><a href="mnistdigits.html#cb178-50"></a><span class="co">#&gt; Epoch [5/5], Step [400/600], Loss: 1.060654 </span></span>
-<span id="cb178-51"><a href="mnistdigits.html#cb178-51"></a><span class="co">#&gt; Epoch [5/5], Step [500/600], Loss: 1.231211 </span></span>
-<span id="cb178-52"><a href="mnistdigits.html#cb178-52"></a><span class="co">#&gt; Epoch [5/5], Step [600/600], Loss: 1.164704 </span></span>
-<span id="cb178-53"><a href="mnistdigits.html#cb178-53"></a><span class="co">#&gt; Epoch [6/5], Step [100/600], Loss: 1.190899 </span></span>
-<span id="cb178-54"><a href="mnistdigits.html#cb178-54"></a><span class="co">#&gt; Epoch [6/5], Step [200/600], Loss: 1.072050 </span></span>
-<span id="cb178-55"><a href="mnistdigits.html#cb178-55"></a><span class="co">#&gt; Epoch [6/5], Step [300/600], Loss: 1.014690 </span></span>
-<span id="cb178-56"><a href="mnistdigits.html#cb178-56"></a><span class="co">#&gt; Epoch [6/5], Step [400/600], Loss: 0.946916 </span></span>
-<span id="cb178-57"><a href="mnistdigits.html#cb178-57"></a><span class="co">#&gt; Epoch [6/5], Step [500/600], Loss: 1.125406 </span></span>
-<span id="cb178-58"><a href="mnistdigits.html#cb178-58"></a><span class="co">#&gt; Epoch [6/5], Step [600/600], Loss: 1.067425</span></span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="mnistdigits.html#cb184-1"></a><span class="co"># Train the model</span></span>
+<span id="cb184-2"><a href="mnistdigits.html#cb184-2"></a>iter_train_loader &lt;-<span class="st"> </span><span class="kw">iterate</span>(train_loader)</span>
+<span id="cb184-3"><a href="mnistdigits.html#cb184-3"></a>total_step &lt;-<span class="kw">length</span>(iter_train_loader)</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="mnistdigits.html#cb185-1"></a><span class="cf">for</span> (epoch <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>num_epochs) {</span>
+<span id="cb185-2"><a href="mnistdigits.html#cb185-2"></a>    i &lt;-<span class="st">  </span><span class="dv">0</span></span>
+<span id="cb185-3"><a href="mnistdigits.html#cb185-3"></a>    <span class="cf">for</span> (obj <span class="cf">in</span> iter_train_loader) {</span>
+<span id="cb185-4"><a href="mnistdigits.html#cb185-4"></a>        </span>
+<span id="cb185-5"><a href="mnistdigits.html#cb185-5"></a>        images &lt;-<span class="st"> </span>obj[[<span class="dv">1</span>]]   <span class="co"># tensor torch.Size([64, 3, 28, 28])</span></span>
+<span id="cb185-6"><a href="mnistdigits.html#cb185-6"></a>        labels &lt;-<span class="st"> </span>obj[[<span class="dv">2</span>]]   <span class="co"># tensor torch.Size([64]), labels from 0 to 9</span></span>
+<span id="cb185-7"><a href="mnistdigits.html#cb185-7"></a>        <span class="co"># cat(i, &quot;\t&quot;); print(images$shape)</span></span>
+<span id="cb185-8"><a href="mnistdigits.html#cb185-8"></a></span>
+<span id="cb185-9"><a href="mnistdigits.html#cb185-9"></a>        <span class="co"># Reshape images to (batch_size, input_size)</span></span>
+<span id="cb185-10"><a href="mnistdigits.html#cb185-10"></a>        images &lt;-<span class="st"> </span>images<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 28L<span class="op">*</span>28L)</span>
+<span id="cb185-11"><a href="mnistdigits.html#cb185-11"></a>        <span class="co"># images &lt;- torch$as_tensor(images$reshape(-1L, 28L*28L), dtype=torch$double)</span></span>
+<span id="cb185-12"><a href="mnistdigits.html#cb185-12"></a></span>
+<span id="cb185-13"><a href="mnistdigits.html#cb185-13"></a>        <span class="co"># Forward pass</span></span>
+<span id="cb185-14"><a href="mnistdigits.html#cb185-14"></a>        outputs &lt;-<span class="st"> </span><span class="kw">model</span>(images)</span>
+<span id="cb185-15"><a href="mnistdigits.html#cb185-15"></a>        loss &lt;-<span class="st"> </span><span class="kw">criterion</span>(outputs, labels)</span>
+<span id="cb185-16"><a href="mnistdigits.html#cb185-16"></a></span>
+<span id="cb185-17"><a href="mnistdigits.html#cb185-17"></a>        <span class="co"># Backward and optimize</span></span>
+<span id="cb185-18"><a href="mnistdigits.html#cb185-18"></a>        optimizer<span class="op">$</span><span class="kw">zero_grad</span>()</span>
+<span id="cb185-19"><a href="mnistdigits.html#cb185-19"></a>        loss<span class="op">$</span><span class="kw">backward</span>()</span>
+<span id="cb185-20"><a href="mnistdigits.html#cb185-20"></a>        optimizer<span class="op">$</span><span class="kw">step</span>()</span>
+<span id="cb185-21"><a href="mnistdigits.html#cb185-21"></a></span>
+<span id="cb185-22"><a href="mnistdigits.html#cb185-22"></a>        <span class="cf">if</span> ((i<span class="op">+</span><span class="dv">1</span>) <span class="op">%%</span><span class="st"> </span><span class="dv">100</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</span>
+<span id="cb185-23"><a href="mnistdigits.html#cb185-23"></a>            <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&#39;Epoch [%d/%d], Step [%d/%d], Loss: %f </span><span class="ch">\n</span><span class="st">&#39;</span>,</span>
+<span id="cb185-24"><a href="mnistdigits.html#cb185-24"></a>                epoch<span class="op">+</span><span class="dv">1</span>, num_epochs, i<span class="op">+</span><span class="dv">1</span>, total_step, loss<span class="op">$</span><span class="kw">item</span>()))</span>
+<span id="cb185-25"><a href="mnistdigits.html#cb185-25"></a>        }</span>
+<span id="cb185-26"><a href="mnistdigits.html#cb185-26"></a>        i &lt;-<span class="st">  </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb185-27"><a href="mnistdigits.html#cb185-27"></a>    }</span>
+<span id="cb185-28"><a href="mnistdigits.html#cb185-28"></a>}  </span>
+<span id="cb185-29"><a href="mnistdigits.html#cb185-29"></a><span class="co">#&gt; Epoch [2/5], Step [100/600], Loss: 2.180025 </span></span>
+<span id="cb185-30"><a href="mnistdigits.html#cb185-30"></a><span class="co">#&gt; Epoch [2/5], Step [200/600], Loss: 2.098551 </span></span>
+<span id="cb185-31"><a href="mnistdigits.html#cb185-31"></a><span class="co">#&gt; Epoch [2/5], Step [300/600], Loss: 2.020655 </span></span>
+<span id="cb185-32"><a href="mnistdigits.html#cb185-32"></a><span class="co">#&gt; Epoch [2/5], Step [400/600], Loss: 1.946838 </span></span>
+<span id="cb185-33"><a href="mnistdigits.html#cb185-33"></a><span class="co">#&gt; Epoch [2/5], Step [500/600], Loss: 1.883616 </span></span>
+<span id="cb185-34"><a href="mnistdigits.html#cb185-34"></a><span class="co">#&gt; Epoch [2/5], Step [600/600], Loss: 1.803724 </span></span>
+<span id="cb185-35"><a href="mnistdigits.html#cb185-35"></a><span class="co">#&gt; Epoch [3/5], Step [100/600], Loss: 1.740431 </span></span>
+<span id="cb185-36"><a href="mnistdigits.html#cb185-36"></a><span class="co">#&gt; Epoch [3/5], Step [200/600], Loss: 1.634078 </span></span>
+<span id="cb185-37"><a href="mnistdigits.html#cb185-37"></a><span class="co">#&gt; Epoch [3/5], Step [300/600], Loss: 1.639710 </span></span>
+<span id="cb185-38"><a href="mnistdigits.html#cb185-38"></a><span class="co">#&gt; Epoch [3/5], Step [400/600], Loss: 1.588046 </span></span>
+<span id="cb185-39"><a href="mnistdigits.html#cb185-39"></a><span class="co">#&gt; Epoch [3/5], Step [500/600], Loss: 1.573791 </span></span>
+<span id="cb185-40"><a href="mnistdigits.html#cb185-40"></a><span class="co">#&gt; Epoch [3/5], Step [600/600], Loss: 1.491170 </span></span>
+<span id="cb185-41"><a href="mnistdigits.html#cb185-41"></a><span class="co">#&gt; Epoch [4/5], Step [100/600], Loss: 1.455223 </span></span>
+<span id="cb185-42"><a href="mnistdigits.html#cb185-42"></a><span class="co">#&gt; Epoch [4/5], Step [200/600], Loss: 1.341331 </span></span>
+<span id="cb185-43"><a href="mnistdigits.html#cb185-43"></a><span class="co">#&gt; Epoch [4/5], Step [300/600], Loss: 1.384623 </span></span>
+<span id="cb185-44"><a href="mnistdigits.html#cb185-44"></a><span class="co">#&gt; Epoch [4/5], Step [400/600], Loss: 1.353798 </span></span>
+<span id="cb185-45"><a href="mnistdigits.html#cb185-45"></a><span class="co">#&gt; Epoch [4/5], Step [500/600], Loss: 1.371800 </span></span>
+<span id="cb185-46"><a href="mnistdigits.html#cb185-46"></a><span class="co">#&gt; Epoch [4/5], Step [600/600], Loss: 1.281307 </span></span>
+<span id="cb185-47"><a href="mnistdigits.html#cb185-47"></a><span class="co">#&gt; Epoch [5/5], Step [100/600], Loss: 1.263693 </span></span>
+<span id="cb185-48"><a href="mnistdigits.html#cb185-48"></a><span class="co">#&gt; Epoch [5/5], Step [200/600], Loss: 1.148572 </span></span>
+<span id="cb185-49"><a href="mnistdigits.html#cb185-49"></a><span class="co">#&gt; Epoch [5/5], Step [300/600], Loss: 1.208910 </span></span>
+<span id="cb185-50"><a href="mnistdigits.html#cb185-50"></a><span class="co">#&gt; Epoch [5/5], Step [400/600], Loss: 1.195025 </span></span>
+<span id="cb185-51"><a href="mnistdigits.html#cb185-51"></a><span class="co">#&gt; Epoch [5/5], Step [500/600], Loss: 1.234443 </span></span>
+<span id="cb185-52"><a href="mnistdigits.html#cb185-52"></a><span class="co">#&gt; Epoch [5/5], Step [600/600], Loss: 1.135198 </span></span>
+<span id="cb185-53"><a href="mnistdigits.html#cb185-53"></a><span class="co">#&gt; Epoch [6/5], Step [100/600], Loss: 1.129422 </span></span>
+<span id="cb185-54"><a href="mnistdigits.html#cb185-54"></a><span class="co">#&gt; Epoch [6/5], Step [200/600], Loss: 1.015478 </span></span>
+<span id="cb185-55"><a href="mnistdigits.html#cb185-55"></a><span class="co">#&gt; Epoch [6/5], Step [300/600], Loss: 1.082613 </span></span>
+<span id="cb185-56"><a href="mnistdigits.html#cb185-56"></a><span class="co">#&gt; Epoch [6/5], Step [400/600], Loss: 1.082354 </span></span>
+<span id="cb185-57"><a href="mnistdigits.html#cb185-57"></a><span class="co">#&gt; Epoch [6/5], Step [500/600], Loss: 1.136242 </span></span>
+<span id="cb185-58"><a href="mnistdigits.html#cb185-58"></a><span class="co">#&gt; Epoch [6/5], Step [600/600], Loss: 1.029027</span></span></code></pre></div>
 </div>
 <div id="prediction" class="section level2">
 <h2><span class="header-section-number">5.5</span> Prediction</h2>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="mnistdigits.html#cb179-1"></a><span class="co"># Adjust weights and reset gradients</span></span>
-<span id="cb179-2"><a href="mnistdigits.html#cb179-2"></a>iter_test_loader &lt;-<span class="st"> </span><span class="kw">iterate</span>(test_loader)</span>
-<span id="cb179-3"><a href="mnistdigits.html#cb179-3"></a></span>
-<span id="cb179-4"><a href="mnistdigits.html#cb179-4"></a><span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
-<span id="cb179-5"><a href="mnistdigits.html#cb179-5"></a>    correct &lt;-<span class="st">  </span><span class="dv">0</span></span>
-<span id="cb179-6"><a href="mnistdigits.html#cb179-6"></a>    total &lt;-<span class="st">  </span><span class="dv">0</span></span>
-<span id="cb179-7"><a href="mnistdigits.html#cb179-7"></a>    <span class="cf">for</span> (obj <span class="cf">in</span> iter_test_loader) {</span>
-<span id="cb179-8"><a href="mnistdigits.html#cb179-8"></a>        images &lt;-<span class="st"> </span>obj[[<span class="dv">1</span>]]   <span class="co"># tensor torch.Size([64, 3, 28, 28])</span></span>
-<span id="cb179-9"><a href="mnistdigits.html#cb179-9"></a>        labels &lt;-<span class="st"> </span>obj[[<span class="dv">2</span>]]   <span class="co"># tensor torch.Size([64]), labels from 0 to 9</span></span>
-<span id="cb179-10"><a href="mnistdigits.html#cb179-10"></a>        images =<span class="st"> </span>images<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 28L<span class="op">*</span>28L)</span>
-<span id="cb179-11"><a href="mnistdigits.html#cb179-11"></a>        <span class="co"># images &lt;- torch$as_tensor(images$reshape(-1L, 28L*28L), dtype=torch$double)</span></span>
-<span id="cb179-12"><a href="mnistdigits.html#cb179-12"></a>        outputs =<span class="st"> </span><span class="kw">model</span>(images)</span>
-<span id="cb179-13"><a href="mnistdigits.html#cb179-13"></a>        .predicted =<span class="st"> </span>torch<span class="op">$</span><span class="kw">max</span>(outputs<span class="op">$</span>data, 1L)</span>
-<span id="cb179-14"><a href="mnistdigits.html#cb179-14"></a>        predicted &lt;-<span class="st"> </span>.predicted[1L]</span>
-<span id="cb179-15"><a href="mnistdigits.html#cb179-15"></a>        total =<span class="st"> </span>total <span class="op">+</span><span class="st"> </span>labels<span class="op">$</span><span class="kw">size</span>(0L)</span>
-<span id="cb179-16"><a href="mnistdigits.html#cb179-16"></a>        correct =<span class="st"> </span>correct <span class="op">+</span><span class="st"> </span><span class="kw">sum</span>((predicted<span class="op">$</span><span class="kw">numpy</span>() <span class="op">==</span><span class="st"> </span>labels<span class="op">$</span><span class="kw">numpy</span>()))</span>
-<span id="cb179-17"><a href="mnistdigits.html#cb179-17"></a>    }</span>
-<span id="cb179-18"><a href="mnistdigits.html#cb179-18"></a>    <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&#39;Accuracy of the model on the 10000 test images: %f %%&#39;</span>, (<span class="dv">100</span> <span class="op">*</span><span class="st"> </span>correct <span class="op">/</span><span class="st"> </span>total)))</span>
-<span id="cb179-19"><a href="mnistdigits.html#cb179-19"></a>  </span>
-<span id="cb179-20"><a href="mnistdigits.html#cb179-20"></a>})</span>
-<span id="cb179-21"><a href="mnistdigits.html#cb179-21"></a><span class="co">#&gt; Accuracy of the model on the 10000 test images: 83.260000 %</span></span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="mnistdigits.html#cb186-1"></a><span class="co"># Adjust weights and reset gradients</span></span>
+<span id="cb186-2"><a href="mnistdigits.html#cb186-2"></a>iter_test_loader &lt;-<span class="st"> </span><span class="kw">iterate</span>(test_loader)</span>
+<span id="cb186-3"><a href="mnistdigits.html#cb186-3"></a></span>
+<span id="cb186-4"><a href="mnistdigits.html#cb186-4"></a><span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
+<span id="cb186-5"><a href="mnistdigits.html#cb186-5"></a>    correct &lt;-<span class="st">  </span><span class="dv">0</span></span>
+<span id="cb186-6"><a href="mnistdigits.html#cb186-6"></a>    total &lt;-<span class="st">  </span><span class="dv">0</span></span>
+<span id="cb186-7"><a href="mnistdigits.html#cb186-7"></a>    <span class="cf">for</span> (obj <span class="cf">in</span> iter_test_loader) {</span>
+<span id="cb186-8"><a href="mnistdigits.html#cb186-8"></a>        images &lt;-<span class="st"> </span>obj[[<span class="dv">1</span>]]   <span class="co"># tensor torch.Size([64, 3, 28, 28])</span></span>
+<span id="cb186-9"><a href="mnistdigits.html#cb186-9"></a>        labels &lt;-<span class="st"> </span>obj[[<span class="dv">2</span>]]   <span class="co"># tensor torch.Size([64]), labels from 0 to 9</span></span>
+<span id="cb186-10"><a href="mnistdigits.html#cb186-10"></a>        images =<span class="st"> </span>images<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 28L<span class="op">*</span>28L)</span>
+<span id="cb186-11"><a href="mnistdigits.html#cb186-11"></a>        <span class="co"># images &lt;- torch$as_tensor(images$reshape(-1L, 28L*28L), dtype=torch$double)</span></span>
+<span id="cb186-12"><a href="mnistdigits.html#cb186-12"></a>        outputs =<span class="st"> </span><span class="kw">model</span>(images)</span>
+<span id="cb186-13"><a href="mnistdigits.html#cb186-13"></a>        .predicted =<span class="st"> </span>torch<span class="op">$</span><span class="kw">max</span>(outputs<span class="op">$</span>data, 1L)</span>
+<span id="cb186-14"><a href="mnistdigits.html#cb186-14"></a>        predicted &lt;-<span class="st"> </span>.predicted[1L]</span>
+<span id="cb186-15"><a href="mnistdigits.html#cb186-15"></a>        total =<span class="st"> </span>total <span class="op">+</span><span class="st"> </span>labels<span class="op">$</span><span class="kw">size</span>(0L)</span>
+<span id="cb186-16"><a href="mnistdigits.html#cb186-16"></a>        correct =<span class="st"> </span>correct <span class="op">+</span><span class="st"> </span><span class="kw">sum</span>((predicted<span class="op">$</span><span class="kw">numpy</span>() <span class="op">==</span><span class="st"> </span>labels<span class="op">$</span><span class="kw">numpy</span>()))</span>
+<span id="cb186-17"><a href="mnistdigits.html#cb186-17"></a>    }</span>
+<span id="cb186-18"><a href="mnistdigits.html#cb186-18"></a>    <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&#39;Accuracy of the model on the 10000 test images: %f %%&#39;</span>, (<span class="dv">100</span> <span class="op">*</span><span class="st"> </span>correct <span class="op">/</span><span class="st"> </span>total)))</span>
+<span id="cb186-19"><a href="mnistdigits.html#cb186-19"></a>  </span>
+<span id="cb186-20"><a href="mnistdigits.html#cb186-20"></a>})</span>
+<span id="cb186-21"><a href="mnistdigits.html#cb186-21"></a><span class="co">#&gt; Accuracy of the model on the 10000 test images: 83.160000 %</span></span></code></pre></div>
 </div>
 <div id="save-the-model" class="section level2">
 <h2><span class="header-section-number">5.6</span> Save the model</h2>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="mnistdigits.html#cb180-1"></a><span class="co"># Save the model checkpoint</span></span>
-<span id="cb180-2"><a href="mnistdigits.html#cb180-2"></a>torch<span class="op">$</span><span class="kw">save</span>(model<span class="op">$</span><span class="kw">state_dict</span>(), <span class="st">&#39;model.ckpt&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="mnistdigits.html#cb187-1"></a><span class="co"># Save the model checkpoint</span></span>
+<span id="cb187-2"><a href="mnistdigits.html#cb187-2"></a>torch<span class="op">$</span><span class="kw">save</span>(model<span class="op">$</span><span class="kw">state_dict</span>(), <span class="st">&#39;model.ckpt&#39;</span>)</span></code></pre></div>
 </div>
 </div>
             </section>

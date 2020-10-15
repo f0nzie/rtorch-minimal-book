@@ -341,7 +341,12 @@ window.initializeCodeFolding = function(show) {
       // Python show code
       $('div.py-code-collapse').each(function() {
         $(this).collapse('show');
-      });    
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
   });
   $("#rmd-hide-all-code").click(function() {
       // close the dropdown menu when an option is clicked
@@ -354,11 +359,17 @@ window.initializeCodeFolding = function(show) {
       $('div.py-code-collapse').each(function() {
         $(this).collapse('hide');
       });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
+
 
   // index for unique code element ids
   var r_currentIndex  = 1;   // for R code
   var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
 
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -389,10 +400,8 @@ window.initializeCodeFolding = function(show) {
         
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);    
     
     // update state of button on show/hide
@@ -404,11 +413,55 @@ window.initializeCodeFolding = function(show) {
     });  
    });
   
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
 
   // select all R code blocks
   // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
   // adding pre.sourceCode confuses the Python button
-  var rCodeBlocks = $('pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
   rCodeBlocks.each(function() {
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -435,10 +488,8 @@ window.initializeCodeFolding = function(show) {
     
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);
 
     // update state of button on show/hide
@@ -1158,11 +1209,11 @@ code span.wa { color: #bf0303; } /* Warning */
 </div>
 <div id="select-device" class="section level2">
 <h2><span class="header-section-number">11.2</span> Select device</h2>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="a-very-simple-neural-network.html#cb225-1"></a><span class="kw">library</span>(rTorch)</span>
-<span id="cb225-2"><a href="a-very-simple-neural-network.html#cb225-2"></a></span>
-<span id="cb225-3"><a href="a-very-simple-neural-network.html#cb225-3"></a>device =<span class="st"> </span>torch<span class="op">$</span><span class="kw">device</span>(<span class="st">&#39;cpu&#39;</span>)</span>
-<span id="cb225-4"><a href="a-very-simple-neural-network.html#cb225-4"></a></span>
-<span id="cb225-5"><a href="a-very-simple-neural-network.html#cb225-5"></a><span class="co"># device = torch.device(&#39;cuda&#39;) # Uncomment this to run on GPU</span></span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="a-very-simple-neural-network.html#cb232-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb232-2"><a href="a-very-simple-neural-network.html#cb232-2"></a></span>
+<span id="cb232-3"><a href="a-very-simple-neural-network.html#cb232-3"></a>device =<span class="st"> </span>torch<span class="op">$</span><span class="kw">device</span>(<span class="st">&#39;cpu&#39;</span>)</span>
+<span id="cb232-4"><a href="a-very-simple-neural-network.html#cb232-4"></a></span>
+<span id="cb232-5"><a href="a-very-simple-neural-network.html#cb232-5"></a><span class="co"># device = torch.device(&#39;cuda&#39;) # Uncomment this to run on GPU</span></span></code></pre></div>
 <ul>
 <li><code>N</code> is batch size;</li>
 <li><code>D_in</code> is input dimension;</li>
@@ -1172,583 +1223,583 @@ code span.wa { color: #bf0303; } /* Warning */
 </div>
 <div id="create-the-dataset" class="section level2">
 <h2><span class="header-section-number">11.3</span> Create the dataset</h2>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="a-very-simple-neural-network.html#cb226-1"></a>torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">0</span>)</span>
-<span id="cb226-2"><a href="a-very-simple-neural-network.html#cb226-2"></a><span class="co">#&gt; &lt;torch._C.Generator&gt;</span></span>
-<span id="cb226-3"><a href="a-very-simple-neural-network.html#cb226-3"></a></span>
-<span id="cb226-4"><a href="a-very-simple-neural-network.html#cb226-4"></a>N &lt;-<span class="st"> </span>64L; D_in &lt;-<span class="st"> </span>1000L; H &lt;-<span class="st"> </span>100L; D_out &lt;-<span class="st"> </span>10L</span>
-<span id="cb226-5"><a href="a-very-simple-neural-network.html#cb226-5"></a></span>
-<span id="cb226-6"><a href="a-very-simple-neural-network.html#cb226-6"></a><span class="co"># Create random Tensors to hold inputs and outputs</span></span>
-<span id="cb226-7"><a href="a-very-simple-neural-network.html#cb226-7"></a>x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(N, D_in, <span class="dt">device=</span>device)</span>
-<span id="cb226-8"><a href="a-very-simple-neural-network.html#cb226-8"></a>y =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(N, D_out, <span class="dt">device=</span>device)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="a-very-simple-neural-network.html#cb233-1"></a>torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">0</span>)</span>
+<span id="cb233-2"><a href="a-very-simple-neural-network.html#cb233-2"></a><span class="co">#&gt; &lt;torch._C.Generator&gt;</span></span>
+<span id="cb233-3"><a href="a-very-simple-neural-network.html#cb233-3"></a></span>
+<span id="cb233-4"><a href="a-very-simple-neural-network.html#cb233-4"></a>N &lt;-<span class="st"> </span>64L; D_in &lt;-<span class="st"> </span>1000L; H &lt;-<span class="st"> </span>100L; D_out &lt;-<span class="st"> </span>10L</span>
+<span id="cb233-5"><a href="a-very-simple-neural-network.html#cb233-5"></a></span>
+<span id="cb233-6"><a href="a-very-simple-neural-network.html#cb233-6"></a><span class="co"># Create random Tensors to hold inputs and outputs</span></span>
+<span id="cb233-7"><a href="a-very-simple-neural-network.html#cb233-7"></a>x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(N, D_in, <span class="dt">device=</span>device)</span>
+<span id="cb233-8"><a href="a-very-simple-neural-network.html#cb233-8"></a>y =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(N, D_out, <span class="dt">device=</span>device)</span></code></pre></div>
 </div>
 <div id="define-the-model-1" class="section level2">
 <h2><span class="header-section-number">11.4</span> Define the model</h2>
 <p>Use the <code>nn</code> package to define our model as a sequence of layers. <code>nn.Sequential</code> is a Module which contains other Modules, and applies them in sequence to produce its output. Each Linear Module computes output from input using a linear function, and holds internal Tensors for its weight and bias.
 After constructing the model we use the <code>.to()</code> method to move it to the
 desired device.</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="a-very-simple-neural-network.html#cb227-1"></a>model &lt;-<span class="st"> </span>torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">Sequential</span>(</span>
-<span id="cb227-2"><a href="a-very-simple-neural-network.html#cb227-2"></a>  torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">Linear</span>(D_in, H),              <span class="co"># first layer</span></span>
-<span id="cb227-3"><a href="a-very-simple-neural-network.html#cb227-3"></a>  torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">ReLU</span>(),</span>
-<span id="cb227-4"><a href="a-very-simple-neural-network.html#cb227-4"></a>  torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">Linear</span>(H, D_out))<span class="op">$</span><span class="kw">to</span>(device)  <span class="co"># output layer</span></span>
-<span id="cb227-5"><a href="a-very-simple-neural-network.html#cb227-5"></a></span>
-<span id="cb227-6"><a href="a-very-simple-neural-network.html#cb227-6"></a><span class="kw">print</span>(model)</span>
-<span id="cb227-7"><a href="a-very-simple-neural-network.html#cb227-7"></a><span class="co">#&gt; Sequential(</span></span>
-<span id="cb227-8"><a href="a-very-simple-neural-network.html#cb227-8"></a><span class="co">#&gt;   (0): Linear(in_features=1000, out_features=100, bias=True)</span></span>
-<span id="cb227-9"><a href="a-very-simple-neural-network.html#cb227-9"></a><span class="co">#&gt;   (1): ReLU()</span></span>
-<span id="cb227-10"><a href="a-very-simple-neural-network.html#cb227-10"></a><span class="co">#&gt;   (2): Linear(in_features=100, out_features=10, bias=True)</span></span>
-<span id="cb227-11"><a href="a-very-simple-neural-network.html#cb227-11"></a><span class="co">#&gt; )</span></span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="a-very-simple-neural-network.html#cb234-1"></a>model &lt;-<span class="st"> </span>torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">Sequential</span>(</span>
+<span id="cb234-2"><a href="a-very-simple-neural-network.html#cb234-2"></a>  torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">Linear</span>(D_in, H),              <span class="co"># first layer</span></span>
+<span id="cb234-3"><a href="a-very-simple-neural-network.html#cb234-3"></a>  torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">ReLU</span>(),</span>
+<span id="cb234-4"><a href="a-very-simple-neural-network.html#cb234-4"></a>  torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">Linear</span>(H, D_out))<span class="op">$</span><span class="kw">to</span>(device)  <span class="co"># output layer</span></span>
+<span id="cb234-5"><a href="a-very-simple-neural-network.html#cb234-5"></a></span>
+<span id="cb234-6"><a href="a-very-simple-neural-network.html#cb234-6"></a><span class="kw">print</span>(model)</span>
+<span id="cb234-7"><a href="a-very-simple-neural-network.html#cb234-7"></a><span class="co">#&gt; Sequential(</span></span>
+<span id="cb234-8"><a href="a-very-simple-neural-network.html#cb234-8"></a><span class="co">#&gt;   (0): Linear(in_features=1000, out_features=100, bias=True)</span></span>
+<span id="cb234-9"><a href="a-very-simple-neural-network.html#cb234-9"></a><span class="co">#&gt;   (1): ReLU()</span></span>
+<span id="cb234-10"><a href="a-very-simple-neural-network.html#cb234-10"></a><span class="co">#&gt;   (2): Linear(in_features=100, out_features=10, bias=True)</span></span>
+<span id="cb234-11"><a href="a-very-simple-neural-network.html#cb234-11"></a><span class="co">#&gt; )</span></span></code></pre></div>
 </div>
 <div id="loss-function-1" class="section level2">
 <h2><span class="header-section-number">11.5</span> Loss function</h2>
 <p>The <code>nn</code> package also contains definitions of popular loss functions; in this case we will use Mean Squared Error (<strong>MSE</strong>) as our loss function. Setting <code>reduction='sum'</code> means that we are computing the <em>sum</em> of squared errors rather than the mean; this is for consistency with the examples above where we manually compute the loss, but in practice it is more common to use mean squared error as a loss by setting <code>reduction='elementwise_mean'</code>.</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="a-very-simple-neural-network.html#cb228-1"></a>loss_fn =<span class="st"> </span>torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">MSELoss</span>(<span class="dt">reduction =</span> <span class="st">&#39;sum&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="a-very-simple-neural-network.html#cb235-1"></a>loss_fn =<span class="st"> </span>torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">MSELoss</span>(<span class="dt">reduction =</span> <span class="st">&#39;sum&#39;</span>)</span></code></pre></div>
 </div>
 <div id="iterate-through-batches" class="section level2">
 <h2><span class="header-section-number">11.6</span> Iterate through batches</h2>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="a-very-simple-neural-network.html#cb229-1"></a>learning_rate =<span class="st"> </span><span class="fl">1e-4</span></span>
-<span id="cb229-2"><a href="a-very-simple-neural-network.html#cb229-2"></a></span>
-<span id="cb229-3"><a href="a-very-simple-neural-network.html#cb229-3"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">500</span>) {</span>
-<span id="cb229-4"><a href="a-very-simple-neural-network.html#cb229-4"></a>  <span class="co"># Forward pass: compute predicted y by passing x to the model. Module objects</span></span>
-<span id="cb229-5"><a href="a-very-simple-neural-network.html#cb229-5"></a>  <span class="co"># override the __call__ operator so you can call them like functions. When</span></span>
-<span id="cb229-6"><a href="a-very-simple-neural-network.html#cb229-6"></a>  <span class="co"># doing so you pass a Tensor of input data to the Module and it produces</span></span>
-<span id="cb229-7"><a href="a-very-simple-neural-network.html#cb229-7"></a>  <span class="co"># a Tensor of output data.</span></span>
-<span id="cb229-8"><a href="a-very-simple-neural-network.html#cb229-8"></a>  y_pred =<span class="st"> </span><span class="kw">model</span>(x)</span>
-<span id="cb229-9"><a href="a-very-simple-neural-network.html#cb229-9"></a></span>
-<span id="cb229-10"><a href="a-very-simple-neural-network.html#cb229-10"></a>  <span class="co"># Compute and print loss. We pass Tensors containing the predicted and true</span></span>
-<span id="cb229-11"><a href="a-very-simple-neural-network.html#cb229-11"></a>  <span class="co"># values of y, and the loss function returns a Tensor containing the loss.</span></span>
-<span id="cb229-12"><a href="a-very-simple-neural-network.html#cb229-12"></a>  loss =<span class="st"> </span><span class="kw">loss_fn</span>(y_pred, y)</span>
-<span id="cb229-13"><a href="a-very-simple-neural-network.html#cb229-13"></a>  </span>
-<span id="cb229-14"><a href="a-very-simple-neural-network.html#cb229-14"></a>  <span class="kw">cat</span>(t, <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb229-15"><a href="a-very-simple-neural-network.html#cb229-15"></a>  <span class="kw">cat</span>(loss<span class="op">$</span><span class="kw">item</span>(), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb229-16"><a href="a-very-simple-neural-network.html#cb229-16"></a>  </span>
-<span id="cb229-17"><a href="a-very-simple-neural-network.html#cb229-17"></a>  <span class="co"># Zero the gradients before running the backward pass.</span></span>
-<span id="cb229-18"><a href="a-very-simple-neural-network.html#cb229-18"></a>  model<span class="op">$</span><span class="kw">zero_grad</span>()</span>
-<span id="cb229-19"><a href="a-very-simple-neural-network.html#cb229-19"></a></span>
-<span id="cb229-20"><a href="a-very-simple-neural-network.html#cb229-20"></a>  <span class="co"># Backward pass: compute gradient of the loss with respect to all the learnable</span></span>
-<span id="cb229-21"><a href="a-very-simple-neural-network.html#cb229-21"></a>  <span class="co"># parameters of the model. Internally, the parameters of each Module are stored</span></span>
-<span id="cb229-22"><a href="a-very-simple-neural-network.html#cb229-22"></a>  <span class="co"># in Tensors with requires_grad=True, so this call will compute gradients for</span></span>
-<span id="cb229-23"><a href="a-very-simple-neural-network.html#cb229-23"></a>  <span class="co"># all learnable parameters in the model.</span></span>
-<span id="cb229-24"><a href="a-very-simple-neural-network.html#cb229-24"></a>  loss<span class="op">$</span><span class="kw">backward</span>()</span>
-<span id="cb229-25"><a href="a-very-simple-neural-network.html#cb229-25"></a></span>
-<span id="cb229-26"><a href="a-very-simple-neural-network.html#cb229-26"></a>  <span class="co"># Update the weights using gradient descent. Each parameter is a Tensor, so</span></span>
-<span id="cb229-27"><a href="a-very-simple-neural-network.html#cb229-27"></a>  <span class="co"># we can access its data and gradients like we did before.</span></span>
-<span id="cb229-28"><a href="a-very-simple-neural-network.html#cb229-28"></a>  <span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
-<span id="cb229-29"><a href="a-very-simple-neural-network.html#cb229-29"></a>      <span class="cf">for</span> (param <span class="cf">in</span> <span class="kw">iterate</span>(model<span class="op">$</span><span class="kw">parameters</span>())) {</span>
-<span id="cb229-30"><a href="a-very-simple-neural-network.html#cb229-30"></a>        <span class="co"># in Python this code is much simpler. In R we have to do some conversions</span></span>
-<span id="cb229-31"><a href="a-very-simple-neural-network.html#cb229-31"></a>        </span>
-<span id="cb229-32"><a href="a-very-simple-neural-network.html#cb229-32"></a>        <span class="co"># param$data &lt;- torch$sub(param$data,</span></span>
-<span id="cb229-33"><a href="a-very-simple-neural-network.html#cb229-33"></a>        <span class="co">#                         torch$mul(param$grad$float(),</span></span>
-<span id="cb229-34"><a href="a-very-simple-neural-network.html#cb229-34"></a>        <span class="co">#                           torch$scalar_tensor(learning_rate)))</span></span>
-<span id="cb229-35"><a href="a-very-simple-neural-network.html#cb229-35"></a>        </span>
-<span id="cb229-36"><a href="a-very-simple-neural-network.html#cb229-36"></a>        param<span class="op">$</span>data &lt;-<span class="st"> </span>param<span class="op">$</span>data <span class="op">-</span><span class="st"> </span>param<span class="op">$</span>grad <span class="op">*</span><span class="st"> </span>learning_rate</span>
-<span id="cb229-37"><a href="a-very-simple-neural-network.html#cb229-37"></a>      }</span>
-<span id="cb229-38"><a href="a-very-simple-neural-network.html#cb229-38"></a>   })</span>
-<span id="cb229-39"><a href="a-very-simple-neural-network.html#cb229-39"></a>}  </span>
-<span id="cb229-40"><a href="a-very-simple-neural-network.html#cb229-40"></a><span class="co">#&gt; 1    628 </span></span>
-<span id="cb229-41"><a href="a-very-simple-neural-network.html#cb229-41"></a><span class="co">#&gt; 2    585 </span></span>
-<span id="cb229-42"><a href="a-very-simple-neural-network.html#cb229-42"></a><span class="co">#&gt; 3    547 </span></span>
-<span id="cb229-43"><a href="a-very-simple-neural-network.html#cb229-43"></a><span class="co">#&gt; 4    513 </span></span>
-<span id="cb229-44"><a href="a-very-simple-neural-network.html#cb229-44"></a><span class="co">#&gt; 5    482 </span></span>
-<span id="cb229-45"><a href="a-very-simple-neural-network.html#cb229-45"></a><span class="co">#&gt; 6    455 </span></span>
-<span id="cb229-46"><a href="a-very-simple-neural-network.html#cb229-46"></a><span class="co">#&gt; 7    430 </span></span>
-<span id="cb229-47"><a href="a-very-simple-neural-network.html#cb229-47"></a><span class="co">#&gt; 8    406 </span></span>
-<span id="cb229-48"><a href="a-very-simple-neural-network.html#cb229-48"></a><span class="co">#&gt; 9    385 </span></span>
-<span id="cb229-49"><a href="a-very-simple-neural-network.html#cb229-49"></a><span class="co">#&gt; 10   364 </span></span>
-<span id="cb229-50"><a href="a-very-simple-neural-network.html#cb229-50"></a><span class="co">#&gt; 11   345 </span></span>
-<span id="cb229-51"><a href="a-very-simple-neural-network.html#cb229-51"></a><span class="co">#&gt; 12   328 </span></span>
-<span id="cb229-52"><a href="a-very-simple-neural-network.html#cb229-52"></a><span class="co">#&gt; 13   311 </span></span>
-<span id="cb229-53"><a href="a-very-simple-neural-network.html#cb229-53"></a><span class="co">#&gt; 14   295 </span></span>
-<span id="cb229-54"><a href="a-very-simple-neural-network.html#cb229-54"></a><span class="co">#&gt; 15   280 </span></span>
-<span id="cb229-55"><a href="a-very-simple-neural-network.html#cb229-55"></a><span class="co">#&gt; 16   265 </span></span>
-<span id="cb229-56"><a href="a-very-simple-neural-network.html#cb229-56"></a><span class="co">#&gt; 17   252 </span></span>
-<span id="cb229-57"><a href="a-very-simple-neural-network.html#cb229-57"></a><span class="co">#&gt; 18   239 </span></span>
-<span id="cb229-58"><a href="a-very-simple-neural-network.html#cb229-58"></a><span class="co">#&gt; 19   226 </span></span>
-<span id="cb229-59"><a href="a-very-simple-neural-network.html#cb229-59"></a><span class="co">#&gt; 20   214 </span></span>
-<span id="cb229-60"><a href="a-very-simple-neural-network.html#cb229-60"></a><span class="co">#&gt; 21   203 </span></span>
-<span id="cb229-61"><a href="a-very-simple-neural-network.html#cb229-61"></a><span class="co">#&gt; 22   192 </span></span>
-<span id="cb229-62"><a href="a-very-simple-neural-network.html#cb229-62"></a><span class="co">#&gt; 23   181 </span></span>
-<span id="cb229-63"><a href="a-very-simple-neural-network.html#cb229-63"></a><span class="co">#&gt; 24   172 </span></span>
-<span id="cb229-64"><a href="a-very-simple-neural-network.html#cb229-64"></a><span class="co">#&gt; 25   162 </span></span>
-<span id="cb229-65"><a href="a-very-simple-neural-network.html#cb229-65"></a><span class="co">#&gt; 26   153 </span></span>
-<span id="cb229-66"><a href="a-very-simple-neural-network.html#cb229-66"></a><span class="co">#&gt; 27   145 </span></span>
-<span id="cb229-67"><a href="a-very-simple-neural-network.html#cb229-67"></a><span class="co">#&gt; 28   137 </span></span>
-<span id="cb229-68"><a href="a-very-simple-neural-network.html#cb229-68"></a><span class="co">#&gt; 29   129 </span></span>
-<span id="cb229-69"><a href="a-very-simple-neural-network.html#cb229-69"></a><span class="co">#&gt; 30   122 </span></span>
-<span id="cb229-70"><a href="a-very-simple-neural-network.html#cb229-70"></a><span class="co">#&gt; 31   115 </span></span>
-<span id="cb229-71"><a href="a-very-simple-neural-network.html#cb229-71"></a><span class="co">#&gt; 32   109 </span></span>
-<span id="cb229-72"><a href="a-very-simple-neural-network.html#cb229-72"></a><span class="co">#&gt; 33   103 </span></span>
-<span id="cb229-73"><a href="a-very-simple-neural-network.html#cb229-73"></a><span class="co">#&gt; 34   96.9 </span></span>
-<span id="cb229-74"><a href="a-very-simple-neural-network.html#cb229-74"></a><span class="co">#&gt; 35   91.5 </span></span>
-<span id="cb229-75"><a href="a-very-simple-neural-network.html#cb229-75"></a><span class="co">#&gt; 36   86.3 </span></span>
-<span id="cb229-76"><a href="a-very-simple-neural-network.html#cb229-76"></a><span class="co">#&gt; 37   81.5 </span></span>
-<span id="cb229-77"><a href="a-very-simple-neural-network.html#cb229-77"></a><span class="co">#&gt; 38   76.9 </span></span>
-<span id="cb229-78"><a href="a-very-simple-neural-network.html#cb229-78"></a><span class="co">#&gt; 39   72.6 </span></span>
-<span id="cb229-79"><a href="a-very-simple-neural-network.html#cb229-79"></a><span class="co">#&gt; 40   68.5 </span></span>
-<span id="cb229-80"><a href="a-very-simple-neural-network.html#cb229-80"></a><span class="co">#&gt; 41   64.6 </span></span>
-<span id="cb229-81"><a href="a-very-simple-neural-network.html#cb229-81"></a><span class="co">#&gt; 42   61 </span></span>
-<span id="cb229-82"><a href="a-very-simple-neural-network.html#cb229-82"></a><span class="co">#&gt; 43   57.6 </span></span>
-<span id="cb229-83"><a href="a-very-simple-neural-network.html#cb229-83"></a><span class="co">#&gt; 44   54.3 </span></span>
-<span id="cb229-84"><a href="a-very-simple-neural-network.html#cb229-84"></a><span class="co">#&gt; 45   51.3 </span></span>
-<span id="cb229-85"><a href="a-very-simple-neural-network.html#cb229-85"></a><span class="co">#&gt; 46   48.5 </span></span>
-<span id="cb229-86"><a href="a-very-simple-neural-network.html#cb229-86"></a><span class="co">#&gt; 47   45.8 </span></span>
-<span id="cb229-87"><a href="a-very-simple-neural-network.html#cb229-87"></a><span class="co">#&gt; 48   43.2 </span></span>
-<span id="cb229-88"><a href="a-very-simple-neural-network.html#cb229-88"></a><span class="co">#&gt; 49   40.9 </span></span>
-<span id="cb229-89"><a href="a-very-simple-neural-network.html#cb229-89"></a><span class="co">#&gt; 50   38.6 </span></span>
-<span id="cb229-90"><a href="a-very-simple-neural-network.html#cb229-90"></a><span class="co">#&gt; 51   36.5 </span></span>
-<span id="cb229-91"><a href="a-very-simple-neural-network.html#cb229-91"></a><span class="co">#&gt; 52   34.5 </span></span>
-<span id="cb229-92"><a href="a-very-simple-neural-network.html#cb229-92"></a><span class="co">#&gt; 53   32.7 </span></span>
-<span id="cb229-93"><a href="a-very-simple-neural-network.html#cb229-93"></a><span class="co">#&gt; 54   30.9 </span></span>
-<span id="cb229-94"><a href="a-very-simple-neural-network.html#cb229-94"></a><span class="co">#&gt; 55   29.3 </span></span>
-<span id="cb229-95"><a href="a-very-simple-neural-network.html#cb229-95"></a><span class="co">#&gt; 56   27.8 </span></span>
-<span id="cb229-96"><a href="a-very-simple-neural-network.html#cb229-96"></a><span class="co">#&gt; 57   26.3 </span></span>
-<span id="cb229-97"><a href="a-very-simple-neural-network.html#cb229-97"></a><span class="co">#&gt; 58   24.9 </span></span>
-<span id="cb229-98"><a href="a-very-simple-neural-network.html#cb229-98"></a><span class="co">#&gt; 59   23.7 </span></span>
-<span id="cb229-99"><a href="a-very-simple-neural-network.html#cb229-99"></a><span class="co">#&gt; 60   22.4 </span></span>
-<span id="cb229-100"><a href="a-very-simple-neural-network.html#cb229-100"></a><span class="co">#&gt; 61   21.3 </span></span>
-<span id="cb229-101"><a href="a-very-simple-neural-network.html#cb229-101"></a><span class="co">#&gt; 62   20.2 </span></span>
-<span id="cb229-102"><a href="a-very-simple-neural-network.html#cb229-102"></a><span class="co">#&gt; 63   19.2 </span></span>
-<span id="cb229-103"><a href="a-very-simple-neural-network.html#cb229-103"></a><span class="co">#&gt; 64   18.2 </span></span>
-<span id="cb229-104"><a href="a-very-simple-neural-network.html#cb229-104"></a><span class="co">#&gt; 65   17.3 </span></span>
-<span id="cb229-105"><a href="a-very-simple-neural-network.html#cb229-105"></a><span class="co">#&gt; 66   16.5 </span></span>
-<span id="cb229-106"><a href="a-very-simple-neural-network.html#cb229-106"></a><span class="co">#&gt; 67   15.7 </span></span>
-<span id="cb229-107"><a href="a-very-simple-neural-network.html#cb229-107"></a><span class="co">#&gt; 68   14.9 </span></span>
-<span id="cb229-108"><a href="a-very-simple-neural-network.html#cb229-108"></a><span class="co">#&gt; 69   14.2 </span></span>
-<span id="cb229-109"><a href="a-very-simple-neural-network.html#cb229-109"></a><span class="co">#&gt; 70   13.5 </span></span>
-<span id="cb229-110"><a href="a-very-simple-neural-network.html#cb229-110"></a><span class="co">#&gt; 71   12.9 </span></span>
-<span id="cb229-111"><a href="a-very-simple-neural-network.html#cb229-111"></a><span class="co">#&gt; 72   12.3 </span></span>
-<span id="cb229-112"><a href="a-very-simple-neural-network.html#cb229-112"></a><span class="co">#&gt; 73   11.7 </span></span>
-<span id="cb229-113"><a href="a-very-simple-neural-network.html#cb229-113"></a><span class="co">#&gt; 74   11.1 </span></span>
-<span id="cb229-114"><a href="a-very-simple-neural-network.html#cb229-114"></a><span class="co">#&gt; 75   10.6 </span></span>
-<span id="cb229-115"><a href="a-very-simple-neural-network.html#cb229-115"></a><span class="co">#&gt; 76   10.1 </span></span>
-<span id="cb229-116"><a href="a-very-simple-neural-network.html#cb229-116"></a><span class="co">#&gt; 77   9.67 </span></span>
-<span id="cb229-117"><a href="a-very-simple-neural-network.html#cb229-117"></a><span class="co">#&gt; 78   9.24 </span></span>
-<span id="cb229-118"><a href="a-very-simple-neural-network.html#cb229-118"></a><span class="co">#&gt; 79   8.82 </span></span>
-<span id="cb229-119"><a href="a-very-simple-neural-network.html#cb229-119"></a><span class="co">#&gt; 80   8.42 </span></span>
-<span id="cb229-120"><a href="a-very-simple-neural-network.html#cb229-120"></a><span class="co">#&gt; 81   8.05 </span></span>
-<span id="cb229-121"><a href="a-very-simple-neural-network.html#cb229-121"></a><span class="co">#&gt; 82   7.69 </span></span>
-<span id="cb229-122"><a href="a-very-simple-neural-network.html#cb229-122"></a><span class="co">#&gt; 83   7.35 </span></span>
-<span id="cb229-123"><a href="a-very-simple-neural-network.html#cb229-123"></a><span class="co">#&gt; 84   7.03 </span></span>
-<span id="cb229-124"><a href="a-very-simple-neural-network.html#cb229-124"></a><span class="co">#&gt; 85   6.72 </span></span>
-<span id="cb229-125"><a href="a-very-simple-neural-network.html#cb229-125"></a><span class="co">#&gt; 86   6.43 </span></span>
-<span id="cb229-126"><a href="a-very-simple-neural-network.html#cb229-126"></a><span class="co">#&gt; 87   6.16 </span></span>
-<span id="cb229-127"><a href="a-very-simple-neural-network.html#cb229-127"></a><span class="co">#&gt; 88   5.9 </span></span>
-<span id="cb229-128"><a href="a-very-simple-neural-network.html#cb229-128"></a><span class="co">#&gt; 89   5.65 </span></span>
-<span id="cb229-129"><a href="a-very-simple-neural-network.html#cb229-129"></a><span class="co">#&gt; 90   5.41 </span></span>
-<span id="cb229-130"><a href="a-very-simple-neural-network.html#cb229-130"></a><span class="co">#&gt; 91   5.18 </span></span>
-<span id="cb229-131"><a href="a-very-simple-neural-network.html#cb229-131"></a><span class="co">#&gt; 92   4.97 </span></span>
-<span id="cb229-132"><a href="a-very-simple-neural-network.html#cb229-132"></a><span class="co">#&gt; 93   4.76 </span></span>
-<span id="cb229-133"><a href="a-very-simple-neural-network.html#cb229-133"></a><span class="co">#&gt; 94   4.57 </span></span>
-<span id="cb229-134"><a href="a-very-simple-neural-network.html#cb229-134"></a><span class="co">#&gt; 95   4.38 </span></span>
-<span id="cb229-135"><a href="a-very-simple-neural-network.html#cb229-135"></a><span class="co">#&gt; 96   4.2 </span></span>
-<span id="cb229-136"><a href="a-very-simple-neural-network.html#cb229-136"></a><span class="co">#&gt; 97   4.03 </span></span>
-<span id="cb229-137"><a href="a-very-simple-neural-network.html#cb229-137"></a><span class="co">#&gt; 98   3.87 </span></span>
-<span id="cb229-138"><a href="a-very-simple-neural-network.html#cb229-138"></a><span class="co">#&gt; 99   3.72 </span></span>
-<span id="cb229-139"><a href="a-very-simple-neural-network.html#cb229-139"></a><span class="co">#&gt; 100  3.57 </span></span>
-<span id="cb229-140"><a href="a-very-simple-neural-network.html#cb229-140"></a><span class="co">#&gt; 101  3.43 </span></span>
-<span id="cb229-141"><a href="a-very-simple-neural-network.html#cb229-141"></a><span class="co">#&gt; 102  3.29 </span></span>
-<span id="cb229-142"><a href="a-very-simple-neural-network.html#cb229-142"></a><span class="co">#&gt; 103  3.17 </span></span>
-<span id="cb229-143"><a href="a-very-simple-neural-network.html#cb229-143"></a><span class="co">#&gt; 104  3.04 </span></span>
-<span id="cb229-144"><a href="a-very-simple-neural-network.html#cb229-144"></a><span class="co">#&gt; 105  2.92 </span></span>
-<span id="cb229-145"><a href="a-very-simple-neural-network.html#cb229-145"></a><span class="co">#&gt; 106  2.81 </span></span>
-<span id="cb229-146"><a href="a-very-simple-neural-network.html#cb229-146"></a><span class="co">#&gt; 107  2.7 </span></span>
-<span id="cb229-147"><a href="a-very-simple-neural-network.html#cb229-147"></a><span class="co">#&gt; 108  2.6 </span></span>
-<span id="cb229-148"><a href="a-very-simple-neural-network.html#cb229-148"></a><span class="co">#&gt; 109  2.5 </span></span>
-<span id="cb229-149"><a href="a-very-simple-neural-network.html#cb229-149"></a><span class="co">#&gt; 110  2.41 </span></span>
-<span id="cb229-150"><a href="a-very-simple-neural-network.html#cb229-150"></a><span class="co">#&gt; 111  2.31 </span></span>
-<span id="cb229-151"><a href="a-very-simple-neural-network.html#cb229-151"></a><span class="co">#&gt; 112  2.23 </span></span>
-<span id="cb229-152"><a href="a-very-simple-neural-network.html#cb229-152"></a><span class="co">#&gt; 113  2.14 </span></span>
-<span id="cb229-153"><a href="a-very-simple-neural-network.html#cb229-153"></a><span class="co">#&gt; 114  2.06 </span></span>
-<span id="cb229-154"><a href="a-very-simple-neural-network.html#cb229-154"></a><span class="co">#&gt; 115  1.99 </span></span>
-<span id="cb229-155"><a href="a-very-simple-neural-network.html#cb229-155"></a><span class="co">#&gt; 116  1.91 </span></span>
-<span id="cb229-156"><a href="a-very-simple-neural-network.html#cb229-156"></a><span class="co">#&gt; 117  1.84 </span></span>
-<span id="cb229-157"><a href="a-very-simple-neural-network.html#cb229-157"></a><span class="co">#&gt; 118  1.77 </span></span>
-<span id="cb229-158"><a href="a-very-simple-neural-network.html#cb229-158"></a><span class="co">#&gt; 119  1.71 </span></span>
-<span id="cb229-159"><a href="a-very-simple-neural-network.html#cb229-159"></a><span class="co">#&gt; 120  1.65 </span></span>
-<span id="cb229-160"><a href="a-very-simple-neural-network.html#cb229-160"></a><span class="co">#&gt; 121  1.59 </span></span>
-<span id="cb229-161"><a href="a-very-simple-neural-network.html#cb229-161"></a><span class="co">#&gt; 122  1.53 </span></span>
-<span id="cb229-162"><a href="a-very-simple-neural-network.html#cb229-162"></a><span class="co">#&gt; 123  1.47 </span></span>
-<span id="cb229-163"><a href="a-very-simple-neural-network.html#cb229-163"></a><span class="co">#&gt; 124  1.42 </span></span>
-<span id="cb229-164"><a href="a-very-simple-neural-network.html#cb229-164"></a><span class="co">#&gt; 125  1.37 </span></span>
-<span id="cb229-165"><a href="a-very-simple-neural-network.html#cb229-165"></a><span class="co">#&gt; 126  1.32 </span></span>
-<span id="cb229-166"><a href="a-very-simple-neural-network.html#cb229-166"></a><span class="co">#&gt; 127  1.27 </span></span>
-<span id="cb229-167"><a href="a-very-simple-neural-network.html#cb229-167"></a><span class="co">#&gt; 128  1.23 </span></span>
-<span id="cb229-168"><a href="a-very-simple-neural-network.html#cb229-168"></a><span class="co">#&gt; 129  1.18 </span></span>
-<span id="cb229-169"><a href="a-very-simple-neural-network.html#cb229-169"></a><span class="co">#&gt; 130  1.14 </span></span>
-<span id="cb229-170"><a href="a-very-simple-neural-network.html#cb229-170"></a><span class="co">#&gt; 131  1.1 </span></span>
-<span id="cb229-171"><a href="a-very-simple-neural-network.html#cb229-171"></a><span class="co">#&gt; 132  1.06 </span></span>
-<span id="cb229-172"><a href="a-very-simple-neural-network.html#cb229-172"></a><span class="co">#&gt; 133  1.02 </span></span>
-<span id="cb229-173"><a href="a-very-simple-neural-network.html#cb229-173"></a><span class="co">#&gt; 134  0.989 </span></span>
-<span id="cb229-174"><a href="a-very-simple-neural-network.html#cb229-174"></a><span class="co">#&gt; 135  0.954 </span></span>
-<span id="cb229-175"><a href="a-very-simple-neural-network.html#cb229-175"></a><span class="co">#&gt; 136  0.921 </span></span>
-<span id="cb229-176"><a href="a-very-simple-neural-network.html#cb229-176"></a><span class="co">#&gt; 137  0.889 </span></span>
-<span id="cb229-177"><a href="a-very-simple-neural-network.html#cb229-177"></a><span class="co">#&gt; 138  0.858 </span></span>
-<span id="cb229-178"><a href="a-very-simple-neural-network.html#cb229-178"></a><span class="co">#&gt; 139  0.828 </span></span>
-<span id="cb229-179"><a href="a-very-simple-neural-network.html#cb229-179"></a><span class="co">#&gt; 140  0.799 </span></span>
-<span id="cb229-180"><a href="a-very-simple-neural-network.html#cb229-180"></a><span class="co">#&gt; 141  0.772 </span></span>
-<span id="cb229-181"><a href="a-very-simple-neural-network.html#cb229-181"></a><span class="co">#&gt; 142  0.745 </span></span>
-<span id="cb229-182"><a href="a-very-simple-neural-network.html#cb229-182"></a><span class="co">#&gt; 143  0.719 </span></span>
-<span id="cb229-183"><a href="a-very-simple-neural-network.html#cb229-183"></a><span class="co">#&gt; 144  0.695 </span></span>
-<span id="cb229-184"><a href="a-very-simple-neural-network.html#cb229-184"></a><span class="co">#&gt; 145  0.671 </span></span>
-<span id="cb229-185"><a href="a-very-simple-neural-network.html#cb229-185"></a><span class="co">#&gt; 146  0.648 </span></span>
-<span id="cb229-186"><a href="a-very-simple-neural-network.html#cb229-186"></a><span class="co">#&gt; 147  0.626 </span></span>
-<span id="cb229-187"><a href="a-very-simple-neural-network.html#cb229-187"></a><span class="co">#&gt; 148  0.605 </span></span>
-<span id="cb229-188"><a href="a-very-simple-neural-network.html#cb229-188"></a><span class="co">#&gt; 149  0.584 </span></span>
-<span id="cb229-189"><a href="a-very-simple-neural-network.html#cb229-189"></a><span class="co">#&gt; 150  0.564 </span></span>
-<span id="cb229-190"><a href="a-very-simple-neural-network.html#cb229-190"></a><span class="co">#&gt; 151  0.545 </span></span>
-<span id="cb229-191"><a href="a-very-simple-neural-network.html#cb229-191"></a><span class="co">#&gt; 152  0.527 </span></span>
-<span id="cb229-192"><a href="a-very-simple-neural-network.html#cb229-192"></a><span class="co">#&gt; 153  0.509 </span></span>
-<span id="cb229-193"><a href="a-very-simple-neural-network.html#cb229-193"></a><span class="co">#&gt; 154  0.492 </span></span>
-<span id="cb229-194"><a href="a-very-simple-neural-network.html#cb229-194"></a><span class="co">#&gt; 155  0.476 </span></span>
-<span id="cb229-195"><a href="a-very-simple-neural-network.html#cb229-195"></a><span class="co">#&gt; 156  0.46 </span></span>
-<span id="cb229-196"><a href="a-very-simple-neural-network.html#cb229-196"></a><span class="co">#&gt; 157  0.444 </span></span>
-<span id="cb229-197"><a href="a-very-simple-neural-network.html#cb229-197"></a><span class="co">#&gt; 158  0.43 </span></span>
-<span id="cb229-198"><a href="a-very-simple-neural-network.html#cb229-198"></a><span class="co">#&gt; 159  0.415 </span></span>
-<span id="cb229-199"><a href="a-very-simple-neural-network.html#cb229-199"></a><span class="co">#&gt; 160  0.402 </span></span>
-<span id="cb229-200"><a href="a-very-simple-neural-network.html#cb229-200"></a><span class="co">#&gt; 161  0.388 </span></span>
-<span id="cb229-201"><a href="a-very-simple-neural-network.html#cb229-201"></a><span class="co">#&gt; 162  0.375 </span></span>
-<span id="cb229-202"><a href="a-very-simple-neural-network.html#cb229-202"></a><span class="co">#&gt; 163  0.363 </span></span>
-<span id="cb229-203"><a href="a-very-simple-neural-network.html#cb229-203"></a><span class="co">#&gt; 164  0.351 </span></span>
-<span id="cb229-204"><a href="a-very-simple-neural-network.html#cb229-204"></a><span class="co">#&gt; 165  0.339 </span></span>
-<span id="cb229-205"><a href="a-very-simple-neural-network.html#cb229-205"></a><span class="co">#&gt; 166  0.328 </span></span>
-<span id="cb229-206"><a href="a-very-simple-neural-network.html#cb229-206"></a><span class="co">#&gt; 167  0.318 </span></span>
-<span id="cb229-207"><a href="a-very-simple-neural-network.html#cb229-207"></a><span class="co">#&gt; 168  0.307 </span></span>
-<span id="cb229-208"><a href="a-very-simple-neural-network.html#cb229-208"></a><span class="co">#&gt; 169  0.297 </span></span>
-<span id="cb229-209"><a href="a-very-simple-neural-network.html#cb229-209"></a><span class="co">#&gt; 170  0.287 </span></span>
-<span id="cb229-210"><a href="a-very-simple-neural-network.html#cb229-210"></a><span class="co">#&gt; 171  0.278 </span></span>
-<span id="cb229-211"><a href="a-very-simple-neural-network.html#cb229-211"></a><span class="co">#&gt; 172  0.269 </span></span>
-<span id="cb229-212"><a href="a-very-simple-neural-network.html#cb229-212"></a><span class="co">#&gt; 173  0.26 </span></span>
-<span id="cb229-213"><a href="a-very-simple-neural-network.html#cb229-213"></a><span class="co">#&gt; 174  0.252 </span></span>
-<span id="cb229-214"><a href="a-very-simple-neural-network.html#cb229-214"></a><span class="co">#&gt; 175  0.244 </span></span>
-<span id="cb229-215"><a href="a-very-simple-neural-network.html#cb229-215"></a><span class="co">#&gt; 176  0.236 </span></span>
-<span id="cb229-216"><a href="a-very-simple-neural-network.html#cb229-216"></a><span class="co">#&gt; 177  0.228 </span></span>
-<span id="cb229-217"><a href="a-very-simple-neural-network.html#cb229-217"></a><span class="co">#&gt; 178  0.221 </span></span>
-<span id="cb229-218"><a href="a-very-simple-neural-network.html#cb229-218"></a><span class="co">#&gt; 179  0.214 </span></span>
-<span id="cb229-219"><a href="a-very-simple-neural-network.html#cb229-219"></a><span class="co">#&gt; 180  0.207 </span></span>
-<span id="cb229-220"><a href="a-very-simple-neural-network.html#cb229-220"></a><span class="co">#&gt; 181  0.2 </span></span>
-<span id="cb229-221"><a href="a-very-simple-neural-network.html#cb229-221"></a><span class="co">#&gt; 182  0.194 </span></span>
-<span id="cb229-222"><a href="a-very-simple-neural-network.html#cb229-222"></a><span class="co">#&gt; 183  0.187 </span></span>
-<span id="cb229-223"><a href="a-very-simple-neural-network.html#cb229-223"></a><span class="co">#&gt; 184  0.181 </span></span>
-<span id="cb229-224"><a href="a-very-simple-neural-network.html#cb229-224"></a><span class="co">#&gt; 185  0.176 </span></span>
-<span id="cb229-225"><a href="a-very-simple-neural-network.html#cb229-225"></a><span class="co">#&gt; 186  0.17 </span></span>
-<span id="cb229-226"><a href="a-very-simple-neural-network.html#cb229-226"></a><span class="co">#&gt; 187  0.165 </span></span>
-<span id="cb229-227"><a href="a-very-simple-neural-network.html#cb229-227"></a><span class="co">#&gt; 188  0.159 </span></span>
-<span id="cb229-228"><a href="a-very-simple-neural-network.html#cb229-228"></a><span class="co">#&gt; 189  0.154 </span></span>
-<span id="cb229-229"><a href="a-very-simple-neural-network.html#cb229-229"></a><span class="co">#&gt; 190  0.149 </span></span>
-<span id="cb229-230"><a href="a-very-simple-neural-network.html#cb229-230"></a><span class="co">#&gt; 191  0.145 </span></span>
-<span id="cb229-231"><a href="a-very-simple-neural-network.html#cb229-231"></a><span class="co">#&gt; 192  0.14 </span></span>
-<span id="cb229-232"><a href="a-very-simple-neural-network.html#cb229-232"></a><span class="co">#&gt; 193  0.136 </span></span>
-<span id="cb229-233"><a href="a-very-simple-neural-network.html#cb229-233"></a><span class="co">#&gt; 194  0.131 </span></span>
-<span id="cb229-234"><a href="a-very-simple-neural-network.html#cb229-234"></a><span class="co">#&gt; 195  0.127 </span></span>
-<span id="cb229-235"><a href="a-very-simple-neural-network.html#cb229-235"></a><span class="co">#&gt; 196  0.123 </span></span>
-<span id="cb229-236"><a href="a-very-simple-neural-network.html#cb229-236"></a><span class="co">#&gt; 197  0.119 </span></span>
-<span id="cb229-237"><a href="a-very-simple-neural-network.html#cb229-237"></a><span class="co">#&gt; 198  0.115 </span></span>
-<span id="cb229-238"><a href="a-very-simple-neural-network.html#cb229-238"></a><span class="co">#&gt; 199  0.112 </span></span>
-<span id="cb229-239"><a href="a-very-simple-neural-network.html#cb229-239"></a><span class="co">#&gt; 200  0.108 </span></span>
-<span id="cb229-240"><a href="a-very-simple-neural-network.html#cb229-240"></a><span class="co">#&gt; 201  0.105 </span></span>
-<span id="cb229-241"><a href="a-very-simple-neural-network.html#cb229-241"></a><span class="co">#&gt; 202  0.102 </span></span>
-<span id="cb229-242"><a href="a-very-simple-neural-network.html#cb229-242"></a><span class="co">#&gt; 203  0.0983 </span></span>
-<span id="cb229-243"><a href="a-very-simple-neural-network.html#cb229-243"></a><span class="co">#&gt; 204  0.0952 </span></span>
-<span id="cb229-244"><a href="a-very-simple-neural-network.html#cb229-244"></a><span class="co">#&gt; 205  0.0923 </span></span>
-<span id="cb229-245"><a href="a-very-simple-neural-network.html#cb229-245"></a><span class="co">#&gt; 206  0.0894 </span></span>
-<span id="cb229-246"><a href="a-very-simple-neural-network.html#cb229-246"></a><span class="co">#&gt; 207  0.0866 </span></span>
-<span id="cb229-247"><a href="a-very-simple-neural-network.html#cb229-247"></a><span class="co">#&gt; 208  0.0838 </span></span>
-<span id="cb229-248"><a href="a-very-simple-neural-network.html#cb229-248"></a><span class="co">#&gt; 209  0.0812 </span></span>
-<span id="cb229-249"><a href="a-very-simple-neural-network.html#cb229-249"></a><span class="co">#&gt; 210  0.0787 </span></span>
-<span id="cb229-250"><a href="a-very-simple-neural-network.html#cb229-250"></a><span class="co">#&gt; 211  0.0762 </span></span>
-<span id="cb229-251"><a href="a-very-simple-neural-network.html#cb229-251"></a><span class="co">#&gt; 212  0.0739 </span></span>
-<span id="cb229-252"><a href="a-very-simple-neural-network.html#cb229-252"></a><span class="co">#&gt; 213  0.0716 </span></span>
-<span id="cb229-253"><a href="a-very-simple-neural-network.html#cb229-253"></a><span class="co">#&gt; 214  0.0693 </span></span>
-<span id="cb229-254"><a href="a-very-simple-neural-network.html#cb229-254"></a><span class="co">#&gt; 215  0.0672 </span></span>
-<span id="cb229-255"><a href="a-very-simple-neural-network.html#cb229-255"></a><span class="co">#&gt; 216  0.0651 </span></span>
-<span id="cb229-256"><a href="a-very-simple-neural-network.html#cb229-256"></a><span class="co">#&gt; 217  0.0631 </span></span>
-<span id="cb229-257"><a href="a-very-simple-neural-network.html#cb229-257"></a><span class="co">#&gt; 218  0.0611 </span></span>
-<span id="cb229-258"><a href="a-very-simple-neural-network.html#cb229-258"></a><span class="co">#&gt; 219  0.0592 </span></span>
-<span id="cb229-259"><a href="a-very-simple-neural-network.html#cb229-259"></a><span class="co">#&gt; 220  0.0574 </span></span>
-<span id="cb229-260"><a href="a-very-simple-neural-network.html#cb229-260"></a><span class="co">#&gt; 221  0.0556 </span></span>
-<span id="cb229-261"><a href="a-very-simple-neural-network.html#cb229-261"></a><span class="co">#&gt; 222  0.0539 </span></span>
-<span id="cb229-262"><a href="a-very-simple-neural-network.html#cb229-262"></a><span class="co">#&gt; 223  0.0522 </span></span>
-<span id="cb229-263"><a href="a-very-simple-neural-network.html#cb229-263"></a><span class="co">#&gt; 224  0.0506 </span></span>
-<span id="cb229-264"><a href="a-very-simple-neural-network.html#cb229-264"></a><span class="co">#&gt; 225  0.0491 </span></span>
-<span id="cb229-265"><a href="a-very-simple-neural-network.html#cb229-265"></a><span class="co">#&gt; 226  0.0476 </span></span>
-<span id="cb229-266"><a href="a-very-simple-neural-network.html#cb229-266"></a><span class="co">#&gt; 227  0.0461 </span></span>
-<span id="cb229-267"><a href="a-very-simple-neural-network.html#cb229-267"></a><span class="co">#&gt; 228  0.0447 </span></span>
-<span id="cb229-268"><a href="a-very-simple-neural-network.html#cb229-268"></a><span class="co">#&gt; 229  0.0433 </span></span>
-<span id="cb229-269"><a href="a-very-simple-neural-network.html#cb229-269"></a><span class="co">#&gt; 230  0.042 </span></span>
-<span id="cb229-270"><a href="a-very-simple-neural-network.html#cb229-270"></a><span class="co">#&gt; 231  0.0407 </span></span>
-<span id="cb229-271"><a href="a-very-simple-neural-network.html#cb229-271"></a><span class="co">#&gt; 232  0.0394 </span></span>
-<span id="cb229-272"><a href="a-very-simple-neural-network.html#cb229-272"></a><span class="co">#&gt; 233  0.0382 </span></span>
-<span id="cb229-273"><a href="a-very-simple-neural-network.html#cb229-273"></a><span class="co">#&gt; 234  0.0371 </span></span>
-<span id="cb229-274"><a href="a-very-simple-neural-network.html#cb229-274"></a><span class="co">#&gt; 235  0.0359 </span></span>
-<span id="cb229-275"><a href="a-very-simple-neural-network.html#cb229-275"></a><span class="co">#&gt; 236  0.0348 </span></span>
-<span id="cb229-276"><a href="a-very-simple-neural-network.html#cb229-276"></a><span class="co">#&gt; 237  0.0338 </span></span>
-<span id="cb229-277"><a href="a-very-simple-neural-network.html#cb229-277"></a><span class="co">#&gt; 238  0.0327 </span></span>
-<span id="cb229-278"><a href="a-very-simple-neural-network.html#cb229-278"></a><span class="co">#&gt; 239  0.0317 </span></span>
-<span id="cb229-279"><a href="a-very-simple-neural-network.html#cb229-279"></a><span class="co">#&gt; 240  0.0308 </span></span>
-<span id="cb229-280"><a href="a-very-simple-neural-network.html#cb229-280"></a><span class="co">#&gt; 241  0.0298 </span></span>
-<span id="cb229-281"><a href="a-very-simple-neural-network.html#cb229-281"></a><span class="co">#&gt; 242  0.0289 </span></span>
-<span id="cb229-282"><a href="a-very-simple-neural-network.html#cb229-282"></a><span class="co">#&gt; 243  0.028 </span></span>
-<span id="cb229-283"><a href="a-very-simple-neural-network.html#cb229-283"></a><span class="co">#&gt; 244  0.0272 </span></span>
-<span id="cb229-284"><a href="a-very-simple-neural-network.html#cb229-284"></a><span class="co">#&gt; 245  0.0263 </span></span>
-<span id="cb229-285"><a href="a-very-simple-neural-network.html#cb229-285"></a><span class="co">#&gt; 246  0.0255 </span></span>
-<span id="cb229-286"><a href="a-very-simple-neural-network.html#cb229-286"></a><span class="co">#&gt; 247  0.0248 </span></span>
-<span id="cb229-287"><a href="a-very-simple-neural-network.html#cb229-287"></a><span class="co">#&gt; 248  0.024 </span></span>
-<span id="cb229-288"><a href="a-very-simple-neural-network.html#cb229-288"></a><span class="co">#&gt; 249  0.0233 </span></span>
-<span id="cb229-289"><a href="a-very-simple-neural-network.html#cb229-289"></a><span class="co">#&gt; 250  0.0226 </span></span>
-<span id="cb229-290"><a href="a-very-simple-neural-network.html#cb229-290"></a><span class="co">#&gt; 251  0.0219 </span></span>
-<span id="cb229-291"><a href="a-very-simple-neural-network.html#cb229-291"></a><span class="co">#&gt; 252  0.0212 </span></span>
-<span id="cb229-292"><a href="a-very-simple-neural-network.html#cb229-292"></a><span class="co">#&gt; 253  0.0206 </span></span>
-<span id="cb229-293"><a href="a-very-simple-neural-network.html#cb229-293"></a><span class="co">#&gt; 254  0.02 </span></span>
-<span id="cb229-294"><a href="a-very-simple-neural-network.html#cb229-294"></a><span class="co">#&gt; 255  0.0194 </span></span>
-<span id="cb229-295"><a href="a-very-simple-neural-network.html#cb229-295"></a><span class="co">#&gt; 256  0.0188 </span></span>
-<span id="cb229-296"><a href="a-very-simple-neural-network.html#cb229-296"></a><span class="co">#&gt; 257  0.0182 </span></span>
-<span id="cb229-297"><a href="a-very-simple-neural-network.html#cb229-297"></a><span class="co">#&gt; 258  0.0177 </span></span>
-<span id="cb229-298"><a href="a-very-simple-neural-network.html#cb229-298"></a><span class="co">#&gt; 259  0.0171 </span></span>
-<span id="cb229-299"><a href="a-very-simple-neural-network.html#cb229-299"></a><span class="co">#&gt; 260  0.0166 </span></span>
-<span id="cb229-300"><a href="a-very-simple-neural-network.html#cb229-300"></a><span class="co">#&gt; 261  0.0161 </span></span>
-<span id="cb229-301"><a href="a-very-simple-neural-network.html#cb229-301"></a><span class="co">#&gt; 262  0.0156 </span></span>
-<span id="cb229-302"><a href="a-very-simple-neural-network.html#cb229-302"></a><span class="co">#&gt; 263  0.0151 </span></span>
-<span id="cb229-303"><a href="a-very-simple-neural-network.html#cb229-303"></a><span class="co">#&gt; 264  0.0147 </span></span>
-<span id="cb229-304"><a href="a-very-simple-neural-network.html#cb229-304"></a><span class="co">#&gt; 265  0.0142 </span></span>
-<span id="cb229-305"><a href="a-very-simple-neural-network.html#cb229-305"></a><span class="co">#&gt; 266  0.0138 </span></span>
-<span id="cb229-306"><a href="a-very-simple-neural-network.html#cb229-306"></a><span class="co">#&gt; 267  0.0134 </span></span>
-<span id="cb229-307"><a href="a-very-simple-neural-network.html#cb229-307"></a><span class="co">#&gt; 268  0.013 </span></span>
-<span id="cb229-308"><a href="a-very-simple-neural-network.html#cb229-308"></a><span class="co">#&gt; 269  0.0126 </span></span>
-<span id="cb229-309"><a href="a-very-simple-neural-network.html#cb229-309"></a><span class="co">#&gt; 270  0.0122 </span></span>
-<span id="cb229-310"><a href="a-very-simple-neural-network.html#cb229-310"></a><span class="co">#&gt; 271  0.0119 </span></span>
-<span id="cb229-311"><a href="a-very-simple-neural-network.html#cb229-311"></a><span class="co">#&gt; 272  0.0115 </span></span>
-<span id="cb229-312"><a href="a-very-simple-neural-network.html#cb229-312"></a><span class="co">#&gt; 273  0.0112 </span></span>
-<span id="cb229-313"><a href="a-very-simple-neural-network.html#cb229-313"></a><span class="co">#&gt; 274  0.0108 </span></span>
-<span id="cb229-314"><a href="a-very-simple-neural-network.html#cb229-314"></a><span class="co">#&gt; 275  0.0105 </span></span>
-<span id="cb229-315"><a href="a-very-simple-neural-network.html#cb229-315"></a><span class="co">#&gt; 276  0.0102 </span></span>
-<span id="cb229-316"><a href="a-very-simple-neural-network.html#cb229-316"></a><span class="co">#&gt; 277  0.00988 </span></span>
-<span id="cb229-317"><a href="a-very-simple-neural-network.html#cb229-317"></a><span class="co">#&gt; 278  0.00959 </span></span>
-<span id="cb229-318"><a href="a-very-simple-neural-network.html#cb229-318"></a><span class="co">#&gt; 279  0.0093 </span></span>
-<span id="cb229-319"><a href="a-very-simple-neural-network.html#cb229-319"></a><span class="co">#&gt; 280  0.00902 </span></span>
-<span id="cb229-320"><a href="a-very-simple-neural-network.html#cb229-320"></a><span class="co">#&gt; 281  0.00875 </span></span>
-<span id="cb229-321"><a href="a-very-simple-neural-network.html#cb229-321"></a><span class="co">#&gt; 282  0.00849 </span></span>
-<span id="cb229-322"><a href="a-very-simple-neural-network.html#cb229-322"></a><span class="co">#&gt; 283  0.00824 </span></span>
-<span id="cb229-323"><a href="a-very-simple-neural-network.html#cb229-323"></a><span class="co">#&gt; 284  0.00799 </span></span>
-<span id="cb229-324"><a href="a-very-simple-neural-network.html#cb229-324"></a><span class="co">#&gt; 285  0.00775 </span></span>
-<span id="cb229-325"><a href="a-very-simple-neural-network.html#cb229-325"></a><span class="co">#&gt; 286  0.00752 </span></span>
-<span id="cb229-326"><a href="a-very-simple-neural-network.html#cb229-326"></a><span class="co">#&gt; 287  0.0073 </span></span>
-<span id="cb229-327"><a href="a-very-simple-neural-network.html#cb229-327"></a><span class="co">#&gt; 288  0.00708 </span></span>
-<span id="cb229-328"><a href="a-very-simple-neural-network.html#cb229-328"></a><span class="co">#&gt; 289  0.00687 </span></span>
-<span id="cb229-329"><a href="a-very-simple-neural-network.html#cb229-329"></a><span class="co">#&gt; 290  0.00666 </span></span>
-<span id="cb229-330"><a href="a-very-simple-neural-network.html#cb229-330"></a><span class="co">#&gt; 291  0.00647 </span></span>
-<span id="cb229-331"><a href="a-very-simple-neural-network.html#cb229-331"></a><span class="co">#&gt; 292  0.00627 </span></span>
-<span id="cb229-332"><a href="a-very-simple-neural-network.html#cb229-332"></a><span class="co">#&gt; 293  0.00609 </span></span>
-<span id="cb229-333"><a href="a-very-simple-neural-network.html#cb229-333"></a><span class="co">#&gt; 294  0.00591 </span></span>
-<span id="cb229-334"><a href="a-very-simple-neural-network.html#cb229-334"></a><span class="co">#&gt; 295  0.00573 </span></span>
-<span id="cb229-335"><a href="a-very-simple-neural-network.html#cb229-335"></a><span class="co">#&gt; 296  0.00556 </span></span>
-<span id="cb229-336"><a href="a-very-simple-neural-network.html#cb229-336"></a><span class="co">#&gt; 297  0.0054 </span></span>
-<span id="cb229-337"><a href="a-very-simple-neural-network.html#cb229-337"></a><span class="co">#&gt; 298  0.00524 </span></span>
-<span id="cb229-338"><a href="a-very-simple-neural-network.html#cb229-338"></a><span class="co">#&gt; 299  0.00508 </span></span>
-<span id="cb229-339"><a href="a-very-simple-neural-network.html#cb229-339"></a><span class="co">#&gt; 300  0.00493 </span></span>
-<span id="cb229-340"><a href="a-very-simple-neural-network.html#cb229-340"></a><span class="co">#&gt; 301  0.00478 </span></span>
-<span id="cb229-341"><a href="a-very-simple-neural-network.html#cb229-341"></a><span class="co">#&gt; 302  0.00464 </span></span>
-<span id="cb229-342"><a href="a-very-simple-neural-network.html#cb229-342"></a><span class="co">#&gt; 303  0.0045 </span></span>
-<span id="cb229-343"><a href="a-very-simple-neural-network.html#cb229-343"></a><span class="co">#&gt; 304  0.00437 </span></span>
-<span id="cb229-344"><a href="a-very-simple-neural-network.html#cb229-344"></a><span class="co">#&gt; 305  0.00424 </span></span>
-<span id="cb229-345"><a href="a-very-simple-neural-network.html#cb229-345"></a><span class="co">#&gt; 306  0.00412 </span></span>
-<span id="cb229-346"><a href="a-very-simple-neural-network.html#cb229-346"></a><span class="co">#&gt; 307  0.00399 </span></span>
-<span id="cb229-347"><a href="a-very-simple-neural-network.html#cb229-347"></a><span class="co">#&gt; 308  0.00388 </span></span>
-<span id="cb229-348"><a href="a-very-simple-neural-network.html#cb229-348"></a><span class="co">#&gt; 309  0.00376 </span></span>
-<span id="cb229-349"><a href="a-very-simple-neural-network.html#cb229-349"></a><span class="co">#&gt; 310  0.00365 </span></span>
-<span id="cb229-350"><a href="a-very-simple-neural-network.html#cb229-350"></a><span class="co">#&gt; 311  0.00354 </span></span>
-<span id="cb229-351"><a href="a-very-simple-neural-network.html#cb229-351"></a><span class="co">#&gt; 312  0.00344 </span></span>
-<span id="cb229-352"><a href="a-very-simple-neural-network.html#cb229-352"></a><span class="co">#&gt; 313  0.00334 </span></span>
-<span id="cb229-353"><a href="a-very-simple-neural-network.html#cb229-353"></a><span class="co">#&gt; 314  0.00324 </span></span>
-<span id="cb229-354"><a href="a-very-simple-neural-network.html#cb229-354"></a><span class="co">#&gt; 315  0.00314 </span></span>
-<span id="cb229-355"><a href="a-very-simple-neural-network.html#cb229-355"></a><span class="co">#&gt; 316  0.00305 </span></span>
-<span id="cb229-356"><a href="a-very-simple-neural-network.html#cb229-356"></a><span class="co">#&gt; 317  0.00296 </span></span>
-<span id="cb229-357"><a href="a-very-simple-neural-network.html#cb229-357"></a><span class="co">#&gt; 318  0.00287 </span></span>
-<span id="cb229-358"><a href="a-very-simple-neural-network.html#cb229-358"></a><span class="co">#&gt; 319  0.00279 </span></span>
-<span id="cb229-359"><a href="a-very-simple-neural-network.html#cb229-359"></a><span class="co">#&gt; 320  0.00271 </span></span>
-<span id="cb229-360"><a href="a-very-simple-neural-network.html#cb229-360"></a><span class="co">#&gt; 321  0.00263 </span></span>
-<span id="cb229-361"><a href="a-very-simple-neural-network.html#cb229-361"></a><span class="co">#&gt; 322  0.00255 </span></span>
-<span id="cb229-362"><a href="a-very-simple-neural-network.html#cb229-362"></a><span class="co">#&gt; 323  0.00248 </span></span>
-<span id="cb229-363"><a href="a-very-simple-neural-network.html#cb229-363"></a><span class="co">#&gt; 324  0.0024 </span></span>
-<span id="cb229-364"><a href="a-very-simple-neural-network.html#cb229-364"></a><span class="co">#&gt; 325  0.00233 </span></span>
-<span id="cb229-365"><a href="a-very-simple-neural-network.html#cb229-365"></a><span class="co">#&gt; 326  0.00226 </span></span>
-<span id="cb229-366"><a href="a-very-simple-neural-network.html#cb229-366"></a><span class="co">#&gt; 327  0.0022 </span></span>
-<span id="cb229-367"><a href="a-very-simple-neural-network.html#cb229-367"></a><span class="co">#&gt; 328  0.00213 </span></span>
-<span id="cb229-368"><a href="a-very-simple-neural-network.html#cb229-368"></a><span class="co">#&gt; 329  0.00207 </span></span>
-<span id="cb229-369"><a href="a-very-simple-neural-network.html#cb229-369"></a><span class="co">#&gt; 330  0.00201 </span></span>
-<span id="cb229-370"><a href="a-very-simple-neural-network.html#cb229-370"></a><span class="co">#&gt; 331  0.00195 </span></span>
-<span id="cb229-371"><a href="a-very-simple-neural-network.html#cb229-371"></a><span class="co">#&gt; 332  0.00189 </span></span>
-<span id="cb229-372"><a href="a-very-simple-neural-network.html#cb229-372"></a><span class="co">#&gt; 333  0.00184 </span></span>
-<span id="cb229-373"><a href="a-very-simple-neural-network.html#cb229-373"></a><span class="co">#&gt; 334  0.00178 </span></span>
-<span id="cb229-374"><a href="a-very-simple-neural-network.html#cb229-374"></a><span class="co">#&gt; 335  0.00173 </span></span>
-<span id="cb229-375"><a href="a-very-simple-neural-network.html#cb229-375"></a><span class="co">#&gt; 336  0.00168 </span></span>
-<span id="cb229-376"><a href="a-very-simple-neural-network.html#cb229-376"></a><span class="co">#&gt; 337  0.00163 </span></span>
-<span id="cb229-377"><a href="a-very-simple-neural-network.html#cb229-377"></a><span class="co">#&gt; 338  0.00158 </span></span>
-<span id="cb229-378"><a href="a-very-simple-neural-network.html#cb229-378"></a><span class="co">#&gt; 339  0.00154 </span></span>
-<span id="cb229-379"><a href="a-very-simple-neural-network.html#cb229-379"></a><span class="co">#&gt; 340  0.00149 </span></span>
-<span id="cb229-380"><a href="a-very-simple-neural-network.html#cb229-380"></a><span class="co">#&gt; 341  0.00145 </span></span>
-<span id="cb229-381"><a href="a-very-simple-neural-network.html#cb229-381"></a><span class="co">#&gt; 342  0.00141 </span></span>
-<span id="cb229-382"><a href="a-very-simple-neural-network.html#cb229-382"></a><span class="co">#&gt; 343  0.00137 </span></span>
-<span id="cb229-383"><a href="a-very-simple-neural-network.html#cb229-383"></a><span class="co">#&gt; 344  0.00133 </span></span>
-<span id="cb229-384"><a href="a-very-simple-neural-network.html#cb229-384"></a><span class="co">#&gt; 345  0.00129 </span></span>
-<span id="cb229-385"><a href="a-very-simple-neural-network.html#cb229-385"></a><span class="co">#&gt; 346  0.00125 </span></span>
-<span id="cb229-386"><a href="a-very-simple-neural-network.html#cb229-386"></a><span class="co">#&gt; 347  0.00121 </span></span>
-<span id="cb229-387"><a href="a-very-simple-neural-network.html#cb229-387"></a><span class="co">#&gt; 348  0.00118 </span></span>
-<span id="cb229-388"><a href="a-very-simple-neural-network.html#cb229-388"></a><span class="co">#&gt; 349  0.00114 </span></span>
-<span id="cb229-389"><a href="a-very-simple-neural-network.html#cb229-389"></a><span class="co">#&gt; 350  0.00111 </span></span>
-<span id="cb229-390"><a href="a-very-simple-neural-network.html#cb229-390"></a><span class="co">#&gt; 351  0.00108 </span></span>
-<span id="cb229-391"><a href="a-very-simple-neural-network.html#cb229-391"></a><span class="co">#&gt; 352  0.00105 </span></span>
-<span id="cb229-392"><a href="a-very-simple-neural-network.html#cb229-392"></a><span class="co">#&gt; 353  0.00102 </span></span>
-<span id="cb229-393"><a href="a-very-simple-neural-network.html#cb229-393"></a><span class="co">#&gt; 354  0.000987 </span></span>
-<span id="cb229-394"><a href="a-very-simple-neural-network.html#cb229-394"></a><span class="co">#&gt; 355  0.000958 </span></span>
-<span id="cb229-395"><a href="a-very-simple-neural-network.html#cb229-395"></a><span class="co">#&gt; 356  0.000931 </span></span>
-<span id="cb229-396"><a href="a-very-simple-neural-network.html#cb229-396"></a><span class="co">#&gt; 357  0.000904 </span></span>
-<span id="cb229-397"><a href="a-very-simple-neural-network.html#cb229-397"></a><span class="co">#&gt; 358  0.000877 </span></span>
-<span id="cb229-398"><a href="a-very-simple-neural-network.html#cb229-398"></a><span class="co">#&gt; 359  0.000852 </span></span>
-<span id="cb229-399"><a href="a-very-simple-neural-network.html#cb229-399"></a><span class="co">#&gt; 360  0.000827 </span></span>
-<span id="cb229-400"><a href="a-very-simple-neural-network.html#cb229-400"></a><span class="co">#&gt; 361  0.000803 </span></span>
-<span id="cb229-401"><a href="a-very-simple-neural-network.html#cb229-401"></a><span class="co">#&gt; 362  0.00078 </span></span>
-<span id="cb229-402"><a href="a-very-simple-neural-network.html#cb229-402"></a><span class="co">#&gt; 363  0.000757 </span></span>
-<span id="cb229-403"><a href="a-very-simple-neural-network.html#cb229-403"></a><span class="co">#&gt; 364  0.000735 </span></span>
-<span id="cb229-404"><a href="a-very-simple-neural-network.html#cb229-404"></a><span class="co">#&gt; 365  0.000714 </span></span>
-<span id="cb229-405"><a href="a-very-simple-neural-network.html#cb229-405"></a><span class="co">#&gt; 366  0.000693 </span></span>
-<span id="cb229-406"><a href="a-very-simple-neural-network.html#cb229-406"></a><span class="co">#&gt; 367  0.000673 </span></span>
-<span id="cb229-407"><a href="a-very-simple-neural-network.html#cb229-407"></a><span class="co">#&gt; 368  0.000654 </span></span>
-<span id="cb229-408"><a href="a-very-simple-neural-network.html#cb229-408"></a><span class="co">#&gt; 369  0.000635 </span></span>
-<span id="cb229-409"><a href="a-very-simple-neural-network.html#cb229-409"></a><span class="co">#&gt; 370  0.000617 </span></span>
-<span id="cb229-410"><a href="a-very-simple-neural-network.html#cb229-410"></a><span class="co">#&gt; 371  0.000599 </span></span>
-<span id="cb229-411"><a href="a-very-simple-neural-network.html#cb229-411"></a><span class="co">#&gt; 372  0.000581 </span></span>
-<span id="cb229-412"><a href="a-very-simple-neural-network.html#cb229-412"></a><span class="co">#&gt; 373  0.000565 </span></span>
-<span id="cb229-413"><a href="a-very-simple-neural-network.html#cb229-413"></a><span class="co">#&gt; 374  0.000548 </span></span>
-<span id="cb229-414"><a href="a-very-simple-neural-network.html#cb229-414"></a><span class="co">#&gt; 375  0.000532 </span></span>
-<span id="cb229-415"><a href="a-very-simple-neural-network.html#cb229-415"></a><span class="co">#&gt; 376  0.000517 </span></span>
-<span id="cb229-416"><a href="a-very-simple-neural-network.html#cb229-416"></a><span class="co">#&gt; 377  0.000502 </span></span>
-<span id="cb229-417"><a href="a-very-simple-neural-network.html#cb229-417"></a><span class="co">#&gt; 378  0.000488 </span></span>
-<span id="cb229-418"><a href="a-very-simple-neural-network.html#cb229-418"></a><span class="co">#&gt; 379  0.000474 </span></span>
-<span id="cb229-419"><a href="a-very-simple-neural-network.html#cb229-419"></a><span class="co">#&gt; 380  0.00046 </span></span>
-<span id="cb229-420"><a href="a-very-simple-neural-network.html#cb229-420"></a><span class="co">#&gt; 381  0.000447 </span></span>
-<span id="cb229-421"><a href="a-very-simple-neural-network.html#cb229-421"></a><span class="co">#&gt; 382  0.000434 </span></span>
-<span id="cb229-422"><a href="a-very-simple-neural-network.html#cb229-422"></a><span class="co">#&gt; 383  0.000421 </span></span>
-<span id="cb229-423"><a href="a-very-simple-neural-network.html#cb229-423"></a><span class="co">#&gt; 384  0.000409 </span></span>
-<span id="cb229-424"><a href="a-very-simple-neural-network.html#cb229-424"></a><span class="co">#&gt; 385  0.000397 </span></span>
-<span id="cb229-425"><a href="a-very-simple-neural-network.html#cb229-425"></a><span class="co">#&gt; 386  0.000386 </span></span>
-<span id="cb229-426"><a href="a-very-simple-neural-network.html#cb229-426"></a><span class="co">#&gt; 387  0.000375 </span></span>
-<span id="cb229-427"><a href="a-very-simple-neural-network.html#cb229-427"></a><span class="co">#&gt; 388  0.000364 </span></span>
-<span id="cb229-428"><a href="a-very-simple-neural-network.html#cb229-428"></a><span class="co">#&gt; 389  0.000354 </span></span>
-<span id="cb229-429"><a href="a-very-simple-neural-network.html#cb229-429"></a><span class="co">#&gt; 390  0.000343 </span></span>
-<span id="cb229-430"><a href="a-very-simple-neural-network.html#cb229-430"></a><span class="co">#&gt; 391  0.000334 </span></span>
-<span id="cb229-431"><a href="a-very-simple-neural-network.html#cb229-431"></a><span class="co">#&gt; 392  0.000324 </span></span>
-<span id="cb229-432"><a href="a-very-simple-neural-network.html#cb229-432"></a><span class="co">#&gt; 393  0.000315 </span></span>
-<span id="cb229-433"><a href="a-very-simple-neural-network.html#cb229-433"></a><span class="co">#&gt; 394  0.000306 </span></span>
-<span id="cb229-434"><a href="a-very-simple-neural-network.html#cb229-434"></a><span class="co">#&gt; 395  0.000297 </span></span>
-<span id="cb229-435"><a href="a-very-simple-neural-network.html#cb229-435"></a><span class="co">#&gt; 396  0.000288 </span></span>
-<span id="cb229-436"><a href="a-very-simple-neural-network.html#cb229-436"></a><span class="co">#&gt; 397  0.00028 </span></span>
-<span id="cb229-437"><a href="a-very-simple-neural-network.html#cb229-437"></a><span class="co">#&gt; 398  0.000272 </span></span>
-<span id="cb229-438"><a href="a-very-simple-neural-network.html#cb229-438"></a><span class="co">#&gt; 399  0.000264 </span></span>
-<span id="cb229-439"><a href="a-very-simple-neural-network.html#cb229-439"></a><span class="co">#&gt; 400  0.000257 </span></span>
-<span id="cb229-440"><a href="a-very-simple-neural-network.html#cb229-440"></a><span class="co">#&gt; 401  0.000249 </span></span>
-<span id="cb229-441"><a href="a-very-simple-neural-network.html#cb229-441"></a><span class="co">#&gt; 402  0.000242 </span></span>
-<span id="cb229-442"><a href="a-very-simple-neural-network.html#cb229-442"></a><span class="co">#&gt; 403  0.000235 </span></span>
-<span id="cb229-443"><a href="a-very-simple-neural-network.html#cb229-443"></a><span class="co">#&gt; 404  0.000228 </span></span>
-<span id="cb229-444"><a href="a-very-simple-neural-network.html#cb229-444"></a><span class="co">#&gt; 405  0.000222 </span></span>
-<span id="cb229-445"><a href="a-very-simple-neural-network.html#cb229-445"></a><span class="co">#&gt; 406  0.000216 </span></span>
-<span id="cb229-446"><a href="a-very-simple-neural-network.html#cb229-446"></a><span class="co">#&gt; 407  0.000209 </span></span>
-<span id="cb229-447"><a href="a-very-simple-neural-network.html#cb229-447"></a><span class="co">#&gt; 408  0.000203 </span></span>
-<span id="cb229-448"><a href="a-very-simple-neural-network.html#cb229-448"></a><span class="co">#&gt; 409  0.000198 </span></span>
-<span id="cb229-449"><a href="a-very-simple-neural-network.html#cb229-449"></a><span class="co">#&gt; 410  0.000192 </span></span>
-<span id="cb229-450"><a href="a-very-simple-neural-network.html#cb229-450"></a><span class="co">#&gt; 411  0.000186 </span></span>
-<span id="cb229-451"><a href="a-very-simple-neural-network.html#cb229-451"></a><span class="co">#&gt; 412  0.000181 </span></span>
-<span id="cb229-452"><a href="a-very-simple-neural-network.html#cb229-452"></a><span class="co">#&gt; 413  0.000176 </span></span>
-<span id="cb229-453"><a href="a-very-simple-neural-network.html#cb229-453"></a><span class="co">#&gt; 414  0.000171 </span></span>
-<span id="cb229-454"><a href="a-very-simple-neural-network.html#cb229-454"></a><span class="co">#&gt; 415  0.000166 </span></span>
-<span id="cb229-455"><a href="a-very-simple-neural-network.html#cb229-455"></a><span class="co">#&gt; 416  0.000161 </span></span>
-<span id="cb229-456"><a href="a-very-simple-neural-network.html#cb229-456"></a><span class="co">#&gt; 417  0.000157 </span></span>
-<span id="cb229-457"><a href="a-very-simple-neural-network.html#cb229-457"></a><span class="co">#&gt; 418  0.000152 </span></span>
-<span id="cb229-458"><a href="a-very-simple-neural-network.html#cb229-458"></a><span class="co">#&gt; 419  0.000148 </span></span>
-<span id="cb229-459"><a href="a-very-simple-neural-network.html#cb229-459"></a><span class="co">#&gt; 420  0.000144 </span></span>
-<span id="cb229-460"><a href="a-very-simple-neural-network.html#cb229-460"></a><span class="co">#&gt; 421  0.00014 </span></span>
-<span id="cb229-461"><a href="a-very-simple-neural-network.html#cb229-461"></a><span class="co">#&gt; 422  0.000136 </span></span>
-<span id="cb229-462"><a href="a-very-simple-neural-network.html#cb229-462"></a><span class="co">#&gt; 423  0.000132 </span></span>
-<span id="cb229-463"><a href="a-very-simple-neural-network.html#cb229-463"></a><span class="co">#&gt; 424  0.000128 </span></span>
-<span id="cb229-464"><a href="a-very-simple-neural-network.html#cb229-464"></a><span class="co">#&gt; 425  0.000124 </span></span>
-<span id="cb229-465"><a href="a-very-simple-neural-network.html#cb229-465"></a><span class="co">#&gt; 426  0.000121 </span></span>
-<span id="cb229-466"><a href="a-very-simple-neural-network.html#cb229-466"></a><span class="co">#&gt; 427  0.000117 </span></span>
-<span id="cb229-467"><a href="a-very-simple-neural-network.html#cb229-467"></a><span class="co">#&gt; 428  0.000114 </span></span>
-<span id="cb229-468"><a href="a-very-simple-neural-network.html#cb229-468"></a><span class="co">#&gt; 429  0.000111 </span></span>
-<span id="cb229-469"><a href="a-very-simple-neural-network.html#cb229-469"></a><span class="co">#&gt; 430  0.000108 </span></span>
-<span id="cb229-470"><a href="a-very-simple-neural-network.html#cb229-470"></a><span class="co">#&gt; 431  0.000105 </span></span>
-<span id="cb229-471"><a href="a-very-simple-neural-network.html#cb229-471"></a><span class="co">#&gt; 432  0.000102 </span></span>
-<span id="cb229-472"><a href="a-very-simple-neural-network.html#cb229-472"></a><span class="co">#&gt; 433  9.87e-05 </span></span>
-<span id="cb229-473"><a href="a-very-simple-neural-network.html#cb229-473"></a><span class="co">#&gt; 434  9.59e-05 </span></span>
-<span id="cb229-474"><a href="a-very-simple-neural-network.html#cb229-474"></a><span class="co">#&gt; 435  9.32e-05 </span></span>
-<span id="cb229-475"><a href="a-very-simple-neural-network.html#cb229-475"></a><span class="co">#&gt; 436  9.06e-05 </span></span>
-<span id="cb229-476"><a href="a-very-simple-neural-network.html#cb229-476"></a><span class="co">#&gt; 437  8.8e-05 </span></span>
-<span id="cb229-477"><a href="a-very-simple-neural-network.html#cb229-477"></a><span class="co">#&gt; 438  8.55e-05 </span></span>
-<span id="cb229-478"><a href="a-very-simple-neural-network.html#cb229-478"></a><span class="co">#&gt; 439  8.31e-05 </span></span>
-<span id="cb229-479"><a href="a-very-simple-neural-network.html#cb229-479"></a><span class="co">#&gt; 440  8.07e-05 </span></span>
-<span id="cb229-480"><a href="a-very-simple-neural-network.html#cb229-480"></a><span class="co">#&gt; 441  7.84e-05 </span></span>
-<span id="cb229-481"><a href="a-very-simple-neural-network.html#cb229-481"></a><span class="co">#&gt; 442  7.62e-05 </span></span>
-<span id="cb229-482"><a href="a-very-simple-neural-network.html#cb229-482"></a><span class="co">#&gt; 443  7.4e-05 </span></span>
-<span id="cb229-483"><a href="a-very-simple-neural-network.html#cb229-483"></a><span class="co">#&gt; 444  7.2e-05 </span></span>
-<span id="cb229-484"><a href="a-very-simple-neural-network.html#cb229-484"></a><span class="co">#&gt; 445  6.99e-05 </span></span>
-<span id="cb229-485"><a href="a-very-simple-neural-network.html#cb229-485"></a><span class="co">#&gt; 446  6.79e-05 </span></span>
-<span id="cb229-486"><a href="a-very-simple-neural-network.html#cb229-486"></a><span class="co">#&gt; 447  6.6e-05 </span></span>
-<span id="cb229-487"><a href="a-very-simple-neural-network.html#cb229-487"></a><span class="co">#&gt; 448  6.41e-05 </span></span>
-<span id="cb229-488"><a href="a-very-simple-neural-network.html#cb229-488"></a><span class="co">#&gt; 449  6.23e-05 </span></span>
-<span id="cb229-489"><a href="a-very-simple-neural-network.html#cb229-489"></a><span class="co">#&gt; 450  6.06e-05 </span></span>
-<span id="cb229-490"><a href="a-very-simple-neural-network.html#cb229-490"></a><span class="co">#&gt; 451  5.89e-05 </span></span>
-<span id="cb229-491"><a href="a-very-simple-neural-network.html#cb229-491"></a><span class="co">#&gt; 452  5.72e-05 </span></span>
-<span id="cb229-492"><a href="a-very-simple-neural-network.html#cb229-492"></a><span class="co">#&gt; 453  5.56e-05 </span></span>
-<span id="cb229-493"><a href="a-very-simple-neural-network.html#cb229-493"></a><span class="co">#&gt; 454  5.4e-05 </span></span>
-<span id="cb229-494"><a href="a-very-simple-neural-network.html#cb229-494"></a><span class="co">#&gt; 455  5.25e-05 </span></span>
-<span id="cb229-495"><a href="a-very-simple-neural-network.html#cb229-495"></a><span class="co">#&gt; 456  5.1e-05 </span></span>
-<span id="cb229-496"><a href="a-very-simple-neural-network.html#cb229-496"></a><span class="co">#&gt; 457  4.96e-05 </span></span>
-<span id="cb229-497"><a href="a-very-simple-neural-network.html#cb229-497"></a><span class="co">#&gt; 458  4.82e-05 </span></span>
-<span id="cb229-498"><a href="a-very-simple-neural-network.html#cb229-498"></a><span class="co">#&gt; 459  4.68e-05 </span></span>
-<span id="cb229-499"><a href="a-very-simple-neural-network.html#cb229-499"></a><span class="co">#&gt; 460  4.55e-05 </span></span>
-<span id="cb229-500"><a href="a-very-simple-neural-network.html#cb229-500"></a><span class="co">#&gt; 461  4.42e-05 </span></span>
-<span id="cb229-501"><a href="a-very-simple-neural-network.html#cb229-501"></a><span class="co">#&gt; 462  4.3e-05 </span></span>
-<span id="cb229-502"><a href="a-very-simple-neural-network.html#cb229-502"></a><span class="co">#&gt; 463  4.18e-05 </span></span>
-<span id="cb229-503"><a href="a-very-simple-neural-network.html#cb229-503"></a><span class="co">#&gt; 464  4.06e-05 </span></span>
-<span id="cb229-504"><a href="a-very-simple-neural-network.html#cb229-504"></a><span class="co">#&gt; 465  3.94e-05 </span></span>
-<span id="cb229-505"><a href="a-very-simple-neural-network.html#cb229-505"></a><span class="co">#&gt; 466  3.83e-05 </span></span>
-<span id="cb229-506"><a href="a-very-simple-neural-network.html#cb229-506"></a><span class="co">#&gt; 467  3.72e-05 </span></span>
-<span id="cb229-507"><a href="a-very-simple-neural-network.html#cb229-507"></a><span class="co">#&gt; 468  3.62e-05 </span></span>
-<span id="cb229-508"><a href="a-very-simple-neural-network.html#cb229-508"></a><span class="co">#&gt; 469  3.52e-05 </span></span>
-<span id="cb229-509"><a href="a-very-simple-neural-network.html#cb229-509"></a><span class="co">#&gt; 470  3.42e-05 </span></span>
-<span id="cb229-510"><a href="a-very-simple-neural-network.html#cb229-510"></a><span class="co">#&gt; 471  3.32e-05 </span></span>
-<span id="cb229-511"><a href="a-very-simple-neural-network.html#cb229-511"></a><span class="co">#&gt; 472  3.23e-05 </span></span>
-<span id="cb229-512"><a href="a-very-simple-neural-network.html#cb229-512"></a><span class="co">#&gt; 473  3.14e-05 </span></span>
-<span id="cb229-513"><a href="a-very-simple-neural-network.html#cb229-513"></a><span class="co">#&gt; 474  3.05e-05 </span></span>
-<span id="cb229-514"><a href="a-very-simple-neural-network.html#cb229-514"></a><span class="co">#&gt; 475  2.96e-05 </span></span>
-<span id="cb229-515"><a href="a-very-simple-neural-network.html#cb229-515"></a><span class="co">#&gt; 476  2.88e-05 </span></span>
-<span id="cb229-516"><a href="a-very-simple-neural-network.html#cb229-516"></a><span class="co">#&gt; 477  2.8e-05 </span></span>
-<span id="cb229-517"><a href="a-very-simple-neural-network.html#cb229-517"></a><span class="co">#&gt; 478  2.72e-05 </span></span>
-<span id="cb229-518"><a href="a-very-simple-neural-network.html#cb229-518"></a><span class="co">#&gt; 479  2.65e-05 </span></span>
-<span id="cb229-519"><a href="a-very-simple-neural-network.html#cb229-519"></a><span class="co">#&gt; 480  2.57e-05 </span></span>
-<span id="cb229-520"><a href="a-very-simple-neural-network.html#cb229-520"></a><span class="co">#&gt; 481  2.5e-05 </span></span>
-<span id="cb229-521"><a href="a-very-simple-neural-network.html#cb229-521"></a><span class="co">#&gt; 482  2.43e-05 </span></span>
-<span id="cb229-522"><a href="a-very-simple-neural-network.html#cb229-522"></a><span class="co">#&gt; 483  2.36e-05 </span></span>
-<span id="cb229-523"><a href="a-very-simple-neural-network.html#cb229-523"></a><span class="co">#&gt; 484  2.29e-05 </span></span>
-<span id="cb229-524"><a href="a-very-simple-neural-network.html#cb229-524"></a><span class="co">#&gt; 485  2.23e-05 </span></span>
-<span id="cb229-525"><a href="a-very-simple-neural-network.html#cb229-525"></a><span class="co">#&gt; 486  2.17e-05 </span></span>
-<span id="cb229-526"><a href="a-very-simple-neural-network.html#cb229-526"></a><span class="co">#&gt; 487  2.11e-05 </span></span>
-<span id="cb229-527"><a href="a-very-simple-neural-network.html#cb229-527"></a><span class="co">#&gt; 488  2.05e-05 </span></span>
-<span id="cb229-528"><a href="a-very-simple-neural-network.html#cb229-528"></a><span class="co">#&gt; 489  1.99e-05 </span></span>
-<span id="cb229-529"><a href="a-very-simple-neural-network.html#cb229-529"></a><span class="co">#&gt; 490  1.94e-05 </span></span>
-<span id="cb229-530"><a href="a-very-simple-neural-network.html#cb229-530"></a><span class="co">#&gt; 491  1.88e-05 </span></span>
-<span id="cb229-531"><a href="a-very-simple-neural-network.html#cb229-531"></a><span class="co">#&gt; 492  1.83e-05 </span></span>
-<span id="cb229-532"><a href="a-very-simple-neural-network.html#cb229-532"></a><span class="co">#&gt; 493  1.78e-05 </span></span>
-<span id="cb229-533"><a href="a-very-simple-neural-network.html#cb229-533"></a><span class="co">#&gt; 494  1.73e-05 </span></span>
-<span id="cb229-534"><a href="a-very-simple-neural-network.html#cb229-534"></a><span class="co">#&gt; 495  1.68e-05 </span></span>
-<span id="cb229-535"><a href="a-very-simple-neural-network.html#cb229-535"></a><span class="co">#&gt; 496  1.63e-05 </span></span>
-<span id="cb229-536"><a href="a-very-simple-neural-network.html#cb229-536"></a><span class="co">#&gt; 497  1.59e-05 </span></span>
-<span id="cb229-537"><a href="a-very-simple-neural-network.html#cb229-537"></a><span class="co">#&gt; 498  1.54e-05 </span></span>
-<span id="cb229-538"><a href="a-very-simple-neural-network.html#cb229-538"></a><span class="co">#&gt; 499  1.5e-05 </span></span>
-<span id="cb229-539"><a href="a-very-simple-neural-network.html#cb229-539"></a><span class="co">#&gt; 500  1.46e-05</span></span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="a-very-simple-neural-network.html#cb236-1"></a>learning_rate =<span class="st"> </span><span class="fl">1e-4</span></span>
+<span id="cb236-2"><a href="a-very-simple-neural-network.html#cb236-2"></a></span>
+<span id="cb236-3"><a href="a-very-simple-neural-network.html#cb236-3"></a><span class="cf">for</span> (t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">500</span>) {</span>
+<span id="cb236-4"><a href="a-very-simple-neural-network.html#cb236-4"></a>  <span class="co"># Forward pass: compute predicted y by passing x to the model. Module objects</span></span>
+<span id="cb236-5"><a href="a-very-simple-neural-network.html#cb236-5"></a>  <span class="co"># override the __call__ operator so you can call them like functions. When</span></span>
+<span id="cb236-6"><a href="a-very-simple-neural-network.html#cb236-6"></a>  <span class="co"># doing so you pass a Tensor of input data to the Module and it produces</span></span>
+<span id="cb236-7"><a href="a-very-simple-neural-network.html#cb236-7"></a>  <span class="co"># a Tensor of output data.</span></span>
+<span id="cb236-8"><a href="a-very-simple-neural-network.html#cb236-8"></a>  y_pred =<span class="st"> </span><span class="kw">model</span>(x)</span>
+<span id="cb236-9"><a href="a-very-simple-neural-network.html#cb236-9"></a></span>
+<span id="cb236-10"><a href="a-very-simple-neural-network.html#cb236-10"></a>  <span class="co"># Compute and print loss. We pass Tensors containing the predicted and true</span></span>
+<span id="cb236-11"><a href="a-very-simple-neural-network.html#cb236-11"></a>  <span class="co"># values of y, and the loss function returns a Tensor containing the loss.</span></span>
+<span id="cb236-12"><a href="a-very-simple-neural-network.html#cb236-12"></a>  loss =<span class="st"> </span><span class="kw">loss_fn</span>(y_pred, y)</span>
+<span id="cb236-13"><a href="a-very-simple-neural-network.html#cb236-13"></a>  </span>
+<span id="cb236-14"><a href="a-very-simple-neural-network.html#cb236-14"></a>  <span class="kw">cat</span>(t, <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb236-15"><a href="a-very-simple-neural-network.html#cb236-15"></a>  <span class="kw">cat</span>(loss<span class="op">$</span><span class="kw">item</span>(), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb236-16"><a href="a-very-simple-neural-network.html#cb236-16"></a>  </span>
+<span id="cb236-17"><a href="a-very-simple-neural-network.html#cb236-17"></a>  <span class="co"># Zero the gradients before running the backward pass.</span></span>
+<span id="cb236-18"><a href="a-very-simple-neural-network.html#cb236-18"></a>  model<span class="op">$</span><span class="kw">zero_grad</span>()</span>
+<span id="cb236-19"><a href="a-very-simple-neural-network.html#cb236-19"></a></span>
+<span id="cb236-20"><a href="a-very-simple-neural-network.html#cb236-20"></a>  <span class="co"># Backward pass: compute gradient of the loss with respect to all the learnable</span></span>
+<span id="cb236-21"><a href="a-very-simple-neural-network.html#cb236-21"></a>  <span class="co"># parameters of the model. Internally, the parameters of each Module are stored</span></span>
+<span id="cb236-22"><a href="a-very-simple-neural-network.html#cb236-22"></a>  <span class="co"># in Tensors with requires_grad=True, so this call will compute gradients for</span></span>
+<span id="cb236-23"><a href="a-very-simple-neural-network.html#cb236-23"></a>  <span class="co"># all learnable parameters in the model.</span></span>
+<span id="cb236-24"><a href="a-very-simple-neural-network.html#cb236-24"></a>  loss<span class="op">$</span><span class="kw">backward</span>()</span>
+<span id="cb236-25"><a href="a-very-simple-neural-network.html#cb236-25"></a></span>
+<span id="cb236-26"><a href="a-very-simple-neural-network.html#cb236-26"></a>  <span class="co"># Update the weights using gradient descent. Each parameter is a Tensor, so</span></span>
+<span id="cb236-27"><a href="a-very-simple-neural-network.html#cb236-27"></a>  <span class="co"># we can access its data and gradients like we did before.</span></span>
+<span id="cb236-28"><a href="a-very-simple-neural-network.html#cb236-28"></a>  <span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
+<span id="cb236-29"><a href="a-very-simple-neural-network.html#cb236-29"></a>      <span class="cf">for</span> (param <span class="cf">in</span> <span class="kw">iterate</span>(model<span class="op">$</span><span class="kw">parameters</span>())) {</span>
+<span id="cb236-30"><a href="a-very-simple-neural-network.html#cb236-30"></a>        <span class="co"># in Python this code is much simpler. In R we have to do some conversions</span></span>
+<span id="cb236-31"><a href="a-very-simple-neural-network.html#cb236-31"></a>        </span>
+<span id="cb236-32"><a href="a-very-simple-neural-network.html#cb236-32"></a>        <span class="co"># param$data &lt;- torch$sub(param$data,</span></span>
+<span id="cb236-33"><a href="a-very-simple-neural-network.html#cb236-33"></a>        <span class="co">#                         torch$mul(param$grad$float(),</span></span>
+<span id="cb236-34"><a href="a-very-simple-neural-network.html#cb236-34"></a>        <span class="co">#                           torch$scalar_tensor(learning_rate)))</span></span>
+<span id="cb236-35"><a href="a-very-simple-neural-network.html#cb236-35"></a>        </span>
+<span id="cb236-36"><a href="a-very-simple-neural-network.html#cb236-36"></a>        param<span class="op">$</span>data &lt;-<span class="st"> </span>param<span class="op">$</span>data <span class="op">-</span><span class="st"> </span>param<span class="op">$</span>grad <span class="op">*</span><span class="st"> </span>learning_rate</span>
+<span id="cb236-37"><a href="a-very-simple-neural-network.html#cb236-37"></a>      }</span>
+<span id="cb236-38"><a href="a-very-simple-neural-network.html#cb236-38"></a>   })</span>
+<span id="cb236-39"><a href="a-very-simple-neural-network.html#cb236-39"></a>}  </span>
+<span id="cb236-40"><a href="a-very-simple-neural-network.html#cb236-40"></a><span class="co">#&gt; 1    628 </span></span>
+<span id="cb236-41"><a href="a-very-simple-neural-network.html#cb236-41"></a><span class="co">#&gt; 2    585 </span></span>
+<span id="cb236-42"><a href="a-very-simple-neural-network.html#cb236-42"></a><span class="co">#&gt; 3    547 </span></span>
+<span id="cb236-43"><a href="a-very-simple-neural-network.html#cb236-43"></a><span class="co">#&gt; 4    513 </span></span>
+<span id="cb236-44"><a href="a-very-simple-neural-network.html#cb236-44"></a><span class="co">#&gt; 5    482 </span></span>
+<span id="cb236-45"><a href="a-very-simple-neural-network.html#cb236-45"></a><span class="co">#&gt; 6    455 </span></span>
+<span id="cb236-46"><a href="a-very-simple-neural-network.html#cb236-46"></a><span class="co">#&gt; 7    430 </span></span>
+<span id="cb236-47"><a href="a-very-simple-neural-network.html#cb236-47"></a><span class="co">#&gt; 8    406 </span></span>
+<span id="cb236-48"><a href="a-very-simple-neural-network.html#cb236-48"></a><span class="co">#&gt; 9    385 </span></span>
+<span id="cb236-49"><a href="a-very-simple-neural-network.html#cb236-49"></a><span class="co">#&gt; 10   364 </span></span>
+<span id="cb236-50"><a href="a-very-simple-neural-network.html#cb236-50"></a><span class="co">#&gt; 11   345 </span></span>
+<span id="cb236-51"><a href="a-very-simple-neural-network.html#cb236-51"></a><span class="co">#&gt; 12   328 </span></span>
+<span id="cb236-52"><a href="a-very-simple-neural-network.html#cb236-52"></a><span class="co">#&gt; 13   311 </span></span>
+<span id="cb236-53"><a href="a-very-simple-neural-network.html#cb236-53"></a><span class="co">#&gt; 14   295 </span></span>
+<span id="cb236-54"><a href="a-very-simple-neural-network.html#cb236-54"></a><span class="co">#&gt; 15   280 </span></span>
+<span id="cb236-55"><a href="a-very-simple-neural-network.html#cb236-55"></a><span class="co">#&gt; 16   265 </span></span>
+<span id="cb236-56"><a href="a-very-simple-neural-network.html#cb236-56"></a><span class="co">#&gt; 17   252 </span></span>
+<span id="cb236-57"><a href="a-very-simple-neural-network.html#cb236-57"></a><span class="co">#&gt; 18   239 </span></span>
+<span id="cb236-58"><a href="a-very-simple-neural-network.html#cb236-58"></a><span class="co">#&gt; 19   226 </span></span>
+<span id="cb236-59"><a href="a-very-simple-neural-network.html#cb236-59"></a><span class="co">#&gt; 20   214 </span></span>
+<span id="cb236-60"><a href="a-very-simple-neural-network.html#cb236-60"></a><span class="co">#&gt; 21   203 </span></span>
+<span id="cb236-61"><a href="a-very-simple-neural-network.html#cb236-61"></a><span class="co">#&gt; 22   192 </span></span>
+<span id="cb236-62"><a href="a-very-simple-neural-network.html#cb236-62"></a><span class="co">#&gt; 23   181 </span></span>
+<span id="cb236-63"><a href="a-very-simple-neural-network.html#cb236-63"></a><span class="co">#&gt; 24   172 </span></span>
+<span id="cb236-64"><a href="a-very-simple-neural-network.html#cb236-64"></a><span class="co">#&gt; 25   162 </span></span>
+<span id="cb236-65"><a href="a-very-simple-neural-network.html#cb236-65"></a><span class="co">#&gt; 26   153 </span></span>
+<span id="cb236-66"><a href="a-very-simple-neural-network.html#cb236-66"></a><span class="co">#&gt; 27   145 </span></span>
+<span id="cb236-67"><a href="a-very-simple-neural-network.html#cb236-67"></a><span class="co">#&gt; 28   137 </span></span>
+<span id="cb236-68"><a href="a-very-simple-neural-network.html#cb236-68"></a><span class="co">#&gt; 29   129 </span></span>
+<span id="cb236-69"><a href="a-very-simple-neural-network.html#cb236-69"></a><span class="co">#&gt; 30   122 </span></span>
+<span id="cb236-70"><a href="a-very-simple-neural-network.html#cb236-70"></a><span class="co">#&gt; 31   115 </span></span>
+<span id="cb236-71"><a href="a-very-simple-neural-network.html#cb236-71"></a><span class="co">#&gt; 32   109 </span></span>
+<span id="cb236-72"><a href="a-very-simple-neural-network.html#cb236-72"></a><span class="co">#&gt; 33   103 </span></span>
+<span id="cb236-73"><a href="a-very-simple-neural-network.html#cb236-73"></a><span class="co">#&gt; 34   96.9 </span></span>
+<span id="cb236-74"><a href="a-very-simple-neural-network.html#cb236-74"></a><span class="co">#&gt; 35   91.5 </span></span>
+<span id="cb236-75"><a href="a-very-simple-neural-network.html#cb236-75"></a><span class="co">#&gt; 36   86.3 </span></span>
+<span id="cb236-76"><a href="a-very-simple-neural-network.html#cb236-76"></a><span class="co">#&gt; 37   81.5 </span></span>
+<span id="cb236-77"><a href="a-very-simple-neural-network.html#cb236-77"></a><span class="co">#&gt; 38   76.9 </span></span>
+<span id="cb236-78"><a href="a-very-simple-neural-network.html#cb236-78"></a><span class="co">#&gt; 39   72.6 </span></span>
+<span id="cb236-79"><a href="a-very-simple-neural-network.html#cb236-79"></a><span class="co">#&gt; 40   68.5 </span></span>
+<span id="cb236-80"><a href="a-very-simple-neural-network.html#cb236-80"></a><span class="co">#&gt; 41   64.6 </span></span>
+<span id="cb236-81"><a href="a-very-simple-neural-network.html#cb236-81"></a><span class="co">#&gt; 42   61 </span></span>
+<span id="cb236-82"><a href="a-very-simple-neural-network.html#cb236-82"></a><span class="co">#&gt; 43   57.6 </span></span>
+<span id="cb236-83"><a href="a-very-simple-neural-network.html#cb236-83"></a><span class="co">#&gt; 44   54.3 </span></span>
+<span id="cb236-84"><a href="a-very-simple-neural-network.html#cb236-84"></a><span class="co">#&gt; 45   51.3 </span></span>
+<span id="cb236-85"><a href="a-very-simple-neural-network.html#cb236-85"></a><span class="co">#&gt; 46   48.5 </span></span>
+<span id="cb236-86"><a href="a-very-simple-neural-network.html#cb236-86"></a><span class="co">#&gt; 47   45.8 </span></span>
+<span id="cb236-87"><a href="a-very-simple-neural-network.html#cb236-87"></a><span class="co">#&gt; 48   43.2 </span></span>
+<span id="cb236-88"><a href="a-very-simple-neural-network.html#cb236-88"></a><span class="co">#&gt; 49   40.9 </span></span>
+<span id="cb236-89"><a href="a-very-simple-neural-network.html#cb236-89"></a><span class="co">#&gt; 50   38.6 </span></span>
+<span id="cb236-90"><a href="a-very-simple-neural-network.html#cb236-90"></a><span class="co">#&gt; 51   36.5 </span></span>
+<span id="cb236-91"><a href="a-very-simple-neural-network.html#cb236-91"></a><span class="co">#&gt; 52   34.5 </span></span>
+<span id="cb236-92"><a href="a-very-simple-neural-network.html#cb236-92"></a><span class="co">#&gt; 53   32.7 </span></span>
+<span id="cb236-93"><a href="a-very-simple-neural-network.html#cb236-93"></a><span class="co">#&gt; 54   30.9 </span></span>
+<span id="cb236-94"><a href="a-very-simple-neural-network.html#cb236-94"></a><span class="co">#&gt; 55   29.3 </span></span>
+<span id="cb236-95"><a href="a-very-simple-neural-network.html#cb236-95"></a><span class="co">#&gt; 56   27.8 </span></span>
+<span id="cb236-96"><a href="a-very-simple-neural-network.html#cb236-96"></a><span class="co">#&gt; 57   26.3 </span></span>
+<span id="cb236-97"><a href="a-very-simple-neural-network.html#cb236-97"></a><span class="co">#&gt; 58   24.9 </span></span>
+<span id="cb236-98"><a href="a-very-simple-neural-network.html#cb236-98"></a><span class="co">#&gt; 59   23.7 </span></span>
+<span id="cb236-99"><a href="a-very-simple-neural-network.html#cb236-99"></a><span class="co">#&gt; 60   22.4 </span></span>
+<span id="cb236-100"><a href="a-very-simple-neural-network.html#cb236-100"></a><span class="co">#&gt; 61   21.3 </span></span>
+<span id="cb236-101"><a href="a-very-simple-neural-network.html#cb236-101"></a><span class="co">#&gt; 62   20.2 </span></span>
+<span id="cb236-102"><a href="a-very-simple-neural-network.html#cb236-102"></a><span class="co">#&gt; 63   19.2 </span></span>
+<span id="cb236-103"><a href="a-very-simple-neural-network.html#cb236-103"></a><span class="co">#&gt; 64   18.2 </span></span>
+<span id="cb236-104"><a href="a-very-simple-neural-network.html#cb236-104"></a><span class="co">#&gt; 65   17.3 </span></span>
+<span id="cb236-105"><a href="a-very-simple-neural-network.html#cb236-105"></a><span class="co">#&gt; 66   16.5 </span></span>
+<span id="cb236-106"><a href="a-very-simple-neural-network.html#cb236-106"></a><span class="co">#&gt; 67   15.7 </span></span>
+<span id="cb236-107"><a href="a-very-simple-neural-network.html#cb236-107"></a><span class="co">#&gt; 68   14.9 </span></span>
+<span id="cb236-108"><a href="a-very-simple-neural-network.html#cb236-108"></a><span class="co">#&gt; 69   14.2 </span></span>
+<span id="cb236-109"><a href="a-very-simple-neural-network.html#cb236-109"></a><span class="co">#&gt; 70   13.5 </span></span>
+<span id="cb236-110"><a href="a-very-simple-neural-network.html#cb236-110"></a><span class="co">#&gt; 71   12.9 </span></span>
+<span id="cb236-111"><a href="a-very-simple-neural-network.html#cb236-111"></a><span class="co">#&gt; 72   12.3 </span></span>
+<span id="cb236-112"><a href="a-very-simple-neural-network.html#cb236-112"></a><span class="co">#&gt; 73   11.7 </span></span>
+<span id="cb236-113"><a href="a-very-simple-neural-network.html#cb236-113"></a><span class="co">#&gt; 74   11.1 </span></span>
+<span id="cb236-114"><a href="a-very-simple-neural-network.html#cb236-114"></a><span class="co">#&gt; 75   10.6 </span></span>
+<span id="cb236-115"><a href="a-very-simple-neural-network.html#cb236-115"></a><span class="co">#&gt; 76   10.1 </span></span>
+<span id="cb236-116"><a href="a-very-simple-neural-network.html#cb236-116"></a><span class="co">#&gt; 77   9.67 </span></span>
+<span id="cb236-117"><a href="a-very-simple-neural-network.html#cb236-117"></a><span class="co">#&gt; 78   9.24 </span></span>
+<span id="cb236-118"><a href="a-very-simple-neural-network.html#cb236-118"></a><span class="co">#&gt; 79   8.82 </span></span>
+<span id="cb236-119"><a href="a-very-simple-neural-network.html#cb236-119"></a><span class="co">#&gt; 80   8.42 </span></span>
+<span id="cb236-120"><a href="a-very-simple-neural-network.html#cb236-120"></a><span class="co">#&gt; 81   8.05 </span></span>
+<span id="cb236-121"><a href="a-very-simple-neural-network.html#cb236-121"></a><span class="co">#&gt; 82   7.69 </span></span>
+<span id="cb236-122"><a href="a-very-simple-neural-network.html#cb236-122"></a><span class="co">#&gt; 83   7.35 </span></span>
+<span id="cb236-123"><a href="a-very-simple-neural-network.html#cb236-123"></a><span class="co">#&gt; 84   7.03 </span></span>
+<span id="cb236-124"><a href="a-very-simple-neural-network.html#cb236-124"></a><span class="co">#&gt; 85   6.72 </span></span>
+<span id="cb236-125"><a href="a-very-simple-neural-network.html#cb236-125"></a><span class="co">#&gt; 86   6.43 </span></span>
+<span id="cb236-126"><a href="a-very-simple-neural-network.html#cb236-126"></a><span class="co">#&gt; 87   6.16 </span></span>
+<span id="cb236-127"><a href="a-very-simple-neural-network.html#cb236-127"></a><span class="co">#&gt; 88   5.9 </span></span>
+<span id="cb236-128"><a href="a-very-simple-neural-network.html#cb236-128"></a><span class="co">#&gt; 89   5.65 </span></span>
+<span id="cb236-129"><a href="a-very-simple-neural-network.html#cb236-129"></a><span class="co">#&gt; 90   5.41 </span></span>
+<span id="cb236-130"><a href="a-very-simple-neural-network.html#cb236-130"></a><span class="co">#&gt; 91   5.18 </span></span>
+<span id="cb236-131"><a href="a-very-simple-neural-network.html#cb236-131"></a><span class="co">#&gt; 92   4.97 </span></span>
+<span id="cb236-132"><a href="a-very-simple-neural-network.html#cb236-132"></a><span class="co">#&gt; 93   4.76 </span></span>
+<span id="cb236-133"><a href="a-very-simple-neural-network.html#cb236-133"></a><span class="co">#&gt; 94   4.57 </span></span>
+<span id="cb236-134"><a href="a-very-simple-neural-network.html#cb236-134"></a><span class="co">#&gt; 95   4.38 </span></span>
+<span id="cb236-135"><a href="a-very-simple-neural-network.html#cb236-135"></a><span class="co">#&gt; 96   4.2 </span></span>
+<span id="cb236-136"><a href="a-very-simple-neural-network.html#cb236-136"></a><span class="co">#&gt; 97   4.03 </span></span>
+<span id="cb236-137"><a href="a-very-simple-neural-network.html#cb236-137"></a><span class="co">#&gt; 98   3.87 </span></span>
+<span id="cb236-138"><a href="a-very-simple-neural-network.html#cb236-138"></a><span class="co">#&gt; 99   3.72 </span></span>
+<span id="cb236-139"><a href="a-very-simple-neural-network.html#cb236-139"></a><span class="co">#&gt; 100  3.57 </span></span>
+<span id="cb236-140"><a href="a-very-simple-neural-network.html#cb236-140"></a><span class="co">#&gt; 101  3.43 </span></span>
+<span id="cb236-141"><a href="a-very-simple-neural-network.html#cb236-141"></a><span class="co">#&gt; 102  3.29 </span></span>
+<span id="cb236-142"><a href="a-very-simple-neural-network.html#cb236-142"></a><span class="co">#&gt; 103  3.17 </span></span>
+<span id="cb236-143"><a href="a-very-simple-neural-network.html#cb236-143"></a><span class="co">#&gt; 104  3.04 </span></span>
+<span id="cb236-144"><a href="a-very-simple-neural-network.html#cb236-144"></a><span class="co">#&gt; 105  2.92 </span></span>
+<span id="cb236-145"><a href="a-very-simple-neural-network.html#cb236-145"></a><span class="co">#&gt; 106  2.81 </span></span>
+<span id="cb236-146"><a href="a-very-simple-neural-network.html#cb236-146"></a><span class="co">#&gt; 107  2.7 </span></span>
+<span id="cb236-147"><a href="a-very-simple-neural-network.html#cb236-147"></a><span class="co">#&gt; 108  2.6 </span></span>
+<span id="cb236-148"><a href="a-very-simple-neural-network.html#cb236-148"></a><span class="co">#&gt; 109  2.5 </span></span>
+<span id="cb236-149"><a href="a-very-simple-neural-network.html#cb236-149"></a><span class="co">#&gt; 110  2.41 </span></span>
+<span id="cb236-150"><a href="a-very-simple-neural-network.html#cb236-150"></a><span class="co">#&gt; 111  2.31 </span></span>
+<span id="cb236-151"><a href="a-very-simple-neural-network.html#cb236-151"></a><span class="co">#&gt; 112  2.23 </span></span>
+<span id="cb236-152"><a href="a-very-simple-neural-network.html#cb236-152"></a><span class="co">#&gt; 113  2.14 </span></span>
+<span id="cb236-153"><a href="a-very-simple-neural-network.html#cb236-153"></a><span class="co">#&gt; 114  2.06 </span></span>
+<span id="cb236-154"><a href="a-very-simple-neural-network.html#cb236-154"></a><span class="co">#&gt; 115  1.99 </span></span>
+<span id="cb236-155"><a href="a-very-simple-neural-network.html#cb236-155"></a><span class="co">#&gt; 116  1.91 </span></span>
+<span id="cb236-156"><a href="a-very-simple-neural-network.html#cb236-156"></a><span class="co">#&gt; 117  1.84 </span></span>
+<span id="cb236-157"><a href="a-very-simple-neural-network.html#cb236-157"></a><span class="co">#&gt; 118  1.77 </span></span>
+<span id="cb236-158"><a href="a-very-simple-neural-network.html#cb236-158"></a><span class="co">#&gt; 119  1.71 </span></span>
+<span id="cb236-159"><a href="a-very-simple-neural-network.html#cb236-159"></a><span class="co">#&gt; 120  1.65 </span></span>
+<span id="cb236-160"><a href="a-very-simple-neural-network.html#cb236-160"></a><span class="co">#&gt; 121  1.59 </span></span>
+<span id="cb236-161"><a href="a-very-simple-neural-network.html#cb236-161"></a><span class="co">#&gt; 122  1.53 </span></span>
+<span id="cb236-162"><a href="a-very-simple-neural-network.html#cb236-162"></a><span class="co">#&gt; 123  1.47 </span></span>
+<span id="cb236-163"><a href="a-very-simple-neural-network.html#cb236-163"></a><span class="co">#&gt; 124  1.42 </span></span>
+<span id="cb236-164"><a href="a-very-simple-neural-network.html#cb236-164"></a><span class="co">#&gt; 125  1.37 </span></span>
+<span id="cb236-165"><a href="a-very-simple-neural-network.html#cb236-165"></a><span class="co">#&gt; 126  1.32 </span></span>
+<span id="cb236-166"><a href="a-very-simple-neural-network.html#cb236-166"></a><span class="co">#&gt; 127  1.27 </span></span>
+<span id="cb236-167"><a href="a-very-simple-neural-network.html#cb236-167"></a><span class="co">#&gt; 128  1.23 </span></span>
+<span id="cb236-168"><a href="a-very-simple-neural-network.html#cb236-168"></a><span class="co">#&gt; 129  1.18 </span></span>
+<span id="cb236-169"><a href="a-very-simple-neural-network.html#cb236-169"></a><span class="co">#&gt; 130  1.14 </span></span>
+<span id="cb236-170"><a href="a-very-simple-neural-network.html#cb236-170"></a><span class="co">#&gt; 131  1.1 </span></span>
+<span id="cb236-171"><a href="a-very-simple-neural-network.html#cb236-171"></a><span class="co">#&gt; 132  1.06 </span></span>
+<span id="cb236-172"><a href="a-very-simple-neural-network.html#cb236-172"></a><span class="co">#&gt; 133  1.02 </span></span>
+<span id="cb236-173"><a href="a-very-simple-neural-network.html#cb236-173"></a><span class="co">#&gt; 134  0.989 </span></span>
+<span id="cb236-174"><a href="a-very-simple-neural-network.html#cb236-174"></a><span class="co">#&gt; 135  0.954 </span></span>
+<span id="cb236-175"><a href="a-very-simple-neural-network.html#cb236-175"></a><span class="co">#&gt; 136  0.921 </span></span>
+<span id="cb236-176"><a href="a-very-simple-neural-network.html#cb236-176"></a><span class="co">#&gt; 137  0.889 </span></span>
+<span id="cb236-177"><a href="a-very-simple-neural-network.html#cb236-177"></a><span class="co">#&gt; 138  0.858 </span></span>
+<span id="cb236-178"><a href="a-very-simple-neural-network.html#cb236-178"></a><span class="co">#&gt; 139  0.828 </span></span>
+<span id="cb236-179"><a href="a-very-simple-neural-network.html#cb236-179"></a><span class="co">#&gt; 140  0.799 </span></span>
+<span id="cb236-180"><a href="a-very-simple-neural-network.html#cb236-180"></a><span class="co">#&gt; 141  0.772 </span></span>
+<span id="cb236-181"><a href="a-very-simple-neural-network.html#cb236-181"></a><span class="co">#&gt; 142  0.745 </span></span>
+<span id="cb236-182"><a href="a-very-simple-neural-network.html#cb236-182"></a><span class="co">#&gt; 143  0.719 </span></span>
+<span id="cb236-183"><a href="a-very-simple-neural-network.html#cb236-183"></a><span class="co">#&gt; 144  0.695 </span></span>
+<span id="cb236-184"><a href="a-very-simple-neural-network.html#cb236-184"></a><span class="co">#&gt; 145  0.671 </span></span>
+<span id="cb236-185"><a href="a-very-simple-neural-network.html#cb236-185"></a><span class="co">#&gt; 146  0.648 </span></span>
+<span id="cb236-186"><a href="a-very-simple-neural-network.html#cb236-186"></a><span class="co">#&gt; 147  0.626 </span></span>
+<span id="cb236-187"><a href="a-very-simple-neural-network.html#cb236-187"></a><span class="co">#&gt; 148  0.605 </span></span>
+<span id="cb236-188"><a href="a-very-simple-neural-network.html#cb236-188"></a><span class="co">#&gt; 149  0.584 </span></span>
+<span id="cb236-189"><a href="a-very-simple-neural-network.html#cb236-189"></a><span class="co">#&gt; 150  0.564 </span></span>
+<span id="cb236-190"><a href="a-very-simple-neural-network.html#cb236-190"></a><span class="co">#&gt; 151  0.545 </span></span>
+<span id="cb236-191"><a href="a-very-simple-neural-network.html#cb236-191"></a><span class="co">#&gt; 152  0.527 </span></span>
+<span id="cb236-192"><a href="a-very-simple-neural-network.html#cb236-192"></a><span class="co">#&gt; 153  0.509 </span></span>
+<span id="cb236-193"><a href="a-very-simple-neural-network.html#cb236-193"></a><span class="co">#&gt; 154  0.492 </span></span>
+<span id="cb236-194"><a href="a-very-simple-neural-network.html#cb236-194"></a><span class="co">#&gt; 155  0.476 </span></span>
+<span id="cb236-195"><a href="a-very-simple-neural-network.html#cb236-195"></a><span class="co">#&gt; 156  0.46 </span></span>
+<span id="cb236-196"><a href="a-very-simple-neural-network.html#cb236-196"></a><span class="co">#&gt; 157  0.444 </span></span>
+<span id="cb236-197"><a href="a-very-simple-neural-network.html#cb236-197"></a><span class="co">#&gt; 158  0.43 </span></span>
+<span id="cb236-198"><a href="a-very-simple-neural-network.html#cb236-198"></a><span class="co">#&gt; 159  0.415 </span></span>
+<span id="cb236-199"><a href="a-very-simple-neural-network.html#cb236-199"></a><span class="co">#&gt; 160  0.402 </span></span>
+<span id="cb236-200"><a href="a-very-simple-neural-network.html#cb236-200"></a><span class="co">#&gt; 161  0.388 </span></span>
+<span id="cb236-201"><a href="a-very-simple-neural-network.html#cb236-201"></a><span class="co">#&gt; 162  0.375 </span></span>
+<span id="cb236-202"><a href="a-very-simple-neural-network.html#cb236-202"></a><span class="co">#&gt; 163  0.363 </span></span>
+<span id="cb236-203"><a href="a-very-simple-neural-network.html#cb236-203"></a><span class="co">#&gt; 164  0.351 </span></span>
+<span id="cb236-204"><a href="a-very-simple-neural-network.html#cb236-204"></a><span class="co">#&gt; 165  0.339 </span></span>
+<span id="cb236-205"><a href="a-very-simple-neural-network.html#cb236-205"></a><span class="co">#&gt; 166  0.328 </span></span>
+<span id="cb236-206"><a href="a-very-simple-neural-network.html#cb236-206"></a><span class="co">#&gt; 167  0.318 </span></span>
+<span id="cb236-207"><a href="a-very-simple-neural-network.html#cb236-207"></a><span class="co">#&gt; 168  0.307 </span></span>
+<span id="cb236-208"><a href="a-very-simple-neural-network.html#cb236-208"></a><span class="co">#&gt; 169  0.297 </span></span>
+<span id="cb236-209"><a href="a-very-simple-neural-network.html#cb236-209"></a><span class="co">#&gt; 170  0.287 </span></span>
+<span id="cb236-210"><a href="a-very-simple-neural-network.html#cb236-210"></a><span class="co">#&gt; 171  0.278 </span></span>
+<span id="cb236-211"><a href="a-very-simple-neural-network.html#cb236-211"></a><span class="co">#&gt; 172  0.269 </span></span>
+<span id="cb236-212"><a href="a-very-simple-neural-network.html#cb236-212"></a><span class="co">#&gt; 173  0.26 </span></span>
+<span id="cb236-213"><a href="a-very-simple-neural-network.html#cb236-213"></a><span class="co">#&gt; 174  0.252 </span></span>
+<span id="cb236-214"><a href="a-very-simple-neural-network.html#cb236-214"></a><span class="co">#&gt; 175  0.244 </span></span>
+<span id="cb236-215"><a href="a-very-simple-neural-network.html#cb236-215"></a><span class="co">#&gt; 176  0.236 </span></span>
+<span id="cb236-216"><a href="a-very-simple-neural-network.html#cb236-216"></a><span class="co">#&gt; 177  0.228 </span></span>
+<span id="cb236-217"><a href="a-very-simple-neural-network.html#cb236-217"></a><span class="co">#&gt; 178  0.221 </span></span>
+<span id="cb236-218"><a href="a-very-simple-neural-network.html#cb236-218"></a><span class="co">#&gt; 179  0.214 </span></span>
+<span id="cb236-219"><a href="a-very-simple-neural-network.html#cb236-219"></a><span class="co">#&gt; 180  0.207 </span></span>
+<span id="cb236-220"><a href="a-very-simple-neural-network.html#cb236-220"></a><span class="co">#&gt; 181  0.2 </span></span>
+<span id="cb236-221"><a href="a-very-simple-neural-network.html#cb236-221"></a><span class="co">#&gt; 182  0.194 </span></span>
+<span id="cb236-222"><a href="a-very-simple-neural-network.html#cb236-222"></a><span class="co">#&gt; 183  0.187 </span></span>
+<span id="cb236-223"><a href="a-very-simple-neural-network.html#cb236-223"></a><span class="co">#&gt; 184  0.181 </span></span>
+<span id="cb236-224"><a href="a-very-simple-neural-network.html#cb236-224"></a><span class="co">#&gt; 185  0.176 </span></span>
+<span id="cb236-225"><a href="a-very-simple-neural-network.html#cb236-225"></a><span class="co">#&gt; 186  0.17 </span></span>
+<span id="cb236-226"><a href="a-very-simple-neural-network.html#cb236-226"></a><span class="co">#&gt; 187  0.165 </span></span>
+<span id="cb236-227"><a href="a-very-simple-neural-network.html#cb236-227"></a><span class="co">#&gt; 188  0.159 </span></span>
+<span id="cb236-228"><a href="a-very-simple-neural-network.html#cb236-228"></a><span class="co">#&gt; 189  0.154 </span></span>
+<span id="cb236-229"><a href="a-very-simple-neural-network.html#cb236-229"></a><span class="co">#&gt; 190  0.149 </span></span>
+<span id="cb236-230"><a href="a-very-simple-neural-network.html#cb236-230"></a><span class="co">#&gt; 191  0.145 </span></span>
+<span id="cb236-231"><a href="a-very-simple-neural-network.html#cb236-231"></a><span class="co">#&gt; 192  0.14 </span></span>
+<span id="cb236-232"><a href="a-very-simple-neural-network.html#cb236-232"></a><span class="co">#&gt; 193  0.136 </span></span>
+<span id="cb236-233"><a href="a-very-simple-neural-network.html#cb236-233"></a><span class="co">#&gt; 194  0.131 </span></span>
+<span id="cb236-234"><a href="a-very-simple-neural-network.html#cb236-234"></a><span class="co">#&gt; 195  0.127 </span></span>
+<span id="cb236-235"><a href="a-very-simple-neural-network.html#cb236-235"></a><span class="co">#&gt; 196  0.123 </span></span>
+<span id="cb236-236"><a href="a-very-simple-neural-network.html#cb236-236"></a><span class="co">#&gt; 197  0.119 </span></span>
+<span id="cb236-237"><a href="a-very-simple-neural-network.html#cb236-237"></a><span class="co">#&gt; 198  0.115 </span></span>
+<span id="cb236-238"><a href="a-very-simple-neural-network.html#cb236-238"></a><span class="co">#&gt; 199  0.112 </span></span>
+<span id="cb236-239"><a href="a-very-simple-neural-network.html#cb236-239"></a><span class="co">#&gt; 200  0.108 </span></span>
+<span id="cb236-240"><a href="a-very-simple-neural-network.html#cb236-240"></a><span class="co">#&gt; 201  0.105 </span></span>
+<span id="cb236-241"><a href="a-very-simple-neural-network.html#cb236-241"></a><span class="co">#&gt; 202  0.102 </span></span>
+<span id="cb236-242"><a href="a-very-simple-neural-network.html#cb236-242"></a><span class="co">#&gt; 203  0.0983 </span></span>
+<span id="cb236-243"><a href="a-very-simple-neural-network.html#cb236-243"></a><span class="co">#&gt; 204  0.0952 </span></span>
+<span id="cb236-244"><a href="a-very-simple-neural-network.html#cb236-244"></a><span class="co">#&gt; 205  0.0923 </span></span>
+<span id="cb236-245"><a href="a-very-simple-neural-network.html#cb236-245"></a><span class="co">#&gt; 206  0.0894 </span></span>
+<span id="cb236-246"><a href="a-very-simple-neural-network.html#cb236-246"></a><span class="co">#&gt; 207  0.0866 </span></span>
+<span id="cb236-247"><a href="a-very-simple-neural-network.html#cb236-247"></a><span class="co">#&gt; 208  0.0838 </span></span>
+<span id="cb236-248"><a href="a-very-simple-neural-network.html#cb236-248"></a><span class="co">#&gt; 209  0.0812 </span></span>
+<span id="cb236-249"><a href="a-very-simple-neural-network.html#cb236-249"></a><span class="co">#&gt; 210  0.0787 </span></span>
+<span id="cb236-250"><a href="a-very-simple-neural-network.html#cb236-250"></a><span class="co">#&gt; 211  0.0762 </span></span>
+<span id="cb236-251"><a href="a-very-simple-neural-network.html#cb236-251"></a><span class="co">#&gt; 212  0.0739 </span></span>
+<span id="cb236-252"><a href="a-very-simple-neural-network.html#cb236-252"></a><span class="co">#&gt; 213  0.0716 </span></span>
+<span id="cb236-253"><a href="a-very-simple-neural-network.html#cb236-253"></a><span class="co">#&gt; 214  0.0693 </span></span>
+<span id="cb236-254"><a href="a-very-simple-neural-network.html#cb236-254"></a><span class="co">#&gt; 215  0.0672 </span></span>
+<span id="cb236-255"><a href="a-very-simple-neural-network.html#cb236-255"></a><span class="co">#&gt; 216  0.0651 </span></span>
+<span id="cb236-256"><a href="a-very-simple-neural-network.html#cb236-256"></a><span class="co">#&gt; 217  0.0631 </span></span>
+<span id="cb236-257"><a href="a-very-simple-neural-network.html#cb236-257"></a><span class="co">#&gt; 218  0.0611 </span></span>
+<span id="cb236-258"><a href="a-very-simple-neural-network.html#cb236-258"></a><span class="co">#&gt; 219  0.0592 </span></span>
+<span id="cb236-259"><a href="a-very-simple-neural-network.html#cb236-259"></a><span class="co">#&gt; 220  0.0574 </span></span>
+<span id="cb236-260"><a href="a-very-simple-neural-network.html#cb236-260"></a><span class="co">#&gt; 221  0.0556 </span></span>
+<span id="cb236-261"><a href="a-very-simple-neural-network.html#cb236-261"></a><span class="co">#&gt; 222  0.0539 </span></span>
+<span id="cb236-262"><a href="a-very-simple-neural-network.html#cb236-262"></a><span class="co">#&gt; 223  0.0522 </span></span>
+<span id="cb236-263"><a href="a-very-simple-neural-network.html#cb236-263"></a><span class="co">#&gt; 224  0.0506 </span></span>
+<span id="cb236-264"><a href="a-very-simple-neural-network.html#cb236-264"></a><span class="co">#&gt; 225  0.0491 </span></span>
+<span id="cb236-265"><a href="a-very-simple-neural-network.html#cb236-265"></a><span class="co">#&gt; 226  0.0476 </span></span>
+<span id="cb236-266"><a href="a-very-simple-neural-network.html#cb236-266"></a><span class="co">#&gt; 227  0.0461 </span></span>
+<span id="cb236-267"><a href="a-very-simple-neural-network.html#cb236-267"></a><span class="co">#&gt; 228  0.0447 </span></span>
+<span id="cb236-268"><a href="a-very-simple-neural-network.html#cb236-268"></a><span class="co">#&gt; 229  0.0433 </span></span>
+<span id="cb236-269"><a href="a-very-simple-neural-network.html#cb236-269"></a><span class="co">#&gt; 230  0.042 </span></span>
+<span id="cb236-270"><a href="a-very-simple-neural-network.html#cb236-270"></a><span class="co">#&gt; 231  0.0407 </span></span>
+<span id="cb236-271"><a href="a-very-simple-neural-network.html#cb236-271"></a><span class="co">#&gt; 232  0.0394 </span></span>
+<span id="cb236-272"><a href="a-very-simple-neural-network.html#cb236-272"></a><span class="co">#&gt; 233  0.0382 </span></span>
+<span id="cb236-273"><a href="a-very-simple-neural-network.html#cb236-273"></a><span class="co">#&gt; 234  0.0371 </span></span>
+<span id="cb236-274"><a href="a-very-simple-neural-network.html#cb236-274"></a><span class="co">#&gt; 235  0.0359 </span></span>
+<span id="cb236-275"><a href="a-very-simple-neural-network.html#cb236-275"></a><span class="co">#&gt; 236  0.0348 </span></span>
+<span id="cb236-276"><a href="a-very-simple-neural-network.html#cb236-276"></a><span class="co">#&gt; 237  0.0338 </span></span>
+<span id="cb236-277"><a href="a-very-simple-neural-network.html#cb236-277"></a><span class="co">#&gt; 238  0.0327 </span></span>
+<span id="cb236-278"><a href="a-very-simple-neural-network.html#cb236-278"></a><span class="co">#&gt; 239  0.0317 </span></span>
+<span id="cb236-279"><a href="a-very-simple-neural-network.html#cb236-279"></a><span class="co">#&gt; 240  0.0308 </span></span>
+<span id="cb236-280"><a href="a-very-simple-neural-network.html#cb236-280"></a><span class="co">#&gt; 241  0.0298 </span></span>
+<span id="cb236-281"><a href="a-very-simple-neural-network.html#cb236-281"></a><span class="co">#&gt; 242  0.0289 </span></span>
+<span id="cb236-282"><a href="a-very-simple-neural-network.html#cb236-282"></a><span class="co">#&gt; 243  0.028 </span></span>
+<span id="cb236-283"><a href="a-very-simple-neural-network.html#cb236-283"></a><span class="co">#&gt; 244  0.0272 </span></span>
+<span id="cb236-284"><a href="a-very-simple-neural-network.html#cb236-284"></a><span class="co">#&gt; 245  0.0263 </span></span>
+<span id="cb236-285"><a href="a-very-simple-neural-network.html#cb236-285"></a><span class="co">#&gt; 246  0.0255 </span></span>
+<span id="cb236-286"><a href="a-very-simple-neural-network.html#cb236-286"></a><span class="co">#&gt; 247  0.0248 </span></span>
+<span id="cb236-287"><a href="a-very-simple-neural-network.html#cb236-287"></a><span class="co">#&gt; 248  0.024 </span></span>
+<span id="cb236-288"><a href="a-very-simple-neural-network.html#cb236-288"></a><span class="co">#&gt; 249  0.0233 </span></span>
+<span id="cb236-289"><a href="a-very-simple-neural-network.html#cb236-289"></a><span class="co">#&gt; 250  0.0226 </span></span>
+<span id="cb236-290"><a href="a-very-simple-neural-network.html#cb236-290"></a><span class="co">#&gt; 251  0.0219 </span></span>
+<span id="cb236-291"><a href="a-very-simple-neural-network.html#cb236-291"></a><span class="co">#&gt; 252  0.0212 </span></span>
+<span id="cb236-292"><a href="a-very-simple-neural-network.html#cb236-292"></a><span class="co">#&gt; 253  0.0206 </span></span>
+<span id="cb236-293"><a href="a-very-simple-neural-network.html#cb236-293"></a><span class="co">#&gt; 254  0.02 </span></span>
+<span id="cb236-294"><a href="a-very-simple-neural-network.html#cb236-294"></a><span class="co">#&gt; 255  0.0194 </span></span>
+<span id="cb236-295"><a href="a-very-simple-neural-network.html#cb236-295"></a><span class="co">#&gt; 256  0.0188 </span></span>
+<span id="cb236-296"><a href="a-very-simple-neural-network.html#cb236-296"></a><span class="co">#&gt; 257  0.0182 </span></span>
+<span id="cb236-297"><a href="a-very-simple-neural-network.html#cb236-297"></a><span class="co">#&gt; 258  0.0177 </span></span>
+<span id="cb236-298"><a href="a-very-simple-neural-network.html#cb236-298"></a><span class="co">#&gt; 259  0.0171 </span></span>
+<span id="cb236-299"><a href="a-very-simple-neural-network.html#cb236-299"></a><span class="co">#&gt; 260  0.0166 </span></span>
+<span id="cb236-300"><a href="a-very-simple-neural-network.html#cb236-300"></a><span class="co">#&gt; 261  0.0161 </span></span>
+<span id="cb236-301"><a href="a-very-simple-neural-network.html#cb236-301"></a><span class="co">#&gt; 262  0.0156 </span></span>
+<span id="cb236-302"><a href="a-very-simple-neural-network.html#cb236-302"></a><span class="co">#&gt; 263  0.0151 </span></span>
+<span id="cb236-303"><a href="a-very-simple-neural-network.html#cb236-303"></a><span class="co">#&gt; 264  0.0147 </span></span>
+<span id="cb236-304"><a href="a-very-simple-neural-network.html#cb236-304"></a><span class="co">#&gt; 265  0.0142 </span></span>
+<span id="cb236-305"><a href="a-very-simple-neural-network.html#cb236-305"></a><span class="co">#&gt; 266  0.0138 </span></span>
+<span id="cb236-306"><a href="a-very-simple-neural-network.html#cb236-306"></a><span class="co">#&gt; 267  0.0134 </span></span>
+<span id="cb236-307"><a href="a-very-simple-neural-network.html#cb236-307"></a><span class="co">#&gt; 268  0.013 </span></span>
+<span id="cb236-308"><a href="a-very-simple-neural-network.html#cb236-308"></a><span class="co">#&gt; 269  0.0126 </span></span>
+<span id="cb236-309"><a href="a-very-simple-neural-network.html#cb236-309"></a><span class="co">#&gt; 270  0.0122 </span></span>
+<span id="cb236-310"><a href="a-very-simple-neural-network.html#cb236-310"></a><span class="co">#&gt; 271  0.0119 </span></span>
+<span id="cb236-311"><a href="a-very-simple-neural-network.html#cb236-311"></a><span class="co">#&gt; 272  0.0115 </span></span>
+<span id="cb236-312"><a href="a-very-simple-neural-network.html#cb236-312"></a><span class="co">#&gt; 273  0.0112 </span></span>
+<span id="cb236-313"><a href="a-very-simple-neural-network.html#cb236-313"></a><span class="co">#&gt; 274  0.0108 </span></span>
+<span id="cb236-314"><a href="a-very-simple-neural-network.html#cb236-314"></a><span class="co">#&gt; 275  0.0105 </span></span>
+<span id="cb236-315"><a href="a-very-simple-neural-network.html#cb236-315"></a><span class="co">#&gt; 276  0.0102 </span></span>
+<span id="cb236-316"><a href="a-very-simple-neural-network.html#cb236-316"></a><span class="co">#&gt; 277  0.00988 </span></span>
+<span id="cb236-317"><a href="a-very-simple-neural-network.html#cb236-317"></a><span class="co">#&gt; 278  0.00959 </span></span>
+<span id="cb236-318"><a href="a-very-simple-neural-network.html#cb236-318"></a><span class="co">#&gt; 279  0.0093 </span></span>
+<span id="cb236-319"><a href="a-very-simple-neural-network.html#cb236-319"></a><span class="co">#&gt; 280  0.00902 </span></span>
+<span id="cb236-320"><a href="a-very-simple-neural-network.html#cb236-320"></a><span class="co">#&gt; 281  0.00875 </span></span>
+<span id="cb236-321"><a href="a-very-simple-neural-network.html#cb236-321"></a><span class="co">#&gt; 282  0.00849 </span></span>
+<span id="cb236-322"><a href="a-very-simple-neural-network.html#cb236-322"></a><span class="co">#&gt; 283  0.00824 </span></span>
+<span id="cb236-323"><a href="a-very-simple-neural-network.html#cb236-323"></a><span class="co">#&gt; 284  0.00799 </span></span>
+<span id="cb236-324"><a href="a-very-simple-neural-network.html#cb236-324"></a><span class="co">#&gt; 285  0.00775 </span></span>
+<span id="cb236-325"><a href="a-very-simple-neural-network.html#cb236-325"></a><span class="co">#&gt; 286  0.00752 </span></span>
+<span id="cb236-326"><a href="a-very-simple-neural-network.html#cb236-326"></a><span class="co">#&gt; 287  0.0073 </span></span>
+<span id="cb236-327"><a href="a-very-simple-neural-network.html#cb236-327"></a><span class="co">#&gt; 288  0.00708 </span></span>
+<span id="cb236-328"><a href="a-very-simple-neural-network.html#cb236-328"></a><span class="co">#&gt; 289  0.00687 </span></span>
+<span id="cb236-329"><a href="a-very-simple-neural-network.html#cb236-329"></a><span class="co">#&gt; 290  0.00666 </span></span>
+<span id="cb236-330"><a href="a-very-simple-neural-network.html#cb236-330"></a><span class="co">#&gt; 291  0.00647 </span></span>
+<span id="cb236-331"><a href="a-very-simple-neural-network.html#cb236-331"></a><span class="co">#&gt; 292  0.00627 </span></span>
+<span id="cb236-332"><a href="a-very-simple-neural-network.html#cb236-332"></a><span class="co">#&gt; 293  0.00609 </span></span>
+<span id="cb236-333"><a href="a-very-simple-neural-network.html#cb236-333"></a><span class="co">#&gt; 294  0.00591 </span></span>
+<span id="cb236-334"><a href="a-very-simple-neural-network.html#cb236-334"></a><span class="co">#&gt; 295  0.00573 </span></span>
+<span id="cb236-335"><a href="a-very-simple-neural-network.html#cb236-335"></a><span class="co">#&gt; 296  0.00556 </span></span>
+<span id="cb236-336"><a href="a-very-simple-neural-network.html#cb236-336"></a><span class="co">#&gt; 297  0.0054 </span></span>
+<span id="cb236-337"><a href="a-very-simple-neural-network.html#cb236-337"></a><span class="co">#&gt; 298  0.00524 </span></span>
+<span id="cb236-338"><a href="a-very-simple-neural-network.html#cb236-338"></a><span class="co">#&gt; 299  0.00508 </span></span>
+<span id="cb236-339"><a href="a-very-simple-neural-network.html#cb236-339"></a><span class="co">#&gt; 300  0.00493 </span></span>
+<span id="cb236-340"><a href="a-very-simple-neural-network.html#cb236-340"></a><span class="co">#&gt; 301  0.00478 </span></span>
+<span id="cb236-341"><a href="a-very-simple-neural-network.html#cb236-341"></a><span class="co">#&gt; 302  0.00464 </span></span>
+<span id="cb236-342"><a href="a-very-simple-neural-network.html#cb236-342"></a><span class="co">#&gt; 303  0.0045 </span></span>
+<span id="cb236-343"><a href="a-very-simple-neural-network.html#cb236-343"></a><span class="co">#&gt; 304  0.00437 </span></span>
+<span id="cb236-344"><a href="a-very-simple-neural-network.html#cb236-344"></a><span class="co">#&gt; 305  0.00424 </span></span>
+<span id="cb236-345"><a href="a-very-simple-neural-network.html#cb236-345"></a><span class="co">#&gt; 306  0.00412 </span></span>
+<span id="cb236-346"><a href="a-very-simple-neural-network.html#cb236-346"></a><span class="co">#&gt; 307  0.00399 </span></span>
+<span id="cb236-347"><a href="a-very-simple-neural-network.html#cb236-347"></a><span class="co">#&gt; 308  0.00388 </span></span>
+<span id="cb236-348"><a href="a-very-simple-neural-network.html#cb236-348"></a><span class="co">#&gt; 309  0.00376 </span></span>
+<span id="cb236-349"><a href="a-very-simple-neural-network.html#cb236-349"></a><span class="co">#&gt; 310  0.00365 </span></span>
+<span id="cb236-350"><a href="a-very-simple-neural-network.html#cb236-350"></a><span class="co">#&gt; 311  0.00354 </span></span>
+<span id="cb236-351"><a href="a-very-simple-neural-network.html#cb236-351"></a><span class="co">#&gt; 312  0.00344 </span></span>
+<span id="cb236-352"><a href="a-very-simple-neural-network.html#cb236-352"></a><span class="co">#&gt; 313  0.00334 </span></span>
+<span id="cb236-353"><a href="a-very-simple-neural-network.html#cb236-353"></a><span class="co">#&gt; 314  0.00324 </span></span>
+<span id="cb236-354"><a href="a-very-simple-neural-network.html#cb236-354"></a><span class="co">#&gt; 315  0.00314 </span></span>
+<span id="cb236-355"><a href="a-very-simple-neural-network.html#cb236-355"></a><span class="co">#&gt; 316  0.00305 </span></span>
+<span id="cb236-356"><a href="a-very-simple-neural-network.html#cb236-356"></a><span class="co">#&gt; 317  0.00296 </span></span>
+<span id="cb236-357"><a href="a-very-simple-neural-network.html#cb236-357"></a><span class="co">#&gt; 318  0.00287 </span></span>
+<span id="cb236-358"><a href="a-very-simple-neural-network.html#cb236-358"></a><span class="co">#&gt; 319  0.00279 </span></span>
+<span id="cb236-359"><a href="a-very-simple-neural-network.html#cb236-359"></a><span class="co">#&gt; 320  0.00271 </span></span>
+<span id="cb236-360"><a href="a-very-simple-neural-network.html#cb236-360"></a><span class="co">#&gt; 321  0.00263 </span></span>
+<span id="cb236-361"><a href="a-very-simple-neural-network.html#cb236-361"></a><span class="co">#&gt; 322  0.00255 </span></span>
+<span id="cb236-362"><a href="a-very-simple-neural-network.html#cb236-362"></a><span class="co">#&gt; 323  0.00248 </span></span>
+<span id="cb236-363"><a href="a-very-simple-neural-network.html#cb236-363"></a><span class="co">#&gt; 324  0.0024 </span></span>
+<span id="cb236-364"><a href="a-very-simple-neural-network.html#cb236-364"></a><span class="co">#&gt; 325  0.00233 </span></span>
+<span id="cb236-365"><a href="a-very-simple-neural-network.html#cb236-365"></a><span class="co">#&gt; 326  0.00226 </span></span>
+<span id="cb236-366"><a href="a-very-simple-neural-network.html#cb236-366"></a><span class="co">#&gt; 327  0.0022 </span></span>
+<span id="cb236-367"><a href="a-very-simple-neural-network.html#cb236-367"></a><span class="co">#&gt; 328  0.00213 </span></span>
+<span id="cb236-368"><a href="a-very-simple-neural-network.html#cb236-368"></a><span class="co">#&gt; 329  0.00207 </span></span>
+<span id="cb236-369"><a href="a-very-simple-neural-network.html#cb236-369"></a><span class="co">#&gt; 330  0.00201 </span></span>
+<span id="cb236-370"><a href="a-very-simple-neural-network.html#cb236-370"></a><span class="co">#&gt; 331  0.00195 </span></span>
+<span id="cb236-371"><a href="a-very-simple-neural-network.html#cb236-371"></a><span class="co">#&gt; 332  0.00189 </span></span>
+<span id="cb236-372"><a href="a-very-simple-neural-network.html#cb236-372"></a><span class="co">#&gt; 333  0.00184 </span></span>
+<span id="cb236-373"><a href="a-very-simple-neural-network.html#cb236-373"></a><span class="co">#&gt; 334  0.00178 </span></span>
+<span id="cb236-374"><a href="a-very-simple-neural-network.html#cb236-374"></a><span class="co">#&gt; 335  0.00173 </span></span>
+<span id="cb236-375"><a href="a-very-simple-neural-network.html#cb236-375"></a><span class="co">#&gt; 336  0.00168 </span></span>
+<span id="cb236-376"><a href="a-very-simple-neural-network.html#cb236-376"></a><span class="co">#&gt; 337  0.00163 </span></span>
+<span id="cb236-377"><a href="a-very-simple-neural-network.html#cb236-377"></a><span class="co">#&gt; 338  0.00158 </span></span>
+<span id="cb236-378"><a href="a-very-simple-neural-network.html#cb236-378"></a><span class="co">#&gt; 339  0.00154 </span></span>
+<span id="cb236-379"><a href="a-very-simple-neural-network.html#cb236-379"></a><span class="co">#&gt; 340  0.00149 </span></span>
+<span id="cb236-380"><a href="a-very-simple-neural-network.html#cb236-380"></a><span class="co">#&gt; 341  0.00145 </span></span>
+<span id="cb236-381"><a href="a-very-simple-neural-network.html#cb236-381"></a><span class="co">#&gt; 342  0.00141 </span></span>
+<span id="cb236-382"><a href="a-very-simple-neural-network.html#cb236-382"></a><span class="co">#&gt; 343  0.00137 </span></span>
+<span id="cb236-383"><a href="a-very-simple-neural-network.html#cb236-383"></a><span class="co">#&gt; 344  0.00133 </span></span>
+<span id="cb236-384"><a href="a-very-simple-neural-network.html#cb236-384"></a><span class="co">#&gt; 345  0.00129 </span></span>
+<span id="cb236-385"><a href="a-very-simple-neural-network.html#cb236-385"></a><span class="co">#&gt; 346  0.00125 </span></span>
+<span id="cb236-386"><a href="a-very-simple-neural-network.html#cb236-386"></a><span class="co">#&gt; 347  0.00121 </span></span>
+<span id="cb236-387"><a href="a-very-simple-neural-network.html#cb236-387"></a><span class="co">#&gt; 348  0.00118 </span></span>
+<span id="cb236-388"><a href="a-very-simple-neural-network.html#cb236-388"></a><span class="co">#&gt; 349  0.00114 </span></span>
+<span id="cb236-389"><a href="a-very-simple-neural-network.html#cb236-389"></a><span class="co">#&gt; 350  0.00111 </span></span>
+<span id="cb236-390"><a href="a-very-simple-neural-network.html#cb236-390"></a><span class="co">#&gt; 351  0.00108 </span></span>
+<span id="cb236-391"><a href="a-very-simple-neural-network.html#cb236-391"></a><span class="co">#&gt; 352  0.00105 </span></span>
+<span id="cb236-392"><a href="a-very-simple-neural-network.html#cb236-392"></a><span class="co">#&gt; 353  0.00102 </span></span>
+<span id="cb236-393"><a href="a-very-simple-neural-network.html#cb236-393"></a><span class="co">#&gt; 354  0.000987 </span></span>
+<span id="cb236-394"><a href="a-very-simple-neural-network.html#cb236-394"></a><span class="co">#&gt; 355  0.000958 </span></span>
+<span id="cb236-395"><a href="a-very-simple-neural-network.html#cb236-395"></a><span class="co">#&gt; 356  0.000931 </span></span>
+<span id="cb236-396"><a href="a-very-simple-neural-network.html#cb236-396"></a><span class="co">#&gt; 357  0.000904 </span></span>
+<span id="cb236-397"><a href="a-very-simple-neural-network.html#cb236-397"></a><span class="co">#&gt; 358  0.000877 </span></span>
+<span id="cb236-398"><a href="a-very-simple-neural-network.html#cb236-398"></a><span class="co">#&gt; 359  0.000852 </span></span>
+<span id="cb236-399"><a href="a-very-simple-neural-network.html#cb236-399"></a><span class="co">#&gt; 360  0.000827 </span></span>
+<span id="cb236-400"><a href="a-very-simple-neural-network.html#cb236-400"></a><span class="co">#&gt; 361  0.000803 </span></span>
+<span id="cb236-401"><a href="a-very-simple-neural-network.html#cb236-401"></a><span class="co">#&gt; 362  0.00078 </span></span>
+<span id="cb236-402"><a href="a-very-simple-neural-network.html#cb236-402"></a><span class="co">#&gt; 363  0.000757 </span></span>
+<span id="cb236-403"><a href="a-very-simple-neural-network.html#cb236-403"></a><span class="co">#&gt; 364  0.000735 </span></span>
+<span id="cb236-404"><a href="a-very-simple-neural-network.html#cb236-404"></a><span class="co">#&gt; 365  0.000714 </span></span>
+<span id="cb236-405"><a href="a-very-simple-neural-network.html#cb236-405"></a><span class="co">#&gt; 366  0.000693 </span></span>
+<span id="cb236-406"><a href="a-very-simple-neural-network.html#cb236-406"></a><span class="co">#&gt; 367  0.000673 </span></span>
+<span id="cb236-407"><a href="a-very-simple-neural-network.html#cb236-407"></a><span class="co">#&gt; 368  0.000654 </span></span>
+<span id="cb236-408"><a href="a-very-simple-neural-network.html#cb236-408"></a><span class="co">#&gt; 369  0.000635 </span></span>
+<span id="cb236-409"><a href="a-very-simple-neural-network.html#cb236-409"></a><span class="co">#&gt; 370  0.000617 </span></span>
+<span id="cb236-410"><a href="a-very-simple-neural-network.html#cb236-410"></a><span class="co">#&gt; 371  0.000599 </span></span>
+<span id="cb236-411"><a href="a-very-simple-neural-network.html#cb236-411"></a><span class="co">#&gt; 372  0.000581 </span></span>
+<span id="cb236-412"><a href="a-very-simple-neural-network.html#cb236-412"></a><span class="co">#&gt; 373  0.000565 </span></span>
+<span id="cb236-413"><a href="a-very-simple-neural-network.html#cb236-413"></a><span class="co">#&gt; 374  0.000548 </span></span>
+<span id="cb236-414"><a href="a-very-simple-neural-network.html#cb236-414"></a><span class="co">#&gt; 375  0.000532 </span></span>
+<span id="cb236-415"><a href="a-very-simple-neural-network.html#cb236-415"></a><span class="co">#&gt; 376  0.000517 </span></span>
+<span id="cb236-416"><a href="a-very-simple-neural-network.html#cb236-416"></a><span class="co">#&gt; 377  0.000502 </span></span>
+<span id="cb236-417"><a href="a-very-simple-neural-network.html#cb236-417"></a><span class="co">#&gt; 378  0.000488 </span></span>
+<span id="cb236-418"><a href="a-very-simple-neural-network.html#cb236-418"></a><span class="co">#&gt; 379  0.000474 </span></span>
+<span id="cb236-419"><a href="a-very-simple-neural-network.html#cb236-419"></a><span class="co">#&gt; 380  0.00046 </span></span>
+<span id="cb236-420"><a href="a-very-simple-neural-network.html#cb236-420"></a><span class="co">#&gt; 381  0.000447 </span></span>
+<span id="cb236-421"><a href="a-very-simple-neural-network.html#cb236-421"></a><span class="co">#&gt; 382  0.000434 </span></span>
+<span id="cb236-422"><a href="a-very-simple-neural-network.html#cb236-422"></a><span class="co">#&gt; 383  0.000421 </span></span>
+<span id="cb236-423"><a href="a-very-simple-neural-network.html#cb236-423"></a><span class="co">#&gt; 384  0.000409 </span></span>
+<span id="cb236-424"><a href="a-very-simple-neural-network.html#cb236-424"></a><span class="co">#&gt; 385  0.000397 </span></span>
+<span id="cb236-425"><a href="a-very-simple-neural-network.html#cb236-425"></a><span class="co">#&gt; 386  0.000386 </span></span>
+<span id="cb236-426"><a href="a-very-simple-neural-network.html#cb236-426"></a><span class="co">#&gt; 387  0.000375 </span></span>
+<span id="cb236-427"><a href="a-very-simple-neural-network.html#cb236-427"></a><span class="co">#&gt; 388  0.000364 </span></span>
+<span id="cb236-428"><a href="a-very-simple-neural-network.html#cb236-428"></a><span class="co">#&gt; 389  0.000354 </span></span>
+<span id="cb236-429"><a href="a-very-simple-neural-network.html#cb236-429"></a><span class="co">#&gt; 390  0.000343 </span></span>
+<span id="cb236-430"><a href="a-very-simple-neural-network.html#cb236-430"></a><span class="co">#&gt; 391  0.000334 </span></span>
+<span id="cb236-431"><a href="a-very-simple-neural-network.html#cb236-431"></a><span class="co">#&gt; 392  0.000324 </span></span>
+<span id="cb236-432"><a href="a-very-simple-neural-network.html#cb236-432"></a><span class="co">#&gt; 393  0.000315 </span></span>
+<span id="cb236-433"><a href="a-very-simple-neural-network.html#cb236-433"></a><span class="co">#&gt; 394  0.000306 </span></span>
+<span id="cb236-434"><a href="a-very-simple-neural-network.html#cb236-434"></a><span class="co">#&gt; 395  0.000297 </span></span>
+<span id="cb236-435"><a href="a-very-simple-neural-network.html#cb236-435"></a><span class="co">#&gt; 396  0.000288 </span></span>
+<span id="cb236-436"><a href="a-very-simple-neural-network.html#cb236-436"></a><span class="co">#&gt; 397  0.00028 </span></span>
+<span id="cb236-437"><a href="a-very-simple-neural-network.html#cb236-437"></a><span class="co">#&gt; 398  0.000272 </span></span>
+<span id="cb236-438"><a href="a-very-simple-neural-network.html#cb236-438"></a><span class="co">#&gt; 399  0.000264 </span></span>
+<span id="cb236-439"><a href="a-very-simple-neural-network.html#cb236-439"></a><span class="co">#&gt; 400  0.000257 </span></span>
+<span id="cb236-440"><a href="a-very-simple-neural-network.html#cb236-440"></a><span class="co">#&gt; 401  0.000249 </span></span>
+<span id="cb236-441"><a href="a-very-simple-neural-network.html#cb236-441"></a><span class="co">#&gt; 402  0.000242 </span></span>
+<span id="cb236-442"><a href="a-very-simple-neural-network.html#cb236-442"></a><span class="co">#&gt; 403  0.000235 </span></span>
+<span id="cb236-443"><a href="a-very-simple-neural-network.html#cb236-443"></a><span class="co">#&gt; 404  0.000228 </span></span>
+<span id="cb236-444"><a href="a-very-simple-neural-network.html#cb236-444"></a><span class="co">#&gt; 405  0.000222 </span></span>
+<span id="cb236-445"><a href="a-very-simple-neural-network.html#cb236-445"></a><span class="co">#&gt; 406  0.000216 </span></span>
+<span id="cb236-446"><a href="a-very-simple-neural-network.html#cb236-446"></a><span class="co">#&gt; 407  0.000209 </span></span>
+<span id="cb236-447"><a href="a-very-simple-neural-network.html#cb236-447"></a><span class="co">#&gt; 408  0.000203 </span></span>
+<span id="cb236-448"><a href="a-very-simple-neural-network.html#cb236-448"></a><span class="co">#&gt; 409  0.000198 </span></span>
+<span id="cb236-449"><a href="a-very-simple-neural-network.html#cb236-449"></a><span class="co">#&gt; 410  0.000192 </span></span>
+<span id="cb236-450"><a href="a-very-simple-neural-network.html#cb236-450"></a><span class="co">#&gt; 411  0.000186 </span></span>
+<span id="cb236-451"><a href="a-very-simple-neural-network.html#cb236-451"></a><span class="co">#&gt; 412  0.000181 </span></span>
+<span id="cb236-452"><a href="a-very-simple-neural-network.html#cb236-452"></a><span class="co">#&gt; 413  0.000176 </span></span>
+<span id="cb236-453"><a href="a-very-simple-neural-network.html#cb236-453"></a><span class="co">#&gt; 414  0.000171 </span></span>
+<span id="cb236-454"><a href="a-very-simple-neural-network.html#cb236-454"></a><span class="co">#&gt; 415  0.000166 </span></span>
+<span id="cb236-455"><a href="a-very-simple-neural-network.html#cb236-455"></a><span class="co">#&gt; 416  0.000161 </span></span>
+<span id="cb236-456"><a href="a-very-simple-neural-network.html#cb236-456"></a><span class="co">#&gt; 417  0.000157 </span></span>
+<span id="cb236-457"><a href="a-very-simple-neural-network.html#cb236-457"></a><span class="co">#&gt; 418  0.000152 </span></span>
+<span id="cb236-458"><a href="a-very-simple-neural-network.html#cb236-458"></a><span class="co">#&gt; 419  0.000148 </span></span>
+<span id="cb236-459"><a href="a-very-simple-neural-network.html#cb236-459"></a><span class="co">#&gt; 420  0.000144 </span></span>
+<span id="cb236-460"><a href="a-very-simple-neural-network.html#cb236-460"></a><span class="co">#&gt; 421  0.00014 </span></span>
+<span id="cb236-461"><a href="a-very-simple-neural-network.html#cb236-461"></a><span class="co">#&gt; 422  0.000136 </span></span>
+<span id="cb236-462"><a href="a-very-simple-neural-network.html#cb236-462"></a><span class="co">#&gt; 423  0.000132 </span></span>
+<span id="cb236-463"><a href="a-very-simple-neural-network.html#cb236-463"></a><span class="co">#&gt; 424  0.000128 </span></span>
+<span id="cb236-464"><a href="a-very-simple-neural-network.html#cb236-464"></a><span class="co">#&gt; 425  0.000124 </span></span>
+<span id="cb236-465"><a href="a-very-simple-neural-network.html#cb236-465"></a><span class="co">#&gt; 426  0.000121 </span></span>
+<span id="cb236-466"><a href="a-very-simple-neural-network.html#cb236-466"></a><span class="co">#&gt; 427  0.000117 </span></span>
+<span id="cb236-467"><a href="a-very-simple-neural-network.html#cb236-467"></a><span class="co">#&gt; 428  0.000114 </span></span>
+<span id="cb236-468"><a href="a-very-simple-neural-network.html#cb236-468"></a><span class="co">#&gt; 429  0.000111 </span></span>
+<span id="cb236-469"><a href="a-very-simple-neural-network.html#cb236-469"></a><span class="co">#&gt; 430  0.000108 </span></span>
+<span id="cb236-470"><a href="a-very-simple-neural-network.html#cb236-470"></a><span class="co">#&gt; 431  0.000105 </span></span>
+<span id="cb236-471"><a href="a-very-simple-neural-network.html#cb236-471"></a><span class="co">#&gt; 432  0.000102 </span></span>
+<span id="cb236-472"><a href="a-very-simple-neural-network.html#cb236-472"></a><span class="co">#&gt; 433  9.87e-05 </span></span>
+<span id="cb236-473"><a href="a-very-simple-neural-network.html#cb236-473"></a><span class="co">#&gt; 434  9.59e-05 </span></span>
+<span id="cb236-474"><a href="a-very-simple-neural-network.html#cb236-474"></a><span class="co">#&gt; 435  9.32e-05 </span></span>
+<span id="cb236-475"><a href="a-very-simple-neural-network.html#cb236-475"></a><span class="co">#&gt; 436  9.06e-05 </span></span>
+<span id="cb236-476"><a href="a-very-simple-neural-network.html#cb236-476"></a><span class="co">#&gt; 437  8.8e-05 </span></span>
+<span id="cb236-477"><a href="a-very-simple-neural-network.html#cb236-477"></a><span class="co">#&gt; 438  8.55e-05 </span></span>
+<span id="cb236-478"><a href="a-very-simple-neural-network.html#cb236-478"></a><span class="co">#&gt; 439  8.31e-05 </span></span>
+<span id="cb236-479"><a href="a-very-simple-neural-network.html#cb236-479"></a><span class="co">#&gt; 440  8.07e-05 </span></span>
+<span id="cb236-480"><a href="a-very-simple-neural-network.html#cb236-480"></a><span class="co">#&gt; 441  7.84e-05 </span></span>
+<span id="cb236-481"><a href="a-very-simple-neural-network.html#cb236-481"></a><span class="co">#&gt; 442  7.62e-05 </span></span>
+<span id="cb236-482"><a href="a-very-simple-neural-network.html#cb236-482"></a><span class="co">#&gt; 443  7.4e-05 </span></span>
+<span id="cb236-483"><a href="a-very-simple-neural-network.html#cb236-483"></a><span class="co">#&gt; 444  7.2e-05 </span></span>
+<span id="cb236-484"><a href="a-very-simple-neural-network.html#cb236-484"></a><span class="co">#&gt; 445  6.99e-05 </span></span>
+<span id="cb236-485"><a href="a-very-simple-neural-network.html#cb236-485"></a><span class="co">#&gt; 446  6.79e-05 </span></span>
+<span id="cb236-486"><a href="a-very-simple-neural-network.html#cb236-486"></a><span class="co">#&gt; 447  6.6e-05 </span></span>
+<span id="cb236-487"><a href="a-very-simple-neural-network.html#cb236-487"></a><span class="co">#&gt; 448  6.41e-05 </span></span>
+<span id="cb236-488"><a href="a-very-simple-neural-network.html#cb236-488"></a><span class="co">#&gt; 449  6.23e-05 </span></span>
+<span id="cb236-489"><a href="a-very-simple-neural-network.html#cb236-489"></a><span class="co">#&gt; 450  6.06e-05 </span></span>
+<span id="cb236-490"><a href="a-very-simple-neural-network.html#cb236-490"></a><span class="co">#&gt; 451  5.89e-05 </span></span>
+<span id="cb236-491"><a href="a-very-simple-neural-network.html#cb236-491"></a><span class="co">#&gt; 452  5.72e-05 </span></span>
+<span id="cb236-492"><a href="a-very-simple-neural-network.html#cb236-492"></a><span class="co">#&gt; 453  5.56e-05 </span></span>
+<span id="cb236-493"><a href="a-very-simple-neural-network.html#cb236-493"></a><span class="co">#&gt; 454  5.4e-05 </span></span>
+<span id="cb236-494"><a href="a-very-simple-neural-network.html#cb236-494"></a><span class="co">#&gt; 455  5.25e-05 </span></span>
+<span id="cb236-495"><a href="a-very-simple-neural-network.html#cb236-495"></a><span class="co">#&gt; 456  5.1e-05 </span></span>
+<span id="cb236-496"><a href="a-very-simple-neural-network.html#cb236-496"></a><span class="co">#&gt; 457  4.96e-05 </span></span>
+<span id="cb236-497"><a href="a-very-simple-neural-network.html#cb236-497"></a><span class="co">#&gt; 458  4.82e-05 </span></span>
+<span id="cb236-498"><a href="a-very-simple-neural-network.html#cb236-498"></a><span class="co">#&gt; 459  4.68e-05 </span></span>
+<span id="cb236-499"><a href="a-very-simple-neural-network.html#cb236-499"></a><span class="co">#&gt; 460  4.55e-05 </span></span>
+<span id="cb236-500"><a href="a-very-simple-neural-network.html#cb236-500"></a><span class="co">#&gt; 461  4.42e-05 </span></span>
+<span id="cb236-501"><a href="a-very-simple-neural-network.html#cb236-501"></a><span class="co">#&gt; 462  4.3e-05 </span></span>
+<span id="cb236-502"><a href="a-very-simple-neural-network.html#cb236-502"></a><span class="co">#&gt; 463  4.18e-05 </span></span>
+<span id="cb236-503"><a href="a-very-simple-neural-network.html#cb236-503"></a><span class="co">#&gt; 464  4.06e-05 </span></span>
+<span id="cb236-504"><a href="a-very-simple-neural-network.html#cb236-504"></a><span class="co">#&gt; 465  3.94e-05 </span></span>
+<span id="cb236-505"><a href="a-very-simple-neural-network.html#cb236-505"></a><span class="co">#&gt; 466  3.83e-05 </span></span>
+<span id="cb236-506"><a href="a-very-simple-neural-network.html#cb236-506"></a><span class="co">#&gt; 467  3.72e-05 </span></span>
+<span id="cb236-507"><a href="a-very-simple-neural-network.html#cb236-507"></a><span class="co">#&gt; 468  3.62e-05 </span></span>
+<span id="cb236-508"><a href="a-very-simple-neural-network.html#cb236-508"></a><span class="co">#&gt; 469  3.52e-05 </span></span>
+<span id="cb236-509"><a href="a-very-simple-neural-network.html#cb236-509"></a><span class="co">#&gt; 470  3.42e-05 </span></span>
+<span id="cb236-510"><a href="a-very-simple-neural-network.html#cb236-510"></a><span class="co">#&gt; 471  3.32e-05 </span></span>
+<span id="cb236-511"><a href="a-very-simple-neural-network.html#cb236-511"></a><span class="co">#&gt; 472  3.23e-05 </span></span>
+<span id="cb236-512"><a href="a-very-simple-neural-network.html#cb236-512"></a><span class="co">#&gt; 473  3.14e-05 </span></span>
+<span id="cb236-513"><a href="a-very-simple-neural-network.html#cb236-513"></a><span class="co">#&gt; 474  3.05e-05 </span></span>
+<span id="cb236-514"><a href="a-very-simple-neural-network.html#cb236-514"></a><span class="co">#&gt; 475  2.96e-05 </span></span>
+<span id="cb236-515"><a href="a-very-simple-neural-network.html#cb236-515"></a><span class="co">#&gt; 476  2.88e-05 </span></span>
+<span id="cb236-516"><a href="a-very-simple-neural-network.html#cb236-516"></a><span class="co">#&gt; 477  2.8e-05 </span></span>
+<span id="cb236-517"><a href="a-very-simple-neural-network.html#cb236-517"></a><span class="co">#&gt; 478  2.72e-05 </span></span>
+<span id="cb236-518"><a href="a-very-simple-neural-network.html#cb236-518"></a><span class="co">#&gt; 479  2.65e-05 </span></span>
+<span id="cb236-519"><a href="a-very-simple-neural-network.html#cb236-519"></a><span class="co">#&gt; 480  2.57e-05 </span></span>
+<span id="cb236-520"><a href="a-very-simple-neural-network.html#cb236-520"></a><span class="co">#&gt; 481  2.5e-05 </span></span>
+<span id="cb236-521"><a href="a-very-simple-neural-network.html#cb236-521"></a><span class="co">#&gt; 482  2.43e-05 </span></span>
+<span id="cb236-522"><a href="a-very-simple-neural-network.html#cb236-522"></a><span class="co">#&gt; 483  2.36e-05 </span></span>
+<span id="cb236-523"><a href="a-very-simple-neural-network.html#cb236-523"></a><span class="co">#&gt; 484  2.29e-05 </span></span>
+<span id="cb236-524"><a href="a-very-simple-neural-network.html#cb236-524"></a><span class="co">#&gt; 485  2.23e-05 </span></span>
+<span id="cb236-525"><a href="a-very-simple-neural-network.html#cb236-525"></a><span class="co">#&gt; 486  2.17e-05 </span></span>
+<span id="cb236-526"><a href="a-very-simple-neural-network.html#cb236-526"></a><span class="co">#&gt; 487  2.11e-05 </span></span>
+<span id="cb236-527"><a href="a-very-simple-neural-network.html#cb236-527"></a><span class="co">#&gt; 488  2.05e-05 </span></span>
+<span id="cb236-528"><a href="a-very-simple-neural-network.html#cb236-528"></a><span class="co">#&gt; 489  1.99e-05 </span></span>
+<span id="cb236-529"><a href="a-very-simple-neural-network.html#cb236-529"></a><span class="co">#&gt; 490  1.94e-05 </span></span>
+<span id="cb236-530"><a href="a-very-simple-neural-network.html#cb236-530"></a><span class="co">#&gt; 491  1.88e-05 </span></span>
+<span id="cb236-531"><a href="a-very-simple-neural-network.html#cb236-531"></a><span class="co">#&gt; 492  1.83e-05 </span></span>
+<span id="cb236-532"><a href="a-very-simple-neural-network.html#cb236-532"></a><span class="co">#&gt; 493  1.78e-05 </span></span>
+<span id="cb236-533"><a href="a-very-simple-neural-network.html#cb236-533"></a><span class="co">#&gt; 494  1.73e-05 </span></span>
+<span id="cb236-534"><a href="a-very-simple-neural-network.html#cb236-534"></a><span class="co">#&gt; 495  1.68e-05 </span></span>
+<span id="cb236-535"><a href="a-very-simple-neural-network.html#cb236-535"></a><span class="co">#&gt; 496  1.63e-05 </span></span>
+<span id="cb236-536"><a href="a-very-simple-neural-network.html#cb236-536"></a><span class="co">#&gt; 497  1.59e-05 </span></span>
+<span id="cb236-537"><a href="a-very-simple-neural-network.html#cb236-537"></a><span class="co">#&gt; 498  1.54e-05 </span></span>
+<span id="cb236-538"><a href="a-very-simple-neural-network.html#cb236-538"></a><span class="co">#&gt; 499  1.5e-05 </span></span>
+<span id="cb236-539"><a href="a-very-simple-neural-network.html#cb236-539"></a><span class="co">#&gt; 500  1.46e-05</span></span></code></pre></div>
 <p>These two expressions are equivalent, with the first being the long version natural way of doing it in <strong>PyTorch</strong>. The second is using the generics in R for subtraction, multiplication and scalar conversion.</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="a-very-simple-neural-network.html#cb230-1"></a>param<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(param<span class="op">$</span>data,</span>
-<span id="cb230-2"><a href="a-very-simple-neural-network.html#cb230-2"></a>                        torch<span class="op">$</span><span class="kw">mul</span>(param<span class="op">$</span>grad<span class="op">$</span><span class="kw">float</span>(),</span>
-<span id="cb230-3"><a href="a-very-simple-neural-network.html#cb230-3"></a>                          torch<span class="op">$</span><span class="kw">scalar_tensor</span>(learning_rate)))</span></code></pre></div>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="a-very-simple-neural-network.html#cb231-1"></a>param<span class="op">$</span>data &lt;-<span class="st"> </span>param<span class="op">$</span>data <span class="op">-</span><span class="st"> </span>param<span class="op">$</span>grad <span class="op">*</span><span class="st"> </span>learning_rate</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="a-very-simple-neural-network.html#cb237-1"></a>param<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(param<span class="op">$</span>data,</span>
+<span id="cb237-2"><a href="a-very-simple-neural-network.html#cb237-2"></a>                        torch<span class="op">$</span><span class="kw">mul</span>(param<span class="op">$</span>grad<span class="op">$</span><span class="kw">float</span>(),</span>
+<span id="cb237-3"><a href="a-very-simple-neural-network.html#cb237-3"></a>                          torch<span class="op">$</span><span class="kw">scalar_tensor</span>(learning_rate)))</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="a-very-simple-neural-network.html#cb238-1"></a>param<span class="op">$</span>data &lt;-<span class="st"> </span>param<span class="op">$</span>data <span class="op">-</span><span class="st"> </span>param<span class="op">$</span>grad <span class="op">*</span><span class="st"> </span>learning_rate</span></code></pre></div>
 
 </div>
 </div>

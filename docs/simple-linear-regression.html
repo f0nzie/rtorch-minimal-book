@@ -341,7 +341,12 @@ window.initializeCodeFolding = function(show) {
       // Python show code
       $('div.py-code-collapse').each(function() {
         $(this).collapse('show');
-      });    
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
   });
   $("#rmd-hide-all-code").click(function() {
       // close the dropdown menu when an option is clicked
@@ -354,11 +359,17 @@ window.initializeCodeFolding = function(show) {
       $('div.py-code-collapse').each(function() {
         $(this).collapse('hide');
       });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
+
 
   // index for unique code element ids
   var r_currentIndex  = 1;   // for R code
   var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
 
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -389,10 +400,8 @@ window.initializeCodeFolding = function(show) {
         
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);    
     
     // update state of button on show/hide
@@ -404,11 +413,55 @@ window.initializeCodeFolding = function(show) {
     });  
    });
   
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
 
   // select all R code blocks
   // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
   // adding pre.sourceCode confuses the Python button
-  var rCodeBlocks = $('pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
   rCodeBlocks.each(function() {
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -435,10 +488,8 @@ window.initializeCodeFolding = function(show) {
     
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);
 
     // update state of button on show/hide
@@ -1154,24 +1205,24 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="introduction" class="section level2">
 <h2><span class="header-section-number">8.1</span> Introduction</h2>
 <p>Source: <a href="https://www.guru99.com/pytorch-tutorial.html" class="uri">https://www.guru99.com/pytorch-tutorial.html</a></p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="simple-linear-regression.html#cb190-1"></a><span class="kw">library</span>(rTorch)</span>
-<span id="cb190-2"><a href="simple-linear-regression.html#cb190-2"></a></span>
-<span id="cb190-3"><a href="simple-linear-regression.html#cb190-3"></a>nn       &lt;-<span class="st"> </span>torch<span class="op">$</span>nn</span>
-<span id="cb190-4"><a href="simple-linear-regression.html#cb190-4"></a>Variable &lt;-<span class="st"> </span>torch<span class="op">$</span>autograd<span class="op">$</span>Variable</span>
-<span id="cb190-5"><a href="simple-linear-regression.html#cb190-5"></a></span>
-<span id="cb190-6"><a href="simple-linear-regression.html#cb190-6"></a>torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">123</span>)</span>
-<span id="cb190-7"><a href="simple-linear-regression.html#cb190-7"></a><span class="co">#&gt; &lt;torch._C.Generator&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="simple-linear-regression.html#cb197-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb197-2"><a href="simple-linear-regression.html#cb197-2"></a></span>
+<span id="cb197-3"><a href="simple-linear-regression.html#cb197-3"></a>nn       &lt;-<span class="st"> </span>torch<span class="op">$</span>nn</span>
+<span id="cb197-4"><a href="simple-linear-regression.html#cb197-4"></a>Variable &lt;-<span class="st"> </span>torch<span class="op">$</span>autograd<span class="op">$</span>Variable</span>
+<span id="cb197-5"><a href="simple-linear-regression.html#cb197-5"></a></span>
+<span id="cb197-6"><a href="simple-linear-regression.html#cb197-6"></a>torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">123</span>)</span>
+<span id="cb197-7"><a href="simple-linear-regression.html#cb197-7"></a><span class="co">#&gt; &lt;torch._C.Generator&gt;</span></span></code></pre></div>
 </div>
 <div id="generate-the-dataset" class="section level2">
 <h2><span class="header-section-number">8.2</span> Generate the dataset</h2>
 <p>Before you start the training process, you need to know our data. You make a random function to test our model. <span class="math inline">\(Y = x3 sin(x)+ 3x+0.8 rand(100)\)</span></p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="simple-linear-regression.html#cb191-1"></a></span>
-<span id="cb191-2"><a href="simple-linear-regression.html#cb191-2"></a>np<span class="op">$</span>random<span class="op">$</span><span class="kw">seed</span>(123L)</span>
-<span id="cb191-3"><a href="simple-linear-regression.html#cb191-3"></a></span>
-<span id="cb191-4"><a href="simple-linear-regression.html#cb191-4"></a>x =<span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L)</span>
-<span id="cb191-5"><a href="simple-linear-regression.html#cb191-5"></a>y =<span class="st"> </span>np<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>np<span class="op">$</span><span class="kw">power</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></span>
-<span id="cb191-6"><a href="simple-linear-regression.html#cb191-6"></a></span>
-<span id="cb191-7"><a href="simple-linear-regression.html#cb191-7"></a><span class="kw">plot</span>(x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="simple-linear-regression.html#cb198-1"></a></span>
+<span id="cb198-2"><a href="simple-linear-regression.html#cb198-2"></a>np<span class="op">$</span>random<span class="op">$</span><span class="kw">seed</span>(123L)</span>
+<span id="cb198-3"><a href="simple-linear-regression.html#cb198-3"></a></span>
+<span id="cb198-4"><a href="simple-linear-regression.html#cb198-4"></a>x =<span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L)</span>
+<span id="cb198-5"><a href="simple-linear-regression.html#cb198-5"></a>y =<span class="st"> </span>np<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>np<span class="op">$</span><span class="kw">power</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></span>
+<span id="cb198-6"><a href="simple-linear-regression.html#cb198-6"></a></span>
+<span id="cb198-7"><a href="simple-linear-regression.html#cb198-7"></a><span class="kw">plot</span>(x, y)</span></code></pre></div>
 <p><img src="0401-linear_regression-simple_files/figure-html/datasets-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="convert-arrays-to-tensors" class="section level2">
@@ -1181,112 +1232,112 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="converting-from-numpy-to-tensor" class="section level2">
 <h2><span class="header-section-number">8.4</span> Converting from numpy to tensor</h2>
 <p>Notice that before converting to a Torch tensor, we need first to convert the R numeric vector to a <code>numpy</code> array:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="simple-linear-regression.html#cb192-1"></a><span class="co"># convert numpy array to tensor in shape of input size</span></span>
-<span id="cb192-2"><a href="simple-linear-regression.html#cb192-2"></a>x &lt;-<span class="st"> </span><span class="kw">r_to_py</span>(x)</span>
-<span id="cb192-3"><a href="simple-linear-regression.html#cb192-3"></a>y &lt;-<span class="st"> </span><span class="kw">r_to_py</span>(y)</span>
-<span id="cb192-4"><a href="simple-linear-regression.html#cb192-4"></a>x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(x<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 1L))<span class="op">$</span><span class="kw">float</span>()</span>
-<span id="cb192-5"><a href="simple-linear-regression.html#cb192-5"></a>y =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(y<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 1L))<span class="op">$</span><span class="kw">float</span>()</span>
-<span id="cb192-6"><a href="simple-linear-regression.html#cb192-6"></a><span class="kw">print</span>(x, y)</span>
-<span id="cb192-7"><a href="simple-linear-regression.html#cb192-7"></a><span class="co">#&gt; tensor([[0.6965],</span></span>
-<span id="cb192-8"><a href="simple-linear-regression.html#cb192-8"></a><span class="co">#&gt;         [0.2861],</span></span>
-<span id="cb192-9"><a href="simple-linear-regression.html#cb192-9"></a><span class="co">#&gt;         [0.2269],</span></span>
-<span id="cb192-10"><a href="simple-linear-regression.html#cb192-10"></a><span class="co">#&gt;         [0.5513],</span></span>
-<span id="cb192-11"><a href="simple-linear-regression.html#cb192-11"></a><span class="co">#&gt;         [0.7195],</span></span>
-<span id="cb192-12"><a href="simple-linear-regression.html#cb192-12"></a><span class="co">#&gt;         [0.4231],</span></span>
-<span id="cb192-13"><a href="simple-linear-regression.html#cb192-13"></a><span class="co">#&gt;         [0.9808],</span></span>
-<span id="cb192-14"><a href="simple-linear-regression.html#cb192-14"></a><span class="co">#&gt;         [0.6848],</span></span>
-<span id="cb192-15"><a href="simple-linear-regression.html#cb192-15"></a><span class="co">#&gt;         [0.4809],</span></span>
-<span id="cb192-16"><a href="simple-linear-regression.html#cb192-16"></a><span class="co">#&gt;         [0.3921],</span></span>
-<span id="cb192-17"><a href="simple-linear-regression.html#cb192-17"></a><span class="co">#&gt;         [0.3432],</span></span>
-<span id="cb192-18"><a href="simple-linear-regression.html#cb192-18"></a><span class="co">#&gt;         [0.7290],</span></span>
-<span id="cb192-19"><a href="simple-linear-regression.html#cb192-19"></a><span class="co">#&gt;         [0.4386],</span></span>
-<span id="cb192-20"><a href="simple-linear-regression.html#cb192-20"></a><span class="co">#&gt;         [0.0597],</span></span>
-<span id="cb192-21"><a href="simple-linear-regression.html#cb192-21"></a><span class="co">#&gt;         [0.3980],</span></span>
-<span id="cb192-22"><a href="simple-linear-regression.html#cb192-22"></a><span class="co">#&gt;         [0.7380],</span></span>
-<span id="cb192-23"><a href="simple-linear-regression.html#cb192-23"></a><span class="co">#&gt;         [0.1825],</span></span>
-<span id="cb192-24"><a href="simple-linear-regression.html#cb192-24"></a><span class="co">#&gt;         [0.1755],</span></span>
-<span id="cb192-25"><a href="simple-linear-regression.html#cb192-25"></a><span class="co">#&gt;         [0.5316],</span></span>
-<span id="cb192-26"><a href="simple-linear-regression.html#cb192-26"></a><span class="co">#&gt;         [0.5318],</span></span>
-<span id="cb192-27"><a href="simple-linear-regression.html#cb192-27"></a><span class="co">#&gt;         [0.6344],</span></span>
-<span id="cb192-28"><a href="simple-linear-regression.html#cb192-28"></a><span class="co">#&gt;         [0.8494],</span></span>
-<span id="cb192-29"><a href="simple-linear-regression.html#cb192-29"></a><span class="co">#&gt;         [0.7245],</span></span>
-<span id="cb192-30"><a href="simple-linear-regression.html#cb192-30"></a><span class="co">#&gt;         [0.6110],</span></span>
-<span id="cb192-31"><a href="simple-linear-regression.html#cb192-31"></a><span class="co">#&gt;         [0.7224],</span></span>
-<span id="cb192-32"><a href="simple-linear-regression.html#cb192-32"></a><span class="co">#&gt;         [0.3230],</span></span>
-<span id="cb192-33"><a href="simple-linear-regression.html#cb192-33"></a><span class="co">#&gt;         [0.3618],</span></span>
-<span id="cb192-34"><a href="simple-linear-regression.html#cb192-34"></a><span class="co">#&gt;         [0.2283],</span></span>
-<span id="cb192-35"><a href="simple-linear-regression.html#cb192-35"></a><span class="co">#&gt;         [0.2937],</span></span>
-<span id="cb192-36"><a href="simple-linear-regression.html#cb192-36"></a><span class="co">#&gt;         [0.6310],</span></span>
-<span id="cb192-37"><a href="simple-linear-regression.html#cb192-37"></a><span class="co">#&gt;         [0.0921],</span></span>
-<span id="cb192-38"><a href="simple-linear-regression.html#cb192-38"></a><span class="co">#&gt;         [0.4337],</span></span>
-<span id="cb192-39"><a href="simple-linear-regression.html#cb192-39"></a><span class="co">#&gt;         [0.4309],</span></span>
-<span id="cb192-40"><a href="simple-linear-regression.html#cb192-40"></a><span class="co">#&gt;         [0.4937],</span></span>
-<span id="cb192-41"><a href="simple-linear-regression.html#cb192-41"></a><span class="co">#&gt;         [0.4258],</span></span>
-<span id="cb192-42"><a href="simple-linear-regression.html#cb192-42"></a><span class="co">#&gt;         [0.3123],</span></span>
-<span id="cb192-43"><a href="simple-linear-regression.html#cb192-43"></a><span class="co">#&gt;         [0.4264],</span></span>
-<span id="cb192-44"><a href="simple-linear-regression.html#cb192-44"></a><span class="co">#&gt;         [0.8934],</span></span>
-<span id="cb192-45"><a href="simple-linear-regression.html#cb192-45"></a><span class="co">#&gt;         [0.9442],</span></span>
-<span id="cb192-46"><a href="simple-linear-regression.html#cb192-46"></a><span class="co">#&gt;         [0.5018],</span></span>
-<span id="cb192-47"><a href="simple-linear-regression.html#cb192-47"></a><span class="co">#&gt;         [0.6240],</span></span>
-<span id="cb192-48"><a href="simple-linear-regression.html#cb192-48"></a><span class="co">#&gt;         [0.1156],</span></span>
-<span id="cb192-49"><a href="simple-linear-regression.html#cb192-49"></a><span class="co">#&gt;         [0.3173],</span></span>
-<span id="cb192-50"><a href="simple-linear-regression.html#cb192-50"></a><span class="co">#&gt;         [0.4148],</span></span>
-<span id="cb192-51"><a href="simple-linear-regression.html#cb192-51"></a><span class="co">#&gt;         [0.8663],</span></span>
-<span id="cb192-52"><a href="simple-linear-regression.html#cb192-52"></a><span class="co">#&gt;         [0.2505],</span></span>
-<span id="cb192-53"><a href="simple-linear-regression.html#cb192-53"></a><span class="co">#&gt;         [0.4830],</span></span>
-<span id="cb192-54"><a href="simple-linear-regression.html#cb192-54"></a><span class="co">#&gt;         [0.9856],</span></span>
-<span id="cb192-55"><a href="simple-linear-regression.html#cb192-55"></a><span class="co">#&gt;         [0.5195],</span></span>
-<span id="cb192-56"><a href="simple-linear-regression.html#cb192-56"></a><span class="co">#&gt;         [0.6129],</span></span>
-<span id="cb192-57"><a href="simple-linear-regression.html#cb192-57"></a><span class="co">#&gt;         [0.1206],</span></span>
-<span id="cb192-58"><a href="simple-linear-regression.html#cb192-58"></a><span class="co">#&gt;         [0.8263],</span></span>
-<span id="cb192-59"><a href="simple-linear-regression.html#cb192-59"></a><span class="co">#&gt;         [0.6031],</span></span>
-<span id="cb192-60"><a href="simple-linear-regression.html#cb192-60"></a><span class="co">#&gt;         [0.5451],</span></span>
-<span id="cb192-61"><a href="simple-linear-regression.html#cb192-61"></a><span class="co">#&gt;         [0.3428],</span></span>
-<span id="cb192-62"><a href="simple-linear-regression.html#cb192-62"></a><span class="co">#&gt;         [0.3041],</span></span>
-<span id="cb192-63"><a href="simple-linear-regression.html#cb192-63"></a><span class="co">#&gt;         [0.4170],</span></span>
-<span id="cb192-64"><a href="simple-linear-regression.html#cb192-64"></a><span class="co">#&gt;         [0.6813],</span></span>
-<span id="cb192-65"><a href="simple-linear-regression.html#cb192-65"></a><span class="co">#&gt;         [0.8755],</span></span>
-<span id="cb192-66"><a href="simple-linear-regression.html#cb192-66"></a><span class="co">#&gt;         [0.5104],</span></span>
-<span id="cb192-67"><a href="simple-linear-regression.html#cb192-67"></a><span class="co">#&gt;         [0.6693],</span></span>
-<span id="cb192-68"><a href="simple-linear-regression.html#cb192-68"></a><span class="co">#&gt;         [0.5859],</span></span>
-<span id="cb192-69"><a href="simple-linear-regression.html#cb192-69"></a><span class="co">#&gt;         [0.6249],</span></span>
-<span id="cb192-70"><a href="simple-linear-regression.html#cb192-70"></a><span class="co">#&gt;         [0.6747],</span></span>
-<span id="cb192-71"><a href="simple-linear-regression.html#cb192-71"></a><span class="co">#&gt;         [0.8423],</span></span>
-<span id="cb192-72"><a href="simple-linear-regression.html#cb192-72"></a><span class="co">#&gt;         [0.0832],</span></span>
-<span id="cb192-73"><a href="simple-linear-regression.html#cb192-73"></a><span class="co">#&gt;         [0.7637],</span></span>
-<span id="cb192-74"><a href="simple-linear-regression.html#cb192-74"></a><span class="co">#&gt;         [0.2437],</span></span>
-<span id="cb192-75"><a href="simple-linear-regression.html#cb192-75"></a><span class="co">#&gt;         [0.1942],</span></span>
-<span id="cb192-76"><a href="simple-linear-regression.html#cb192-76"></a><span class="co">#&gt;         [0.5725],</span></span>
-<span id="cb192-77"><a href="simple-linear-regression.html#cb192-77"></a><span class="co">#&gt;         [0.0957],</span></span>
-<span id="cb192-78"><a href="simple-linear-regression.html#cb192-78"></a><span class="co">#&gt;         [0.8853],</span></span>
-<span id="cb192-79"><a href="simple-linear-regression.html#cb192-79"></a><span class="co">#&gt;         [0.6272],</span></span>
-<span id="cb192-80"><a href="simple-linear-regression.html#cb192-80"></a><span class="co">#&gt;         [0.7234],</span></span>
-<span id="cb192-81"><a href="simple-linear-regression.html#cb192-81"></a><span class="co">#&gt;         [0.0161],</span></span>
-<span id="cb192-82"><a href="simple-linear-regression.html#cb192-82"></a><span class="co">#&gt;         [0.5944],</span></span>
-<span id="cb192-83"><a href="simple-linear-regression.html#cb192-83"></a><span class="co">#&gt;         [0.5568],</span></span>
-<span id="cb192-84"><a href="simple-linear-regression.html#cb192-84"></a><span class="co">#&gt;         [0.1590],</span></span>
-<span id="cb192-85"><a href="simple-linear-regression.html#cb192-85"></a><span class="co">#&gt;         [0.1531],</span></span>
-<span id="cb192-86"><a href="simple-linear-regression.html#cb192-86"></a><span class="co">#&gt;         [0.6955],</span></span>
-<span id="cb192-87"><a href="simple-linear-regression.html#cb192-87"></a><span class="co">#&gt;         [0.3188],</span></span>
-<span id="cb192-88"><a href="simple-linear-regression.html#cb192-88"></a><span class="co">#&gt;         [0.6920],</span></span>
-<span id="cb192-89"><a href="simple-linear-regression.html#cb192-89"></a><span class="co">#&gt;         [0.5544],</span></span>
-<span id="cb192-90"><a href="simple-linear-regression.html#cb192-90"></a><span class="co">#&gt;         [0.3890],</span></span>
-<span id="cb192-91"><a href="simple-linear-regression.html#cb192-91"></a><span class="co">#&gt;         [0.9251],</span></span>
-<span id="cb192-92"><a href="simple-linear-regression.html#cb192-92"></a><span class="co">#&gt;         [0.8417],</span></span>
-<span id="cb192-93"><a href="simple-linear-regression.html#cb192-93"></a><span class="co">#&gt;         [0.3574],</span></span>
-<span id="cb192-94"><a href="simple-linear-regression.html#cb192-94"></a><span class="co">#&gt;         [0.0436],</span></span>
-<span id="cb192-95"><a href="simple-linear-regression.html#cb192-95"></a><span class="co">#&gt;         [0.3048],</span></span>
-<span id="cb192-96"><a href="simple-linear-regression.html#cb192-96"></a><span class="co">#&gt;         [0.3982],</span></span>
-<span id="cb192-97"><a href="simple-linear-regression.html#cb192-97"></a><span class="co">#&gt;         [0.7050],</span></span>
-<span id="cb192-98"><a href="simple-linear-regression.html#cb192-98"></a><span class="co">#&gt;         [0.9954],</span></span>
-<span id="cb192-99"><a href="simple-linear-regression.html#cb192-99"></a><span class="co">#&gt;         [0.3559],</span></span>
-<span id="cb192-100"><a href="simple-linear-regression.html#cb192-100"></a><span class="co">#&gt;         [0.7625],</span></span>
-<span id="cb192-101"><a href="simple-linear-regression.html#cb192-101"></a><span class="co">#&gt;         [0.5932],</span></span>
-<span id="cb192-102"><a href="simple-linear-regression.html#cb192-102"></a><span class="co">#&gt;         [0.6917],</span></span>
-<span id="cb192-103"><a href="simple-linear-regression.html#cb192-103"></a><span class="co">#&gt;         [0.1511],</span></span>
-<span id="cb192-104"><a href="simple-linear-regression.html#cb192-104"></a><span class="co">#&gt;         [0.3989],</span></span>
-<span id="cb192-105"><a href="simple-linear-regression.html#cb192-105"></a><span class="co">#&gt;         [0.2409],</span></span>
-<span id="cb192-106"><a href="simple-linear-regression.html#cb192-106"></a><span class="co">#&gt;         [0.3435]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="simple-linear-regression.html#cb199-1"></a><span class="co"># convert numpy array to tensor in shape of input size</span></span>
+<span id="cb199-2"><a href="simple-linear-regression.html#cb199-2"></a>x &lt;-<span class="st"> </span><span class="kw">r_to_py</span>(x)</span>
+<span id="cb199-3"><a href="simple-linear-regression.html#cb199-3"></a>y &lt;-<span class="st"> </span><span class="kw">r_to_py</span>(y)</span>
+<span id="cb199-4"><a href="simple-linear-regression.html#cb199-4"></a>x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(x<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 1L))<span class="op">$</span><span class="kw">float</span>()</span>
+<span id="cb199-5"><a href="simple-linear-regression.html#cb199-5"></a>y =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(y<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 1L))<span class="op">$</span><span class="kw">float</span>()</span>
+<span id="cb199-6"><a href="simple-linear-regression.html#cb199-6"></a><span class="kw">print</span>(x, y)</span>
+<span id="cb199-7"><a href="simple-linear-regression.html#cb199-7"></a><span class="co">#&gt; tensor([[0.6965],</span></span>
+<span id="cb199-8"><a href="simple-linear-regression.html#cb199-8"></a><span class="co">#&gt;         [0.2861],</span></span>
+<span id="cb199-9"><a href="simple-linear-regression.html#cb199-9"></a><span class="co">#&gt;         [0.2269],</span></span>
+<span id="cb199-10"><a href="simple-linear-regression.html#cb199-10"></a><span class="co">#&gt;         [0.5513],</span></span>
+<span id="cb199-11"><a href="simple-linear-regression.html#cb199-11"></a><span class="co">#&gt;         [0.7195],</span></span>
+<span id="cb199-12"><a href="simple-linear-regression.html#cb199-12"></a><span class="co">#&gt;         [0.4231],</span></span>
+<span id="cb199-13"><a href="simple-linear-regression.html#cb199-13"></a><span class="co">#&gt;         [0.9808],</span></span>
+<span id="cb199-14"><a href="simple-linear-regression.html#cb199-14"></a><span class="co">#&gt;         [0.6848],</span></span>
+<span id="cb199-15"><a href="simple-linear-regression.html#cb199-15"></a><span class="co">#&gt;         [0.4809],</span></span>
+<span id="cb199-16"><a href="simple-linear-regression.html#cb199-16"></a><span class="co">#&gt;         [0.3921],</span></span>
+<span id="cb199-17"><a href="simple-linear-regression.html#cb199-17"></a><span class="co">#&gt;         [0.3432],</span></span>
+<span id="cb199-18"><a href="simple-linear-regression.html#cb199-18"></a><span class="co">#&gt;         [0.7290],</span></span>
+<span id="cb199-19"><a href="simple-linear-regression.html#cb199-19"></a><span class="co">#&gt;         [0.4386],</span></span>
+<span id="cb199-20"><a href="simple-linear-regression.html#cb199-20"></a><span class="co">#&gt;         [0.0597],</span></span>
+<span id="cb199-21"><a href="simple-linear-regression.html#cb199-21"></a><span class="co">#&gt;         [0.3980],</span></span>
+<span id="cb199-22"><a href="simple-linear-regression.html#cb199-22"></a><span class="co">#&gt;         [0.7380],</span></span>
+<span id="cb199-23"><a href="simple-linear-regression.html#cb199-23"></a><span class="co">#&gt;         [0.1825],</span></span>
+<span id="cb199-24"><a href="simple-linear-regression.html#cb199-24"></a><span class="co">#&gt;         [0.1755],</span></span>
+<span id="cb199-25"><a href="simple-linear-regression.html#cb199-25"></a><span class="co">#&gt;         [0.5316],</span></span>
+<span id="cb199-26"><a href="simple-linear-regression.html#cb199-26"></a><span class="co">#&gt;         [0.5318],</span></span>
+<span id="cb199-27"><a href="simple-linear-regression.html#cb199-27"></a><span class="co">#&gt;         [0.6344],</span></span>
+<span id="cb199-28"><a href="simple-linear-regression.html#cb199-28"></a><span class="co">#&gt;         [0.8494],</span></span>
+<span id="cb199-29"><a href="simple-linear-regression.html#cb199-29"></a><span class="co">#&gt;         [0.7245],</span></span>
+<span id="cb199-30"><a href="simple-linear-regression.html#cb199-30"></a><span class="co">#&gt;         [0.6110],</span></span>
+<span id="cb199-31"><a href="simple-linear-regression.html#cb199-31"></a><span class="co">#&gt;         [0.7224],</span></span>
+<span id="cb199-32"><a href="simple-linear-regression.html#cb199-32"></a><span class="co">#&gt;         [0.3230],</span></span>
+<span id="cb199-33"><a href="simple-linear-regression.html#cb199-33"></a><span class="co">#&gt;         [0.3618],</span></span>
+<span id="cb199-34"><a href="simple-linear-regression.html#cb199-34"></a><span class="co">#&gt;         [0.2283],</span></span>
+<span id="cb199-35"><a href="simple-linear-regression.html#cb199-35"></a><span class="co">#&gt;         [0.2937],</span></span>
+<span id="cb199-36"><a href="simple-linear-regression.html#cb199-36"></a><span class="co">#&gt;         [0.6310],</span></span>
+<span id="cb199-37"><a href="simple-linear-regression.html#cb199-37"></a><span class="co">#&gt;         [0.0921],</span></span>
+<span id="cb199-38"><a href="simple-linear-regression.html#cb199-38"></a><span class="co">#&gt;         [0.4337],</span></span>
+<span id="cb199-39"><a href="simple-linear-regression.html#cb199-39"></a><span class="co">#&gt;         [0.4309],</span></span>
+<span id="cb199-40"><a href="simple-linear-regression.html#cb199-40"></a><span class="co">#&gt;         [0.4937],</span></span>
+<span id="cb199-41"><a href="simple-linear-regression.html#cb199-41"></a><span class="co">#&gt;         [0.4258],</span></span>
+<span id="cb199-42"><a href="simple-linear-regression.html#cb199-42"></a><span class="co">#&gt;         [0.3123],</span></span>
+<span id="cb199-43"><a href="simple-linear-regression.html#cb199-43"></a><span class="co">#&gt;         [0.4264],</span></span>
+<span id="cb199-44"><a href="simple-linear-regression.html#cb199-44"></a><span class="co">#&gt;         [0.8934],</span></span>
+<span id="cb199-45"><a href="simple-linear-regression.html#cb199-45"></a><span class="co">#&gt;         [0.9442],</span></span>
+<span id="cb199-46"><a href="simple-linear-regression.html#cb199-46"></a><span class="co">#&gt;         [0.5018],</span></span>
+<span id="cb199-47"><a href="simple-linear-regression.html#cb199-47"></a><span class="co">#&gt;         [0.6240],</span></span>
+<span id="cb199-48"><a href="simple-linear-regression.html#cb199-48"></a><span class="co">#&gt;         [0.1156],</span></span>
+<span id="cb199-49"><a href="simple-linear-regression.html#cb199-49"></a><span class="co">#&gt;         [0.3173],</span></span>
+<span id="cb199-50"><a href="simple-linear-regression.html#cb199-50"></a><span class="co">#&gt;         [0.4148],</span></span>
+<span id="cb199-51"><a href="simple-linear-regression.html#cb199-51"></a><span class="co">#&gt;         [0.8663],</span></span>
+<span id="cb199-52"><a href="simple-linear-regression.html#cb199-52"></a><span class="co">#&gt;         [0.2505],</span></span>
+<span id="cb199-53"><a href="simple-linear-regression.html#cb199-53"></a><span class="co">#&gt;         [0.4830],</span></span>
+<span id="cb199-54"><a href="simple-linear-regression.html#cb199-54"></a><span class="co">#&gt;         [0.9856],</span></span>
+<span id="cb199-55"><a href="simple-linear-regression.html#cb199-55"></a><span class="co">#&gt;         [0.5195],</span></span>
+<span id="cb199-56"><a href="simple-linear-regression.html#cb199-56"></a><span class="co">#&gt;         [0.6129],</span></span>
+<span id="cb199-57"><a href="simple-linear-regression.html#cb199-57"></a><span class="co">#&gt;         [0.1206],</span></span>
+<span id="cb199-58"><a href="simple-linear-regression.html#cb199-58"></a><span class="co">#&gt;         [0.8263],</span></span>
+<span id="cb199-59"><a href="simple-linear-regression.html#cb199-59"></a><span class="co">#&gt;         [0.6031],</span></span>
+<span id="cb199-60"><a href="simple-linear-regression.html#cb199-60"></a><span class="co">#&gt;         [0.5451],</span></span>
+<span id="cb199-61"><a href="simple-linear-regression.html#cb199-61"></a><span class="co">#&gt;         [0.3428],</span></span>
+<span id="cb199-62"><a href="simple-linear-regression.html#cb199-62"></a><span class="co">#&gt;         [0.3041],</span></span>
+<span id="cb199-63"><a href="simple-linear-regression.html#cb199-63"></a><span class="co">#&gt;         [0.4170],</span></span>
+<span id="cb199-64"><a href="simple-linear-regression.html#cb199-64"></a><span class="co">#&gt;         [0.6813],</span></span>
+<span id="cb199-65"><a href="simple-linear-regression.html#cb199-65"></a><span class="co">#&gt;         [0.8755],</span></span>
+<span id="cb199-66"><a href="simple-linear-regression.html#cb199-66"></a><span class="co">#&gt;         [0.5104],</span></span>
+<span id="cb199-67"><a href="simple-linear-regression.html#cb199-67"></a><span class="co">#&gt;         [0.6693],</span></span>
+<span id="cb199-68"><a href="simple-linear-regression.html#cb199-68"></a><span class="co">#&gt;         [0.5859],</span></span>
+<span id="cb199-69"><a href="simple-linear-regression.html#cb199-69"></a><span class="co">#&gt;         [0.6249],</span></span>
+<span id="cb199-70"><a href="simple-linear-regression.html#cb199-70"></a><span class="co">#&gt;         [0.6747],</span></span>
+<span id="cb199-71"><a href="simple-linear-regression.html#cb199-71"></a><span class="co">#&gt;         [0.8423],</span></span>
+<span id="cb199-72"><a href="simple-linear-regression.html#cb199-72"></a><span class="co">#&gt;         [0.0832],</span></span>
+<span id="cb199-73"><a href="simple-linear-regression.html#cb199-73"></a><span class="co">#&gt;         [0.7637],</span></span>
+<span id="cb199-74"><a href="simple-linear-regression.html#cb199-74"></a><span class="co">#&gt;         [0.2437],</span></span>
+<span id="cb199-75"><a href="simple-linear-regression.html#cb199-75"></a><span class="co">#&gt;         [0.1942],</span></span>
+<span id="cb199-76"><a href="simple-linear-regression.html#cb199-76"></a><span class="co">#&gt;         [0.5725],</span></span>
+<span id="cb199-77"><a href="simple-linear-regression.html#cb199-77"></a><span class="co">#&gt;         [0.0957],</span></span>
+<span id="cb199-78"><a href="simple-linear-regression.html#cb199-78"></a><span class="co">#&gt;         [0.8853],</span></span>
+<span id="cb199-79"><a href="simple-linear-regression.html#cb199-79"></a><span class="co">#&gt;         [0.6272],</span></span>
+<span id="cb199-80"><a href="simple-linear-regression.html#cb199-80"></a><span class="co">#&gt;         [0.7234],</span></span>
+<span id="cb199-81"><a href="simple-linear-regression.html#cb199-81"></a><span class="co">#&gt;         [0.0161],</span></span>
+<span id="cb199-82"><a href="simple-linear-regression.html#cb199-82"></a><span class="co">#&gt;         [0.5944],</span></span>
+<span id="cb199-83"><a href="simple-linear-regression.html#cb199-83"></a><span class="co">#&gt;         [0.5568],</span></span>
+<span id="cb199-84"><a href="simple-linear-regression.html#cb199-84"></a><span class="co">#&gt;         [0.1590],</span></span>
+<span id="cb199-85"><a href="simple-linear-regression.html#cb199-85"></a><span class="co">#&gt;         [0.1531],</span></span>
+<span id="cb199-86"><a href="simple-linear-regression.html#cb199-86"></a><span class="co">#&gt;         [0.6955],</span></span>
+<span id="cb199-87"><a href="simple-linear-regression.html#cb199-87"></a><span class="co">#&gt;         [0.3188],</span></span>
+<span id="cb199-88"><a href="simple-linear-regression.html#cb199-88"></a><span class="co">#&gt;         [0.6920],</span></span>
+<span id="cb199-89"><a href="simple-linear-regression.html#cb199-89"></a><span class="co">#&gt;         [0.5544],</span></span>
+<span id="cb199-90"><a href="simple-linear-regression.html#cb199-90"></a><span class="co">#&gt;         [0.3890],</span></span>
+<span id="cb199-91"><a href="simple-linear-regression.html#cb199-91"></a><span class="co">#&gt;         [0.9251],</span></span>
+<span id="cb199-92"><a href="simple-linear-regression.html#cb199-92"></a><span class="co">#&gt;         [0.8417],</span></span>
+<span id="cb199-93"><a href="simple-linear-regression.html#cb199-93"></a><span class="co">#&gt;         [0.3574],</span></span>
+<span id="cb199-94"><a href="simple-linear-regression.html#cb199-94"></a><span class="co">#&gt;         [0.0436],</span></span>
+<span id="cb199-95"><a href="simple-linear-regression.html#cb199-95"></a><span class="co">#&gt;         [0.3048],</span></span>
+<span id="cb199-96"><a href="simple-linear-regression.html#cb199-96"></a><span class="co">#&gt;         [0.3982],</span></span>
+<span id="cb199-97"><a href="simple-linear-regression.html#cb199-97"></a><span class="co">#&gt;         [0.7050],</span></span>
+<span id="cb199-98"><a href="simple-linear-regression.html#cb199-98"></a><span class="co">#&gt;         [0.9954],</span></span>
+<span id="cb199-99"><a href="simple-linear-regression.html#cb199-99"></a><span class="co">#&gt;         [0.3559],</span></span>
+<span id="cb199-100"><a href="simple-linear-regression.html#cb199-100"></a><span class="co">#&gt;         [0.7625],</span></span>
+<span id="cb199-101"><a href="simple-linear-regression.html#cb199-101"></a><span class="co">#&gt;         [0.5932],</span></span>
+<span id="cb199-102"><a href="simple-linear-regression.html#cb199-102"></a><span class="co">#&gt;         [0.6917],</span></span>
+<span id="cb199-103"><a href="simple-linear-regression.html#cb199-103"></a><span class="co">#&gt;         [0.1511],</span></span>
+<span id="cb199-104"><a href="simple-linear-regression.html#cb199-104"></a><span class="co">#&gt;         [0.3989],</span></span>
+<span id="cb199-105"><a href="simple-linear-regression.html#cb199-105"></a><span class="co">#&gt;         [0.2409],</span></span>
+<span id="cb199-106"><a href="simple-linear-regression.html#cb199-106"></a><span class="co">#&gt;         [0.3435]])</span></span></code></pre></div>
 </div>
 <div id="creating-the-network-model" class="section level2">
 <h2><span class="header-section-number">8.5</span> Creating the network model</h2>
@@ -1295,78 +1346,78 @@ code span.wa { color: #bf0303; } /* Warning */
 <pre><code>Net(
   (hidden): Linear(in_features=1, out_features=1, bias=True)
 )</code></pre>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="simple-linear-regression.html#cb194-1"></a><span class="kw">py_run_string</span>(<span class="st">&quot;import torch&quot;</span>)</span>
-<span id="cb194-2"><a href="simple-linear-regression.html#cb194-2"></a>main =<span class="st"> </span><span class="kw">py_run_string</span>(</span>
-<span id="cb194-3"><a href="simple-linear-regression.html#cb194-3"></a><span class="st">&quot;</span></span>
-<span id="cb194-4"><a href="simple-linear-regression.html#cb194-4"></a><span class="st">import torch.nn as nn</span></span>
-<span id="cb194-5"><a href="simple-linear-regression.html#cb194-5"></a></span>
-<span id="cb194-6"><a href="simple-linear-regression.html#cb194-6"></a><span class="st">class Net(nn.Module):</span></span>
-<span id="cb194-7"><a href="simple-linear-regression.html#cb194-7"></a><span class="st">   def __init__(self):</span></span>
-<span id="cb194-8"><a href="simple-linear-regression.html#cb194-8"></a><span class="st">       super(Net, self).__init__()</span></span>
-<span id="cb194-9"><a href="simple-linear-regression.html#cb194-9"></a><span class="st">       self.layer = torch.nn.Linear(1, 1)</span></span>
-<span id="cb194-10"><a href="simple-linear-regression.html#cb194-10"></a></span>
-<span id="cb194-11"><a href="simple-linear-regression.html#cb194-11"></a><span class="st">   def forward(self, x):</span></span>
-<span id="cb194-12"><a href="simple-linear-regression.html#cb194-12"></a><span class="st">       x = self.layer(x)      </span></span>
-<span id="cb194-13"><a href="simple-linear-regression.html#cb194-13"></a><span class="st">       return x</span></span>
-<span id="cb194-14"><a href="simple-linear-regression.html#cb194-14"></a><span class="st">&quot;</span>)</span>
-<span id="cb194-15"><a href="simple-linear-regression.html#cb194-15"></a></span>
-<span id="cb194-16"><a href="simple-linear-regression.html#cb194-16"></a></span>
-<span id="cb194-17"><a href="simple-linear-regression.html#cb194-17"></a><span class="co"># build a Linear Rgression model</span></span>
-<span id="cb194-18"><a href="simple-linear-regression.html#cb194-18"></a>net &lt;-<span class="st"> </span>main<span class="op">$</span><span class="kw">Net</span>()</span>
-<span id="cb194-19"><a href="simple-linear-regression.html#cb194-19"></a></span>
-<span id="cb194-20"><a href="simple-linear-regression.html#cb194-20"></a><span class="kw">print</span>(net)</span>
-<span id="cb194-21"><a href="simple-linear-regression.html#cb194-21"></a><span class="co">#&gt; Net(</span></span>
-<span id="cb194-22"><a href="simple-linear-regression.html#cb194-22"></a><span class="co">#&gt;   (layer): Linear(in_features=1, out_features=1, bias=True)</span></span>
-<span id="cb194-23"><a href="simple-linear-regression.html#cb194-23"></a><span class="co">#&gt; )</span></span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="simple-linear-regression.html#cb201-1"></a><span class="kw">py_run_string</span>(<span class="st">&quot;import torch&quot;</span>)</span>
+<span id="cb201-2"><a href="simple-linear-regression.html#cb201-2"></a>main =<span class="st"> </span><span class="kw">py_run_string</span>(</span>
+<span id="cb201-3"><a href="simple-linear-regression.html#cb201-3"></a><span class="st">&quot;</span></span>
+<span id="cb201-4"><a href="simple-linear-regression.html#cb201-4"></a><span class="st">import torch.nn as nn</span></span>
+<span id="cb201-5"><a href="simple-linear-regression.html#cb201-5"></a></span>
+<span id="cb201-6"><a href="simple-linear-regression.html#cb201-6"></a><span class="st">class Net(nn.Module):</span></span>
+<span id="cb201-7"><a href="simple-linear-regression.html#cb201-7"></a><span class="st">   def __init__(self):</span></span>
+<span id="cb201-8"><a href="simple-linear-regression.html#cb201-8"></a><span class="st">       super(Net, self).__init__()</span></span>
+<span id="cb201-9"><a href="simple-linear-regression.html#cb201-9"></a><span class="st">       self.layer = torch.nn.Linear(1, 1)</span></span>
+<span id="cb201-10"><a href="simple-linear-regression.html#cb201-10"></a></span>
+<span id="cb201-11"><a href="simple-linear-regression.html#cb201-11"></a><span class="st">   def forward(self, x):</span></span>
+<span id="cb201-12"><a href="simple-linear-regression.html#cb201-12"></a><span class="st">       x = self.layer(x)      </span></span>
+<span id="cb201-13"><a href="simple-linear-regression.html#cb201-13"></a><span class="st">       return x</span></span>
+<span id="cb201-14"><a href="simple-linear-regression.html#cb201-14"></a><span class="st">&quot;</span>)</span>
+<span id="cb201-15"><a href="simple-linear-regression.html#cb201-15"></a></span>
+<span id="cb201-16"><a href="simple-linear-regression.html#cb201-16"></a></span>
+<span id="cb201-17"><a href="simple-linear-regression.html#cb201-17"></a><span class="co"># build a Linear Rgression model</span></span>
+<span id="cb201-18"><a href="simple-linear-regression.html#cb201-18"></a>net &lt;-<span class="st"> </span>main<span class="op">$</span><span class="kw">Net</span>()</span>
+<span id="cb201-19"><a href="simple-linear-regression.html#cb201-19"></a></span>
+<span id="cb201-20"><a href="simple-linear-regression.html#cb201-20"></a><span class="kw">print</span>(net)</span>
+<span id="cb201-21"><a href="simple-linear-regression.html#cb201-21"></a><span class="co">#&gt; Net(</span></span>
+<span id="cb201-22"><a href="simple-linear-regression.html#cb201-22"></a><span class="co">#&gt;   (layer): Linear(in_features=1, out_features=1, bias=True)</span></span>
+<span id="cb201-23"><a href="simple-linear-regression.html#cb201-23"></a><span class="co">#&gt; )</span></span></code></pre></div>
 </div>
 <div id="optimizer-and-loss" class="section level2">
 <h2><span class="header-section-number">8.6</span> Optimizer and Loss</h2>
 <p>Next, you should define the Optimizer and the Loss Function for our training process.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="simple-linear-regression.html#cb195-1"></a><span class="co"># Define Optimizer and Loss Function</span></span>
-<span id="cb195-2"><a href="simple-linear-regression.html#cb195-2"></a>optimizer &lt;-<span class="st"> </span>torch<span class="op">$</span>optim<span class="op">$</span><span class="kw">SGD</span>(net<span class="op">$</span><span class="kw">parameters</span>(), <span class="dt">lr=</span><span class="fl">0.2</span>)</span>
-<span id="cb195-3"><a href="simple-linear-regression.html#cb195-3"></a>loss_func &lt;-<span class="st"> </span>torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">MSELoss</span>()</span>
-<span id="cb195-4"><a href="simple-linear-regression.html#cb195-4"></a><span class="kw">print</span>(optimizer)</span>
-<span id="cb195-5"><a href="simple-linear-regression.html#cb195-5"></a><span class="co">#&gt; SGD (</span></span>
-<span id="cb195-6"><a href="simple-linear-regression.html#cb195-6"></a><span class="co">#&gt; Parameter Group 0</span></span>
-<span id="cb195-7"><a href="simple-linear-regression.html#cb195-7"></a><span class="co">#&gt;     dampening: 0</span></span>
-<span id="cb195-8"><a href="simple-linear-regression.html#cb195-8"></a><span class="co">#&gt;     lr: 0.2</span></span>
-<span id="cb195-9"><a href="simple-linear-regression.html#cb195-9"></a><span class="co">#&gt;     momentum: 0</span></span>
-<span id="cb195-10"><a href="simple-linear-regression.html#cb195-10"></a><span class="co">#&gt;     nesterov: False</span></span>
-<span id="cb195-11"><a href="simple-linear-regression.html#cb195-11"></a><span class="co">#&gt;     weight_decay: 0</span></span>
-<span id="cb195-12"><a href="simple-linear-regression.html#cb195-12"></a><span class="co">#&gt; )</span></span>
-<span id="cb195-13"><a href="simple-linear-regression.html#cb195-13"></a><span class="kw">print</span>(loss_func)</span>
-<span id="cb195-14"><a href="simple-linear-regression.html#cb195-14"></a><span class="co">#&gt; MSELoss()</span></span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="simple-linear-regression.html#cb202-1"></a><span class="co"># Define Optimizer and Loss Function</span></span>
+<span id="cb202-2"><a href="simple-linear-regression.html#cb202-2"></a>optimizer &lt;-<span class="st"> </span>torch<span class="op">$</span>optim<span class="op">$</span><span class="kw">SGD</span>(net<span class="op">$</span><span class="kw">parameters</span>(), <span class="dt">lr=</span><span class="fl">0.2</span>)</span>
+<span id="cb202-3"><a href="simple-linear-regression.html#cb202-3"></a>loss_func &lt;-<span class="st"> </span>torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">MSELoss</span>()</span>
+<span id="cb202-4"><a href="simple-linear-regression.html#cb202-4"></a><span class="kw">print</span>(optimizer)</span>
+<span id="cb202-5"><a href="simple-linear-regression.html#cb202-5"></a><span class="co">#&gt; SGD (</span></span>
+<span id="cb202-6"><a href="simple-linear-regression.html#cb202-6"></a><span class="co">#&gt; Parameter Group 0</span></span>
+<span id="cb202-7"><a href="simple-linear-regression.html#cb202-7"></a><span class="co">#&gt;     dampening: 0</span></span>
+<span id="cb202-8"><a href="simple-linear-regression.html#cb202-8"></a><span class="co">#&gt;     lr: 0.2</span></span>
+<span id="cb202-9"><a href="simple-linear-regression.html#cb202-9"></a><span class="co">#&gt;     momentum: 0</span></span>
+<span id="cb202-10"><a href="simple-linear-regression.html#cb202-10"></a><span class="co">#&gt;     nesterov: False</span></span>
+<span id="cb202-11"><a href="simple-linear-regression.html#cb202-11"></a><span class="co">#&gt;     weight_decay: 0</span></span>
+<span id="cb202-12"><a href="simple-linear-regression.html#cb202-12"></a><span class="co">#&gt; )</span></span>
+<span id="cb202-13"><a href="simple-linear-regression.html#cb202-13"></a><span class="kw">print</span>(loss_func)</span>
+<span id="cb202-14"><a href="simple-linear-regression.html#cb202-14"></a><span class="co">#&gt; MSELoss()</span></span></code></pre></div>
 </div>
 <div id="training-1" class="section level2">
 <h2><span class="header-section-number">8.7</span> Training</h2>
 <p>Now let’s start our training process. With an epoch of 250, you will iterate our data to find the best value for our hyperparameters.</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="simple-linear-regression.html#cb196-1"></a><span class="co"># x = x$type(torch$float)   # make it a a FloatTensor</span></span>
-<span id="cb196-2"><a href="simple-linear-regression.html#cb196-2"></a><span class="co"># y = y$type(torch$float)</span></span>
-<span id="cb196-3"><a href="simple-linear-regression.html#cb196-3"></a></span>
-<span id="cb196-4"><a href="simple-linear-regression.html#cb196-4"></a><span class="co"># x &lt;- torch$as_tensor(x, dtype = torch$float)</span></span>
-<span id="cb196-5"><a href="simple-linear-regression.html#cb196-5"></a><span class="co"># y &lt;- torch$as_tensor(y, dtype = torch$float)</span></span>
-<span id="cb196-6"><a href="simple-linear-regression.html#cb196-6"></a></span>
-<span id="cb196-7"><a href="simple-linear-regression.html#cb196-7"></a>inputs  =<span class="st"> </span><span class="kw">Variable</span>(x)</span>
-<span id="cb196-8"><a href="simple-linear-regression.html#cb196-8"></a>outputs =<span class="st"> </span><span class="kw">Variable</span>(y)</span>
-<span id="cb196-9"><a href="simple-linear-regression.html#cb196-9"></a></span>
-<span id="cb196-10"><a href="simple-linear-regression.html#cb196-10"></a><span class="co"># base plot</span></span>
-<span id="cb196-11"><a href="simple-linear-regression.html#cb196-11"></a><span class="kw">plot</span>(x<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), y<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb196-12"><a href="simple-linear-regression.html#cb196-12"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">250</span>) {</span>
-<span id="cb196-13"><a href="simple-linear-regression.html#cb196-13"></a>   prediction =<span class="st"> </span><span class="kw">net</span>(inputs)</span>
-<span id="cb196-14"><a href="simple-linear-regression.html#cb196-14"></a>   loss =<span class="st"> </span><span class="kw">loss_func</span>(prediction, outputs)</span>
-<span id="cb196-15"><a href="simple-linear-regression.html#cb196-15"></a>   optimizer<span class="op">$</span><span class="kw">zero_grad</span>()</span>
-<span id="cb196-16"><a href="simple-linear-regression.html#cb196-16"></a>   loss<span class="op">$</span><span class="kw">backward</span>()</span>
-<span id="cb196-17"><a href="simple-linear-regression.html#cb196-17"></a>   optimizer<span class="op">$</span><span class="kw">step</span>()</span>
-<span id="cb196-18"><a href="simple-linear-regression.html#cb196-18"></a>   </span>
-<span id="cb196-19"><a href="simple-linear-regression.html#cb196-19"></a>   <span class="cf">if</span> (i <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) <span class="cf">break</span></span>
-<span id="cb196-20"><a href="simple-linear-regression.html#cb196-20"></a></span>
-<span id="cb196-21"><a href="simple-linear-regression.html#cb196-21"></a>   <span class="cf">if</span> (i <span class="op">%%</span><span class="st"> </span><span class="dv">10</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</span>
-<span id="cb196-22"><a href="simple-linear-regression.html#cb196-22"></a>       <span class="co"># plot and show learning process</span></span>
-<span id="cb196-23"><a href="simple-linear-regression.html#cb196-23"></a>      <span class="co"># points(x$data$numpy(), y$data$numpy())</span></span>
-<span id="cb196-24"><a href="simple-linear-regression.html#cb196-24"></a>      <span class="kw">points</span>(x<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), prediction<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb196-25"><a href="simple-linear-regression.html#cb196-25"></a>       <span class="co"># cat(i, loss$data$numpy(), &quot;\n&quot;)</span></span>
-<span id="cb196-26"><a href="simple-linear-regression.html#cb196-26"></a>   }</span>
-<span id="cb196-27"><a href="simple-linear-regression.html#cb196-27"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="simple-linear-regression.html#cb203-1"></a><span class="co"># x = x$type(torch$float)   # make it a a FloatTensor</span></span>
+<span id="cb203-2"><a href="simple-linear-regression.html#cb203-2"></a><span class="co"># y = y$type(torch$float)</span></span>
+<span id="cb203-3"><a href="simple-linear-regression.html#cb203-3"></a></span>
+<span id="cb203-4"><a href="simple-linear-regression.html#cb203-4"></a><span class="co"># x &lt;- torch$as_tensor(x, dtype = torch$float)</span></span>
+<span id="cb203-5"><a href="simple-linear-regression.html#cb203-5"></a><span class="co"># y &lt;- torch$as_tensor(y, dtype = torch$float)</span></span>
+<span id="cb203-6"><a href="simple-linear-regression.html#cb203-6"></a></span>
+<span id="cb203-7"><a href="simple-linear-regression.html#cb203-7"></a>inputs  =<span class="st"> </span><span class="kw">Variable</span>(x)</span>
+<span id="cb203-8"><a href="simple-linear-regression.html#cb203-8"></a>outputs =<span class="st"> </span><span class="kw">Variable</span>(y)</span>
+<span id="cb203-9"><a href="simple-linear-regression.html#cb203-9"></a></span>
+<span id="cb203-10"><a href="simple-linear-regression.html#cb203-10"></a><span class="co"># base plot</span></span>
+<span id="cb203-11"><a href="simple-linear-regression.html#cb203-11"></a><span class="kw">plot</span>(x<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), y<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb203-12"><a href="simple-linear-regression.html#cb203-12"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">250</span>) {</span>
+<span id="cb203-13"><a href="simple-linear-regression.html#cb203-13"></a>   prediction =<span class="st"> </span><span class="kw">net</span>(inputs)</span>
+<span id="cb203-14"><a href="simple-linear-regression.html#cb203-14"></a>   loss =<span class="st"> </span><span class="kw">loss_func</span>(prediction, outputs)</span>
+<span id="cb203-15"><a href="simple-linear-regression.html#cb203-15"></a>   optimizer<span class="op">$</span><span class="kw">zero_grad</span>()</span>
+<span id="cb203-16"><a href="simple-linear-regression.html#cb203-16"></a>   loss<span class="op">$</span><span class="kw">backward</span>()</span>
+<span id="cb203-17"><a href="simple-linear-regression.html#cb203-17"></a>   optimizer<span class="op">$</span><span class="kw">step</span>()</span>
+<span id="cb203-18"><a href="simple-linear-regression.html#cb203-18"></a>   </span>
+<span id="cb203-19"><a href="simple-linear-regression.html#cb203-19"></a>   <span class="cf">if</span> (i <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) <span class="cf">break</span></span>
+<span id="cb203-20"><a href="simple-linear-regression.html#cb203-20"></a></span>
+<span id="cb203-21"><a href="simple-linear-regression.html#cb203-21"></a>   <span class="cf">if</span> (i <span class="op">%%</span><span class="st"> </span><span class="dv">10</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</span>
+<span id="cb203-22"><a href="simple-linear-regression.html#cb203-22"></a>       <span class="co"># plot and show learning process</span></span>
+<span id="cb203-23"><a href="simple-linear-regression.html#cb203-23"></a>      <span class="co"># points(x$data$numpy(), y$data$numpy())</span></span>
+<span id="cb203-24"><a href="simple-linear-regression.html#cb203-24"></a>      <span class="kw">points</span>(x<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), prediction<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb203-25"><a href="simple-linear-regression.html#cb203-25"></a>       <span class="co"># cat(i, loss$data$numpy(), &quot;\n&quot;)</span></span>
+<span id="cb203-26"><a href="simple-linear-regression.html#cb203-26"></a>   }</span>
+<span id="cb203-27"><a href="simple-linear-regression.html#cb203-27"></a>}</span></code></pre></div>
 <p><img src="0401-linear_regression-simple_files/figure-html/plot-xy-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="results" class="section level2">

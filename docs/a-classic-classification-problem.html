@@ -341,7 +341,12 @@ window.initializeCodeFolding = function(show) {
       // Python show code
       $('div.py-code-collapse').each(function() {
         $(this).collapse('show');
-      });    
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
   });
   $("#rmd-hide-all-code").click(function() {
       // close the dropdown menu when an option is clicked
@@ -354,11 +359,17 @@ window.initializeCodeFolding = function(show) {
       $('div.py-code-collapse').each(function() {
         $(this).collapse('hide');
       });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
+
 
   // index for unique code element ids
   var r_currentIndex  = 1;   // for R code
   var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
 
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -389,10 +400,8 @@ window.initializeCodeFolding = function(show) {
         
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);    
     
     // update state of button on show/hide
@@ -404,11 +413,55 @@ window.initializeCodeFolding = function(show) {
     });  
    });
   
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
 
   // select all R code blocks
   // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
   // adding pre.sourceCode confuses the Python button
-  var rCodeBlocks = $('pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
   rCodeBlocks.each(function() {
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -435,10 +488,8 @@ window.initializeCodeFolding = function(show) {
     
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);
 
     // update state of button on show/hide
@@ -1152,87 +1203,87 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="a-classic-classification-problem" class="section level1">
 <h1><span class="header-section-number">Chapter 7</span> A classic classification problem</h1>
 <p>I will combine here R and Python code just to show how easy is integrating R and Python. First thing we have to do is loading the package <code>rTorch</code>. We do that in a chunk:</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="a-classic-classification-problem.html#cb182-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="a-classic-classification-problem.html#cb189-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
 <p>Then, we proceed to copy the standard Python code but in their own <code>Python</code> chunks. This is a very nice example that I found in the web. It explains the classic challenge of classification.</p>
 <p>When <code>rTorch</code> is loaded, a number of Python libraries are also loaded, which enable us the immediate use of numpy, torch and matplotlib.</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb183-1"><a href="a-classic-classification-problem.html#cb183-1"></a><span class="co"># Logistic Regression</span></span>
-<span id="cb183-2"><a href="a-classic-classification-problem.html#cb183-2"></a><span class="co"># https://m-alcu.github.io/blog/2018/02/10/logit-pytorch/</span></span>
-<span id="cb183-3"><a href="a-classic-classification-problem.html#cb183-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb183-4"><a href="a-classic-classification-problem.html#cb183-4"></a><span class="im">import</span> torch</span>
-<span id="cb183-5"><a href="a-classic-classification-problem.html#cb183-5"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
-<span id="cb183-6"><a href="a-classic-classification-problem.html#cb183-6"></a><span class="im">from</span> torch.autograd <span class="im">import</span> Variable</span>
-<span id="cb183-7"><a href="a-classic-classification-problem.html#cb183-7"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb190-1"><a href="a-classic-classification-problem.html#cb190-1"></a><span class="co"># Logistic Regression</span></span>
+<span id="cb190-2"><a href="a-classic-classification-problem.html#cb190-2"></a><span class="co"># https://m-alcu.github.io/blog/2018/02/10/logit-pytorch/</span></span>
+<span id="cb190-3"><a href="a-classic-classification-problem.html#cb190-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb190-4"><a href="a-classic-classification-problem.html#cb190-4"></a><span class="im">import</span> torch</span>
+<span id="cb190-5"><a href="a-classic-classification-problem.html#cb190-5"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb190-6"><a href="a-classic-classification-problem.html#cb190-6"></a><span class="im">from</span> torch.autograd <span class="im">import</span> Variable</span>
+<span id="cb190-7"><a href="a-classic-classification-problem.html#cb190-7"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div>
 <p>The next thing we do is setting a seed to make the example repeatable, in my machine and yours.</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb184-1"><a href="a-classic-classification-problem.html#cb184-1"></a>np.random.seed(<span class="dv">2048</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb191-1"><a href="a-classic-classification-problem.html#cb191-1"></a>np.random.seed(<span class="dv">2048</span>)</span></code></pre></div>
 <p>Then we generate some random samples.</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb185-1"><a href="a-classic-classification-problem.html#cb185-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb185-2"><a href="a-classic-classification-problem.html#cb185-2"></a>D <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb185-3"><a href="a-classic-classification-problem.html#cb185-3"></a>X <span class="op">=</span> np.random.randn(N, D) <span class="op">*</span> <span class="dv">2</span></span>
-<span id="cb185-4"><a href="a-classic-classification-problem.html#cb185-4"></a>ctr <span class="op">=</span> <span class="bu">int</span>(N<span class="op">/</span><span class="dv">2</span>)</span>
-<span id="cb185-5"><a href="a-classic-classification-problem.html#cb185-5"></a><span class="co"># center the first N/2 points at (-2,-2)</span></span>
-<span id="cb185-6"><a href="a-classic-classification-problem.html#cb185-6"></a>X[:ctr,:] <span class="op">=</span> X[:ctr,:] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> np.ones((ctr, D))</span>
-<span id="cb185-7"><a href="a-classic-classification-problem.html#cb185-7"></a><span class="co"># center the last N/2 points at (2, 2)</span></span>
-<span id="cb185-8"><a href="a-classic-classification-problem.html#cb185-8"></a>X[ctr:,:] <span class="op">=</span> X[ctr:,:] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.ones((ctr, D))</span>
-<span id="cb185-9"><a href="a-classic-classification-problem.html#cb185-9"></a></span>
-<span id="cb185-10"><a href="a-classic-classification-problem.html#cb185-10"></a><span class="co"># labels: first N/2 are 0, last N/2 are 1</span></span>
-<span id="cb185-11"><a href="a-classic-classification-problem.html#cb185-11"></a><span class="co"># mark the first half with 0 and the sceond half with 1</span></span>
-<span id="cb185-12"><a href="a-classic-classification-problem.html#cb185-12"></a>T <span class="op">=</span> np.array([<span class="dv">0</span>] <span class="op">*</span> ctr <span class="op">+</span> [<span class="dv">1</span>] <span class="op">*</span> ctr).reshape(<span class="dv">100</span>, <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb192-1"><a href="a-classic-classification-problem.html#cb192-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb192-2"><a href="a-classic-classification-problem.html#cb192-2"></a>D <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb192-3"><a href="a-classic-classification-problem.html#cb192-3"></a>X <span class="op">=</span> np.random.randn(N, D) <span class="op">*</span> <span class="dv">2</span></span>
+<span id="cb192-4"><a href="a-classic-classification-problem.html#cb192-4"></a>ctr <span class="op">=</span> <span class="bu">int</span>(N<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb192-5"><a href="a-classic-classification-problem.html#cb192-5"></a><span class="co"># center the first N/2 points at (-2,-2)</span></span>
+<span id="cb192-6"><a href="a-classic-classification-problem.html#cb192-6"></a>X[:ctr,:] <span class="op">=</span> X[:ctr,:] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> np.ones((ctr, D))</span>
+<span id="cb192-7"><a href="a-classic-classification-problem.html#cb192-7"></a><span class="co"># center the last N/2 points at (2, 2)</span></span>
+<span id="cb192-8"><a href="a-classic-classification-problem.html#cb192-8"></a>X[ctr:,:] <span class="op">=</span> X[ctr:,:] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.ones((ctr, D))</span>
+<span id="cb192-9"><a href="a-classic-classification-problem.html#cb192-9"></a></span>
+<span id="cb192-10"><a href="a-classic-classification-problem.html#cb192-10"></a><span class="co"># labels: first N/2 are 0, last N/2 are 1</span></span>
+<span id="cb192-11"><a href="a-classic-classification-problem.html#cb192-11"></a><span class="co"># mark the first half with 0 and the sceond half with 1</span></span>
+<span id="cb192-12"><a href="a-classic-classification-problem.html#cb192-12"></a>T <span class="op">=</span> np.array([<span class="dv">0</span>] <span class="op">*</span> ctr <span class="op">+</span> [<span class="dv">1</span>] <span class="op">*</span> ctr).reshape(<span class="dv">100</span>, <span class="dv">1</span>)</span></code></pre></div>
 <p>And plot the original data for reference.</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb186-1"><a href="a-classic-classification-problem.html#cb186-1"></a><span class="co"># plot the data. color the dots using T</span></span>
-<span id="cb186-2"><a href="a-classic-classification-problem.html#cb186-2"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb186-3"><a href="a-classic-classification-problem.html#cb186-3"></a>plt.xlabel(<span class="st">&#39;X(1)&#39;</span>)</span>
-<span id="cb186-4"><a href="a-classic-classification-problem.html#cb186-4"></a>plt.ylabel(<span class="st">&#39;X(2)&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb193-1"><a href="a-classic-classification-problem.html#cb193-1"></a><span class="co"># plot the data. color the dots using T</span></span>
+<span id="cb193-2"><a href="a-classic-classification-problem.html#cb193-2"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb193-3"><a href="a-classic-classification-problem.html#cb193-3"></a>plt.xlabel(<span class="st">&#39;X(1)&#39;</span>)</span>
+<span id="cb193-4"><a href="a-classic-classification-problem.html#cb193-4"></a>plt.ylabel(<span class="st">&#39;X(2)&#39;</span>)</span></code></pre></div>
 <p><img src="0303-logistics_regression_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>What follows is the definition of the model using a neural network and train the model. We set up the model:</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb187-1"><a href="a-classic-classification-problem.html#cb187-1"></a><span class="kw">class</span> Model(torch.nn.Module):</span>
-<span id="cb187-2"><a href="a-classic-classification-problem.html#cb187-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb187-3"><a href="a-classic-classification-problem.html#cb187-3"></a>        <span class="bu">super</span>(Model, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb187-4"><a href="a-classic-classification-problem.html#cb187-4"></a>        <span class="va">self</span>.linear <span class="op">=</span> torch.nn.Linear(<span class="dv">2</span>, <span class="dv">1</span>) <span class="co"># 2 in and 1 out</span></span>
-<span id="cb187-5"><a href="a-classic-classification-problem.html#cb187-5"></a>        </span>
-<span id="cb187-6"><a href="a-classic-classification-problem.html#cb187-6"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb187-7"><a href="a-classic-classification-problem.html#cb187-7"></a>        y_pred <span class="op">=</span> torch.sigmoid(<span class="va">self</span>.linear(x))</span>
-<span id="cb187-8"><a href="a-classic-classification-problem.html#cb187-8"></a>        <span class="cf">return</span> y_pred</span>
-<span id="cb187-9"><a href="a-classic-classification-problem.html#cb187-9"></a>    </span>
-<span id="cb187-10"><a href="a-classic-classification-problem.html#cb187-10"></a><span class="co"># Our model    </span></span>
-<span id="cb187-11"><a href="a-classic-classification-problem.html#cb187-11"></a>model <span class="op">=</span> Model()</span>
-<span id="cb187-12"><a href="a-classic-classification-problem.html#cb187-12"></a></span>
-<span id="cb187-13"><a href="a-classic-classification-problem.html#cb187-13"></a>criterion <span class="op">=</span> torch.nn.BCELoss(reduction<span class="op">=</span><span class="st">&#39;mean&#39;</span>)</span>
-<span id="cb187-14"><a href="a-classic-classification-problem.html#cb187-14"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb194-1"><a href="a-classic-classification-problem.html#cb194-1"></a><span class="kw">class</span> Model(torch.nn.Module):</span>
+<span id="cb194-2"><a href="a-classic-classification-problem.html#cb194-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb194-3"><a href="a-classic-classification-problem.html#cb194-3"></a>        <span class="bu">super</span>(Model, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb194-4"><a href="a-classic-classification-problem.html#cb194-4"></a>        <span class="va">self</span>.linear <span class="op">=</span> torch.nn.Linear(<span class="dv">2</span>, <span class="dv">1</span>) <span class="co"># 2 in and 1 out</span></span>
+<span id="cb194-5"><a href="a-classic-classification-problem.html#cb194-5"></a>        </span>
+<span id="cb194-6"><a href="a-classic-classification-problem.html#cb194-6"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb194-7"><a href="a-classic-classification-problem.html#cb194-7"></a>        y_pred <span class="op">=</span> torch.sigmoid(<span class="va">self</span>.linear(x))</span>
+<span id="cb194-8"><a href="a-classic-classification-problem.html#cb194-8"></a>        <span class="cf">return</span> y_pred</span>
+<span id="cb194-9"><a href="a-classic-classification-problem.html#cb194-9"></a>    </span>
+<span id="cb194-10"><a href="a-classic-classification-problem.html#cb194-10"></a><span class="co"># Our model    </span></span>
+<span id="cb194-11"><a href="a-classic-classification-problem.html#cb194-11"></a>model <span class="op">=</span> Model()</span>
+<span id="cb194-12"><a href="a-classic-classification-problem.html#cb194-12"></a></span>
+<span id="cb194-13"><a href="a-classic-classification-problem.html#cb194-13"></a>criterion <span class="op">=</span> torch.nn.BCELoss(reduction<span class="op">=</span><span class="st">&#39;mean&#39;</span>)</span>
+<span id="cb194-14"><a href="a-classic-classification-problem.html#cb194-14"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span></code></pre></div>
 <p>Train the model:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb188-1"><a href="a-classic-classification-problem.html#cb188-1"></a>x_data <span class="op">=</span> Variable(torch.Tensor(X))</span>
-<span id="cb188-2"><a href="a-classic-classification-problem.html#cb188-2"></a>y_data <span class="op">=</span> Variable(torch.Tensor(T))</span>
-<span id="cb188-3"><a href="a-classic-classification-problem.html#cb188-3"></a></span>
-<span id="cb188-4"><a href="a-classic-classification-problem.html#cb188-4"></a><span class="co"># Training loop</span></span>
-<span id="cb188-5"><a href="a-classic-classification-problem.html#cb188-5"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
-<span id="cb188-6"><a href="a-classic-classification-problem.html#cb188-6"></a>    <span class="co"># Forward pass: Compute predicted y by passing x to the model</span></span>
-<span id="cb188-7"><a href="a-classic-classification-problem.html#cb188-7"></a>    y_pred <span class="op">=</span> model(x_data)</span>
-<span id="cb188-8"><a href="a-classic-classification-problem.html#cb188-8"></a>    </span>
-<span id="cb188-9"><a href="a-classic-classification-problem.html#cb188-9"></a>    <span class="co"># Compute and print loss</span></span>
-<span id="cb188-10"><a href="a-classic-classification-problem.html#cb188-10"></a>    loss <span class="op">=</span> criterion(y_pred, y_data)</span>
-<span id="cb188-11"><a href="a-classic-classification-problem.html#cb188-11"></a>    <span class="co"># print(epoch, loss.data[0])</span></span>
-<span id="cb188-12"><a href="a-classic-classification-problem.html#cb188-12"></a>    </span>
-<span id="cb188-13"><a href="a-classic-classification-problem.html#cb188-13"></a>    <span class="co"># Zero gradients, perform a backward pass, and update the weights.</span></span>
-<span id="cb188-14"><a href="a-classic-classification-problem.html#cb188-14"></a>    optimizer.zero_grad()</span>
-<span id="cb188-15"><a href="a-classic-classification-problem.html#cb188-15"></a>    loss.backward()</span>
-<span id="cb188-16"><a href="a-classic-classification-problem.html#cb188-16"></a>    optimizer.step()</span>
-<span id="cb188-17"><a href="a-classic-classification-problem.html#cb188-17"></a>    </span>
-<span id="cb188-18"><a href="a-classic-classification-problem.html#cb188-18"></a>w <span class="op">=</span> <span class="bu">list</span>(model.parameters())</span>
-<span id="cb188-19"><a href="a-classic-classification-problem.html#cb188-19"></a>w0 <span class="op">=</span> w[<span class="dv">0</span>].data.numpy()</span>
-<span id="cb188-20"><a href="a-classic-classification-problem.html#cb188-20"></a>w1 <span class="op">=</span> w[<span class="dv">1</span>].data.numpy()    </span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb195-1"><a href="a-classic-classification-problem.html#cb195-1"></a>x_data <span class="op">=</span> Variable(torch.Tensor(X))</span>
+<span id="cb195-2"><a href="a-classic-classification-problem.html#cb195-2"></a>y_data <span class="op">=</span> Variable(torch.Tensor(T))</span>
+<span id="cb195-3"><a href="a-classic-classification-problem.html#cb195-3"></a></span>
+<span id="cb195-4"><a href="a-classic-classification-problem.html#cb195-4"></a><span class="co"># Training loop</span></span>
+<span id="cb195-5"><a href="a-classic-classification-problem.html#cb195-5"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
+<span id="cb195-6"><a href="a-classic-classification-problem.html#cb195-6"></a>    <span class="co"># Forward pass: Compute predicted y by passing x to the model</span></span>
+<span id="cb195-7"><a href="a-classic-classification-problem.html#cb195-7"></a>    y_pred <span class="op">=</span> model(x_data)</span>
+<span id="cb195-8"><a href="a-classic-classification-problem.html#cb195-8"></a>    </span>
+<span id="cb195-9"><a href="a-classic-classification-problem.html#cb195-9"></a>    <span class="co"># Compute and print loss</span></span>
+<span id="cb195-10"><a href="a-classic-classification-problem.html#cb195-10"></a>    loss <span class="op">=</span> criterion(y_pred, y_data)</span>
+<span id="cb195-11"><a href="a-classic-classification-problem.html#cb195-11"></a>    <span class="co"># print(epoch, loss.data[0])</span></span>
+<span id="cb195-12"><a href="a-classic-classification-problem.html#cb195-12"></a>    </span>
+<span id="cb195-13"><a href="a-classic-classification-problem.html#cb195-13"></a>    <span class="co"># Zero gradients, perform a backward pass, and update the weights.</span></span>
+<span id="cb195-14"><a href="a-classic-classification-problem.html#cb195-14"></a>    optimizer.zero_grad()</span>
+<span id="cb195-15"><a href="a-classic-classification-problem.html#cb195-15"></a>    loss.backward()</span>
+<span id="cb195-16"><a href="a-classic-classification-problem.html#cb195-16"></a>    optimizer.step()</span>
+<span id="cb195-17"><a href="a-classic-classification-problem.html#cb195-17"></a>    </span>
+<span id="cb195-18"><a href="a-classic-classification-problem.html#cb195-18"></a>w <span class="op">=</span> <span class="bu">list</span>(model.parameters())</span>
+<span id="cb195-19"><a href="a-classic-classification-problem.html#cb195-19"></a>w0 <span class="op">=</span> w[<span class="dv">0</span>].data.numpy()</span>
+<span id="cb195-20"><a href="a-classic-classification-problem.html#cb195-20"></a>w1 <span class="op">=</span> w[<span class="dv">1</span>].data.numpy()    </span></code></pre></div>
 <p>Finally, we plot the results, by tracing the line that separates two classes, 0 and 1, which are both colored in the plot.</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb189-1"><a href="a-classic-classification-problem.html#cb189-1"></a><span class="bu">print</span>(<span class="st">&quot;Final gradient descend:&quot;</span>, w)</span>
-<span id="cb189-2"><a href="a-classic-classification-problem.html#cb189-2"></a><span class="co"># plot the data and separating line</span></span>
-<span id="cb189-3"><a href="a-classic-classification-problem.html#cb189-3"></a><span class="co">#&gt; Final gradient descend: [Parameter containing:</span></span>
-<span id="cb189-4"><a href="a-classic-classification-problem.html#cb189-4"></a><span class="co">#&gt; tensor([[1.1130, 1.1196]], requires_grad=True), Parameter containing:</span></span>
-<span id="cb189-5"><a href="a-classic-classification-problem.html#cb189-5"></a><span class="co">#&gt; tensor([-0.0974], requires_grad=True)]</span></span>
-<span id="cb189-6"><a href="a-classic-classification-problem.html#cb189-6"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb189-7"><a href="a-classic-classification-problem.html#cb189-7"></a>x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">100</span>)</span>
-<span id="cb189-8"><a href="a-classic-classification-problem.html#cb189-8"></a>y_axis <span class="op">=</span> <span class="op">-</span>(w1[<span class="dv">0</span>] <span class="op">+</span> x_axis <span class="op">*</span> w0[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">/</span> w0[<span class="dv">0</span>][<span class="dv">1</span>]</span>
-<span id="cb189-9"><a href="a-classic-classification-problem.html#cb189-9"></a>line_up, <span class="op">=</span> plt.plot(x_axis, y_axis,<span class="st">&#39;r--&#39;</span>, label<span class="op">=</span><span class="st">&#39;gradient descent&#39;</span>)</span>
-<span id="cb189-10"><a href="a-classic-classification-problem.html#cb189-10"></a>plt.legend(handles<span class="op">=</span>[line_up])</span>
-<span id="cb189-11"><a href="a-classic-classification-problem.html#cb189-11"></a>plt.xlabel(<span class="st">&#39;X(1)&#39;</span>)</span>
-<span id="cb189-12"><a href="a-classic-classification-problem.html#cb189-12"></a>plt.ylabel(<span class="st">&#39;X(2)&#39;</span>)</span>
-<span id="cb189-13"><a href="a-classic-classification-problem.html#cb189-13"></a>plt.show()</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb196-1"><a href="a-classic-classification-problem.html#cb196-1"></a><span class="bu">print</span>(<span class="st">&quot;Final gradient descend:&quot;</span>, w)</span>
+<span id="cb196-2"><a href="a-classic-classification-problem.html#cb196-2"></a><span class="co"># plot the data and separating line</span></span>
+<span id="cb196-3"><a href="a-classic-classification-problem.html#cb196-3"></a><span class="co">#&gt; Final gradient descend: [Parameter containing:</span></span>
+<span id="cb196-4"><a href="a-classic-classification-problem.html#cb196-4"></a><span class="co">#&gt; tensor([[1.1094, 1.1132]], requires_grad=True), Parameter containing:</span></span>
+<span id="cb196-5"><a href="a-classic-classification-problem.html#cb196-5"></a><span class="co">#&gt; tensor([-0.1800], requires_grad=True)]</span></span>
+<span id="cb196-6"><a href="a-classic-classification-problem.html#cb196-6"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb196-7"><a href="a-classic-classification-problem.html#cb196-7"></a>x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">100</span>)</span>
+<span id="cb196-8"><a href="a-classic-classification-problem.html#cb196-8"></a>y_axis <span class="op">=</span> <span class="op">-</span>(w1[<span class="dv">0</span>] <span class="op">+</span> x_axis <span class="op">*</span> w0[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">/</span> w0[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb196-9"><a href="a-classic-classification-problem.html#cb196-9"></a>line_up, <span class="op">=</span> plt.plot(x_axis, y_axis,<span class="st">&#39;r--&#39;</span>, label<span class="op">=</span><span class="st">&#39;gradient descent&#39;</span>)</span>
+<span id="cb196-10"><a href="a-classic-classification-problem.html#cb196-10"></a>plt.legend(handles<span class="op">=</span>[line_up])</span>
+<span id="cb196-11"><a href="a-classic-classification-problem.html#cb196-11"></a>plt.xlabel(<span class="st">&#39;X(1)&#39;</span>)</span>
+<span id="cb196-12"><a href="a-classic-classification-problem.html#cb196-12"></a>plt.ylabel(<span class="st">&#39;X(2)&#39;</span>)</span>
+<span id="cb196-13"><a href="a-classic-classification-problem.html#cb196-13"></a>plt.show()</span></code></pre></div>
 <p><img src="0303-logistics_regression_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" /></p>
 
 </div>

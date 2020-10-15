@@ -1,14 +1,11 @@
 book_filename: "rtorch-minimal-book"
 delete_merged_file: true
 new_session: yes
-repo: https://github.com/f0nzie/rtorch-minimal-book.git
 output_dir: "docs"
 language:
   ui:
     chapter_name: "Chapter "
-    
 before_chapter_script: "_common.R"
-
 rmd_files: [
     "index.Rmd",
     "0101-intro.Rmd",
@@ -28,3 +25,4 @@ rmd_files: [
     "9992-appendixB.Rmd",
     "9999-references.Rmd"
 ]
+repo: https://github.com/f0nzie/rtorch-minimal-book.git
