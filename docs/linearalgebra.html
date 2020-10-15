@@ -1301,35 +1301,35 @@ code span.wa { color: #bf0303; } /* Warning */
 <h2><span class="header-section-number">4.4</span> 3D+ tensors</h2>
 <div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="linearalgebra.html#cb145-1"></a><span class="co"># RGB color image has three axes </span></span>
 <span id="cb145-2"><a href="linearalgebra.html#cb145-2"></a>(img &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(3L, 28L, 28L))</span>
-<span id="cb145-3"><a href="linearalgebra.html#cb145-3"></a><span class="co">#&gt; tensor([[[0.3676, 0.9278, 0.2990,  ..., 0.5411, 0.2376, 0.9216],</span></span>
-<span id="cb145-4"><a href="linearalgebra.html#cb145-4"></a><span class="co">#&gt;          [0.7879, 0.5918, 0.5607,  ..., 0.9730, 0.0610, 0.7394],</span></span>
-<span id="cb145-5"><a href="linearalgebra.html#cb145-5"></a><span class="co">#&gt;          [0.8789, 0.6338, 0.0165,  ..., 0.3777, 0.8473, 0.5656],</span></span>
+<span id="cb145-3"><a href="linearalgebra.html#cb145-3"></a><span class="co">#&gt; tensor([[[0.0851, 0.1065, 0.7608,  ..., 0.5812, 0.4252, 0.6177],</span></span>
+<span id="cb145-4"><a href="linearalgebra.html#cb145-4"></a><span class="co">#&gt;          [0.6279, 0.7656, 0.2918,  ..., 0.4205, 0.1213, 0.1802],</span></span>
+<span id="cb145-5"><a href="linearalgebra.html#cb145-5"></a><span class="co">#&gt;          [0.9089, 0.9708, 0.3665,  ..., 0.6661, 0.1234, 0.2903],</span></span>
 <span id="cb145-6"><a href="linearalgebra.html#cb145-6"></a><span class="co">#&gt;          ...,</span></span>
-<span id="cb145-7"><a href="linearalgebra.html#cb145-7"></a><span class="co">#&gt;          [0.4019, 0.4366, 0.4314,  ..., 0.5599, 0.0724, 0.9311],</span></span>
-<span id="cb145-8"><a href="linearalgebra.html#cb145-8"></a><span class="co">#&gt;          [0.4567, 0.2821, 0.2059,  ..., 0.0840, 0.9867, 0.6397],</span></span>
-<span id="cb145-9"><a href="linearalgebra.html#cb145-9"></a><span class="co">#&gt;          [0.5495, 0.1305, 0.3743,  ..., 0.8859, 0.1358, 0.1348]],</span></span>
+<span id="cb145-7"><a href="linearalgebra.html#cb145-7"></a><span class="co">#&gt;          [0.8555, 0.9334, 0.0868,  ..., 0.4547, 0.8523, 0.6185],</span></span>
+<span id="cb145-8"><a href="linearalgebra.html#cb145-8"></a><span class="co">#&gt;          [0.1225, 0.0929, 0.0193,  ..., 0.6175, 0.4618, 0.9052],</span></span>
+<span id="cb145-9"><a href="linearalgebra.html#cb145-9"></a><span class="co">#&gt;          [0.8532, 0.7185, 0.0273,  ..., 0.7122, 0.3092, 0.0446]],</span></span>
 <span id="cb145-10"><a href="linearalgebra.html#cb145-10"></a><span class="co">#&gt; </span></span>
-<span id="cb145-11"><a href="linearalgebra.html#cb145-11"></a><span class="co">#&gt;         [[0.0826, 0.3131, 0.9904,  ..., 0.5479, 0.1458, 0.6979],</span></span>
-<span id="cb145-12"><a href="linearalgebra.html#cb145-12"></a><span class="co">#&gt;          [0.9270, 0.8848, 0.0554,  ..., 0.1902, 0.6001, 0.7442],</span></span>
-<span id="cb145-13"><a href="linearalgebra.html#cb145-13"></a><span class="co">#&gt;          [0.5558, 0.4807, 0.8229,  ..., 0.4235, 0.1982, 0.5732],</span></span>
+<span id="cb145-11"><a href="linearalgebra.html#cb145-11"></a><span class="co">#&gt;         [[0.7361, 0.0667, 0.2758,  ..., 0.0776, 0.2094, 0.4039],</span></span>
+<span id="cb145-12"><a href="linearalgebra.html#cb145-12"></a><span class="co">#&gt;          [0.9845, 0.8521, 0.8883,  ..., 0.1236, 0.1726, 0.1094],</span></span>
+<span id="cb145-13"><a href="linearalgebra.html#cb145-13"></a><span class="co">#&gt;          [0.8255, 0.9892, 0.9171,  ..., 0.7832, 0.7564, 0.2947],</span></span>
 <span id="cb145-14"><a href="linearalgebra.html#cb145-14"></a><span class="co">#&gt;          ...,</span></span>
-<span id="cb145-15"><a href="linearalgebra.html#cb145-15"></a><span class="co">#&gt;          [0.6509, 0.9956, 0.7552,  ..., 0.6696, 0.8581, 0.7292],</span></span>
-<span id="cb145-16"><a href="linearalgebra.html#cb145-16"></a><span class="co">#&gt;          [0.5284, 0.7410, 0.8935,  ..., 0.2533, 0.2269, 0.8792],</span></span>
-<span id="cb145-17"><a href="linearalgebra.html#cb145-17"></a><span class="co">#&gt;          [0.8521, 0.0560, 0.7205,  ..., 0.7572, 0.0894, 0.1517]],</span></span>
+<span id="cb145-15"><a href="linearalgebra.html#cb145-15"></a><span class="co">#&gt;          [0.2095, 0.7633, 0.4461,  ..., 0.1478, 0.5026, 0.4553],</span></span>
+<span id="cb145-16"><a href="linearalgebra.html#cb145-16"></a><span class="co">#&gt;          [0.0127, 0.9428, 0.1243,  ..., 0.8608, 0.4925, 0.9474],</span></span>
+<span id="cb145-17"><a href="linearalgebra.html#cb145-17"></a><span class="co">#&gt;          [0.7745, 0.7443, 0.0320,  ..., 0.2150, 0.3772, 0.2980]],</span></span>
 <span id="cb145-18"><a href="linearalgebra.html#cb145-18"></a><span class="co">#&gt; </span></span>
-<span id="cb145-19"><a href="linearalgebra.html#cb145-19"></a><span class="co">#&gt;         [[0.5516, 0.8397, 0.8631,  ..., 0.5606, 0.5481, 0.8656],</span></span>
-<span id="cb145-20"><a href="linearalgebra.html#cb145-20"></a><span class="co">#&gt;          [0.9251, 0.6201, 0.8566,  ..., 0.9611, 0.9292, 0.6902],</span></span>
-<span id="cb145-21"><a href="linearalgebra.html#cb145-21"></a><span class="co">#&gt;          [0.0872, 0.1836, 0.7532,  ..., 0.7436, 0.5658, 0.1366],</span></span>
+<span id="cb145-19"><a href="linearalgebra.html#cb145-19"></a><span class="co">#&gt;         [[0.5760, 0.8096, 0.0732,  ..., 0.8406, 0.0692, 0.3474],</span></span>
+<span id="cb145-20"><a href="linearalgebra.html#cb145-20"></a><span class="co">#&gt;          [0.0712, 0.7110, 0.1372,  ..., 0.4755, 0.9103, 0.4137],</span></span>
+<span id="cb145-21"><a href="linearalgebra.html#cb145-21"></a><span class="co">#&gt;          [0.8007, 0.8131, 0.2237,  ..., 0.7018, 0.8058, 0.2310],</span></span>
 <span id="cb145-22"><a href="linearalgebra.html#cb145-22"></a><span class="co">#&gt;          ...,</span></span>
-<span id="cb145-23"><a href="linearalgebra.html#cb145-23"></a><span class="co">#&gt;          [0.4301, 0.7346, 0.9452,  ..., 0.5260, 0.6791, 0.6683],</span></span>
-<span id="cb145-24"><a href="linearalgebra.html#cb145-24"></a><span class="co">#&gt;          [0.2108, 0.5183, 0.3424,  ..., 0.3656, 0.6942, 0.2546],</span></span>
-<span id="cb145-25"><a href="linearalgebra.html#cb145-25"></a><span class="co">#&gt;          [0.6136, 0.5079, 0.7289,  ..., 0.3825, 0.9415, 0.1199]]])</span></span>
+<span id="cb145-23"><a href="linearalgebra.html#cb145-23"></a><span class="co">#&gt;          [0.6682, 0.0209, 0.9269,  ..., 0.7134, 0.3020, 0.9877],</span></span>
+<span id="cb145-24"><a href="linearalgebra.html#cb145-24"></a><span class="co">#&gt;          [0.2029, 0.6861, 0.2617,  ..., 0.8970, 0.5193, 0.4956],</span></span>
+<span id="cb145-25"><a href="linearalgebra.html#cb145-25"></a><span class="co">#&gt;          [0.1251, 0.4621, 0.4737,  ..., 0.1029, 0.0390, 0.9338]]])</span></span>
 <span id="cb145-26"><a href="linearalgebra.html#cb145-26"></a>img<span class="op">$</span>shape</span>
 <span id="cb145-27"><a href="linearalgebra.html#cb145-27"></a><span class="co">#&gt; torch.Size([3, 28, 28])</span></span></code></pre></div>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="linearalgebra.html#cb146-1"></a>img[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb146-2"><a href="linearalgebra.html#cb146-2"></a><span class="co">#&gt; tensor(0.3676)</span></span>
+<span id="cb146-2"><a href="linearalgebra.html#cb146-2"></a><span class="co">#&gt; tensor(0.0851)</span></span>
 <span id="cb146-3"><a href="linearalgebra.html#cb146-3"></a>img[<span class="dv">3</span>, <span class="dv">28</span>, <span class="dv">28</span>]</span>
-<span id="cb146-4"><a href="linearalgebra.html#cb146-4"></a><span class="co">#&gt; tensor(0.1199)</span></span></code></pre></div>
+<span id="cb146-4"><a href="linearalgebra.html#cb146-4"></a><span class="co">#&gt; tensor(0.9338)</span></span></code></pre></div>
 </div>
 <div id="transpose-of-a-matrix" class="section level2">
 <h2><span class="header-section-number">4.5</span> Transpose of a matrix</h2>
@@ -1622,29 +1622,29 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb168-3"><a href="linearalgebra.html#cb168-3"></a>b =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(3L, 4L)</span>
 <span id="cb168-4"><a href="linearalgebra.html#cb168-4"></a></span>
 <span id="cb168-5"><a href="linearalgebra.html#cb168-5"></a>a<span class="op">$</span><span class="kw">mm</span>(b)</span>
-<span id="cb168-6"><a href="linearalgebra.html#cb168-6"></a><span class="co">#&gt; tensor([[-3.5283, -0.5932,  0.2519, -1.5919],</span></span>
-<span id="cb168-7"><a href="linearalgebra.html#cb168-7"></a><span class="co">#&gt;         [-5.4211, -5.3150, -0.9352, -2.2466]])</span></span>
+<span id="cb168-6"><a href="linearalgebra.html#cb168-6"></a><span class="co">#&gt; tensor([[ 0.3896,  0.3526, -0.4799,  1.4460],</span></span>
+<span id="cb168-7"><a href="linearalgebra.html#cb168-7"></a><span class="co">#&gt;         [-0.5764, -0.2071,  2.1255,  2.6443]])</span></span>
 <span id="cb168-8"><a href="linearalgebra.html#cb168-8"></a>a<span class="op">$</span><span class="kw">matmul</span>(b)</span>
-<span id="cb168-9"><a href="linearalgebra.html#cb168-9"></a><span class="co">#&gt; tensor([[-3.5283, -0.5932,  0.2519, -1.5919],</span></span>
-<span id="cb168-10"><a href="linearalgebra.html#cb168-10"></a><span class="co">#&gt;         [-5.4211, -5.3150, -0.9352, -2.2466]])</span></span></code></pre></div>
+<span id="cb168-9"><a href="linearalgebra.html#cb168-9"></a><span class="co">#&gt; tensor([[ 0.3896,  0.3526, -0.4799,  1.4460],</span></span>
+<span id="cb168-10"><a href="linearalgebra.html#cb168-10"></a><span class="co">#&gt;         [-0.5764, -0.2071,  2.1255,  2.6443]])</span></span></code></pre></div>
 <p>Here is a good explanation: <a href="https://stackoverflow.com/a/44525687/5270873" class="uri">https://stackoverflow.com/a/44525687/5270873</a></p>
 <p>Let’s now prove the associative property of tensors:</p>
 <p><span class="math display">\[(A B)^T = B^T A^T\]</span></p>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="linearalgebra.html#cb169-1"></a>abt &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">mm</span>(a, b)<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
 <span id="cb169-2"><a href="linearalgebra.html#cb169-2"></a>abt</span>
-<span id="cb169-3"><a href="linearalgebra.html#cb169-3"></a><span class="co">#&gt; tensor([[-3.5283, -5.4211],</span></span>
-<span id="cb169-4"><a href="linearalgebra.html#cb169-4"></a><span class="co">#&gt;         [-0.5932, -5.3150],</span></span>
-<span id="cb169-5"><a href="linearalgebra.html#cb169-5"></a><span class="co">#&gt;         [ 0.2519, -0.9352],</span></span>
-<span id="cb169-6"><a href="linearalgebra.html#cb169-6"></a><span class="co">#&gt;         [-1.5919, -2.2466]])</span></span></code></pre></div>
+<span id="cb169-3"><a href="linearalgebra.html#cb169-3"></a><span class="co">#&gt; tensor([[ 0.3896, -0.5764],</span></span>
+<span id="cb169-4"><a href="linearalgebra.html#cb169-4"></a><span class="co">#&gt;         [ 0.3526, -0.2071],</span></span>
+<span id="cb169-5"><a href="linearalgebra.html#cb169-5"></a><span class="co">#&gt;         [-0.4799,  2.1255],</span></span>
+<span id="cb169-6"><a href="linearalgebra.html#cb169-6"></a><span class="co">#&gt;         [ 1.4460,  2.6443]])</span></span></code></pre></div>
 <div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="linearalgebra.html#cb170-1"></a>at &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
 <span id="cb170-2"><a href="linearalgebra.html#cb170-2"></a>bt &lt;-<span class="st"> </span>b<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
 <span id="cb170-3"><a href="linearalgebra.html#cb170-3"></a></span>
 <span id="cb170-4"><a href="linearalgebra.html#cb170-4"></a>btat &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">matmul</span>(bt, at)</span>
 <span id="cb170-5"><a href="linearalgebra.html#cb170-5"></a>btat</span>
-<span id="cb170-6"><a href="linearalgebra.html#cb170-6"></a><span class="co">#&gt; tensor([[-3.5283, -5.4211],</span></span>
-<span id="cb170-7"><a href="linearalgebra.html#cb170-7"></a><span class="co">#&gt;         [-0.5932, -5.3150],</span></span>
-<span id="cb170-8"><a href="linearalgebra.html#cb170-8"></a><span class="co">#&gt;         [ 0.2519, -0.9352],</span></span>
-<span id="cb170-9"><a href="linearalgebra.html#cb170-9"></a><span class="co">#&gt;         [-1.5919, -2.2466]])</span></span></code></pre></div>
+<span id="cb170-6"><a href="linearalgebra.html#cb170-6"></a><span class="co">#&gt; tensor([[ 0.3896, -0.5764],</span></span>
+<span id="cb170-7"><a href="linearalgebra.html#cb170-7"></a><span class="co">#&gt;         [ 0.3526, -0.2071],</span></span>
+<span id="cb170-8"><a href="linearalgebra.html#cb170-8"></a><span class="co">#&gt;         [-0.4799,  2.1255],</span></span>
+<span id="cb170-9"><a href="linearalgebra.html#cb170-9"></a><span class="co">#&gt;         [ 1.4460,  2.6443]])</span></span></code></pre></div>
 <p>And we could unit test if the results are nearly the same with <code>allclose()</code>:</p>
 <div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="linearalgebra.html#cb171-1"></a><span class="co"># tolerance</span></span>
 <span id="cb171-2"><a href="linearalgebra.html#cb171-2"></a>torch<span class="op">$</span><span class="kw">allclose</span>(abt, btat, <span class="dt">rtol=</span><span class="fl">0.0001</span>)</span>
