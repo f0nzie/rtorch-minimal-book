@@ -341,7 +341,12 @@ window.initializeCodeFolding = function(show) {
       // Python show code
       $('div.py-code-collapse').each(function() {
         $(this).collapse('show');
-      });    
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
   });
   $("#rmd-hide-all-code").click(function() {
       // close the dropdown menu when an option is clicked
@@ -354,11 +359,17 @@ window.initializeCodeFolding = function(show) {
       $('div.py-code-collapse').each(function() {
         $(this).collapse('hide');
       });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
+
 
   // index for unique code element ids
   var r_currentIndex  = 1;   // for R code
   var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
 
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -389,10 +400,8 @@ window.initializeCodeFolding = function(show) {
         
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);    
     
     // update state of button on show/hide
@@ -404,11 +413,55 @@ window.initializeCodeFolding = function(show) {
     });  
    });
   
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
 
   // select all R code blocks
   // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
   // adding pre.sourceCode confuses the Python button
-  var rCodeBlocks = $('pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
   rCodeBlocks.each(function() {
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -435,10 +488,8 @@ window.initializeCodeFolding = function(show) {
     
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);
 
     // update state of button on show/hide
@@ -1163,7 +1214,7 @@ Most of the things work directly in <code>PyTorch</code> but we need to be aware
 <div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="rtorch-vs-pytorch-whats-different.html#cb33-1"></a><span class="im">import</span> torch</span>
 <span id="cb33-2"><a href="rtorch-vs-pytorch-whats-different.html#cb33-2"></a></span>
 <span id="cb33-3"><a href="rtorch-vs-pytorch-whats-different.html#cb33-3"></a>torch.tensor</span>
-<span id="cb33-4"><a href="rtorch-vs-pytorch-whats-different.html#cb33-4"></a><span class="co">#&gt; &lt;built-in method tensor of type object at 0x7fecf8bd4000&gt;</span></span></code></pre></div>
+<span id="cb33-4"><a href="rtorch-vs-pytorch-whats-different.html#cb33-4"></a><span class="co">#&gt; &lt;built-in method tensor of type object at 0x7fcd67664000&gt;</span></span></code></pre></div>
 </div>
 <div id="call-a-module-from-pytorch" class="section level2">
 <h2><span class="header-section-number">2.2</span> Call a module from PyTorch</h2>
@@ -1429,7 +1480,7 @@ Most of the things work directly in <code>PyTorch</code> but we need to be aware
 <span id="cb44-4"><a href="rtorch-vs-pytorch-whats-different.html#cb44-4"></a>torch.manual_seed(<span class="dv">0</span>)  <span class="co"># reproducible</span></span>
 <span id="cb44-5"><a href="rtorch-vs-pytorch-whats-different.html#cb44-5"></a></span>
 <span id="cb44-6"><a href="rtorch-vs-pytorch-whats-different.html#cb44-6"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
-<span id="cb44-7"><a href="rtorch-vs-pytorch-whats-different.html#cb44-7"></a><span class="co">#&gt; &lt;torch._C.Generator object at 0x7fecf06523d0&gt;</span></span>
+<span id="cb44-7"><a href="rtorch-vs-pytorch-whats-different.html#cb44-7"></a><span class="co">#&gt; &lt;torch._C.Generator object at 0x7fcd5f0e23d0&gt;</span></span>
 <span id="cb44-8"><a href="rtorch-vs-pytorch-whats-different.html#cb44-8"></a>inputs <span class="op">=</span> np.array([[<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>],</span>
 <span id="cb44-9"><a href="rtorch-vs-pytorch-whats-different.html#cb44-9"></a>                   [<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>],</span>
 <span id="cb44-10"><a href="rtorch-vs-pytorch-whats-different.html#cb44-10"></a>                   [<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>],</span>

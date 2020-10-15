@@ -341,7 +341,12 @@ window.initializeCodeFolding = function(show) {
       // Python show code
       $('div.py-code-collapse').each(function() {
         $(this).collapse('show');
-      });    
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
   });
   $("#rmd-hide-all-code").click(function() {
       // close the dropdown menu when an option is clicked
@@ -354,11 +359,17 @@ window.initializeCodeFolding = function(show) {
       $('div.py-code-collapse').each(function() {
         $(this).collapse('hide');
       });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
   });
+
 
   // index for unique code element ids
   var r_currentIndex  = 1;   // for R code
   var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
 
   // select Python chunks
   var pyCodeBlocks = $('pre.python');
@@ -389,10 +400,8 @@ window.initializeCodeFolding = function(show) {
         
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);    
     
     // update state of button on show/hide
@@ -404,11 +413,55 @@ window.initializeCodeFolding = function(show) {
     });  
    });
   
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
 
   // select all R code blocks
   // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
   // adding pre.sourceCode confuses the Python button
-  var rCodeBlocks = $('pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
   rCodeBlocks.each(function() {
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
@@ -435,10 +488,8 @@ window.initializeCodeFolding = function(show) {
     
     var buttonRow = $('<div class="row"></div>');
     var buttonCol = $('<div class="col-md-12"></div>');
-
     buttonCol.append(showCodeButton);
     buttonRow.append(buttonCol);
-
     div.before(buttonRow);
 
     // update state of button on show/hide
@@ -1240,36 +1291,36 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb185-26"><a href="mnistdigits.html#cb185-26"></a>        i &lt;-<span class="st">  </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
 <span id="cb185-27"><a href="mnistdigits.html#cb185-27"></a>    }</span>
 <span id="cb185-28"><a href="mnistdigits.html#cb185-28"></a>}  </span>
-<span id="cb185-29"><a href="mnistdigits.html#cb185-29"></a><span class="co">#&gt; Epoch [2/5], Step [100/600], Loss: 2.161408 </span></span>
-<span id="cb185-30"><a href="mnistdigits.html#cb185-30"></a><span class="co">#&gt; Epoch [2/5], Step [200/600], Loss: 2.128899 </span></span>
-<span id="cb185-31"><a href="mnistdigits.html#cb185-31"></a><span class="co">#&gt; Epoch [2/5], Step [300/600], Loss: 1.998647 </span></span>
-<span id="cb185-32"><a href="mnistdigits.html#cb185-32"></a><span class="co">#&gt; Epoch [2/5], Step [400/600], Loss: 1.917733 </span></span>
-<span id="cb185-33"><a href="mnistdigits.html#cb185-33"></a><span class="co">#&gt; Epoch [2/5], Step [500/600], Loss: 1.867429 </span></span>
-<span id="cb185-34"><a href="mnistdigits.html#cb185-34"></a><span class="co">#&gt; Epoch [2/5], Step [600/600], Loss: 1.742873 </span></span>
-<span id="cb185-35"><a href="mnistdigits.html#cb185-35"></a><span class="co">#&gt; Epoch [3/5], Step [100/600], Loss: 1.692546 </span></span>
-<span id="cb185-36"><a href="mnistdigits.html#cb185-36"></a><span class="co">#&gt; Epoch [3/5], Step [200/600], Loss: 1.722791 </span></span>
-<span id="cb185-37"><a href="mnistdigits.html#cb185-37"></a><span class="co">#&gt; Epoch [3/5], Step [300/600], Loss: 1.589560 </span></span>
-<span id="cb185-38"><a href="mnistdigits.html#cb185-38"></a><span class="co">#&gt; Epoch [3/5], Step [400/600], Loss: 1.552254 </span></span>
-<span id="cb185-39"><a href="mnistdigits.html#cb185-39"></a><span class="co">#&gt; Epoch [3/5], Step [500/600], Loss: 1.523759 </span></span>
-<span id="cb185-40"><a href="mnistdigits.html#cb185-40"></a><span class="co">#&gt; Epoch [3/5], Step [600/600], Loss: 1.406274 </span></span>
-<span id="cb185-41"><a href="mnistdigits.html#cb185-41"></a><span class="co">#&gt; Epoch [4/5], Step [100/600], Loss: 1.380511 </span></span>
-<span id="cb185-42"><a href="mnistdigits.html#cb185-42"></a><span class="co">#&gt; Epoch [4/5], Step [200/600], Loss: 1.452244 </span></span>
-<span id="cb185-43"><a href="mnistdigits.html#cb185-43"></a><span class="co">#&gt; Epoch [4/5], Step [300/600], Loss: 1.324328 </span></span>
-<span id="cb185-44"><a href="mnistdigits.html#cb185-44"></a><span class="co">#&gt; Epoch [4/5], Step [400/600], Loss: 1.312576 </span></span>
-<span id="cb185-45"><a href="mnistdigits.html#cb185-45"></a><span class="co">#&gt; Epoch [4/5], Step [500/600], Loss: 1.299959 </span></span>
-<span id="cb185-46"><a href="mnistdigits.html#cb185-46"></a><span class="co">#&gt; Epoch [4/5], Step [600/600], Loss: 1.196488 </span></span>
-<span id="cb185-47"><a href="mnistdigits.html#cb185-47"></a><span class="co">#&gt; Epoch [5/5], Step [100/600], Loss: 1.171440 </span></span>
-<span id="cb185-48"><a href="mnistdigits.html#cb185-48"></a><span class="co">#&gt; Epoch [5/5], Step [200/600], Loss: 1.269650 </span></span>
-<span id="cb185-49"><a href="mnistdigits.html#cb185-49"></a><span class="co">#&gt; Epoch [5/5], Step [300/600], Loss: 1.145792 </span></span>
-<span id="cb185-50"><a href="mnistdigits.html#cb185-50"></a><span class="co">#&gt; Epoch [5/5], Step [400/600], Loss: 1.150396 </span></span>
-<span id="cb185-51"><a href="mnistdigits.html#cb185-51"></a><span class="co">#&gt; Epoch [5/5], Step [500/600], Loss: 1.148123 </span></span>
-<span id="cb185-52"><a href="mnistdigits.html#cb185-52"></a><span class="co">#&gt; Epoch [5/5], Step [600/600], Loss: 1.056738 </span></span>
-<span id="cb185-53"><a href="mnistdigits.html#cb185-53"></a><span class="co">#&gt; Epoch [6/5], Step [100/600], Loss: 1.025943 </span></span>
-<span id="cb185-54"><a href="mnistdigits.html#cb185-54"></a><span class="co">#&gt; Epoch [6/5], Step [200/600], Loss: 1.141355 </span></span>
-<span id="cb185-55"><a href="mnistdigits.html#cb185-55"></a><span class="co">#&gt; Epoch [6/5], Step [300/600], Loss: 1.019775 </span></span>
-<span id="cb185-56"><a href="mnistdigits.html#cb185-56"></a><span class="co">#&gt; Epoch [6/5], Step [400/600], Loss: 1.035634 </span></span>
-<span id="cb185-57"><a href="mnistdigits.html#cb185-57"></a><span class="co">#&gt; Epoch [6/5], Step [500/600], Loss: 1.039668 </span></span>
-<span id="cb185-58"><a href="mnistdigits.html#cb185-58"></a><span class="co">#&gt; Epoch [6/5], Step [600/600], Loss: 0.957655</span></span></code></pre></div>
+<span id="cb185-29"><a href="mnistdigits.html#cb185-29"></a><span class="co">#&gt; Epoch [2/5], Step [100/600], Loss: 2.180025 </span></span>
+<span id="cb185-30"><a href="mnistdigits.html#cb185-30"></a><span class="co">#&gt; Epoch [2/5], Step [200/600], Loss: 2.098551 </span></span>
+<span id="cb185-31"><a href="mnistdigits.html#cb185-31"></a><span class="co">#&gt; Epoch [2/5], Step [300/600], Loss: 2.020655 </span></span>
+<span id="cb185-32"><a href="mnistdigits.html#cb185-32"></a><span class="co">#&gt; Epoch [2/5], Step [400/600], Loss: 1.946838 </span></span>
+<span id="cb185-33"><a href="mnistdigits.html#cb185-33"></a><span class="co">#&gt; Epoch [2/5], Step [500/600], Loss: 1.883616 </span></span>
+<span id="cb185-34"><a href="mnistdigits.html#cb185-34"></a><span class="co">#&gt; Epoch [2/5], Step [600/600], Loss: 1.803724 </span></span>
+<span id="cb185-35"><a href="mnistdigits.html#cb185-35"></a><span class="co">#&gt; Epoch [3/5], Step [100/600], Loss: 1.740431 </span></span>
+<span id="cb185-36"><a href="mnistdigits.html#cb185-36"></a><span class="co">#&gt; Epoch [3/5], Step [200/600], Loss: 1.634078 </span></span>
+<span id="cb185-37"><a href="mnistdigits.html#cb185-37"></a><span class="co">#&gt; Epoch [3/5], Step [300/600], Loss: 1.639710 </span></span>
+<span id="cb185-38"><a href="mnistdigits.html#cb185-38"></a><span class="co">#&gt; Epoch [3/5], Step [400/600], Loss: 1.588046 </span></span>
+<span id="cb185-39"><a href="mnistdigits.html#cb185-39"></a><span class="co">#&gt; Epoch [3/5], Step [500/600], Loss: 1.573791 </span></span>
+<span id="cb185-40"><a href="mnistdigits.html#cb185-40"></a><span class="co">#&gt; Epoch [3/5], Step [600/600], Loss: 1.491170 </span></span>
+<span id="cb185-41"><a href="mnistdigits.html#cb185-41"></a><span class="co">#&gt; Epoch [4/5], Step [100/600], Loss: 1.455223 </span></span>
+<span id="cb185-42"><a href="mnistdigits.html#cb185-42"></a><span class="co">#&gt; Epoch [4/5], Step [200/600], Loss: 1.341331 </span></span>
+<span id="cb185-43"><a href="mnistdigits.html#cb185-43"></a><span class="co">#&gt; Epoch [4/5], Step [300/600], Loss: 1.384623 </span></span>
+<span id="cb185-44"><a href="mnistdigits.html#cb185-44"></a><span class="co">#&gt; Epoch [4/5], Step [400/600], Loss: 1.353798 </span></span>
+<span id="cb185-45"><a href="mnistdigits.html#cb185-45"></a><span class="co">#&gt; Epoch [4/5], Step [500/600], Loss: 1.371800 </span></span>
+<span id="cb185-46"><a href="mnistdigits.html#cb185-46"></a><span class="co">#&gt; Epoch [4/5], Step [600/600], Loss: 1.281307 </span></span>
+<span id="cb185-47"><a href="mnistdigits.html#cb185-47"></a><span class="co">#&gt; Epoch [5/5], Step [100/600], Loss: 1.263693 </span></span>
+<span id="cb185-48"><a href="mnistdigits.html#cb185-48"></a><span class="co">#&gt; Epoch [5/5], Step [200/600], Loss: 1.148572 </span></span>
+<span id="cb185-49"><a href="mnistdigits.html#cb185-49"></a><span class="co">#&gt; Epoch [5/5], Step [300/600], Loss: 1.208910 </span></span>
+<span id="cb185-50"><a href="mnistdigits.html#cb185-50"></a><span class="co">#&gt; Epoch [5/5], Step [400/600], Loss: 1.195025 </span></span>
+<span id="cb185-51"><a href="mnistdigits.html#cb185-51"></a><span class="co">#&gt; Epoch [5/5], Step [500/600], Loss: 1.234443 </span></span>
+<span id="cb185-52"><a href="mnistdigits.html#cb185-52"></a><span class="co">#&gt; Epoch [5/5], Step [600/600], Loss: 1.135198 </span></span>
+<span id="cb185-53"><a href="mnistdigits.html#cb185-53"></a><span class="co">#&gt; Epoch [6/5], Step [100/600], Loss: 1.129422 </span></span>
+<span id="cb185-54"><a href="mnistdigits.html#cb185-54"></a><span class="co">#&gt; Epoch [6/5], Step [200/600], Loss: 1.015478 </span></span>
+<span id="cb185-55"><a href="mnistdigits.html#cb185-55"></a><span class="co">#&gt; Epoch [6/5], Step [300/600], Loss: 1.082613 </span></span>
+<span id="cb185-56"><a href="mnistdigits.html#cb185-56"></a><span class="co">#&gt; Epoch [6/5], Step [400/600], Loss: 1.082354 </span></span>
+<span id="cb185-57"><a href="mnistdigits.html#cb185-57"></a><span class="co">#&gt; Epoch [6/5], Step [500/600], Loss: 1.136242 </span></span>
+<span id="cb185-58"><a href="mnistdigits.html#cb185-58"></a><span class="co">#&gt; Epoch [6/5], Step [600/600], Loss: 1.029027</span></span></code></pre></div>
 </div>
 <div id="prediction" class="section level2">
 <h2><span class="header-section-number">5.5</span> Prediction</h2>
@@ -1293,7 +1344,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb186-18"><a href="mnistdigits.html#cb186-18"></a>    <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&#39;Accuracy of the model on the 10000 test images: %f %%&#39;</span>, (<span class="dv">100</span> <span class="op">*</span><span class="st"> </span>correct <span class="op">/</span><span class="st"> </span>total)))</span>
 <span id="cb186-19"><a href="mnistdigits.html#cb186-19"></a>  </span>
 <span id="cb186-20"><a href="mnistdigits.html#cb186-20"></a>})</span>
-<span id="cb186-21"><a href="mnistdigits.html#cb186-21"></a><span class="co">#&gt; Accuracy of the model on the 10000 test images: 82.760000 %</span></span></code></pre></div>
+<span id="cb186-21"><a href="mnistdigits.html#cb186-21"></a><span class="co">#&gt; Accuracy of the model on the 10000 test images: 83.160000 %</span></span></code></pre></div>
 </div>
 <div id="save-the-model" class="section level2">
 <h2><span class="header-section-number">5.6</span> Save the model</h2>
