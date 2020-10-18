@@ -526,16 +526,32 @@ print(img_layer_3$sum())
 eye = torch$eye(3L)              # Create an identity 3x3 tensor
 print(eye)
 ```
+```{r}
+# a 5x5 identity or unit matrix
+torch$eye(5L)
+```
+
 
 ### Ones
 
 ```{r}
-(v = torch$ones(10L))              # A tensor of size 10 containing all ones
-(v = torch$ones(2L, 1L, 2L, 1L))      # Size 2x1x2x1
+(v = torch$ones(10L))               # A tensor of size 10 containing all ones
 
+# reshape
+(v = torch$ones(2L, 1L, 2L, 1L))     # Size 2x1x2x1, a 4D tensor
 ```
+The _matrix of ones_ is also called ``unitary matrix`. This is a `4x4` unitary matrix.
 
 ```{r}
+torch$ones(c(4L, 4L))
+```
+
+
+```{r}
+# eye tensor
+eye = torch$eye(3L)
+print(eye)
+# like eye tensor
 v = torch$ones_like(eye)     # A tensor with same shape as eye. Fill it with 1.
 v
 ```
