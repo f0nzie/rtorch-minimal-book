@@ -23,7 +23,7 @@ torch$set_default_dtype(torch$float64)
 torch$tensor(list(1.2, 3))$dtype         # a new floating point tensor
 ```
 
-
+### Major tensor types
 There are five major type of Tensors in PyTorch
 
 ```{r}
@@ -34,34 +34,48 @@ float   <- torch$FloatTensor(3L, 3L)
 double  <- torch$DoubleTensor(3L, 3L)
 long    <- torch$LongTensor(3L, 3L)
 boolean <- torch$BoolTensor(5L, 5L)
+```
 
+```{r byte-tensor, collapse=TRUE}
 message("byte tensor")
 byte
+```
 
+```{r float-tensor, collapse=TRUE}
 message("float tensor")
 float
+```
 
+
+```{r double-tensor, collapse=TRUE}
 message("double")
 double
+```
 
+```{r long-tensor, collapse=TRUE}
 message("long")
 long
+```
 
+```{r bool-tensor, collapse=TRUE}
 message("boolean")
 boolean
 ```
 
+### Example: Basic attributes of a 4D tensor
 A 4D tensor like in MNIST hand-written digits recognition dataset:
 
 ```{r}
 mnist_4d <- torch$FloatTensor(60000L, 3L, 28L, 28L)
+```
 
+
+```{r collapse=TRUE, results="markup"}
 message("size")
 mnist_4d$size()
 
 message("length")
 length(mnist_4d)
-
 
 message("shape, like in numpy")
 mnist_4d$shape
@@ -70,11 +84,20 @@ message("number of elements")
 mnist_4d$numel()
 ```
 
-A 3D tensor:
+
+### Example: Attributes of a 3D tensor
+Given a 3D tensor:
 
 ```{r}
 ft3d <- torch$FloatTensor(4L, 3L, 2L)
 ft3d
+```
+
+```{r collapse=TRUE, results="markup"}
+ft3d$size()
+length(ft3d)
+ft3d$shape
+ft3d$numel
 ```
 
 
@@ -89,22 +112,22 @@ mat0 <- torch$FloatTensor(3L, 5L)$uniform_(0L, 1L)
 mat0 + 0.1
 ```
 
-> The expression ``tensor.index(m)`` is equivalent to ``tensor[m]``.
 
-Add an element of tensor to a tensor:
+### Add an element of a tensor to another tensor
 
-```{r}
+```{r collapse=TRUE, results="markup"}
 # fill a 3x5 matrix with 0.1
 mat1 <- torch$FloatTensor(3L, 5L)$uniform_(0.1, 0.1)
+print(mat1)
+
 # a vector with all ones
 mat2 <- torch$FloatTensor(5L)$uniform_(1, 1)
+print(mat2)
+
+# add element (1,1) to another tensor
 mat1[1, 1] + mat2
 ```
 
-```{r}
-# add two tensors
-mat1 + mat0
-```
 
 Add two tensors using the function `add()`:
 ```{r}
@@ -166,15 +189,19 @@ syn1 = syn1 + 0.1
 print(syn1)
 ```
 
-### Tuples (Python) and vectors (R)
-In numpy a multidimensional array needs to be defined with a tuple
-in R we do it with a vector.
+And the dot product of both:
+```{r}
+np$dot(syn0, syn1)
+```
 
-In Python, we use a tuple, `(5, 5)`
+### In Python we use Tuples, in R we use vectors
+In `numpy` a multidimensional array needs to be defined with a `tuple`.
+in R we do it with a `vector`.
+
+In Python, we use a tuple, `(5, 5)` to indicate the shape of the array:
 
 ```{python}
 import numpy as np
-
 print(np.ones((5, 5)))
 ```
 
@@ -185,23 +212,18 @@ l1 <- np$ones(c(5L, 5L))
 print(l1)
 ```
 
-Vector-matrix multiplication in numpy:
-```{r}
-np$dot(syn0, syn1)
-```
-
-Build a numpy array from three R vectors:
+###  Build a numpy array from three R vectors
 ```{r}
 X <- np$array(rbind(c(1,2,3), c(4,5,6), c(7,8,9)))
 print(X)
 ```
 
-And transpose the array:
+And we could transpose the array using `numpy` as well:
 ```{r}
 np$transpose(X)
 ```
 
-### Make a numpy array a tensor with `as_tensor()`
+### Convert a numpy array to a tensor with `as_tensor()`
 
 ```{r}
 a = np$array(list(1, 2, 3))   # a numpy array
@@ -209,6 +231,8 @@ t = torch$as_tensor(a)        # convert it to tensor
 print(t)
 ```
 
+
+### Create and fill a tensor
 We can create the tensor directly from R using `tensor()`:
 ```{r}
 torch$tensor(list( 1,  2,  3))   # create a tensor
@@ -243,13 +267,13 @@ ft1 <- torch$FloatTensor(np$random$rand(5L))
 print(ft1)
 ```
 
-Force a tensor as a float of 64-bits:
+Force a tensor as a `float` of 64-bits:
 ```{r}
 ft2 <- torch$as_tensor(np$random$rand(5L), dtype= torch$float64)
 print(ft2)
 ```
 
-Convert the tensor to float 16-bits:
+Convert the tensor to a `float` of 16-bits:
 ```{r}
 ft2_dbl <- torch$as_tensor(ft2, dtype = torch$float16)
 ft2_dbl
@@ -257,30 +281,110 @@ ft2_dbl
 
 
 Create a tensor of size (5 x 7) with uninitialized memory:
-
 ```{r}
 a <- torch$FloatTensor(5L, 7L)
 print(a)
 ```
 
-Using arange to create a tensor. Start from 0:
+Using arange to create a tensor. 
+`arange` starts at 0.
 ```{r}
 v = torch$arange(9L)
+print(v)
+```
+
+```{r}
+# reshape
 (v = v$view(3L, 3L))
 ```
 
+### Tensor fill
+
+On this tensor:
+```{r}
+(v = torch$ones(3L, 3L))
+```
+
+Fill row 1 with 2s:
+```{r}
+invisible(v[1L, ]$fill_(2L))
+print(v)
+```
+
+Fill row 2 with 3s:
+```{r}
+invisible(v[2L, ]$fill_(3L))
+print(v)
+```
+Fill column 3 with fours (4):
+```{r}
+invisible(v[, 3]$fill_(4L))
+print(v)
+```
+
+### Initialize Tensor with a range of values
+
+```{r}
+# Initialize Tensor with a range of value
+v = torch$arange(10L)             # similar to range(5) but creating a Tensor
+(v = torch$arange(0L, 10L, step = 1L))  # Size 5. Similar to range(0, 5, 1)
+```
+
+
+### Initialize a linear or log scale Tensor
+
+Create a tensor with 10 linear points for (1, 10) inclusive:
+```{r}
+(v = torch$linspace(1L, 10L, steps = 10L)) 
+```
+
+Create a tensor with 10 logarithmic points for (1, 10) inclusive:
+```{r}
+(v = torch$logspace(start=-10L, end = 10L, steps = 5L)) 
+```
+
+
+### Fill a tensor In-place / Out-of-place
+
+On this uninitialized tensor:
+```{r}
+(a <- torch$FloatTensor(5L, 7L))
+```
+
+Fill the tensor with the value 3.5:
+```{r}
+a$fill_(3.5)
+```
+
+Add a scalar to the tensor:
+```{r}
+b <- a$add(4.0)
+```
+
+The tensor `a` is still filled with 3.5.
+A new tensor `b` is returned with values 3.5 + 4.0 = 7.5
+
+```{r}
+print(a)
+print(b)
+```
 
 
 ## Tensor resizing
 
-```{r}
+```{r collapse=TRUE, results="markup"}
 x = torch$randn(2L, 3L)            # Size 2x3
+print(x)
+
 y = x$view(6L)                     # Resize x to size 6
-z = x$view(-1L, 2L)                # Size 3x2
 print(y)
+
+z = x$view(-1L, 2L)                # Size 3x2
 print(z)
+print(z$shape)
 ```
 
+### Exercise
 Reproduce this tensor:
 
 ```
@@ -290,32 +394,38 @@ Reproduce this tensor:
 ``` 
 
 ```{r}
+# create a vector with the number of elements
 v = torch$arange(9L)
+
+# resize to a 3x3 tensor
 (v = v$view(3L, 3L))
 ```
 
-### Concatenate tensors
+## Concatenate tensors
 
 ```{r}
 x = torch$randn(2L, 3L)
 print(x)
+print(x$shape)
 ```
 
-Concatenate tensors by `dim=0`:
+### Concatenate tensors by `dim=0` (rows)
 ```{r}
-torch$cat(list(x, x, x), 0L)
+(x0 <- torch$cat(list(x, x, x), 0L))
+print(x0$shape)
 ```
 
 
-Concatenate tensors by `dim=1`:
+### Concatenate tensors by `dim=1` (columns)
 ```{r}
-torch$cat(list(x, x, x), 1L)
+(x1 <- torch$cat(list(x, x, x), 1L))
+print(x1$shape)
 ```
 
 
 ## Reshape tensors
 
-### With function `chunk()`:
+### With `chunk()`:
 
 Let's say this is an image tensor with the 3-channels and 28x28 pixels
 
@@ -329,7 +439,9 @@ On the first dimension `dim = 0L`, reshape the tensor:
 ```{r}
 img_chunks <- torch$chunk(img, chunks = 3L, dim = 0L)
 print(length(img_chunks))
+print(class(img_chunks))
 ```
+`img_chunks` is a `list` of three members.
 
 The first chunk member:
 ```{r}
