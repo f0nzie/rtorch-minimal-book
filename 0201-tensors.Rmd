@@ -486,40 +486,36 @@ This is the layer 1:
 ```{r}
 # index_select. get layer 1
 indices = torch$tensor(c(0L))
-img_layer <- torch$index_select(img, dim = 0L, index = indices)
+img_layer_1 <- torch$index_select(img, dim = 0L, index = indices)
 ```
 
 The size of the layer:
 ```{r}
-print(img_layer$size())
+print(img_layer_1$size())
 ```
 
 The sum of all elements in that layer:
 ```{r}
-print(img_layer$sum())
+print(img_layer_1$sum())
 ```
-
 
 This is the layer 2:
 ```{r}
 # index_select. get layer 2
 indices = torch$tensor(c(1L))
-img_layer <- torch$index_select(img, dim = 0L, index = indices)
-print(img_layer$size())
-print(img_layer$sum())
+img_layer_2 <- torch$index_select(img, dim = 0L, index = indices)
+print(img_layer_2$size())
+print(img_layer_2$sum())
 ```
-
 
 This is the layer 3:
 ```{r}
 # index_select. get layer 3
 indices = torch$tensor(c(2L))
-img_layer <- torch$index_select(img, dim = 0L, index = indices)
-print(img_layer$size())
-print(img_layer$sum())
+img_layer_3 <- torch$index_select(img, dim = 0L, index = indices)
+print(img_layer_3$size())
+print(img_layer_3$sum())
 ```
-
-
 
 ## Special tensors
 
