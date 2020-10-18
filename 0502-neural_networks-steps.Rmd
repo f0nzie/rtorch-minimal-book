@@ -53,7 +53,7 @@ loss_fn = torch$nn$MSELoss(reduction = 'sum')
 ```
 
 
-## Iterate through batches
+## Iterate through dataset
 
 ```{r iterate}
 learning_rate = 1e-4
@@ -85,11 +85,9 @@ for (t in 1:500) {
   with(torch$no_grad(), {
       for (param in iterate(model$parameters())) {
         # in Python this code is much simpler. In R we have to do some conversions
-        
         # param$data <- torch$sub(param$data,
         #                         torch$mul(param$grad$float(),
         #                           torch$scalar_tensor(learning_rate)))
-        
         param$data <- param$data - param$grad * learning_rate
       }
    })
