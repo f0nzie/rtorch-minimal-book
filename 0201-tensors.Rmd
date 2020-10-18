@@ -805,12 +805,23 @@ not_diag$to(dtype=torch$uint8)
 
 ## Distributions
 
-Initialize a tensor randomized with a normal distribution with mean=0, var=1:
+Initialize a tensor randomized with a normal distribution with `mean=0`, `var=1`:
 
 ```{r}
-a  <- torch$randn(5L, 7L)
-print(a)
+n <- torch$randn(3500L)
+n
+plot(n$numpy())
+hist(n$numpy())
+```
+
+
+```{r}
+a  <- torch$randn(8L, 5L, 6L)
+# print(a)
 print(a$size())
+
+plot(a$flatten()$numpy())
+hist(a$flatten()$numpy())
 ```
 
 ### Uniform matrix
@@ -819,17 +830,27 @@ print(a$size())
 library(rTorch)
 
 # 3x5 matrix uniformly distributed between 0 and 1
-mat0 <- torch$FloatTensor(3L, 5L)$uniform_(0L, 1L)
+mat0 <- torch$FloatTensor(13L, 15L)$uniform_(0L, 1L)
+plot(mat0$flatten()$numpy())
+hist(mat0$flatten()$numpy())
 
-# fill a 3x5 matrix with 0.1
-mat1 <- torch$FloatTensor(3L, 5L)$uniform_(0.1, 0.1)
-
-# a vector with all ones
-mat2 <- torch$FloatTensor(5L)$uniform_(1, 1)
-
-mat0
-mat1
 ```
+
+```{r}
+# fill a 3x5 matrix with 0.1
+mat1 <- torch$FloatTensor(30L, 50L)$uniform_(0.1, 0.2)
+plot(mat1$flatten()$numpy())
+hist(mat1$flatten()$numpy())
+```
+
+```{r}
+# a vector with all ones
+mat2 <- torch$FloatTensor(500L)$uniform_(1, 2)
+plot(mat2$flatten()$numpy())
+hist(mat2$flatten()$numpy())
+```
+
+
 
 ### Binomial distribution
 
@@ -845,6 +866,17 @@ m = Binomial(torch$tensor(list(list(5.), list(10.))),
              torch$tensor(list(0.5, 0.8)))
 (x = m$sample())
 ```
+```{r}
+binom <- Binomial(100, torch$FloatTensor(5L, 10L))
+print(binom)
+```
+
+```{r}
+print(binom$sample_n(100L)$shape)
+plot(binom$sample_n(100L)$flatten()$numpy())
+hist(binom$sample_n(100L)$flatten()$numpy())
+```
+
 
 ### Exponential distribution
 
@@ -852,7 +884,16 @@ m = Binomial(torch$tensor(list(list(5.), list(10.))),
 Exponential <- torch$distributions$exponential$Exponential
 
 m = Exponential(torch$tensor(list(1.0)))
+m
 m$sample()  # Exponential distributed with rate=1
+```
+
+```{r}
+expo <- Exponential(rate=0.25)
+expo_sample <- expo$sample_n(250L)   # generate 250 samples
+print(expo_sample$shape)
+plot(expo_sample$flatten()$numpy())
+hist(expo_sample$flatten()$numpy())
 ```
 
 ### Weibull distribution
@@ -863,5 +904,30 @@ Weibull <- torch$distributions$weibull$Weibull
 m = Weibull(torch$tensor(list(1.0)), torch$tensor(list(1.0)))
 m$sample()  # sample from a Weibull distribution with scale=1, concentration=1
 
+```
+
+#### Weibull at constant `scale`
+
+```{r}
+# constant scale
+for (k in 1:10) {
+    wei <- Weibull(scale=100, concentration=k)
+    wei_sample <- wei$sample_n(500L)
+    # plot(wei_sample$flatten()$numpy())
+    hist(main=paste0("Scale=100; Concentration=", k),
+        wei_sample$flatten()$numpy())
+}
+```
+#### Weibull at constant `concentration`
+
+```{r}
+# constant concentration
+for (s in seq(100, 1000, 100)) {
+    wei <- Weibull(scale=s, concentration=1)
+    wei_sample <- wei$sample_n(500L)
+    # plot(wei_sample$flatten()$numpy())
+    hist(main=paste0("Concentration=1; Scale=", s),
+        wei_sample$flatten()$numpy())
+}
 ```
 
