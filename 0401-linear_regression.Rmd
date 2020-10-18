@@ -11,7 +11,7 @@ library(rTorch)
 nn       <- torch$nn
 Variable <- torch$autograd$Variable
 
-torch$manual_seed(123)
+invisible(torch$manual_seed(123))
 ```
 
 
@@ -127,8 +127,7 @@ for (i in 1:250) {
 
 
 ## Results
-
-As you can see below, you successfully performed regression with a neural network. Actually, on every iteration, the red line in the plot will update and change its position to fit the data. But in this picture, you only show you the final result.
+As you can see, you successfully performed regression with a neural network. Actually, on every iteration, the red line in the plot will update and change its position to fit the data. But in this picture, you only show you the final result.
 
 
 

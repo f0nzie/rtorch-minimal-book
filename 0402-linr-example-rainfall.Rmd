@@ -8,8 +8,7 @@ library(rTorch)
 Select the device: CPU or GPU
 
 ```{r seed-device}
-torch$manual_seed(0)
-
+invisible(torch$manual_seed(0))
 device = torch$device('cpu')
 ```
 
@@ -103,7 +102,6 @@ mse = function(t1, t2) {
   mul <- torch$sum(torch$mul(diff, diff))
   return(torch$div(mul, diff$numel()))
 }
-
 print(mse)
 ```
 
@@ -118,7 +116,6 @@ print(loss)
 # 46194
 # 33060.8070
 ```
-
 
 The resulting number is called the **loss**, because it indicates how bad the model is at predicting the target variables. Lower the loss, better the model.
 
@@ -157,8 +154,8 @@ A key insight from calculus is that the gradient indicates the rate of change of
 
 The increase or decrease is proportional to the value of the gradient.
 
-### Reset the gradients
 
+### Reset the gradients
 Finally, we'll reset the gradients to zero before moving forward, because PyTorch accumulates gradients.
 
 ```{r reset-gradients}

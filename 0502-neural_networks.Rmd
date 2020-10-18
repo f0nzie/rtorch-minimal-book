@@ -1,4 +1,4 @@
-# A very simple neural network
+# A step-by-step neural network in rTorch
 
 ## Introduction
 Source: https://github.com/jcjohnson/pytorch-examples#pytorch-nn
@@ -11,7 +11,6 @@ In this example we use the torch `nn` package to implement our two-layer network
 library(rTorch)
 
 device = torch$device('cpu')
-
 # device = torch.device('cuda') # Uncomment this to run on GPU
 ```
 
@@ -23,21 +22,18 @@ device = torch$device('cpu')
 ## Create the dataset
 
 ```{r datasets}
-torch$manual_seed(0)
-
+invisible(torch$manual_seed(0))   # do not show the generator output
 N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
 
 # Create random Tensors to hold inputs and outputs
 x = torch$randn(N, D_in, device=device)
 y = torch$randn(N, D_out, device=device)
-
 ```
 
 
 ## Define the model
-Use the `nn` package to define our model as a sequence of layers. `nn.Sequential` is a Module which contains other Modules, and applies them in sequence to produce its output. Each Linear Module computes output from input using a linear function, and holds internal Tensors for its weight and bias.
-After constructing the model we use the `.to()` method to move it to the
-desired device.
+We use the `nn` package to define our model as a sequence of layers. `nn.Sequential` is a __Module__ which contains other modules, and applies them in sequence to produce an output. Each _Linear Module_ computes the output by using a linear function, and holds internal tensors for its weights and biases.
+After constructing the model we use the `.to()` method to move it to the desired device, which could be `CPU` or `GPU`. Remember that we selected `CPU` with `torch$device('cpu')`.
 
 ```{r model-layers}
 model <- torch$nn$Sequential(
@@ -49,8 +45,8 @@ print(model)
 ```
 
 
-## Loss function
-The `nn` package also contains definitions of popular loss functions; in this case we will use Mean Squared Error (__MSE__) as our loss function. Setting `reduction='sum'` means that we are computing the *sum* of squared errors rather than the mean; this is for consistency with the examples above where we manually compute the loss, but in practice it is more common to use mean squared error as a loss by setting `reduction='elementwise_mean'`.
+## The Loss function
+The `nn` package also contains definitions of several loss functions; in this case we will use __Mean Squared Error__ ($MSE$) as our loss function. Setting `reduction='sum'` means that we are computing the *sum* of squared errors rather than the __mean__; this is for consistency with the examples above where we manually compute the loss, but in practice it is more common to use the mean squared error as a loss by setting `reduction='elementwise_mean'`.
 
 ```{r loss-function}
 loss_fn = torch$nn$MSELoss(reduction = 'sum')
@@ -72,7 +68,6 @@ for (t in 1:500) {
   # Compute and print loss. We pass Tensors containing the predicted and true
   # values of y, and the loss function returns a Tensor containing the loss.
   loss = loss_fn(y_pred, y)
-  
   cat(t, "\t")
   cat(loss$item(), "\n")
   
@@ -100,7 +95,10 @@ for (t in 1:500) {
    })
 }  
 ```
-These two expressions are equivalent, with the first being the long version natural way of doing it in __PyTorch__. The second is using the generics in R for subtraction, multiplication and scalar conversion.
+
+
+## Using R generics to simplify tensor operations
+The following two expressions are equivalent, with the first being the long version natural way of doing it in __PyTorch__. The second is using the generics in R for subtraction, multiplication and scalar conversion.
 
 ```{r eval=FALSE}
 param$data <- torch$sub(param$data,
@@ -111,3 +109,69 @@ param$data <- torch$sub(param$data,
 ```{r eval=FALSE}
 param$data <- param$data - param$grad * learning_rate
 ```
+
+## A more elegant way of writing the neural network
+
+```{r}
+invisible(torch$manual_seed(0))   # do not show the generator output
+N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
+
+# Create random Tensors to hold inputs and outputs
+x = torch$randn(N, D_in, device=device)
+y = torch$randn(N, D_out, device=device)
+
+model <- torch$nn$Sequential(
+  torch$nn$Linear(D_in, H),              # first layer
+  torch$nn$ReLU(),                       # activation
+  torch$nn$Linear(H, D_out))$to(device)  # output layer
+
+loss_fn = torch$nn$MSELoss(reduction = 'sum')
+
+learning_rate = 1e-4
+loss_row <- list(vector())
+for (t in 1:500) {
+  # Forward pass: compute predicted y by passing x to the model. Module objects
+  # override the __call__ operator so you can call them like functions. When
+  # doing so you pass a Tensor of input data to the Module and it produces
+  # a Tensor of output data.
+  y_pred = model(x)
+
+  # Compute and print loss. We pass Tensors containing the predicted and true
+  # values of y, and the loss function returns a Tensor containing the loss.
+  loss = loss_fn(y_pred, y)  # (y_pred - y) is a tensor; loss_fn output is a scalar
+  loss_row[[t]] <- c(t, loss$item())
+  # Zero the gradients before running the backward pass.
+  model$zero_grad()
+
+  # Backward pass: compute gradient of the loss with respect to all the learnable
+  # parameters of the model. Internally, the parameters of each module are stored
+  # in tensors with `requires_grad=True`, so this call will compute gradients for
+  # all learnable parameters in the model.
+  loss$backward()
+
+  # Update the weights using gradient descent. Each parameter is a tensor, so
+  # we can access its data and gradients like we did before.
+  with(torch$no_grad(), {
+      for (param in iterate(model$parameters())) {
+        # using R generics
+        param$data <- param$data - param$grad * learning_rate
+      }
+   })
+}  
+```
+
+```{r}
+library(DT)
+loss_df <- data.frame(Reduce(rbind, loss_row), row.names = NULL)
+names(loss_df)[1] <- "iter"
+names(loss_df)[2] <- "loss"
+DT::datatable(loss_df)
+```
+
+```{r}
+library(ggplot2)
+# plot
+ggplot(loss_df, aes(x = iter, y = loss)) +
+    geom_point()
+```
+
