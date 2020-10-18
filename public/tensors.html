@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Tensors | A Minimal rTorch Book</title>
+  <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Tensors | A Minimal rTorch Book" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Tensors | A Minimal rTorch Book" />
+  
+  <meta name="twitter:description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
+  
+
+<meta name="author" content="Alfonso R. Reyes" />
+
+
+<meta name="date" content="2020-10-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="converting-tensors.html"/>
+<link rel="next" href="linearalgebra.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.15/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+
+<script>
+/* ========================================================================
+ * Bootstrap: transition.js v3.3.7
+ * http://getbootstrap.com/javascript/#transitions
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+  // ============================================================
+
+  function transitionEnd() {
+    var el = document.createElement('bootstrap')
+
+    var transEndEventNames = {
+      WebkitTransition : 'webkitTransitionEnd',
+      MozTransition    : 'transitionend',
+      OTransition      : 'oTransitionEnd otransitionend',
+      transition       : 'transitionend'
+    }
+
+    for (var name in transEndEventNames) {
+      if (el.style[name] !== undefined) {
+        return { end: transEndEventNames[name] }
+      }
+    }
+
+    return false // explicit for ie8 (  ._.)
+  }
+
+  // http://blog.alexmaccaw.com/css-transitions
+  $.fn.emulateTransitionEnd = function (duration) {
+    var called = false
+    var $el = this
+    $(this).one('bsTransitionEnd', function () { called = true })
+    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+    setTimeout(callback, duration)
+    return this
+  }
+
+  $(function () {
+    $.support.transition = transitionEnd()
+
+    if (!$.support.transition) return
+
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
+      handle: function (e) {
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
+    }
+  })
+
+}(jQuery);
+</script>
+<script>
+/* ========================================================================
+ * Bootstrap: collapse.js v3.3.7
+ * http://getbootstrap.com/javascript/#collapse
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+/* jshint latedef: false */
+
++function ($) {
+  'use strict';
+
+  // COLLAPSE PUBLIC CLASS DEFINITION
+  // ================================
+
+  var Collapse = function (element, options) {
+    this.$element      = $(element)
+    this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
+                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
+    this.transitioning = null
+
+    if (this.options.parent) {
+      this.$parent = this.getParent()
+    } else {
+      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
+    }
+
+    if (this.options.toggle) this.toggle()
+  }
+
+  Collapse.VERSION  = '3.3.7'
+
+  Collapse.TRANSITION_DURATION = 350
+
+  Collapse.DEFAULTS = {
+    toggle: true
+  }
+
+  Collapse.prototype.dimension = function () {
+    var hasWidth = this.$element.hasClass('width')
+    return hasWidth ? 'width' : 'height'
+  }
+
+  Collapse.prototype.show = function () {
+    if (this.transitioning || this.$element.hasClass('in')) return
+
+    var activesData
+    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
+
+    if (actives && actives.length) {
+      activesData = actives.data('bs.collapse')
+      if (activesData && activesData.transitioning) return
+    }
+
+    var startEvent = $.Event('show.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    if (actives && actives.length) {
+      Plugin.call(actives, 'hide')
+      activesData || actives.data('bs.collapse', null)
+    }
+
+    var dimension = this.dimension()
+
+    this.$element
+      .removeClass('collapse')
+      .addClass('collapsing')[dimension](0)
+      .attr('aria-expanded', true)
+
+    this.$trigger
+      .removeClass('collapsed')
+      .attr('aria-expanded', true)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse in')[dimension]('')
+      this.transitioning = 0
+      this.$element
+        .trigger('shown.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+
+    this.$element
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
+  }
+
+  Collapse.prototype.hide = function () {
+    if (this.transitioning || !this.$element.hasClass('in')) return
+
+    var startEvent = $.Event('hide.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    var dimension = this.dimension()
+
+    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
+
+    this.$element
+      .addClass('collapsing')
+      .removeClass('collapse in')
+      .attr('aria-expanded', false)
+
+    this.$trigger
+      .addClass('collapsed')
+      .attr('aria-expanded', false)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.transitioning = 0
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse')
+        .trigger('hidden.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    this.$element
+      [dimension](0)
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
+  }
+
+  Collapse.prototype.toggle = function () {
+    this[this.$element.hasClass('in') ? 'hide' : 'show']()
+  }
+
+  Collapse.prototype.getParent = function () {
+    return $(this.options.parent)
+      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
+      .each($.proxy(function (i, element) {
+        var $element = $(element)
+        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
+      }, this))
+      .end()
+  }
+
+  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
+    var isOpen = $element.hasClass('in')
+
+    $element.attr('aria-expanded', isOpen)
+    $trigger
+      .toggleClass('collapsed', !isOpen)
+      .attr('aria-expanded', isOpen)
+  }
+
+  function getTargetFromTrigger($trigger) {
+    var href
+    var target = $trigger.attr('data-target')
+      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
+
+    return $(target)
+  }
+
+
+  // COLLAPSE PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.collapse')
+      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
+      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.collapse
+
+  $.fn.collapse             = Plugin
+  $.fn.collapse.Constructor = Collapse
+
+
+  // COLLAPSE NO CONFLICT
+  // ====================
+
+  $.fn.collapse.noConflict = function () {
+    $.fn.collapse = old
+    return this
+  }
+
+
+  // COLLAPSE DATA-API
+  // =================
+
+  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
+    var $this   = $(this)
+
+    if (!$this.attr('data-target')) e.preventDefault()
+
+    var $target = getTargetFromTrigger($this)
+    var data    = $target.data('bs.collapse')
+    var option  = data ? 'toggle' : $this.data()
+
+    Plugin.call($target, option)
+  })
+
+}(jQuery);
+</script>
+<script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    // close the dropdown menu when an option is clicked
+    $("#allCodeButton").dropdown("toggle");
+      // R show code
+      $('div.r-code-collapse').each(function() {
+        $(this).collapse('show');
+      });
+      // Python show code
+      $('div.py-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
+  });
+  $("#rmd-hide-all-code").click(function() {
+      // close the dropdown menu when an option is clicked
+      $("#allCodeButton").dropdown("toggle");
+      // Hide R code
+      $('div.r-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
+      // Hide Python code
+      $('div.py-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
+  });
+
+
+  // index for unique code element ids
+  var r_currentIndex  = 1;   // for R code
+  var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
+
+  // select Python chunks
+  var pyCodeBlocks = $('pre.python');
+  pyCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse py-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'pycode-643E0F36' + py_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#ebfaeb');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Python code' : 'Python code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#009900');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Python code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Python code');
+    });  
+   });
+  
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
+
+  // select all R code blocks
+  // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  // adding pre.sourceCode confuses the Python button
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
+  rCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'rcode-643E0F36' + r_currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#e6faff'); // change color of chunk background
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide R code' : 'R code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);
+    
+    // change the background color of the button        
+    showCodeButton.css('background-color','#0000ff');
+    
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);
+
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('R code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide R code');
+    });
+  });
+
+}
+</script>
+<script>
+/* ========================================================================
+ * Bootstrap: dropdown.js v3.3.7
+ * http://getbootstrap.com/javascript/#dropdowns
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // DROPDOWN CLASS DEFINITION
+  // =========================
+
+  var backdrop = '.dropdown-backdrop'
+  var toggle   = '[data-toggle="dropdown"]'
+  var Dropdown = function (element) {
+    $(element).on('click.bs.dropdown', this.toggle)
+  }
+
+  Dropdown.VERSION = '3.3.7'
+
+  function getParent($this) {
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = selector && $(selector)
+
+    return $parent && $parent.length ? $parent : $this.parent()
+  }
+
+  function clearMenus(e) {
+    if (e && e.which === 3) return
+    $(backdrop).remove()
+    $(toggle).each(function () {
+      var $this         = $(this)
+      var $parent       = getParent($this)
+      var relatedTarget = { relatedTarget: this }
+
+      if (!$parent.hasClass('open')) return
+
+      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this.attr('aria-expanded', 'false')
+      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
+    })
+  }
+
+  Dropdown.prototype.toggle = function (e) {
+    var $this = $(this)
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    clearMenus()
+
+    if (!isActive) {
+      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+        // if mobile we use a backdrop because click events don't delegate
+        $(document.createElement('div'))
+          .addClass('dropdown-backdrop')
+          .insertAfter($(this))
+          .on('click', clearMenus)
+      }
+
+      var relatedTarget = { relatedTarget: this }
+      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this
+        .trigger('focus')
+        .attr('aria-expanded', 'true')
+
+      $parent
+        .toggleClass('open')
+        .trigger($.Event('shown.bs.dropdown', relatedTarget))
+    }
+
+    return false
+  }
+
+  Dropdown.prototype.keydown = function (e) {
+    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+    var $this = $(this)
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    if (!isActive && e.which != 27 || isActive && e.which == 27) {
+      if (e.which == 27) $parent.find(toggle).trigger('focus')
+      return $this.trigger('click')
+    }
+
+    var desc = ' li:not(.disabled):visible a'
+    var $items = $parent.find('.dropdown-menu' + desc)
+
+    if (!$items.length) return
+
+    var index = $items.index(e.target)
+
+    if (e.which == 38 && index > 0)                 index--         // up
+    if (e.which == 40 && index < $items.length - 1) index++         // down
+    if (!~index)                                    index = 0
+
+    $items.eq(index).trigger('focus')
+  }
+
+
+  // DROPDOWN PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.dropdown')
+
+      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  var old = $.fn.dropdown
+
+  $.fn.dropdown             = Plugin
+  $.fn.dropdown.Constructor = Dropdown
+
+
+  // DROPDOWN NO CONFLICT
+  // ====================
+
+  $.fn.dropdown.noConflict = function () {
+    $.fn.dropdown = old
+    return this
+  }
+
+
+  // APPLY TO STANDARD DROPDOWN ELEMENTS
+  // ===================================
+
+  $(document)
+    .on('click.bs.dropdown.data-api', clearMenus)
+    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+
+}(jQuery);
+</script>
+<style type="text/css">
+.code-folding-btn {
+  margin-bottom: 4px;
+}
+
+.row { display: flex; }
+.collapse { display: none; }
+.in { display:block }
+.pull-right > .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.open > .dropdown-menu {
+    display: block;
+    color: #ffffff;
+    background-color: #ffffff;
+    background-image: none;
+    border-color: #92897e;
+}
+
+.dropdown-menu > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #e95420;
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #e95420;
+  outline: 0;
+}
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  color: #aea79f;
+}
+
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+.btn {
+  display: inline-block;
+  margin-bottom: 1;
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus,
+.btn.focus {
+  color: #ffffff;
+  text-decoration: none;
+}
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  opacity: 0.65;
+  box-shadow: none;
+}
+a.btn.disabled,
+fieldset[disabled] a.btn {
+  pointer-events: none;
+}
+.btn-default {
+  color: #ffffff;
+  background-color: #aea79f; #important
+  border-color: #aea79f;
+}
+
+.btn-default:focus,
+.btn-default.focus {
+  color: #ffffff;
+  background-color: #978e83;
+  border-color: #6f675e;
+}
+
+.btn-default:hover {
+  color: #ffffff;
+  background-color: #978e83;
+  border-color: #92897e;
+}
+.btn-default:active,
+.btn-default.active,
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0;
+}
+.btn-group > .btn:first-child {
+  margin-left: 0;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn:last-child:not(:first-child),
+.btn-group > .dropdown-toggle:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-group > .btn-group {
+  float: left;
+}
+.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
+  border-radius: 0;
+}
+.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
+.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-group .dropdown-toggle:active,
+.btn-group.open .dropdown-toggle {
+  outline: 0;
+}
+.btn-group > .btn + .dropdown-toggle {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.btn-group > .btn-lg + .dropdown-toggle {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+.btn-group.open .dropdown-toggle {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.btn-group.open .dropdown-toggle.btn-link {
+  box-shadow: none;
+}
+
+</style>
+<script>
+var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
+document.write(str);
+</script>
+<script>
+$(document).ready(function () {
+  // show code by default. Use "show" === "hide" to hide
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The rTorch Minimal Book</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#example"><i class="fa fa-check"></i>Example</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#automatic-installation"><i class="fa fa-check"></i>Automatic installation</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>I Getting Started</b></span></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#how-do-we-start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> How do we start using <code>rTorch</code></a><ul>
+<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#getting-the-pytorch-version"><i class="fa fa-check"></i><b>1.2.1</b> Getting the PyTorch version</a></li>
+<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#pytorch-configuration"><i class="fa fa-check"></i><b>1.2.2</b> PyTorch configuration</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#what-can-you-do-with-rtorch"><i class="fa fa-check"></i><b>1.3</b> What can you do with <code>rTorch</code></a></li>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#callable-pytorch-modules"><i class="fa fa-check"></i><b>1.4</b> Callable PyTorch modules</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="intro.html"><a href="intro.html#the-torchvision-module"><i class="fa fa-check"></i><b>1.4.1</b> The <code>torchvision</code> module</a></li>
+<li class="chapter" data-level="1.4.2" data-path="intro.html"><a href="intro.html#np-the-numpy-module"><i class="fa fa-check"></i><b>1.4.2</b> <code>np</code>: the <code>numpy</code> module</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#create-an-array"><i class="fa fa-check"></i>Create an array</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#reshape-an-array"><i class="fa fa-check"></i>Reshape an array</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#generate-a-random-array"><i class="fa fa-check"></i>Generate a random array</a></li>
+<li><a href="intro.html#convert-a-numpy-array-to-a-pytorch-tensor">Convert a <code>numpy</code> array to a PyTorch tensor</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4.3" data-path="intro.html"><a href="intro.html#python-built-in-functions"><i class="fa fa-check"></i><b>1.4.3</b> Python built-in functions</a><ul>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#length-of-a-dataset"><i class="fa fa-check"></i>Length of a dataset</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#iterators"><i class="fa fa-check"></i>Iterators</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html#types-and-instances"><i class="fa fa-check"></i>Types and instances</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a><ul>
+<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#callable-pytorch-modules-from-rtorch"><i class="fa fa-check"></i><b>2.1</b> Callable PyTorch modules from rTorch</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-torchvision-module-1"><i class="fa fa-check"></i><b>2.1.1</b> The <code>torchvision</code> module</a></li>
+<li class="chapter" data-level="2.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-numpy-module"><i class="fa fa-check"></i><b>2.1.2</b> The <code>numpy</code> module</a><ul>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#create-an-array-1"><i class="fa fa-check"></i>Create an array</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-and-tensor-operations-in-numpy-and-pytorch"><i class="fa fa-check"></i><b>2.2</b> Common array and tensor operations in NumPy and PyTorch</a><ul>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#reshape-an-array-1"><i class="fa fa-check"></i>Reshape an array</a></li>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-a-random-array-in-numpy"><i class="fa fa-check"></i>Generate a random array in NumPy</a></li>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-a-random-array-in-pytorch"><i class="fa fa-check"></i>Generate a random array in PyTorch</a></li>
+<li><a href="pytorch-and-numpy.html#convert-a-numpy-array-to-a-pytorch-tensor-1">Convert a <code>numpy</code> array to a PyTorch tensor</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions-1"><i class="fa fa-check"></i><b>2.3</b> Python built-in functions</a><ul>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#length-of-a-dataset-1"><i class="fa fa-check"></i>Length of a dataset</a></li>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#iterators-1"><i class="fa fa-check"></i>Iterators</a></li>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#types-and-instances-1"><i class="fa fa-check"></i>Types and instances</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch: What’s different</a><ul>
+<li class="chapter" data-level="3.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#calling-objects-from-pytorch"><i class="fa fa-check"></i><b>3.1</b> Calling objects from PyTorch</a></li>
+<li class="chapter" data-level="3.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#call-modules-and-functions-from-torch"><i class="fa fa-check"></i><b>3.2</b> Call modules and functions from <code>torch</code></a></li>
+<li class="chapter" data-level="3.3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#show-the-attributes-methods-of-a-class-or-pytorch-object"><i class="fa fa-check"></i><b>3.3</b> Show the attributes (methods) of a class or PyTorch object</a></li>
+<li class="chapter" data-level="3.4" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#how-to-iterate-through-datasets"><i class="fa fa-check"></i><b>3.4</b> How to iterate through datasets</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#enumeration"><i class="fa fa-check"></i><b>3.4.1</b> Enumeration</a></li>
+<li class="chapter" data-level="3.4.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#using-enumerate-and-iterate"><i class="fa fa-check"></i><b>3.4.2</b> Using <code>enumerate</code> and <code>iterate</code></a></li>
+<li class="chapter" data-level="3.4.3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#using-a-for-loop-to-iterate"><i class="fa fa-check"></i><b>3.4.3</b> Using a <code>for-loop</code> to iterate</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#zero-gradient"><i class="fa fa-check"></i><b>3.5</b> Zero gradient</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#version-in-python"><i class="fa fa-check"></i><b>3.5.1</b> Version in Python</a></li>
+<li class="chapter" data-level="3.5.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#version-in-r"><i class="fa fa-check"></i><b>3.5.2</b> Version in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#r-generics-for-pytorch-functions"><i class="fa fa-check"></i><b>3.6</b> R generics for PyTorch functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a><ul>
+<li class="chapter" data-level="4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-numpy-and-viceversa"><i class="fa fa-check"></i><b>4.1</b> Transforming a tensor from <code>numpy</code> and viceversa</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="converting-tensors.html"><a href="converting-tensors.html#convert-a-tensor-to-numpy-object"><i class="fa fa-check"></i><b>4.1.1</b> Convert a tensor to <code>numpy</code> object</a></li>
+<li class="chapter" data-level="4.1.2" data-path="converting-tensors.html"><a href="converting-tensors.html#convert-a-numpy-object-to-an-r-object"><i class="fa fa-check"></i><b>4.1.2</b> Convert a <code>numpy</code> object to an <code>R</code> object</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-pytorch-to-r-and-viceversa"><i class="fa fa-check"></i><b>4.2</b> Transforming a tensor from PyTorch to R and viceversa</a></li>
+</ul></li>
+<li class="part"><span><b>II Basic Tensor Operations</b></span></li>
+<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a><ul>
+<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="tensors.html"><a href="tensors.html#major-tensor-types"><i class="fa fa-check"></i><b>5.1.1</b> Major tensor types</a></li>
+<li class="chapter" data-level="5.1.2" data-path="tensors.html"><a href="tensors.html#example-basic-attributes-of-a-4d-tensor"><i class="fa fa-check"></i><b>5.1.2</b> Example: Basic attributes of a 4D tensor</a></li>
+<li class="chapter" data-level="5.1.3" data-path="tensors.html"><a href="tensors.html#example-attributes-of-a-3d-tensor"><i class="fa fa-check"></i><b>5.1.3</b> Example: Attributes of a 3D tensor</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="tensors.html"><a href="tensors.html#add-tensors"><i class="fa fa-check"></i><b>5.2.1</b> Add tensors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="tensors.html"><a href="tensors.html#add-an-element-of-a-tensor-to-another-tensor"><i class="fa fa-check"></i><b>5.2.2</b> Add an element of a tensor to another tensor</a></li>
+<li class="chapter" data-level="5.2.3" data-path="tensors.html"><a href="tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>5.2.3</b> Multiply a tensor by a scalar</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#in-python-we-use-tuples-in-r-we-use-vectors"><i class="fa fa-check"></i><b>5.3.1</b> In Python we use Tuples, in R we use vectors</a></li>
+<li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#build-a-numpy-array-from-three-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> Build a numpy array from three R vectors</a></li>
+<li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#convert-a-numpy-array-to-a-tensor-with-as_tensor"><i class="fa fa-check"></i><b>5.3.3</b> Convert a numpy array to a tensor with <code>as_tensor()</code></a></li>
+<li class="chapter" data-level="5.3.4" data-path="tensors.html"><a href="tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>5.3.4</b> Create and fill a tensor</a></li>
+<li class="chapter" data-level="5.3.5" data-path="tensors.html"><a href="tensors.html#tensor-to-array-and-viceversa"><i class="fa fa-check"></i><b>5.3.5</b> Tensor to array, and viceversa</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="tensors.html"><a href="tensors.html#tensor-fill"><i class="fa fa-check"></i><b>5.4.1</b> Tensor fill</a></li>
+<li class="chapter" data-level="5.4.2" data-path="tensors.html"><a href="tensors.html#initialize-tensor-with-a-range-of-values"><i class="fa fa-check"></i><b>5.4.2</b> Initialize Tensor with a range of values</a></li>
+<li class="chapter" data-level="5.4.3" data-path="tensors.html"><a href="tensors.html#initialize-a-linear-or-log-scale-tensor"><i class="fa fa-check"></i><b>5.4.3</b> Initialize a linear or log scale Tensor</a></li>
+<li class="chapter" data-level="5.4.4" data-path="tensors.html"><a href="tensors.html#fill-a-tensor-in-place-out-of-place"><i class="fa fa-check"></i><b>5.4.4</b> Fill a tensor In-place / Out-of-place</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="tensors.html"><a href="tensors.html#exercise"><i class="fa fa-check"></i><b>5.5.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="tensors.html"><a href="tensors.html#concatenate-tensors-by-dim0-rows"><i class="fa fa-check"></i><b>5.6.1</b> Concatenate tensors by <code>dim=0</code> (rows)</a></li>
+<li class="chapter" data-level="5.6.2" data-path="tensors.html"><a href="tensors.html#concatenate-tensors-by-dim1-columns"><i class="fa fa-check"></i><b>5.6.2</b> Concatenate tensors by <code>dim=1</code> (columns)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="tensors.html"><a href="tensors.html#with-chunk"><i class="fa fa-check"></i><b>5.7.1</b> With <code>chunk()</code>:</a><ul>
+<li class="chapter" data-level="5.7.1.1" data-path="tensors.html"><a href="tensors.html#exercise-1"><i class="fa fa-check"></i><b>5.7.1.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7.2" data-path="tensors.html"><a href="tensors.html#with-index_select"><i class="fa fa-check"></i><b>5.7.2</b> With <code>index_select()</code>:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a><ul>
+<li class="chapter" data-level="5.8.1" data-path="tensors.html"><a href="tensors.html#identity-matrix"><i class="fa fa-check"></i><b>5.8.1</b> Identity matrix</a></li>
+<li class="chapter" data-level="5.8.2" data-path="tensors.html"><a href="tensors.html#ones"><i class="fa fa-check"></i><b>5.8.2</b> Ones</a></li>
+<li class="chapter" data-level="5.8.3" data-path="tensors.html"><a href="tensors.html#zeros"><i class="fa fa-check"></i><b>5.8.3</b> Zeros</a></li>
+<li class="chapter" data-level="5.8.4" data-path="tensors.html"><a href="tensors.html#diagonal-operations"><i class="fa fa-check"></i><b>5.8.4</b> Diagonal operations</a><ul>
+<li class="chapter" data-level="5.8.4.1" data-path="tensors.html"><a href="tensors.html#diagonal-matrix"><i class="fa fa-check"></i><b>5.8.4.1</b> Diagonal matrix</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="tensors.html"><a href="tensors.html#using-indices-to-access-elements"><i class="fa fa-check"></i><b>5.9.1</b> Using indices to access elements</a></li>
+<li class="chapter" data-level="5.9.2" data-path="tensors.html"><a href="tensors.html#using-the-take-function"><i class="fa fa-check"></i><b>5.9.2</b> Using the <code>take</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a><ul>
+<li class="chapter" data-level="5.10.1" data-path="tensors.html"><a href="tensors.html#cross-product"><i class="fa fa-check"></i><b>5.10.1</b> Cross product</a></li>
+<li class="chapter" data-level="5.10.2" data-path="tensors.html"><a href="tensors.html#dot-product"><i class="fa fa-check"></i><b>5.10.2</b> Dot product</a></li>
+</ul></li>
+<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a><ul>
+<li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#using-a-function-to-extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Using a function to extract a unique logical result</a></li>
+<li class="chapter" data-level="5.11.2" data-path="tensors.html"><a href="tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>5.11.2</b> Greater than (<code>gt</code>)</a></li>
+<li class="chapter" data-level="5.11.3" data-path="tensors.html"><a href="tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>5.11.3</b> Less than or equal (<code>le</code>)</a></li>
+<li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (!`)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a><ul>
+<li class="chapter" data-level="5.12.1" data-path="tensors.html"><a href="tensors.html#uniform-matrix"><i class="fa fa-check"></i><b>5.12.1</b> Uniform matrix</a></li>
+<li class="chapter" data-level="5.12.2" data-path="tensors.html"><a href="tensors.html#binomial-distribution"><i class="fa fa-check"></i><b>5.12.2</b> Binomial distribution</a></li>
+<li class="chapter" data-level="5.12.3" data-path="tensors.html"><a href="tensors.html#exponential-distribution"><i class="fa fa-check"></i><b>5.12.3</b> Exponential distribution</a></li>
+<li class="chapter" data-level="5.12.4" data-path="tensors.html"><a href="tensors.html#weibull-distribution"><i class="fa fa-check"></i><b>5.12.4</b> Weibull distribution</a><ul>
+<li class="chapter" data-level="5.12.4.1" data-path="tensors.html"><a href="tensors.html#weibull-at-constant-scale"><i class="fa fa-check"></i><b>5.12.4.1</b> Weibull at constant <code>scale</code></a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a><ul>
+<li class="chapter" data-level="6.1" data-path="linearalgebra.html"><a href="linearalgebra.html#scalars"><i class="fa fa-check"></i><b>6.1</b> Scalars</a></li>
+<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="linearalgebra.html"><a href="linearalgebra.html#vector-to-matrix-matrix-to-tensor"><i class="fa fa-check"></i><b>6.2.1</b> Vector to matrix, matrix to tensor</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="linearalgebra.html"><a href="linearalgebra.html#matrices"><i class="fa fa-check"></i><b>6.3</b> Matrices</a></li>
+<li class="chapter" data-level="6.4" data-path="linearalgebra.html"><a href="linearalgebra.html#d-tensors"><i class="fa fa-check"></i><b>6.4</b> 3D+ tensors</a></li>
+<li class="chapter" data-level="6.5" data-path="linearalgebra.html"><a href="linearalgebra.html#transpose-of-a-matrix"><i class="fa fa-check"></i><b>6.5</b> Transpose of a matrix</a></li>
+<li class="chapter" data-level="6.6" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors-special-case-of-a-matrix"><i class="fa fa-check"></i><b>6.6</b> Vectors, special case of a matrix</a></li>
+<li class="chapter" data-level="6.7" data-path="linearalgebra.html"><a href="linearalgebra.html#tensor-arithmetic"><i class="fa fa-check"></i><b>6.7</b> Tensor arithmetic</a></li>
+<li class="chapter" data-level="6.8" data-path="linearalgebra.html"><a href="linearalgebra.html#add-a-scalar-to-a-tensor"><i class="fa fa-check"></i><b>6.8</b> Add a scalar to a tensor</a></li>
+<li class="chapter" data-level="6.9" data-path="linearalgebra.html"><a href="linearalgebra.html#multiplying-tensors"><i class="fa fa-check"></i><b>6.9</b> Multiplying tensors</a></li>
+<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a><ul>
+<li class="chapter" data-level="6.10.1" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-of-2d-array-using-python"><i class="fa fa-check"></i><b>6.10.1</b> Dot product of 2D array using Python</a></li>
+<li class="chapter" data-level="6.10.2" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-of-2d-array-using-r"><i class="fa fa-check"></i><b>6.10.2</b> Dot product of 2D array using R</a></li>
+<li class="chapter" data-level="6.10.3" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-with-mm-and-matmul-functions"><i class="fa fa-check"></i><b>6.10.3</b> Dot product with <code>mm</code> and <code>matmul</code> functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a><ul>
+<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-1-a-neural-network-with-one-layer"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: a neural network with one layer</a></li>
+<li class="chapter" data-level="7.1.2" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-2-logistic-regression"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: Logistic Regression</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>III Logistic Regression</b></span></li>
+<li class="chapter" data-level="8" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem with Logistic Regression</a><ul>
+<li class="chapter" data-level="8.1" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html#code-in-python"><i class="fa fa-check"></i><b>8.1</b> Code in Python</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a><ul>
+<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="mnistdigits.html"><a href="mnistdigits.html#hyperparameters"><i class="fa fa-check"></i><b>9.1.1</b> Hyperparameters</a></li>
+<li class="chapter" data-level="9.1.2" data-path="mnistdigits.html"><a href="mnistdigits.html#read-datasets"><i class="fa fa-check"></i><b>9.1.2</b> Read datasets</a></li>
+<li class="chapter" data-level="9.1.3" data-path="mnistdigits.html"><a href="mnistdigits.html#define-the-model"><i class="fa fa-check"></i><b>9.1.3</b> Define the model</a></li>
+<li class="chapter" data-level="9.1.4" data-path="mnistdigits.html"><a href="mnistdigits.html#training"><i class="fa fa-check"></i><b>9.1.4</b> Training</a></li>
+<li class="chapter" data-level="9.1.5" data-path="mnistdigits.html"><a href="mnistdigits.html#prediction"><i class="fa fa-check"></i><b>9.1.5</b> Prediction</a></li>
+<li class="chapter" data-level="9.1.6" data-path="mnistdigits.html"><a href="mnistdigits.html#save-the-model"><i class="fa fa-check"></i><b>9.1.6</b> Save the model</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-python-1"><i class="fa fa-check"></i><b>9.2</b> Code in Python</a></li>
+</ul></li>
+<li class="part"><span><b>IV Linear Regression</b></span></li>
+<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="linear-regression.html"><a href="linear-regression.html#generate-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Generate the dataset</a></li>
+<li class="chapter" data-level="10.3" data-path="linear-regression.html"><a href="linear-regression.html#convert-arrays-to-tensors"><i class="fa fa-check"></i><b>10.3</b> Convert arrays to tensors</a></li>
+<li class="chapter" data-level="10.4" data-path="linear-regression.html"><a href="linear-regression.html#converting-from-numpy-to-tensor"><i class="fa fa-check"></i><b>10.4</b> Converting from numpy to tensor</a></li>
+<li class="chapter" data-level="10.5" data-path="linear-regression.html"><a href="linear-regression.html#creating-the-network-model"><i class="fa fa-check"></i><b>10.5</b> Creating the network model</a></li>
+<li class="chapter" data-level="10.6" data-path="linear-regression.html"><a href="linear-regression.html#optimizer-and-loss"><i class="fa fa-check"></i><b>10.6</b> Optimizer and Loss</a></li>
+<li class="chapter" data-level="10.7" data-path="linear-regression.html"><a href="linear-regression.html#training-1"><i class="fa fa-check"></i><b>10.7</b> Training</a></li>
+<li class="chapter" data-level="10.8" data-path="linear-regression.html"><a href="linear-regression.html#results"><i class="fa fa-check"></i><b>10.8</b> Results</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Rainfall prediction with Linear Regression</a><ul>
+<li class="chapter" data-level="11.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#training-data"><i class="fa fa-check"></i><b>11.1</b> Training data</a></li>
+<li class="chapter" data-level="11.2" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#convert-arrays-to-tensors-1"><i class="fa fa-check"></i><b>11.2</b> Convert arrays to tensors</a></li>
+<li class="chapter" data-level="11.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#build-the-model"><i class="fa fa-check"></i><b>11.3</b> Build the model</a></li>
+<li class="chapter" data-level="11.4" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#generate-predictions"><i class="fa fa-check"></i><b>11.4</b> Generate predictions</a></li>
+<li class="chapter" data-level="11.5" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#loss-function"><i class="fa fa-check"></i><b>11.5</b> Loss Function</a></li>
+<li class="chapter" data-level="11.6" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#step-by-step-process"><i class="fa fa-check"></i><b>11.6</b> Step by step process</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#compute-the-losses"><i class="fa fa-check"></i><b>11.6.1</b> Compute the losses</a></li>
+<li class="chapter" data-level="11.6.2" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#compute-gradients"><i class="fa fa-check"></i><b>11.6.2</b> Compute Gradients</a></li>
+<li class="chapter" data-level="11.6.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#reset-the-gradients"><i class="fa fa-check"></i><b>11.6.3</b> Reset the gradients</a><ul>
+<li class="chapter" data-level="11.6.3.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#adjust-weights-and-biases-using-gradient-descent"><i class="fa fa-check"></i><b>11.6.3.1</b> Adjust weights and biases using gradient descent</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#all-together-train-for-multiple-epochs"><i class="fa fa-check"></i><b>11.7</b> All together: train for multiple epochs</a></li>
+</ul></li>
+<li class="part"><span><b>V Neural Networks</b></span></li>
+<li class="chapter" data-level="12" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><i class="fa fa-check"></i><b>12</b> Neural Networks using NumPy, r-base, rTorch and PyTorch</a><ul>
+<li class="chapter" data-level="12.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-with-numpy"><i class="fa fa-check"></i><b>12.1</b> A neural network with <code>numpy</code></a></li>
+<li class="chapter" data-level="12.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-with-r-base"><i class="fa fa-check"></i><b>12.2</b> A neural network with <code>r-base</code></a></li>
+<li class="chapter" data-level="12.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.3</b> A neural network in <code>rTorch</code></a><ul>
+<li class="chapter" data-level="12.3.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#load-the-libraries"><i class="fa fa-check"></i><b>12.3.1</b> Load the libraries</a></li>
+<li class="chapter" data-level="12.3.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#dataset"><i class="fa fa-check"></i><b>12.3.2</b> Dataset</a></li>
+<li class="chapter" data-level="12.3.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#initialize-the-weights"><i class="fa fa-check"></i><b>12.3.3</b> Initialize the weights</a></li>
+<li class="chapter" data-level="12.3.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterate-through-the-dataset"><i class="fa fa-check"></i><b>12.3.4</b> Iterate through the dataset</a><ul>
+<li class="chapter" data-level="12.3.4.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterate-50-times"><i class="fa fa-check"></i><b>12.3.4.1</b> Iterate 50 times</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#run-it-at-100-iterations"><i class="fa fa-check"></i><b>12.3.5</b> Run it at 100 iterations</a><ul>
+<li class="chapter" data-level="12.3.5.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.3.5.1</b> 250 iterations</a></li>
+<li class="chapter" data-level="12.3.5.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.3.5.2</b> 500 iterations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#the-same-neural-network-but-written-in-pytorch"><i class="fa fa-check"></i><b>12.4</b> The same neural network but written in <code>PyTorch</code></a></li>
+<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a><ul>
+<li class="chapter" data-level="13.1" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#introduction-1"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
+<li class="chapter" data-level="13.2" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#select-device"><i class="fa fa-check"></i><b>13.2</b> Select device</a></li>
+<li class="chapter" data-level="13.3" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
+<li class="chapter" data-level="13.4" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
+<li class="chapter" data-level="13.5" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
+<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-dataset"><i class="fa fa-check"></i><b>13.6</b> Iterate through dataset</a></li>
+<li class="chapter" data-level="13.7" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#using-r-generics-to-simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7</b> Using R generics to simplify tensor operations</a></li>
+<li class="chapter" data-level="13.8" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#a-more-elegant-way-of-writing-the-neural-network"><i class="fa fa-check"></i><b>13.8</b> A more elegant way of writing the neural network</a></li>
+</ul></li>
+<li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
+<li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a><ul>
+<li class="chapter" data-level="14.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="14.2" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
+<li class="chapter" data-level="14.3" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> using <code>data.frame</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a><ul>
+<li class="chapter" data-level="15.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="15.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
+<li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#read-the-datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Read the datasets without normalization</a></li>
+<li class="chapter" data-level="15.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a><ul>
+<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a><ul>
+<li class="chapter" data-level="A.1.1" data-path="appendixA.html"><a href="appendixA.html#five-number-summary"><i class="fa fa-check"></i><b>A.1.1</b> Five-number summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a><ul>
+<li class="chapter" data-level="B.1" data-path="appendixB.html"><a href="appendixB.html#the-sigmoid-function"><i class="fa fa-check"></i><b>B.1</b> The Sigmoid function</a></li>
+<li class="chapter" data-level="B.2" data-path="appendixB.html"><a href="appendixB.html#the-relu-function"><i class="fa fa-check"></i><b>B.2</b> The ReLU function</a></li>
+<li class="chapter" data-level="B.3" data-path="appendixB.html"><a href="appendixB.html#the-tanh-function"><i class="fa fa-check"></i><b>B.3</b> The tanh function</a></li>
+<li class="chapter" data-level="B.4" data-path="appendixB.html"><a href="appendixB.html#the-softmax-activation-function"><i class="fa fa-check"></i><b>B.4</b> The Softmax Activation function</a></li>
+<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#coding-your-own-activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Coding your own activation functions in Python</a><ul>
+<li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#linear-activation"><i class="fa fa-check"></i>Linear activation</a></li>
+<li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#sigmoid-activation"><i class="fa fa-check"></i>Sigmoid activation</a></li>
+<li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#hyperbolic-tangent-activation"><i class="fa fa-check"></i>Hyperbolic Tangent activation</a></li>
+<li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#rectifier-linear-unit-relu"><i class="fa fa-check"></i>Rectifier linear unit (ReLU)</a></li>
+<li><a href="appendixB.html#visualization-with-matplotlib">Visualization with <code>matplotlib</code></a></li>
+</ul></li>
+<li class="chapter" data-level="B.6" data-path="appendixB.html"><a href="appendixB.html#softmax-in-python"><i class="fa fa-check"></i><b>B.6</b> Softmax in Python</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal rTorch Book</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tensors" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Tensors</h1>
+<p>We describe the most important PyTorch methods in this chapter.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="tensors.html#cb122-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
+<div id="tensor-data-types" class="section level2">
+<h2><span class="header-section-number">5.1</span> Tensor data types</h2>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="tensors.html#cb123-1"></a><span class="co"># Default data type</span></span>
+<span id="cb123-2"><a href="tensors.html#cb123-2"></a>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="fl">1.2</span>, <span class="dv">3</span>))<span class="op">$</span>dtype  <span class="co"># default for floating point is torch.float32</span></span></code></pre></div>
+<pre><code>#&gt; torch.float32</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="tensors.html#cb125-1"></a><span class="co"># change default data type to float64</span></span>
+<span id="cb125-2"><a href="tensors.html#cb125-2"></a>torch<span class="op">$</span><span class="kw">set_default_dtype</span>(torch<span class="op">$</span>float64)</span>
+<span id="cb125-3"><a href="tensors.html#cb125-3"></a>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="fl">1.2</span>, <span class="dv">3</span>))<span class="op">$</span>dtype         <span class="co"># a new floating point tensor</span></span></code></pre></div>
+<pre><code>#&gt; torch.float64</code></pre>
+<div id="major-tensor-types" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Major tensor types</h3>
+<p>There are five major type of Tensors in PyTorch</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="tensors.html#cb127-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb127-2"><a href="tensors.html#cb127-2"></a></span>
+<span id="cb127-3"><a href="tensors.html#cb127-3"></a>byte    &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">ByteTensor</span>(3L, 3L)</span>
+<span id="cb127-4"><a href="tensors.html#cb127-4"></a>float   &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(3L, 3L)</span>
+<span id="cb127-5"><a href="tensors.html#cb127-5"></a>double  &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">DoubleTensor</span>(3L, 3L)</span>
+<span id="cb127-6"><a href="tensors.html#cb127-6"></a>long    &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">LongTensor</span>(3L, 3L)</span>
+<span id="cb127-7"><a href="tensors.html#cb127-7"></a>boolean &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">BoolTensor</span>(5L, 5L)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="tensors.html#cb128-1"></a><span class="kw">message</span>(<span class="st">&quot;byte tensor&quot;</span>)</span>
+<span id="cb128-2"><a href="tensors.html#cb128-2"></a><span class="co">#&gt; byte tensor</span></span>
+<span id="cb128-3"><a href="tensors.html#cb128-3"></a>byte</span>
+<span id="cb128-4"><a href="tensors.html#cb128-4"></a><span class="co">#&gt; tensor([[0, 0, 0],</span></span>
+<span id="cb128-5"><a href="tensors.html#cb128-5"></a><span class="co">#&gt;         [0, 0, 0],</span></span>
+<span id="cb128-6"><a href="tensors.html#cb128-6"></a><span class="co">#&gt;         [0, 0, 0]], dtype=torch.uint8)</span></span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="tensors.html#cb129-1"></a><span class="kw">message</span>(<span class="st">&quot;float tensor&quot;</span>)</span>
+<span id="cb129-2"><a href="tensors.html#cb129-2"></a><span class="co">#&gt; float tensor</span></span>
+<span id="cb129-3"><a href="tensors.html#cb129-3"></a>float</span>
+<span id="cb129-4"><a href="tensors.html#cb129-4"></a><span class="co">#&gt; tensor([[0., 0., 0.],</span></span>
+<span id="cb129-5"><a href="tensors.html#cb129-5"></a><span class="co">#&gt;         [0., 0., 0.],</span></span>
+<span id="cb129-6"><a href="tensors.html#cb129-6"></a><span class="co">#&gt;         [0., 0., 0.]], dtype=torch.float32)</span></span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="tensors.html#cb130-1"></a><span class="kw">message</span>(<span class="st">&quot;double&quot;</span>)</span>
+<span id="cb130-2"><a href="tensors.html#cb130-2"></a><span class="co">#&gt; double</span></span>
+<span id="cb130-3"><a href="tensors.html#cb130-3"></a>double</span>
+<span id="cb130-4"><a href="tensors.html#cb130-4"></a><span class="co">#&gt; tensor([[ 0.0000e+00,  0.0000e+00,  0.0000e+00],</span></span>
+<span id="cb130-5"><a href="tensors.html#cb130-5"></a><span class="co">#&gt;         [ 0.0000e+00, 9.5490e-313, 4.6579e-310],</span></span>
+<span id="cb130-6"><a href="tensors.html#cb130-6"></a><span class="co">#&gt;         [4.9407e-324, 4.6579e-310,  0.0000e+00]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="tensors.html#cb131-1"></a><span class="kw">message</span>(<span class="st">&quot;long&quot;</span>)</span>
+<span id="cb131-2"><a href="tensors.html#cb131-2"></a><span class="co">#&gt; long</span></span>
+<span id="cb131-3"><a href="tensors.html#cb131-3"></a>long</span>
+<span id="cb131-4"><a href="tensors.html#cb131-4"></a><span class="co">#&gt; tensor([[             0,              0,   193273528365],</span></span>
+<span id="cb131-5"><a href="tensors.html#cb131-5"></a><span class="co">#&gt;         [94277682442000,              1, 94277681912640],</span></span>
+<span id="cb131-6"><a href="tensors.html#cb131-6"></a><span class="co">#&gt;         [             0,              0,              0]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="tensors.html#cb132-1"></a><span class="kw">message</span>(<span class="st">&quot;boolean&quot;</span>)</span>
+<span id="cb132-2"><a href="tensors.html#cb132-2"></a><span class="co">#&gt; boolean</span></span>
+<span id="cb132-3"><a href="tensors.html#cb132-3"></a>boolean</span>
+<span id="cb132-4"><a href="tensors.html#cb132-4"></a><span class="co">#&gt; tensor([[ True, False, False, False, False],</span></span>
+<span id="cb132-5"><a href="tensors.html#cb132-5"></a><span class="co">#&gt;         [False, False, False,  True,  True],</span></span>
+<span id="cb132-6"><a href="tensors.html#cb132-6"></a><span class="co">#&gt;         [ True,  True,  True,  True, False],</span></span>
+<span id="cb132-7"><a href="tensors.html#cb132-7"></a><span class="co">#&gt;         [False, False, False, False, False],</span></span>
+<span id="cb132-8"><a href="tensors.html#cb132-8"></a><span class="co">#&gt;         [False, False, False, False, False]])</span></span></code></pre></div>
+</div>
+<div id="example-basic-attributes-of-a-4d-tensor" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Example: Basic attributes of a 4D tensor</h3>
+<p>A 4D tensor like in MNIST hand-written digits recognition dataset:</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="tensors.html#cb133-1"></a>mnist_4d &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(60000L, 3L, 28L, 28L)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="tensors.html#cb134-1"></a><span class="kw">message</span>(<span class="st">&quot;size&quot;</span>)</span>
+<span id="cb134-2"><a href="tensors.html#cb134-2"></a><span class="co">#&gt; size</span></span>
+<span id="cb134-3"><a href="tensors.html#cb134-3"></a>mnist_4d<span class="op">$</span><span class="kw">size</span>()</span>
+<span id="cb134-4"><a href="tensors.html#cb134-4"></a><span class="co">#&gt; torch.Size([60000, 3, 28, 28])</span></span>
+<span id="cb134-5"><a href="tensors.html#cb134-5"></a></span>
+<span id="cb134-6"><a href="tensors.html#cb134-6"></a><span class="kw">message</span>(<span class="st">&quot;length&quot;</span>)</span>
+<span id="cb134-7"><a href="tensors.html#cb134-7"></a><span class="co">#&gt; length</span></span>
+<span id="cb134-8"><a href="tensors.html#cb134-8"></a><span class="kw">length</span>(mnist_4d)</span>
+<span id="cb134-9"><a href="tensors.html#cb134-9"></a><span class="co">#&gt; [1] 141120000</span></span>
+<span id="cb134-10"><a href="tensors.html#cb134-10"></a></span>
+<span id="cb134-11"><a href="tensors.html#cb134-11"></a><span class="kw">message</span>(<span class="st">&quot;shape, like in numpy&quot;</span>)</span>
+<span id="cb134-12"><a href="tensors.html#cb134-12"></a><span class="co">#&gt; shape, like in numpy</span></span>
+<span id="cb134-13"><a href="tensors.html#cb134-13"></a>mnist_4d<span class="op">$</span>shape</span>
+<span id="cb134-14"><a href="tensors.html#cb134-14"></a><span class="co">#&gt; torch.Size([60000, 3, 28, 28])</span></span>
+<span id="cb134-15"><a href="tensors.html#cb134-15"></a></span>
+<span id="cb134-16"><a href="tensors.html#cb134-16"></a><span class="kw">message</span>(<span class="st">&quot;number of elements&quot;</span>)</span>
+<span id="cb134-17"><a href="tensors.html#cb134-17"></a><span class="co">#&gt; number of elements</span></span>
+<span id="cb134-18"><a href="tensors.html#cb134-18"></a>mnist_4d<span class="op">$</span><span class="kw">numel</span>()</span>
+<span id="cb134-19"><a href="tensors.html#cb134-19"></a><span class="co">#&gt; [1] 141120000</span></span></code></pre></div>
+</div>
+<div id="example-attributes-of-a-3d-tensor" class="section level3">
+<h3><span class="header-section-number">5.1.3</span> Example: Attributes of a 3D tensor</h3>
+<p>Given a 3D tensor:</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="tensors.html#cb135-1"></a>ft3d &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(4L, 3L, 2L)</span>
+<span id="cb135-2"><a href="tensors.html#cb135-2"></a>ft3d</span></code></pre></div>
+<pre><code>#&gt; tensor([[[-8.1899e+30,  4.5699e-41],
+#&gt;          [-8.1899e+30,  4.5699e-41],
+#&gt;          [ 0.0000e+00,  0.0000e+00]],
+#&gt; 
+#&gt;         [[ 0.0000e+00,  0.0000e+00],
+#&gt;          [ 0.0000e+00,  0.0000e+00],
+#&gt;          [ 0.0000e+00,  0.0000e+00]],
+#&gt; 
+#&gt;         [[ 0.0000e+00,  0.0000e+00],
+#&gt;          [ 0.0000e+00,  0.0000e+00],
+#&gt;          [ 0.0000e+00,  0.0000e+00]],
+#&gt; 
+#&gt;         [[ 0.0000e+00,  0.0000e+00],
+#&gt;          [ 0.0000e+00,  0.0000e+00],
+#&gt;          [ 0.0000e+00,  0.0000e+00]]], dtype=torch.float32)</code></pre>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="tensors.html#cb137-1"></a>ft3d<span class="op">$</span><span class="kw">size</span>()</span>
+<span id="cb137-2"><a href="tensors.html#cb137-2"></a><span class="co">#&gt; torch.Size([4, 3, 2])</span></span>
+<span id="cb137-3"><a href="tensors.html#cb137-3"></a><span class="kw">length</span>(ft3d)</span>
+<span id="cb137-4"><a href="tensors.html#cb137-4"></a><span class="co">#&gt; [1] 24</span></span>
+<span id="cb137-5"><a href="tensors.html#cb137-5"></a>ft3d<span class="op">$</span>shape</span>
+<span id="cb137-6"><a href="tensors.html#cb137-6"></a><span class="co">#&gt; torch.Size([4, 3, 2])</span></span>
+<span id="cb137-7"><a href="tensors.html#cb137-7"></a>ft3d<span class="op">$</span>numel</span>
+<span id="cb137-8"><a href="tensors.html#cb137-8"></a><span class="co">#&gt; &lt;built-in method numel of Tensor&gt;</span></span></code></pre></div>
+</div>
+</div>
+<div id="arithmetic-of-tensors" class="section level2">
+<h2><span class="header-section-number">5.2</span> Arithmetic of tensors</h2>
+<div id="add-tensors" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Add tensors</h3>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="tensors.html#cb138-1"></a><span class="co"># add a scalar to a tensor</span></span>
+<span id="cb138-2"><a href="tensors.html#cb138-2"></a><span class="co"># 3x5 matrix uniformly distributed between 0 and 1</span></span>
+<span id="cb138-3"><a href="tensors.html#cb138-3"></a>mat0 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(3L, 5L)<span class="op">$</span><span class="kw">uniform_</span>(0L, 1L)</span>
+<span id="cb138-4"><a href="tensors.html#cb138-4"></a>mat0 <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span></span></code></pre></div>
+<pre><code>#&gt; tensor([[0.1766, 0.3347, 0.1412, 1.0895, 0.9526],
+#&gt;         [0.6058, 0.5754, 0.1480, 0.3879, 1.0505],
+#&gt;         [0.6315, 0.7016, 1.0853, 0.5059, 0.6610]], dtype=torch.float32)</code></pre>
+</div>
+<div id="add-an-element-of-a-tensor-to-another-tensor" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Add an element of a tensor to another tensor</h3>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="tensors.html#cb140-1"></a><span class="co"># fill a 3x5 matrix with 0.1</span></span>
+<span id="cb140-2"><a href="tensors.html#cb140-2"></a>mat1 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(3L, 5L)<span class="op">$</span><span class="kw">uniform_</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb140-3"><a href="tensors.html#cb140-3"></a><span class="kw">print</span>(mat1)</span>
+<span id="cb140-4"><a href="tensors.html#cb140-4"></a><span class="co">#&gt; tensor([[0.1000, 0.1000, 0.1000, 0.1000, 0.1000],</span></span>
+<span id="cb140-5"><a href="tensors.html#cb140-5"></a><span class="co">#&gt;         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000],</span></span>
+<span id="cb140-6"><a href="tensors.html#cb140-6"></a><span class="co">#&gt;         [0.1000, 0.1000, 0.1000, 0.1000, 0.1000]], dtype=torch.float32)</span></span>
+<span id="cb140-7"><a href="tensors.html#cb140-7"></a></span>
+<span id="cb140-8"><a href="tensors.html#cb140-8"></a><span class="co"># a vector with all ones</span></span>
+<span id="cb140-9"><a href="tensors.html#cb140-9"></a>mat2 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(5L)<span class="op">$</span><span class="kw">uniform_</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb140-10"><a href="tensors.html#cb140-10"></a><span class="kw">print</span>(mat2)</span>
+<span id="cb140-11"><a href="tensors.html#cb140-11"></a><span class="co">#&gt; tensor([1., 1., 1., 1., 1.], dtype=torch.float32)</span></span>
+<span id="cb140-12"><a href="tensors.html#cb140-12"></a></span>
+<span id="cb140-13"><a href="tensors.html#cb140-13"></a><span class="co"># add element (1,1) to another tensor</span></span>
+<span id="cb140-14"><a href="tensors.html#cb140-14"></a>mat1[<span class="dv">1</span>, <span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>mat2</span>
+<span id="cb140-15"><a href="tensors.html#cb140-15"></a><span class="co">#&gt; tensor([1.1000, 1.1000, 1.1000, 1.1000, 1.1000], dtype=torch.float32)</span></span></code></pre></div>
+<p>Add two tensors using the function <code>add()</code>:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="tensors.html#cb141-1"></a><span class="co"># PyTorch add two tensors</span></span>
+<span id="cb141-2"><a href="tensors.html#cb141-2"></a>x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(5L, 4L)</span>
+<span id="cb141-3"><a href="tensors.html#cb141-3"></a>y =<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(5L, 4L)</span>
+<span id="cb141-4"><a href="tensors.html#cb141-4"></a></span>
+<span id="cb141-5"><a href="tensors.html#cb141-5"></a><span class="kw">print</span>(x<span class="op">$</span><span class="kw">add</span>(y))</span></code></pre></div>
+<pre><code>#&gt; tensor([[1.4914, 1.8956, 0.8634, 0.9778],
+#&gt;         [1.3341, 0.8549, 1.2800, 0.8321],
+#&gt;         [0.7916, 1.5375, 1.3967, 1.1675],
+#&gt;         [1.5035, 1.6207, 1.3936, 1.6833],
+#&gt;         [1.0002, 1.4057, 1.3666, 1.0067]])</code></pre>
+<p>Add two tensors using the generic <code>+</code>:</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="tensors.html#cb143-1"></a><span class="kw">print</span>(x <span class="op">+</span><span class="st"> </span>y)</span></code></pre></div>
+<pre><code>#&gt; tensor([[1.4914, 1.8956, 0.8634, 0.9778],
+#&gt;         [1.3341, 0.8549, 1.2800, 0.8321],
+#&gt;         [0.7916, 1.5375, 1.3967, 1.1675],
+#&gt;         [1.5035, 1.6207, 1.3936, 1.6833],
+#&gt;         [1.0002, 1.4057, 1.3666, 1.0067]])</code></pre>
+</div>
+<div id="multiply-a-tensor-by-a-scalar" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> Multiply a tensor by a scalar</h3>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="tensors.html#cb145-1"></a><span class="co"># Multiply tensor by scalar</span></span>
+<span id="cb145-2"><a href="tensors.html#cb145-2"></a>tensor =<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(4L, <span class="dt">dtype=</span>torch<span class="op">$</span>float64)</span>
+<span id="cb145-3"><a href="tensors.html#cb145-3"></a>scalar =<span class="st"> </span>np<span class="op">$</span><span class="kw">float64</span>(<span class="fl">4.321</span>)</span>
+<span id="cb145-4"><a href="tensors.html#cb145-4"></a><span class="kw">print</span>(scalar)</span>
+<span id="cb145-5"><a href="tensors.html#cb145-5"></a><span class="kw">print</span>(torch<span class="op">$</span><span class="kw">scalar_tensor</span>(scalar))</span></code></pre></div>
+<pre><code>#&gt; [1] 4.32
+#&gt; tensor(4.3210)</code></pre>
+<p>Multiply two tensors using the function <code>mul</code>:</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="tensors.html#cb147-1"></a>(<span class="dt">prod =</span> torch<span class="op">$</span><span class="kw">mul</span>(tensor, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(scalar)))</span></code></pre></div>
+<pre><code>#&gt; tensor([4.3210, 4.3210, 4.3210, 4.3210])</code></pre>
+<p>Short version using generics</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="tensors.html#cb149-1"></a>(<span class="dt">prod =</span> tensor <span class="op">*</span><span class="st"> </span>scalar)</span></code></pre></div>
+<pre><code>#&gt; tensor([4.3210, 4.3210, 4.3210, 4.3210])</code></pre>
+</div>
+</div>
+<div id="numpy-and-pytorch" class="section level2">
+<h2><span class="header-section-number">5.3</span> NumPy and PyTorch</h2>
+<p><code>numpy</code> has been made available as a module in <code>rTorch</code>. We can call functions from <code>numpy</code> refrerring to it as <code>np$_a_function</code>. Examples:</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="tensors.html#cb151-1"></a><span class="co"># a 2D numpy array  </span></span>
+<span id="cb151-2"><a href="tensors.html#cb151-2"></a>syn0 &lt;-<span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(3L, 5L)</span>
+<span id="cb151-3"><a href="tensors.html#cb151-3"></a><span class="kw">print</span>(syn0)</span></code></pre></div>
+<pre><code>#&gt;        [,1]  [,2]  [,3]  [,4]  [,5]
+#&gt; [1,] 0.9779 0.952 0.415 0.811 0.922
+#&gt; [2,] 0.2693 0.508 0.179 0.903 0.177
+#&gt; [3,] 0.0515 0.844 0.084 0.991 0.992</code></pre>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="tensors.html#cb153-1"></a><span class="co"># numpy arrays of zeros</span></span>
+<span id="cb153-2"><a href="tensors.html#cb153-2"></a>syn1 &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">zeros</span>(<span class="kw">c</span>(5L, 10L))</span>
+<span id="cb153-3"><a href="tensors.html#cb153-3"></a><span class="kw">print</span>(syn1)</span></code></pre></div>
+<pre><code>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#&gt; [1,]    0    0    0    0    0    0    0    0    0     0
+#&gt; [2,]    0    0    0    0    0    0    0    0    0     0
+#&gt; [3,]    0    0    0    0    0    0    0    0    0     0
+#&gt; [4,]    0    0    0    0    0    0    0    0    0     0
+#&gt; [5,]    0    0    0    0    0    0    0    0    0     0</code></pre>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="tensors.html#cb155-1"></a><span class="co"># add a scalar to a numpy array</span></span>
+<span id="cb155-2"><a href="tensors.html#cb155-2"></a>syn1 =<span class="st"> </span>syn1 <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span></span>
+<span id="cb155-3"><a href="tensors.html#cb155-3"></a><span class="kw">print</span>(syn1)</span></code></pre></div>
+<pre><code>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#&gt; [1,]  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1   0.1
+#&gt; [2,]  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1   0.1
+#&gt; [3,]  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1   0.1
+#&gt; [4,]  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1   0.1
+#&gt; [5,]  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1  0.1   0.1</code></pre>
+<p>And the dot product of both:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="tensors.html#cb157-1"></a>np<span class="op">$</span><span class="kw">dot</span>(syn0, syn1)</span></code></pre></div>
+<pre><code>#&gt;       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]
+#&gt; [1,] 0.408 0.408 0.408 0.408 0.408 0.408 0.408 0.408 0.408 0.408
+#&gt; [2,] 0.204 0.204 0.204 0.204 0.204 0.204 0.204 0.204 0.204 0.204
+#&gt; [3,] 0.296 0.296 0.296 0.296 0.296 0.296 0.296 0.296 0.296 0.296</code></pre>
+<div id="in-python-we-use-tuples-in-r-we-use-vectors" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> In Python we use Tuples, in R we use vectors</h3>
+<p>In <code>numpy</code> a multidimensional array needs to be defined with a <code>tuple</code>.
+in R we do it with a <code>vector</code>.</p>
+<p>In Python, we use a tuple, <code>(5, 5)</code> to indicate the shape of the array:</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb159-1"><a href="tensors.html#cb159-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb159-2"><a href="tensors.html#cb159-2"></a><span class="bu">print</span>(np.ones((<span class="dv">5</span>, <span class="dv">5</span>)))</span></code></pre></div>
+<pre><code>#&gt; [[1. 1. 1. 1. 1.]
+#&gt;  [1. 1. 1. 1. 1.]
+#&gt;  [1. 1. 1. 1. 1.]
+#&gt;  [1. 1. 1. 1. 1.]
+#&gt;  [1. 1. 1. 1. 1.]]</code></pre>
+<p>In R, we use a vector <code>c(5L, 5L)</code>. The <code>L</code> indicates an integer.</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="tensors.html#cb161-1"></a>l1 &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">ones</span>(<span class="kw">c</span>(5L, 5L))</span>
+<span id="cb161-2"><a href="tensors.html#cb161-2"></a><span class="kw">print</span>(l1)</span></code></pre></div>
+<pre><code>#&gt;      [,1] [,2] [,3] [,4] [,5]
+#&gt; [1,]    1    1    1    1    1
+#&gt; [2,]    1    1    1    1    1
+#&gt; [3,]    1    1    1    1    1
+#&gt; [4,]    1    1    1    1    1
+#&gt; [5,]    1    1    1    1    1</code></pre>
+</div>
+<div id="build-a-numpy-array-from-three-r-vectors" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> Build a numpy array from three R vectors</h3>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="tensors.html#cb163-1"></a>X &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>), <span class="kw">c</span>(<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)))</span>
+<span id="cb163-2"><a href="tensors.html#cb163-2"></a><span class="kw">print</span>(X)</span></code></pre></div>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    2    3
+#&gt; [2,]    4    5    6
+#&gt; [3,]    7    8    9</code></pre>
+<p>And we could transpose the array using <code>numpy</code> as well:</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="tensors.html#cb165-1"></a>np<span class="op">$</span><span class="kw">transpose</span>(X)</span></code></pre></div>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    4    7
+#&gt; [2,]    2    5    8
+#&gt; [3,]    3    6    9</code></pre>
+</div>
+<div id="convert-a-numpy-array-to-a-tensor-with-as_tensor" class="section level3">
+<h3><span class="header-section-number">5.3.3</span> Convert a numpy array to a tensor with <code>as_tensor()</code></h3>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="tensors.html#cb167-1"></a>a =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))   <span class="co"># a numpy array</span></span>
+<span id="cb167-2"><a href="tensors.html#cb167-2"></a>t =<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(a)        <span class="co"># convert it to tensor</span></span>
+<span id="cb167-3"><a href="tensors.html#cb167-3"></a><span class="kw">print</span>(t)</span></code></pre></div>
+<pre><code>#&gt; tensor([1., 2., 3.])</code></pre>
+</div>
+<div id="create-and-fill-a-tensor" class="section level3">
+<h3><span class="header-section-number">5.3.4</span> Create and fill a tensor</h3>
+<p>We can create the tensor directly from R using <code>tensor()</code>:</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="tensors.html#cb169-1"></a>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>( <span class="dv">1</span>,  <span class="dv">2</span>,  <span class="dv">3</span>))   <span class="co"># create a tensor</span></span>
+<span id="cb169-2"><a href="tensors.html#cb169-2"></a>t[1L]<span class="op">$</span><span class="kw">fill_</span>(<span class="op">-</span><span class="dv">1</span>)                  <span class="co"># fill element with -1</span></span>
+<span id="cb169-3"><a href="tensors.html#cb169-3"></a><span class="kw">print</span>(a)</span></code></pre></div>
+<pre><code>#&gt; tensor([1., 2., 3.])
+#&gt; tensor(-1.)
+#&gt; [1] -1  2  3</code></pre>
+</div>
+<div id="tensor-to-array-and-viceversa" class="section level3">
+<h3><span class="header-section-number">5.3.5</span> Tensor to array, and viceversa</h3>
+<p>This is a very common operation in machine learning:</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="tensors.html#cb171-1"></a><span class="co"># convert tensor to a numpy array</span></span>
+<span id="cb171-2"><a href="tensors.html#cb171-2"></a>a =<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(5L, 4L)</span>
+<span id="cb171-3"><a href="tensors.html#cb171-3"></a>b =<span class="st"> </span>a<span class="op">$</span><span class="kw">numpy</span>()</span>
+<span id="cb171-4"><a href="tensors.html#cb171-4"></a><span class="kw">print</span>(b)</span></code></pre></div>
+<pre><code>#&gt;        [,1]  [,2]  [,3]   [,4]
+#&gt; [1,] 0.1462 0.503 0.975 0.6088
+#&gt; [2,] 0.7191 0.374 0.808 0.0745
+#&gt; [3,] 0.7063 0.590 0.534 0.2575
+#&gt; [4,] 0.5509 0.960 0.995 0.7418
+#&gt; [5,] 0.0304 0.895 0.733 0.9118</code></pre>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="tensors.html#cb173-1"></a><span class="co"># convert a numpy array to a tensor</span></span>
+<span id="cb173-2"><a href="tensors.html#cb173-2"></a>np_a =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">c</span>(<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">6</span>)))</span>
+<span id="cb173-3"><a href="tensors.html#cb173-3"></a>t_a =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(np_a)</span>
+<span id="cb173-4"><a href="tensors.html#cb173-4"></a><span class="kw">print</span>(t_a)</span></code></pre></div>
+<pre><code>#&gt; tensor([3., 4., 3., 6.])</code></pre>
+</div>
+</div>
+<div id="create-tensors" class="section level2">
+<h2><span class="header-section-number">5.4</span> Create tensors</h2>
+<p>A random 1D tensor:</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="tensors.html#cb175-1"></a>ft1 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(5L))</span>
+<span id="cb175-2"><a href="tensors.html#cb175-2"></a><span class="kw">print</span>(ft1)</span></code></pre></div>
+<pre><code>#&gt; tensor([0.5503, 0.2856, 0.1487, 0.8324, 0.2584], dtype=torch.float32)</code></pre>
+<p>Force a tensor as a <code>float</code> of 64-bits:</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="tensors.html#cb177-1"></a>ft2 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(5L), <span class="dt">dtype=</span> torch<span class="op">$</span>float64)</span>
+<span id="cb177-2"><a href="tensors.html#cb177-2"></a><span class="kw">print</span>(ft2)</span></code></pre></div>
+<pre><code>#&gt; tensor([0.5997, 0.6193, 0.8974, 0.9082, 0.3179])</code></pre>
+<p>Convert the tensor to a <code>float</code> of 16-bits:</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="tensors.html#cb179-1"></a>ft2_dbl &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(ft2, <span class="dt">dtype =</span> torch<span class="op">$</span>float16)</span>
+<span id="cb179-2"><a href="tensors.html#cb179-2"></a>ft2_dbl</span></code></pre></div>
+<pre><code>#&gt; tensor([0.5996, 0.6191, 0.8975, 0.9082, 0.3179], dtype=torch.float16)</code></pre>
+<p>Create a tensor of size (5 x 7) with uninitialized memory:</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="tensors.html#cb181-1"></a>a &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(5L, 7L)</span>
+<span id="cb181-2"><a href="tensors.html#cb181-2"></a><span class="kw">print</span>(a)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 0.0000e+00,  0.0000e+00, -9.1950e-03,  3.0759e-41,  0.0000e+00,
+#&gt;           0.0000e+00,  1.4013e-45],
+#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+#&gt;           0.0000e+00,  0.0000e+00],
+#&gt;         [-1.6768e-02,  3.0759e-41,  0.0000e+00,  0.0000e+00, -1.3938e-04,
+#&gt;           3.0759e-41,  0.0000e+00],
+#&gt;         [ 0.0000e+00,  1.4013e-45,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+#&gt;           0.0000e+00,  0.0000e+00],
+#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+#&gt;           0.0000e+00,  0.0000e+00]], dtype=torch.float32)</code></pre>
+<p>Using arange to create a tensor.
+<code>arange</code> starts at 0.</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="tensors.html#cb183-1"></a>v =<span class="st"> </span>torch<span class="op">$</span><span class="kw">arange</span>(9L)</span>
+<span id="cb183-2"><a href="tensors.html#cb183-2"></a><span class="kw">print</span>(v)</span></code></pre></div>
+<pre><code>#&gt; tensor([0, 1, 2, 3, 4, 5, 6, 7, 8])</code></pre>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="tensors.html#cb185-1"></a><span class="co"># reshape</span></span>
+<span id="cb185-2"><a href="tensors.html#cb185-2"></a>(<span class="dt">v =</span> v<span class="op">$</span><span class="kw">view</span>(3L, 3L))</span></code></pre></div>
+<pre><code>#&gt; tensor([[0, 1, 2],
+#&gt;         [3, 4, 5],
+#&gt;         [6, 7, 8]])</code></pre>
+<div id="tensor-fill" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> Tensor fill</h3>
+<p>On this tensor:</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="tensors.html#cb187-1"></a>(<span class="dt">v =</span> torch<span class="op">$</span><span class="kw">ones</span>(3L, 3L))</span></code></pre></div>
+<pre><code>#&gt; tensor([[1., 1., 1.],
+#&gt;         [1., 1., 1.],
+#&gt;         [1., 1., 1.]])</code></pre>
+<p>Fill row 1 with 2s:</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="tensors.html#cb189-1"></a><span class="kw">invisible</span>(v[1L, ]<span class="op">$</span><span class="kw">fill_</span>(2L))</span>
+<span id="cb189-2"><a href="tensors.html#cb189-2"></a><span class="kw">print</span>(v)</span></code></pre></div>
+<pre><code>#&gt; tensor([[2., 2., 2.],
+#&gt;         [1., 1., 1.],
+#&gt;         [1., 1., 1.]])</code></pre>
+<p>Fill row 2 with 3s:</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="tensors.html#cb191-1"></a><span class="kw">invisible</span>(v[2L, ]<span class="op">$</span><span class="kw">fill_</span>(3L))</span>
+<span id="cb191-2"><a href="tensors.html#cb191-2"></a><span class="kw">print</span>(v)</span></code></pre></div>
+<pre><code>#&gt; tensor([[2., 2., 2.],
+#&gt;         [3., 3., 3.],
+#&gt;         [1., 1., 1.]])</code></pre>
+<p>Fill column 3 with fours (4):</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="tensors.html#cb193-1"></a><span class="kw">invisible</span>(v[, <span class="dv">3</span>]<span class="op">$</span><span class="kw">fill_</span>(4L))</span>
+<span id="cb193-2"><a href="tensors.html#cb193-2"></a><span class="kw">print</span>(v)</span></code></pre></div>
+<pre><code>#&gt; tensor([[2., 2., 4.],
+#&gt;         [3., 3., 4.],
+#&gt;         [1., 1., 4.]])</code></pre>
+</div>
+<div id="initialize-tensor-with-a-range-of-values" class="section level3">
+<h3><span class="header-section-number">5.4.2</span> Initialize Tensor with a range of values</h3>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="tensors.html#cb195-1"></a><span class="co"># Initialize Tensor with a range of value</span></span>
+<span id="cb195-2"><a href="tensors.html#cb195-2"></a>v =<span class="st"> </span>torch<span class="op">$</span><span class="kw">arange</span>(10L)             <span class="co"># similar to range(5) but creating a Tensor</span></span>
+<span id="cb195-3"><a href="tensors.html#cb195-3"></a>(<span class="dt">v =</span> torch<span class="op">$</span><span class="kw">arange</span>(0L, 10L, <span class="dt">step =</span> 1L))  <span class="co"># Size 5. Similar to range(0, 5, 1)</span></span></code></pre></div>
+<pre><code>#&gt; tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</code></pre>
+</div>
+<div id="initialize-a-linear-or-log-scale-tensor" class="section level3">
+<h3><span class="header-section-number">5.4.3</span> Initialize a linear or log scale Tensor</h3>
+<p>Create a tensor with 10 linear points for (1, 10) inclusive:</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="tensors.html#cb197-1"></a>(<span class="dt">v =</span> torch<span class="op">$</span><span class="kw">linspace</span>(1L, 10L, <span class="dt">steps =</span> 10L)) </span></code></pre></div>
+<pre><code>#&gt; tensor([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10.])</code></pre>
+<p>Create a tensor with 10 logarithmic points for (1, 10) inclusive:</p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="tensors.html#cb199-1"></a>(<span class="dt">v =</span> torch<span class="op">$</span><span class="kw">logspace</span>(<span class="dt">start=</span><span class="op">-</span>10L, <span class="dt">end =</span> 10L, <span class="dt">steps =</span> 5L)) </span></code></pre></div>
+<pre><code>#&gt; tensor([1.0000e-10, 1.0000e-05, 1.0000e+00, 1.0000e+05, 1.0000e+10])</code></pre>
+</div>
+<div id="fill-a-tensor-in-place-out-of-place" class="section level3">
+<h3><span class="header-section-number">5.4.4</span> Fill a tensor In-place / Out-of-place</h3>
+<p>On this uninitialized tensor:</p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="tensors.html#cb201-1"></a>(a &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(5L, 7L))</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 0.0000e+00,  0.0000e+00,  4.2039e-45,  0.0000e+00,  0.0000e+00,
+#&gt;           0.0000e+00,  0.0000e+00],
+#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00, -6.8333e-03,  3.0759e-41,
+#&gt;           0.0000e+00,  0.0000e+00],
+#&gt;         [-5.5317e-03,  3.0759e-41,  0.0000e+00,  0.0000e+00,  1.4013e-45,
+#&gt;           0.0000e+00,  0.0000e+00],
+#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+#&gt;          -6.8333e-03,  3.0759e-41],
+#&gt;         [ 0.0000e+00,  0.0000e+00, -6.5325e-09,  3.0759e-41,  0.0000e+00,
+#&gt;           0.0000e+00,  1.4013e-45]], dtype=torch.float32)</code></pre>
+<p>Fill the tensor with the value 3.5:</p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="tensors.html#cb203-1"></a>a<span class="op">$</span><span class="kw">fill_</span>(<span class="fl">3.5</span>)</span></code></pre></div>
+<pre><code>#&gt; tensor([[3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000],
+#&gt;         [3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000],
+#&gt;         [3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000],
+#&gt;         [3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000],
+#&gt;         [3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000]],
+#&gt;        dtype=torch.float32)</code></pre>
+<p>Add a scalar to the tensor:</p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="tensors.html#cb205-1"></a>b &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">add</span>(<span class="fl">4.0</span>)</span></code></pre></div>
+<p>The tensor <code>a</code> is still filled with 3.5.
+A new tensor <code>b</code> is returned with values 3.5 + 4.0 = 7.5</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="tensors.html#cb206-1"></a><span class="kw">print</span>(a)</span>
+<span id="cb206-2"><a href="tensors.html#cb206-2"></a><span class="kw">print</span>(b)</span></code></pre></div>
+<pre><code>#&gt; tensor([[3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000],
+#&gt;         [3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000],
+#&gt;         [3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000],
+#&gt;         [3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000],
+#&gt;         [3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000, 3.5000]],
+#&gt;        dtype=torch.float32)
+#&gt; tensor([[7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000],
+#&gt;         [7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000],
+#&gt;         [7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000],
+#&gt;         [7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000],
+#&gt;         [7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000, 7.5000]],
+#&gt;        dtype=torch.float32)</code></pre>
+</div>
+</div>
+<div id="tensor-resizing" class="section level2">
+<h2><span class="header-section-number">5.5</span> Tensor resizing</h2>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="tensors.html#cb208-1"></a>x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, 3L)            <span class="co"># Size 2x3</span></span>
+<span id="cb208-2"><a href="tensors.html#cb208-2"></a><span class="kw">print</span>(x)</span>
+<span id="cb208-3"><a href="tensors.html#cb208-3"></a><span class="co">#&gt; tensor([[ 0.6216,  1.5740, -0.6996],</span></span>
+<span id="cb208-4"><a href="tensors.html#cb208-4"></a><span class="co">#&gt;         [-0.0022,  0.8971,  1.2162]])</span></span>
+<span id="cb208-5"><a href="tensors.html#cb208-5"></a></span>
+<span id="cb208-6"><a href="tensors.html#cb208-6"></a>y =<span class="st"> </span>x<span class="op">$</span><span class="kw">view</span>(6L)                     <span class="co"># Resize x to size 6</span></span>
+<span id="cb208-7"><a href="tensors.html#cb208-7"></a><span class="kw">print</span>(y)</span>
+<span id="cb208-8"><a href="tensors.html#cb208-8"></a><span class="co">#&gt; tensor([ 0.6216,  1.5740, -0.6996, -0.0022,  0.8971,  1.2162])</span></span>
+<span id="cb208-9"><a href="tensors.html#cb208-9"></a></span>
+<span id="cb208-10"><a href="tensors.html#cb208-10"></a>z =<span class="st"> </span>x<span class="op">$</span><span class="kw">view</span>(<span class="op">-</span>1L, 2L)                <span class="co"># Size 3x2</span></span>
+<span id="cb208-11"><a href="tensors.html#cb208-11"></a><span class="kw">print</span>(z)</span>
+<span id="cb208-12"><a href="tensors.html#cb208-12"></a><span class="co">#&gt; tensor([[ 0.6216,  1.5740],</span></span>
+<span id="cb208-13"><a href="tensors.html#cb208-13"></a><span class="co">#&gt;         [-0.6996, -0.0022],</span></span>
+<span id="cb208-14"><a href="tensors.html#cb208-14"></a><span class="co">#&gt;         [ 0.8971,  1.2162]])</span></span>
+<span id="cb208-15"><a href="tensors.html#cb208-15"></a><span class="kw">print</span>(z<span class="op">$</span>shape)</span>
+<span id="cb208-16"><a href="tensors.html#cb208-16"></a><span class="co">#&gt; torch.Size([3, 2])</span></span></code></pre></div>
+<div id="exercise" class="section level3">
+<h3><span class="header-section-number">5.5.1</span> Exercise</h3>
+<p>Reproduce this tensor:</p>
+<pre><code> 0 1 2
+ 3 4 5
+ 6 7 8</code></pre>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="tensors.html#cb210-1"></a><span class="co"># create a vector with the number of elements</span></span>
+<span id="cb210-2"><a href="tensors.html#cb210-2"></a>v =<span class="st"> </span>torch<span class="op">$</span><span class="kw">arange</span>(9L)</span>
+<span id="cb210-3"><a href="tensors.html#cb210-3"></a></span>
+<span id="cb210-4"><a href="tensors.html#cb210-4"></a><span class="co"># resize to a 3x3 tensor</span></span>
+<span id="cb210-5"><a href="tensors.html#cb210-5"></a>(<span class="dt">v =</span> v<span class="op">$</span><span class="kw">view</span>(3L, 3L))</span></code></pre></div>
+<pre><code>#&gt; tensor([[0, 1, 2],
+#&gt;         [3, 4, 5],
+#&gt;         [6, 7, 8]])</code></pre>
+</div>
+</div>
+<div id="concatenate-tensors" class="section level2">
+<h2><span class="header-section-number">5.6</span> Concatenate tensors</h2>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="tensors.html#cb212-1"></a>x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, 3L)</span>
+<span id="cb212-2"><a href="tensors.html#cb212-2"></a><span class="kw">print</span>(x)</span>
+<span id="cb212-3"><a href="tensors.html#cb212-3"></a><span class="kw">print</span>(x<span class="op">$</span>shape)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.6689,  1.1583,  0.6034],
+#&gt;         [-0.7479, -0.5579,  1.5737]])
+#&gt; torch.Size([2, 3])</code></pre>
+<div id="concatenate-tensors-by-dim0-rows" class="section level3">
+<h3><span class="header-section-number">5.6.1</span> Concatenate tensors by <code>dim=0</code> (rows)</h3>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="tensors.html#cb214-1"></a>(x0 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">cat</span>(<span class="kw">list</span>(x, x, x), 0L))</span>
+<span id="cb214-2"><a href="tensors.html#cb214-2"></a><span class="kw">print</span>(x0<span class="op">$</span>shape)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.6689,  1.1583,  0.6034],
+#&gt;         [-0.7479, -0.5579,  1.5737],
+#&gt;         [ 1.6689,  1.1583,  0.6034],
+#&gt;         [-0.7479, -0.5579,  1.5737],
+#&gt;         [ 1.6689,  1.1583,  0.6034],
+#&gt;         [-0.7479, -0.5579,  1.5737]])
+#&gt; torch.Size([6, 3])</code></pre>
+</div>
+<div id="concatenate-tensors-by-dim1-columns" class="section level3">
+<h3><span class="header-section-number">5.6.2</span> Concatenate tensors by <code>dim=1</code> (columns)</h3>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="tensors.html#cb216-1"></a>(x1 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">cat</span>(<span class="kw">list</span>(x, x, x), 1L))</span>
+<span id="cb216-2"><a href="tensors.html#cb216-2"></a><span class="kw">print</span>(x1<span class="op">$</span>shape)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.6689,  1.1583,  0.6034,  1.6689,  1.1583,  0.6034,  1.6689,  1.1583,
+#&gt;           0.6034],
+#&gt;         [-0.7479, -0.5579,  1.5737, -0.7479, -0.5579,  1.5737, -0.7479, -0.5579,
+#&gt;           1.5737]])
+#&gt; torch.Size([2, 9])</code></pre>
+</div>
+</div>
+<div id="reshape-tensors" class="section level2">
+<h2><span class="header-section-number">5.7</span> Reshape tensors</h2>
+<div id="with-chunk" class="section level3">
+<h3><span class="header-section-number">5.7.1</span> With <code>chunk()</code>:</h3>
+<p>Let’s say this is an image tensor with the 3-channels and 28x28 pixels</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="tensors.html#cb218-1"></a><span class="co"># ----- Reshape tensors -----</span></span>
+<span id="cb218-2"><a href="tensors.html#cb218-2"></a>img &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(3L, 28L, 28L)  <span class="co"># Create the tensor of ones</span></span>
+<span id="cb218-3"><a href="tensors.html#cb218-3"></a><span class="kw">print</span>(img<span class="op">$</span><span class="kw">size</span>())</span></code></pre></div>
+<pre><code>#&gt; torch.Size([3, 28, 28])</code></pre>
+<p>On the first dimension <code>dim = 0L</code>, reshape the tensor:</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="tensors.html#cb220-1"></a>img_chunks &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">chunk</span>(img, <span class="dt">chunks =</span> 3L, <span class="dt">dim =</span> 0L)</span>
+<span id="cb220-2"><a href="tensors.html#cb220-2"></a><span class="kw">print</span>(<span class="kw">length</span>(img_chunks))</span>
+<span id="cb220-3"><a href="tensors.html#cb220-3"></a><span class="kw">print</span>(<span class="kw">class</span>(img_chunks))</span></code></pre></div>
+<pre><code>#&gt; [1] 3
+#&gt; [1] &quot;list&quot;</code></pre>
+<p><code>img_chunks</code> is a <code>list</code> of three members.</p>
+<p>The first chunk member:</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="tensors.html#cb222-1"></a><span class="co"># 1st chunk member</span></span>
+<span id="cb222-2"><a href="tensors.html#cb222-2"></a>img_chunk &lt;-<span class="st"> </span>img_chunks[[<span class="dv">1</span>]]</span>
+<span id="cb222-3"><a href="tensors.html#cb222-3"></a><span class="kw">print</span>(img_chunk<span class="op">$</span><span class="kw">size</span>())</span>
+<span id="cb222-4"><a href="tensors.html#cb222-4"></a><span class="kw">print</span>(img_chunk<span class="op">$</span><span class="kw">sum</span>())      <span class="co"># if the tensor had all ones, what is the sum?</span></span></code></pre></div>
+<pre><code>#&gt; torch.Size([1, 28, 28])
+#&gt; tensor(784.)</code></pre>
+<p>The second chunk member:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="tensors.html#cb224-1"></a><span class="co"># 2nd chunk member</span></span>
+<span id="cb224-2"><a href="tensors.html#cb224-2"></a>img_chunk &lt;-<span class="st"> </span>img_chunks[[<span class="dv">2</span>]]</span>
+<span id="cb224-3"><a href="tensors.html#cb224-3"></a><span class="kw">print</span>(img_chunk<span class="op">$</span><span class="kw">size</span>())</span>
+<span id="cb224-4"><a href="tensors.html#cb224-4"></a><span class="kw">print</span>(img_chunk<span class="op">$</span><span class="kw">sum</span>())        <span class="co"># if the tensor had all ones, what is the sum?</span></span></code></pre></div>
+<pre><code>#&gt; torch.Size([1, 28, 28])
+#&gt; tensor(784.)</code></pre>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="tensors.html#cb226-1"></a><span class="co"># 3rd chunk member</span></span>
+<span id="cb226-2"><a href="tensors.html#cb226-2"></a>img_chunk &lt;-<span class="st"> </span>img_chunks[[<span class="dv">3</span>]]</span>
+<span id="cb226-3"><a href="tensors.html#cb226-3"></a><span class="kw">print</span>(img_chunk<span class="op">$</span><span class="kw">size</span>())</span>
+<span id="cb226-4"><a href="tensors.html#cb226-4"></a><span class="kw">print</span>(img_chunk<span class="op">$</span><span class="kw">sum</span>())        <span class="co"># if the tensor had all ones, what is the sum?</span></span></code></pre></div>
+<pre><code>#&gt; torch.Size([1, 28, 28])
+#&gt; tensor(784.)</code></pre>
+<div id="exercise-1" class="section level4">
+<h4><span class="header-section-number">5.7.1.1</span> Exercise</h4>
+<ol style="list-style-type: decimal">
+<li>Create a tensor of shape 3x28x28 filled with values 0.25 on the first channel</li>
+<li>The second channel with 0.5</li>
+<li>The third chanel with 0.75</li>
+<li>Find the sum for ecah separate channel</li>
+<li>Find the sum of all channels</li>
+</ol>
+</div>
+</div>
+<div id="with-index_select" class="section level3">
+<h3><span class="header-section-number">5.7.2</span> With <code>index_select()</code>:</h3>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="tensors.html#cb228-1"></a>img &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(3L, 28L, 28L)  <span class="co"># Create the tensor of ones</span></span>
+<span id="cb228-2"><a href="tensors.html#cb228-2"></a>img<span class="op">$</span><span class="kw">size</span>()</span></code></pre></div>
+<pre><code>#&gt; torch.Size([3, 28, 28])</code></pre>
+<p>This is the layer 1:</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="tensors.html#cb230-1"></a><span class="co"># index_select. get layer 1</span></span>
+<span id="cb230-2"><a href="tensors.html#cb230-2"></a>indices =<span class="st"> </span>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">c</span>(0L))</span>
+<span id="cb230-3"><a href="tensors.html#cb230-3"></a>img_layer_<span class="dv">1</span> &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">index_select</span>(img, <span class="dt">dim =</span> 0L, <span class="dt">index =</span> indices)</span></code></pre></div>
+<p>The size of the layer:</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="tensors.html#cb231-1"></a><span class="kw">print</span>(img_layer_<span class="dv">1</span><span class="op">$</span><span class="kw">size</span>())</span></code></pre></div>
+<pre><code>#&gt; torch.Size([1, 28, 28])</code></pre>
+<p>The sum of all elements in that layer:</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="tensors.html#cb233-1"></a><span class="kw">print</span>(img_layer_<span class="dv">1</span><span class="op">$</span><span class="kw">sum</span>())</span></code></pre></div>
+<pre><code>#&gt; tensor(784.)</code></pre>
+<p>This is the layer 2:</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="tensors.html#cb235-1"></a><span class="co"># index_select. get layer 2</span></span>
+<span id="cb235-2"><a href="tensors.html#cb235-2"></a>indices =<span class="st"> </span>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">c</span>(1L))</span>
+<span id="cb235-3"><a href="tensors.html#cb235-3"></a>img_layer_<span class="dv">2</span> &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">index_select</span>(img, <span class="dt">dim =</span> 0L, <span class="dt">index =</span> indices)</span>
+<span id="cb235-4"><a href="tensors.html#cb235-4"></a><span class="kw">print</span>(img_layer_<span class="dv">2</span><span class="op">$</span><span class="kw">size</span>())</span>
+<span id="cb235-5"><a href="tensors.html#cb235-5"></a><span class="kw">print</span>(img_layer_<span class="dv">2</span><span class="op">$</span><span class="kw">sum</span>())</span></code></pre></div>
+<pre><code>#&gt; torch.Size([1, 28, 28])
+#&gt; tensor(784.)</code></pre>
+<p>This is the layer 3:</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="tensors.html#cb237-1"></a><span class="co"># index_select. get layer 3</span></span>
+<span id="cb237-2"><a href="tensors.html#cb237-2"></a>indices =<span class="st"> </span>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">c</span>(2L))</span>
+<span id="cb237-3"><a href="tensors.html#cb237-3"></a>img_layer_<span class="dv">3</span> &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">index_select</span>(img, <span class="dt">dim =</span> 0L, <span class="dt">index =</span> indices)</span>
+<span id="cb237-4"><a href="tensors.html#cb237-4"></a><span class="kw">print</span>(img_layer_<span class="dv">3</span><span class="op">$</span><span class="kw">size</span>())</span>
+<span id="cb237-5"><a href="tensors.html#cb237-5"></a><span class="kw">print</span>(img_layer_<span class="dv">3</span><span class="op">$</span><span class="kw">sum</span>())</span></code></pre></div>
+<pre><code>#&gt; torch.Size([1, 28, 28])
+#&gt; tensor(784.)</code></pre>
+</div>
+</div>
+<div id="special-tensors" class="section level2">
+<h2><span class="header-section-number">5.8</span> Special tensors</h2>
+<div id="identity-matrix" class="section level3">
+<h3><span class="header-section-number">5.8.1</span> Identity matrix</h3>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="tensors.html#cb239-1"></a><span class="co"># identity matrix</span></span>
+<span id="cb239-2"><a href="tensors.html#cb239-2"></a>eye =<span class="st"> </span>torch<span class="op">$</span><span class="kw">eye</span>(3L)              <span class="co"># Create an identity 3x3 tensor</span></span>
+<span id="cb239-3"><a href="tensors.html#cb239-3"></a><span class="kw">print</span>(eye)</span></code></pre></div>
+<pre><code>#&gt; tensor([[1., 0., 0.],
+#&gt;         [0., 1., 0.],
+#&gt;         [0., 0., 1.]])</code></pre>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="tensors.html#cb241-1"></a><span class="co"># a 5x5 identity or unit matrix</span></span>
+<span id="cb241-2"><a href="tensors.html#cb241-2"></a>torch<span class="op">$</span><span class="kw">eye</span>(5L)</span></code></pre></div>
+<pre><code>#&gt; tensor([[1., 0., 0., 0., 0.],
+#&gt;         [0., 1., 0., 0., 0.],
+#&gt;         [0., 0., 1., 0., 0.],
+#&gt;         [0., 0., 0., 1., 0.],
+#&gt;         [0., 0., 0., 0., 1.]])</code></pre>
+</div>
+<div id="ones" class="section level3">
+<h3><span class="header-section-number">5.8.2</span> Ones</h3>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="tensors.html#cb243-1"></a>(<span class="dt">v =</span> torch<span class="op">$</span><span class="kw">ones</span>(10L))               <span class="co"># A tensor of size 10 containing all ones</span></span>
+<span id="cb243-2"><a href="tensors.html#cb243-2"></a></span>
+<span id="cb243-3"><a href="tensors.html#cb243-3"></a><span class="co"># reshape</span></span>
+<span id="cb243-4"><a href="tensors.html#cb243-4"></a>(<span class="dt">v =</span> torch<span class="op">$</span><span class="kw">ones</span>(2L, 1L, 2L, 1L))     <span class="co"># Size 2x1x2x1, a 4D tensor</span></span></code></pre></div>
+<pre><code>#&gt; tensor([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
+#&gt; tensor([[[[1.],
+#&gt;           [1.]]],
+#&gt; 
+#&gt; 
+#&gt;         [[[1.],
+#&gt;           [1.]]]])</code></pre>
+<p>The <em>matrix of ones</em> is also called `<code>unitary matrix</code>. This is a <code>4x4</code> unitary matrix.</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="tensors.html#cb245-1"></a>torch<span class="op">$</span><span class="kw">ones</span>(<span class="kw">c</span>(4L, 4L))</span></code></pre></div>
+<pre><code>#&gt; tensor([[1., 1., 1., 1.],
+#&gt;         [1., 1., 1., 1.],
+#&gt;         [1., 1., 1., 1.],
+#&gt;         [1., 1., 1., 1.]])</code></pre>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="tensors.html#cb247-1"></a><span class="co"># eye tensor</span></span>
+<span id="cb247-2"><a href="tensors.html#cb247-2"></a>eye =<span class="st"> </span>torch<span class="op">$</span><span class="kw">eye</span>(3L)</span>
+<span id="cb247-3"><a href="tensors.html#cb247-3"></a><span class="kw">print</span>(eye)</span>
+<span id="cb247-4"><a href="tensors.html#cb247-4"></a><span class="co"># like eye tensor</span></span>
+<span id="cb247-5"><a href="tensors.html#cb247-5"></a>v =<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones_like</span>(eye)     <span class="co"># A tensor with same shape as eye. Fill it with 1.</span></span>
+<span id="cb247-6"><a href="tensors.html#cb247-6"></a>v</span></code></pre></div>
+<pre><code>#&gt; tensor([[1., 0., 0.],
+#&gt;         [0., 1., 0.],
+#&gt;         [0., 0., 1.]])
+#&gt; tensor([[1., 1., 1.],
+#&gt;         [1., 1., 1.],
+#&gt;         [1., 1., 1.]])</code></pre>
+</div>
+<div id="zeros" class="section level3">
+<h3><span class="header-section-number">5.8.3</span> Zeros</h3>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="tensors.html#cb249-1"></a>(<span class="dt">z =</span> torch<span class="op">$</span><span class="kw">zeros</span>(10L))             <span class="co"># A tensor of size 10 containing all zeros</span></span></code></pre></div>
+<pre><code>#&gt; tensor([0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</code></pre>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="tensors.html#cb251-1"></a><span class="co"># matrix of zeros</span></span>
+<span id="cb251-2"><a href="tensors.html#cb251-2"></a>torch<span class="op">$</span><span class="kw">zeros</span>(<span class="kw">c</span>(4L, 4L))</span></code></pre></div>
+<pre><code>#&gt; tensor([[0., 0., 0., 0.],
+#&gt;         [0., 0., 0., 0.],
+#&gt;         [0., 0., 0., 0.],
+#&gt;         [0., 0., 0., 0.]])</code></pre>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="tensors.html#cb253-1"></a><span class="co"># a 3D tensor of zeros</span></span>
+<span id="cb253-2"><a href="tensors.html#cb253-2"></a>torch<span class="op">$</span><span class="kw">zeros</span>(<span class="kw">c</span>(3L, 4L, 2L))</span></code></pre></div>
+<pre><code>#&gt; tensor([[[0., 0.],
+#&gt;          [0., 0.],
+#&gt;          [0., 0.],
+#&gt;          [0., 0.]],
+#&gt; 
+#&gt;         [[0., 0.],
+#&gt;          [0., 0.],
+#&gt;          [0., 0.],
+#&gt;          [0., 0.]],
+#&gt; 
+#&gt;         [[0., 0.],
+#&gt;          [0., 0.],
+#&gt;          [0., 0.],
+#&gt;          [0., 0.]]])</code></pre>
+</div>
+<div id="diagonal-operations" class="section level3">
+<h3><span class="header-section-number">5.8.4</span> Diagonal operations</h3>
+<p>Given the 1D tensor</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="tensors.html#cb255-1"></a>a &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">c</span>(1L, 2L, 3L))</span>
+<span id="cb255-2"><a href="tensors.html#cb255-2"></a>a</span></code></pre></div>
+<pre><code>#&gt; tensor([1, 2, 3])</code></pre>
+<div id="diagonal-matrix" class="section level4">
+<h4><span class="header-section-number">5.8.4.1</span> Diagonal matrix</h4>
+<p>We want to fill the main diagonal with the vector:</p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="tensors.html#cb257-1"></a>torch<span class="op">$</span><span class="kw">diag</span>(a)</span></code></pre></div>
+<pre><code>#&gt; tensor([[1, 0, 0],
+#&gt;         [0, 2, 0],
+#&gt;         [0, 0, 3]])</code></pre>
+<p>What about filling the diagonal above the main:</p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="tensors.html#cb259-1"></a>torch<span class="op">$</span><span class="kw">diag</span>(a, 1L)</span></code></pre></div>
+<pre><code>#&gt; tensor([[0, 1, 0, 0],
+#&gt;         [0, 0, 2, 0],
+#&gt;         [0, 0, 0, 3],
+#&gt;         [0, 0, 0, 0]])</code></pre>
+<p>Or the diagonal below the main:</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="tensors.html#cb261-1"></a>torch<span class="op">$</span><span class="kw">diag</span>(a, <span class="op">-</span>1L)</span></code></pre></div>
+<pre><code>#&gt; tensor([[0, 0, 0, 0],
+#&gt;         [1, 0, 0, 0],
+#&gt;         [0, 2, 0, 0],
+#&gt;         [0, 0, 3, 0]])</code></pre>
+</div>
+</div>
+</div>
+<div id="access-to-tensor-elements" class="section level2">
+<h2><span class="header-section-number">5.9</span> Access to tensor elements</h2>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="tensors.html#cb263-1"></a><span class="co"># replace an element at position 0, 0</span></span>
+<span id="cb263-2"><a href="tensors.html#cb263-2"></a>(<span class="dt">new_tensor =</span> torch<span class="op">$</span><span class="kw">Tensor</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">list</span>(<span class="dv">3</span>, <span class="dv">4</span>))))</span></code></pre></div>
+<pre><code>#&gt; tensor([[1., 2.],
+#&gt;         [3., 4.]])</code></pre>
+<p>Print element at position <code>1,1</code>:</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="tensors.html#cb265-1"></a><span class="kw">print</span>(new_tensor[1L, 1L])</span></code></pre></div>
+<pre><code>#&gt; tensor(1.)</code></pre>
+<p>Fill element at position <code>1,1</code> with 5:</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="tensors.html#cb267-1"></a>new_tensor[1L, 1L]<span class="op">$</span><span class="kw">fill_</span>(<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>#&gt; tensor(5.)</code></pre>
+<p>Show the modified tensor:</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="tensors.html#cb269-1"></a><span class="kw">print</span>(new_tensor)   <span class="co"># tensor([[ 5.,  2.],[ 3.,  4.]])</span></span></code></pre></div>
+<pre><code>#&gt; tensor([[5., 2.],
+#&gt;         [3., 4.]])</code></pre>
+<p>Access an element at position <code>1, 0</code>:</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="tensors.html#cb271-1"></a><span class="kw">print</span>(new_tensor[2L, 1L])           <span class="co"># tensor([ 3.])</span></span>
+<span id="cb271-2"><a href="tensors.html#cb271-2"></a><span class="kw">print</span>(new_tensor[2L, 1L]<span class="op">$</span><span class="kw">item</span>())    <span class="co"># 3.</span></span></code></pre></div>
+<pre><code>#&gt; tensor(3.)
+#&gt; [1] 3</code></pre>
+<div id="using-indices-to-access-elements" class="section level3">
+<h3><span class="header-section-number">5.9.1</span> Using indices to access elements</h3>
+<p>On this tensor:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="tensors.html#cb273-1"></a>x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(3L, 4L)</span>
+<span id="cb273-2"><a href="tensors.html#cb273-2"></a><span class="kw">print</span>(x)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.0428, -0.8175, -0.4686, -0.3846],
+#&gt;         [-1.5028, -0.2179,  0.9914,  0.7068],
+#&gt;         [-0.3495,  0.5720, -1.5240, -0.8870]])</code></pre>
+<p>Select indices, <code>dim=0</code>:</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="tensors.html#cb275-1"></a>indices =<span class="st"> </span>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(0L, 2L))</span>
+<span id="cb275-2"><a href="tensors.html#cb275-2"></a>torch<span class="op">$</span><span class="kw">index_select</span>(x, 0L, indices)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.0428, -0.8175, -0.4686, -0.3846],
+#&gt;         [-0.3495,  0.5720, -1.5240, -0.8870]])</code></pre>
+<p>Select indices, <code>dim=1</code>:</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="tensors.html#cb277-1"></a>torch<span class="op">$</span><span class="kw">index_select</span>(x, 1L, indices)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.0428, -0.4686],
+#&gt;         [-1.5028,  0.9914],
+#&gt;         [-0.3495, -1.5240]])</code></pre>
+</div>
+<div id="using-the-take-function" class="section level3">
+<h3><span class="header-section-number">5.9.2</span> Using the <code>take</code> function</h3>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="tensors.html#cb279-1"></a><span class="co"># Take by indices</span></span>
+<span id="cb279-2"><a href="tensors.html#cb279-2"></a>src =<span class="st"> </span>torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">5</span>),</span>
+<span id="cb279-3"><a href="tensors.html#cb279-3"></a>                        <span class="kw">list</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>)) )</span>
+<span id="cb279-4"><a href="tensors.html#cb279-4"></a><span class="kw">print</span>(src)</span>
+<span id="cb279-5"><a href="tensors.html#cb279-5"></a><span class="kw">print</span>( torch<span class="op">$</span><span class="kw">take</span>(src, torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(0L, 2L, 5L))) )</span></code></pre></div>
+<pre><code>#&gt; tensor([[4., 3., 5.],
+#&gt;         [6., 7., 8.]])
+#&gt; tensor([4., 5., 8.])</code></pre>
+</div>
+</div>
+<div id="other-tensor-operations" class="section level2">
+<h2><span class="header-section-number">5.10</span> Other tensor operations</h2>
+<div id="cross-product" class="section level3">
+<h3><span class="header-section-number">5.10.1</span> Cross product</h3>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="tensors.html#cb281-1"></a>m1 =<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(3L, 5L)</span>
+<span id="cb281-2"><a href="tensors.html#cb281-2"></a>m2 =<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(3L, 5L)</span>
+<span id="cb281-3"><a href="tensors.html#cb281-3"></a>v1 =<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(3L)</span>
+<span id="cb281-4"><a href="tensors.html#cb281-4"></a><span class="co"># Cross product</span></span>
+<span id="cb281-5"><a href="tensors.html#cb281-5"></a><span class="co"># Size 3x5</span></span>
+<span id="cb281-6"><a href="tensors.html#cb281-6"></a>(<span class="dt">r =</span> torch<span class="op">$</span><span class="kw">cross</span>(m1, m2))</span></code></pre></div>
+<pre><code>#&gt; tensor([[0., 0., 0., 0., 0.],
+#&gt;         [0., 0., 0., 0., 0.],
+#&gt;         [0., 0., 0., 0., 0.]])</code></pre>
+</div>
+<div id="dot-product" class="section level3">
+<h3><span class="header-section-number">5.10.2</span> Dot product</h3>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="tensors.html#cb283-1"></a><span class="co"># Dot product of 2 tensors</span></span>
+<span id="cb283-2"><a href="tensors.html#cb283-2"></a><span class="co"># Dot product of 2 tensors</span></span>
+<span id="cb283-3"><a href="tensors.html#cb283-3"></a></span>
+<span id="cb283-4"><a href="tensors.html#cb283-4"></a>p &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">Tensor</span>(<span class="kw">list</span>(4L, 2L))</span>
+<span id="cb283-5"><a href="tensors.html#cb283-5"></a>q &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">Tensor</span>(<span class="kw">list</span>(3L, 1L))                   </span>
+<span id="cb283-6"><a href="tensors.html#cb283-6"></a></span>
+<span id="cb283-7"><a href="tensors.html#cb283-7"></a>(<span class="dt">r =</span> torch<span class="op">$</span><span class="kw">dot</span>(p, q))  <span class="co"># 14</span></span>
+<span id="cb283-8"><a href="tensors.html#cb283-8"></a><span class="co">#&gt; tensor(14.)</span></span>
+<span id="cb283-9"><a href="tensors.html#cb283-9"></a>(r &lt;-<span class="st"> </span>p <span class="op">%.*%</span><span class="st"> </span>q)        <span class="co"># 14</span></span>
+<span id="cb283-10"><a href="tensors.html#cb283-10"></a><span class="co">#&gt; tensor(14.)</span></span></code></pre></div>
+</div>
+</div>
+<div id="logical-operations" class="section level2">
+<h2><span class="header-section-number">5.11</span> Logical operations</h2>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="tensors.html#cb284-1"></a>m0 =<span class="st"> </span>torch<span class="op">$</span><span class="kw">zeros</span>(3L, 5L)</span>
+<span id="cb284-2"><a href="tensors.html#cb284-2"></a>m1 =<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(3L, 5L)</span>
+<span id="cb284-3"><a href="tensors.html#cb284-3"></a>m2 =<span class="st"> </span>torch<span class="op">$</span><span class="kw">eye</span>(3L, 5L)</span>
+<span id="cb284-4"><a href="tensors.html#cb284-4"></a></span>
+<span id="cb284-5"><a href="tensors.html#cb284-5"></a><span class="kw">print</span>(m1 <span class="op">==</span><span class="st"> </span>m0)</span>
+<span id="cb284-6"><a href="tensors.html#cb284-6"></a><span class="co">#&gt; tensor([[False, False, False, False, False],</span></span>
+<span id="cb284-7"><a href="tensors.html#cb284-7"></a><span class="co">#&gt;         [False, False, False, False, False],</span></span>
+<span id="cb284-8"><a href="tensors.html#cb284-8"></a><span class="co">#&gt;         [False, False, False, False, False]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="tensors.html#cb285-1"></a><span class="kw">print</span>(m1 <span class="op">!=</span><span class="st"> </span>m1)</span>
+<span id="cb285-2"><a href="tensors.html#cb285-2"></a><span class="co">#&gt; tensor([[False, False, False, False, False],</span></span>
+<span id="cb285-3"><a href="tensors.html#cb285-3"></a><span class="co">#&gt;         [False, False, False, False, False],</span></span>
+<span id="cb285-4"><a href="tensors.html#cb285-4"></a><span class="co">#&gt;         [False, False, False, False, False]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="tensors.html#cb286-1"></a><span class="kw">print</span>(m2 <span class="op">==</span><span class="st"> </span>m2)</span>
+<span id="cb286-2"><a href="tensors.html#cb286-2"></a><span class="co">#&gt; tensor([[True, True, True, True, True],</span></span>
+<span id="cb286-3"><a href="tensors.html#cb286-3"></a><span class="co">#&gt;         [True, True, True, True, True],</span></span>
+<span id="cb286-4"><a href="tensors.html#cb286-4"></a><span class="co">#&gt;         [True, True, True, True, True]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="tensors.html#cb287-1"></a><span class="co"># AND</span></span>
+<span id="cb287-2"><a href="tensors.html#cb287-2"></a>m1 <span class="op">&amp;</span><span class="st"> </span>m1</span>
+<span id="cb287-3"><a href="tensors.html#cb287-3"></a><span class="co">#&gt; tensor([[1, 1, 1, 1, 1],</span></span>
+<span id="cb287-4"><a href="tensors.html#cb287-4"></a><span class="co">#&gt;         [1, 1, 1, 1, 1],</span></span>
+<span id="cb287-5"><a href="tensors.html#cb287-5"></a><span class="co">#&gt;         [1, 1, 1, 1, 1]], dtype=torch.uint8)</span></span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="tensors.html#cb288-1"></a><span class="co"># OR</span></span>
+<span id="cb288-2"><a href="tensors.html#cb288-2"></a>m0 <span class="op">|</span><span class="st"> </span>m2</span>
+<span id="cb288-3"><a href="tensors.html#cb288-3"></a><span class="co">#&gt; tensor([[1, 0, 0, 0, 0],</span></span>
+<span id="cb288-4"><a href="tensors.html#cb288-4"></a><span class="co">#&gt;         [0, 1, 0, 0, 0],</span></span>
+<span id="cb288-5"><a href="tensors.html#cb288-5"></a><span class="co">#&gt;         [0, 0, 1, 0, 0]], dtype=torch.uint8)</span></span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="tensors.html#cb289-1"></a><span class="co"># OR</span></span>
+<span id="cb289-2"><a href="tensors.html#cb289-2"></a>m1 <span class="op">|</span><span class="st"> </span>m2</span>
+<span id="cb289-3"><a href="tensors.html#cb289-3"></a><span class="co">#&gt; tensor([[1, 1, 1, 1, 1],</span></span>
+<span id="cb289-4"><a href="tensors.html#cb289-4"></a><span class="co">#&gt;         [1, 1, 1, 1, 1],</span></span>
+<span id="cb289-5"><a href="tensors.html#cb289-5"></a><span class="co">#&gt;         [1, 1, 1, 1, 1]], dtype=torch.uint8)</span></span></code></pre></div>
+<div id="using-a-function-to-extract-a-unique-logical-result" class="section level3">
+<h3><span class="header-section-number">5.11.1</span> Using a function to extract a unique logical result</h3>
+<p>With <code>all</code>:</p>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="tensors.html#cb290-1"></a><span class="co"># tensor is less than</span></span>
+<span id="cb290-2"><a href="tensors.html#cb290-2"></a>A &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(60000L, 1L, 28L, 28L)</span>
+<span id="cb290-3"><a href="tensors.html#cb290-3"></a>C &lt;-<span class="st"> </span>A <span class="op">*</span><span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb290-4"><a href="tensors.html#cb290-4"></a></span>
+<span id="cb290-5"><a href="tensors.html#cb290-5"></a><span class="co"># is C &lt; A</span></span>
+<span id="cb290-6"><a href="tensors.html#cb290-6"></a><span class="kw">all</span>(torch<span class="op">$</span><span class="kw">lt</span>(C, A))</span>
+<span id="cb290-7"><a href="tensors.html#cb290-7"></a><span class="co">#&gt; tensor(1, dtype=torch.uint8)</span></span>
+<span id="cb290-8"><a href="tensors.html#cb290-8"></a><span class="kw">all</span>(C <span class="op">&lt;</span><span class="st"> </span>A)</span>
+<span id="cb290-9"><a href="tensors.html#cb290-9"></a><span class="co">#&gt; tensor(1, dtype=torch.uint8)</span></span>
+<span id="cb290-10"><a href="tensors.html#cb290-10"></a><span class="co"># is A &lt; C</span></span>
+<span id="cb290-11"><a href="tensors.html#cb290-11"></a><span class="kw">all</span>(A <span class="op">&lt;</span><span class="st"> </span>C)</span>
+<span id="cb290-12"><a href="tensors.html#cb290-12"></a><span class="co">#&gt; tensor(0, dtype=torch.uint8)</span></span></code></pre></div>
+<p>With function <code>all_boolean</code>:</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="tensors.html#cb291-1"></a>all_boolean &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb291-2"><a href="tensors.html#cb291-2"></a>  <span class="co"># convert tensor of 1s and 0s to a unique boolean</span></span>
+<span id="cb291-3"><a href="tensors.html#cb291-3"></a>  <span class="kw">as.logical</span>(torch<span class="op">$</span><span class="kw">all</span>(x)<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb291-4"><a href="tensors.html#cb291-4"></a>}</span>
+<span id="cb291-5"><a href="tensors.html#cb291-5"></a></span>
+<span id="cb291-6"><a href="tensors.html#cb291-6"></a><span class="co"># is C &lt; A</span></span>
+<span id="cb291-7"><a href="tensors.html#cb291-7"></a><span class="kw">all_boolean</span>(torch<span class="op">$</span><span class="kw">lt</span>(C, A))</span>
+<span id="cb291-8"><a href="tensors.html#cb291-8"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb291-9"><a href="tensors.html#cb291-9"></a><span class="kw">all_boolean</span>(C <span class="op">&lt;</span><span class="st"> </span>A)</span>
+<span id="cb291-10"><a href="tensors.html#cb291-10"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb291-11"><a href="tensors.html#cb291-11"></a></span>
+<span id="cb291-12"><a href="tensors.html#cb291-12"></a><span class="co"># is A &lt; C</span></span>
+<span id="cb291-13"><a href="tensors.html#cb291-13"></a><span class="kw">all_boolean</span>(A <span class="op">&lt;</span><span class="st"> </span>C)</span>
+<span id="cb291-14"><a href="tensors.html#cb291-14"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+</div>
+<div id="greater-than-gt" class="section level3">
+<h3><span class="header-section-number">5.11.2</span> Greater than (<code>gt</code>)</h3>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="tensors.html#cb292-1"></a><span class="co"># tensor is greater than</span></span>
+<span id="cb292-2"><a href="tensors.html#cb292-2"></a>A &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(60000L, 1L, 28L, 28L)</span>
+<span id="cb292-3"><a href="tensors.html#cb292-3"></a>D &lt;-<span class="st"> </span>A <span class="op">*</span><span class="st"> </span><span class="fl">2.0</span></span>
+<span id="cb292-4"><a href="tensors.html#cb292-4"></a><span class="kw">all</span>(torch<span class="op">$</span><span class="kw">gt</span>(D, A))</span>
+<span id="cb292-5"><a href="tensors.html#cb292-5"></a><span class="co">#&gt; tensor(1, dtype=torch.uint8)</span></span>
+<span id="cb292-6"><a href="tensors.html#cb292-6"></a><span class="kw">all</span>(torch<span class="op">$</span><span class="kw">gt</span>(A, D))</span>
+<span id="cb292-7"><a href="tensors.html#cb292-7"></a><span class="co">#&gt; tensor(0, dtype=torch.uint8)</span></span></code></pre></div>
+</div>
+<div id="less-than-or-equal-le" class="section level3">
+<h3><span class="header-section-number">5.11.3</span> Less than or equal (<code>le</code>)</h3>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="tensors.html#cb293-1"></a><span class="co"># tensor is less than or equal</span></span>
+<span id="cb293-2"><a href="tensors.html#cb293-2"></a>A1 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(60000L, 1L, 28L, 28L)</span>
+<span id="cb293-3"><a href="tensors.html#cb293-3"></a><span class="kw">all</span>(torch<span class="op">$</span><span class="kw">le</span>(A1, A1))</span>
+<span id="cb293-4"><a href="tensors.html#cb293-4"></a><span class="co">#&gt; tensor(1, dtype=torch.uint8)</span></span>
+<span id="cb293-5"><a href="tensors.html#cb293-5"></a><span class="kw">all</span>(A1 <span class="op">&lt;=</span><span class="st"> </span>A1)</span>
+<span id="cb293-6"><a href="tensors.html#cb293-6"></a><span class="co">#&gt; tensor(1, dtype=torch.uint8)</span></span>
+<span id="cb293-7"><a href="tensors.html#cb293-7"></a></span>
+<span id="cb293-8"><a href="tensors.html#cb293-8"></a><span class="co"># tensor is greater than or equal</span></span>
+<span id="cb293-9"><a href="tensors.html#cb293-9"></a>A0 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">zeros</span>(60000L, 1L, 28L, 28L)</span>
+<span id="cb293-10"><a href="tensors.html#cb293-10"></a><span class="kw">all</span>(torch<span class="op">$</span><span class="kw">ge</span>(A0, A0))</span>
+<span id="cb293-11"><a href="tensors.html#cb293-11"></a><span class="co">#&gt; tensor(1, dtype=torch.uint8)</span></span>
+<span id="cb293-12"><a href="tensors.html#cb293-12"></a><span class="kw">all</span>(A0 <span class="op">&gt;=</span><span class="st"> </span>A0)</span>
+<span id="cb293-13"><a href="tensors.html#cb293-13"></a><span class="co">#&gt; tensor(1, dtype=torch.uint8)</span></span>
+<span id="cb293-14"><a href="tensors.html#cb293-14"></a></span>
+<span id="cb293-15"><a href="tensors.html#cb293-15"></a><span class="kw">all</span>(A1 <span class="op">&gt;=</span><span class="st"> </span>A0)</span>
+<span id="cb293-16"><a href="tensors.html#cb293-16"></a><span class="co">#&gt; tensor(1, dtype=torch.uint8)</span></span>
+<span id="cb293-17"><a href="tensors.html#cb293-17"></a><span class="kw">all</span>(A1 <span class="op">&lt;=</span><span class="st"> </span>A0)</span>
+<span id="cb293-18"><a href="tensors.html#cb293-18"></a><span class="co">#&gt; tensor(0, dtype=torch.uint8)</span></span></code></pre></div>
+</div>
+<div id="logical-not" class="section level3">
+<h3><span class="header-section-number">5.11.4</span> Logical NOT (!`)</h3>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="tensors.html#cb294-1"></a>all_true &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">BoolTensor</span>(<span class="kw">list</span>(<span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">TRUE</span>))</span>
+<span id="cb294-2"><a href="tensors.html#cb294-2"></a>all_true</span>
+<span id="cb294-3"><a href="tensors.html#cb294-3"></a><span class="co">#&gt; tensor([True, True, True, True])</span></span>
+<span id="cb294-4"><a href="tensors.html#cb294-4"></a></span>
+<span id="cb294-5"><a href="tensors.html#cb294-5"></a><span class="co"># logical NOT</span></span>
+<span id="cb294-6"><a href="tensors.html#cb294-6"></a>not_all_true &lt;-<span class="st"> </span><span class="op">!</span>all_true</span>
+<span id="cb294-7"><a href="tensors.html#cb294-7"></a>not_all_true</span>
+<span id="cb294-8"><a href="tensors.html#cb294-8"></a><span class="co">#&gt; tensor([False, False, False, False])</span></span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="tensors.html#cb295-1"></a>diag &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">eye</span>(5L)</span>
+<span id="cb295-2"><a href="tensors.html#cb295-2"></a>diag</span>
+<span id="cb295-3"><a href="tensors.html#cb295-3"></a><span class="co">#&gt; tensor([[1., 0., 0., 0., 0.],</span></span>
+<span id="cb295-4"><a href="tensors.html#cb295-4"></a><span class="co">#&gt;         [0., 1., 0., 0., 0.],</span></span>
+<span id="cb295-5"><a href="tensors.html#cb295-5"></a><span class="co">#&gt;         [0., 0., 1., 0., 0.],</span></span>
+<span id="cb295-6"><a href="tensors.html#cb295-6"></a><span class="co">#&gt;         [0., 0., 0., 1., 0.],</span></span>
+<span id="cb295-7"><a href="tensors.html#cb295-7"></a><span class="co">#&gt;         [0., 0., 0., 0., 1.]])</span></span>
+<span id="cb295-8"><a href="tensors.html#cb295-8"></a></span>
+<span id="cb295-9"><a href="tensors.html#cb295-9"></a><span class="co"># logical NOT</span></span>
+<span id="cb295-10"><a href="tensors.html#cb295-10"></a>not_diag &lt;-<span class="st"> </span><span class="op">!</span>diag</span>
+<span id="cb295-11"><a href="tensors.html#cb295-11"></a></span>
+<span id="cb295-12"><a href="tensors.html#cb295-12"></a><span class="co"># convert to integer</span></span>
+<span id="cb295-13"><a href="tensors.html#cb295-13"></a>not_diag<span class="op">$</span><span class="kw">to</span>(<span class="dt">dtype=</span>torch<span class="op">$</span>uint8)</span>
+<span id="cb295-14"><a href="tensors.html#cb295-14"></a><span class="co">#&gt; tensor([[0, 1, 1, 1, 1],</span></span>
+<span id="cb295-15"><a href="tensors.html#cb295-15"></a><span class="co">#&gt;         [1, 0, 1, 1, 1],</span></span>
+<span id="cb295-16"><a href="tensors.html#cb295-16"></a><span class="co">#&gt;         [1, 1, 0, 1, 1],</span></span>
+<span id="cb295-17"><a href="tensors.html#cb295-17"></a><span class="co">#&gt;         [1, 1, 1, 0, 1],</span></span>
+<span id="cb295-18"><a href="tensors.html#cb295-18"></a><span class="co">#&gt;         [1, 1, 1, 1, 0]], dtype=torch.uint8)</span></span></code></pre></div>
+</div>
+</div>
+<div id="distributions" class="section level2">
+<h2><span class="header-section-number">5.12</span> Distributions</h2>
+<p>Initialize a tensor randomized with a normal distribution with <code>mean=0</code>, <code>var=1</code>:</p>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="tensors.html#cb296-1"></a>n &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(3500L)</span>
+<span id="cb296-2"><a href="tensors.html#cb296-2"></a>n</span>
+<span id="cb296-3"><a href="tensors.html#cb296-3"></a><span class="co">#&gt; tensor([-0.0540, -1.0369, -0.9416,  ..., -0.6772,  1.6406, -1.3711])</span></span>
+<span id="cb296-4"><a href="tensors.html#cb296-4"></a><span class="kw">plot</span>(n<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb296-5"><a href="tensors.html#cb296-5"></a><span class="kw">hist</span>(n<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-97-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-97-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="tensors.html#cb297-1"></a>a  &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(8L, 5L, 6L)</span>
+<span id="cb297-2"><a href="tensors.html#cb297-2"></a><span class="co"># print(a)</span></span>
+<span id="cb297-3"><a href="tensors.html#cb297-3"></a><span class="kw">print</span>(a<span class="op">$</span><span class="kw">size</span>())</span>
+<span id="cb297-4"><a href="tensors.html#cb297-4"></a><span class="co">#&gt; torch.Size([8, 5, 6])</span></span>
+<span id="cb297-5"><a href="tensors.html#cb297-5"></a></span>
+<span id="cb297-6"><a href="tensors.html#cb297-6"></a><span class="kw">plot</span>(a<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb297-7"><a href="tensors.html#cb297-7"></a><span class="kw">hist</span>(a<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-98-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-98-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<div id="uniform-matrix" class="section level3">
+<h3><span class="header-section-number">5.12.1</span> Uniform matrix</h3>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="tensors.html#cb298-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb298-2"><a href="tensors.html#cb298-2"></a></span>
+<span id="cb298-3"><a href="tensors.html#cb298-3"></a><span class="co"># 3x5 matrix uniformly distributed between 0 and 1</span></span>
+<span id="cb298-4"><a href="tensors.html#cb298-4"></a>mat0 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(13L, 15L)<span class="op">$</span><span class="kw">uniform_</span>(0L, 1L)</span>
+<span id="cb298-5"><a href="tensors.html#cb298-5"></a><span class="kw">plot</span>(mat0<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb298-6"><a href="tensors.html#cb298-6"></a><span class="kw">hist</span>(mat0<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-99-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-99-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="tensors.html#cb299-1"></a><span class="co"># fill a 3x5 matrix with 0.1</span></span>
+<span id="cb299-2"><a href="tensors.html#cb299-2"></a>mat1 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(30L, 50L)<span class="op">$</span><span class="kw">uniform_</span>(<span class="fl">0.1</span>, <span class="fl">0.2</span>)</span>
+<span id="cb299-3"><a href="tensors.html#cb299-3"></a><span class="kw">plot</span>(mat1<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb299-4"><a href="tensors.html#cb299-4"></a><span class="kw">hist</span>(mat1<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-100-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-100-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="tensors.html#cb300-1"></a><span class="co"># a vector with all ones</span></span>
+<span id="cb300-2"><a href="tensors.html#cb300-2"></a>mat2 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(500L)<span class="op">$</span><span class="kw">uniform_</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb300-3"><a href="tensors.html#cb300-3"></a><span class="kw">plot</span>(mat2<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb300-4"><a href="tensors.html#cb300-4"></a><span class="kw">hist</span>(mat2<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-101-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-101-2.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="binomial-distribution" class="section level3">
+<h3><span class="header-section-number">5.12.2</span> Binomial distribution</h3>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="tensors.html#cb301-1"></a>Binomial &lt;-<span class="st"> </span>torch<span class="op">$</span>distributions<span class="op">$</span>binomial<span class="op">$</span>Binomial</span>
+<span id="cb301-2"><a href="tensors.html#cb301-2"></a></span>
+<span id="cb301-3"><a href="tensors.html#cb301-3"></a>m =<span class="st"> </span><span class="kw">Binomial</span>(<span class="dv">100</span>, torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="dv">0</span> , <span class="fl">.2</span>, <span class="fl">.8</span>, <span class="dv">1</span>)))</span>
+<span id="cb301-4"><a href="tensors.html#cb301-4"></a>(<span class="dt">x =</span> m<span class="op">$</span><span class="kw">sample</span>())</span>
+<span id="cb301-5"><a href="tensors.html#cb301-5"></a><span class="co">#&gt; tensor([  0.,  18.,  78., 100.])</span></span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="tensors.html#cb302-1"></a>m =<span class="st"> </span><span class="kw">Binomial</span>(torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="fl">5.</span>), <span class="kw">list</span>(<span class="fl">10.</span>))), </span>
+<span id="cb302-2"><a href="tensors.html#cb302-2"></a>             torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="fl">0.5</span>, <span class="fl">0.8</span>)))</span>
+<span id="cb302-3"><a href="tensors.html#cb302-3"></a>(<span class="dt">x =</span> m<span class="op">$</span><span class="kw">sample</span>())</span>
+<span id="cb302-4"><a href="tensors.html#cb302-4"></a><span class="co">#&gt; tensor([[2., 4.],</span></span>
+<span id="cb302-5"><a href="tensors.html#cb302-5"></a><span class="co">#&gt;         [4., 8.]])</span></span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="tensors.html#cb303-1"></a>binom &lt;-<span class="st"> </span><span class="kw">Binomial</span>(<span class="dv">100</span>, torch<span class="op">$</span><span class="kw">FloatTensor</span>(5L, 10L))</span>
+<span id="cb303-2"><a href="tensors.html#cb303-2"></a><span class="kw">print</span>(binom)</span>
+<span id="cb303-3"><a href="tensors.html#cb303-3"></a><span class="co">#&gt; Binomial(total_count: torch.Size([5, 10]), probs: torch.Size([5, 10]), logits: torch.Size([5, 10]))</span></span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="tensors.html#cb304-1"></a><span class="kw">print</span>(binom<span class="op">$</span><span class="kw">sample_n</span>(100L)<span class="op">$</span>shape)</span>
+<span id="cb304-2"><a href="tensors.html#cb304-2"></a><span class="co">#&gt; torch.Size([100, 5, 10])</span></span>
+<span id="cb304-3"><a href="tensors.html#cb304-3"></a><span class="kw">plot</span>(binom<span class="op">$</span><span class="kw">sample_n</span>(100L)<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb304-4"><a href="tensors.html#cb304-4"></a><span class="kw">hist</span>(binom<span class="op">$</span><span class="kw">sample_n</span>(100L)<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-105-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-105-2.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="exponential-distribution" class="section level3">
+<h3><span class="header-section-number">5.12.3</span> Exponential distribution</h3>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="tensors.html#cb305-1"></a>Exponential &lt;-<span class="st"> </span>torch<span class="op">$</span>distributions<span class="op">$</span>exponential<span class="op">$</span>Exponential</span>
+<span id="cb305-2"><a href="tensors.html#cb305-2"></a></span>
+<span id="cb305-3"><a href="tensors.html#cb305-3"></a>m =<span class="st"> </span><span class="kw">Exponential</span>(torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="fl">1.0</span>)))</span>
+<span id="cb305-4"><a href="tensors.html#cb305-4"></a>m</span>
+<span id="cb305-5"><a href="tensors.html#cb305-5"></a><span class="co">#&gt; Exponential(rate: tensor([1.]))</span></span>
+<span id="cb305-6"><a href="tensors.html#cb305-6"></a>m<span class="op">$</span><span class="kw">sample</span>()  <span class="co"># Exponential distributed with rate=1</span></span>
+<span id="cb305-7"><a href="tensors.html#cb305-7"></a><span class="co">#&gt; tensor([0.2824])</span></span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="tensors.html#cb306-1"></a>expo &lt;-<span class="st"> </span><span class="kw">Exponential</span>(<span class="dt">rate=</span><span class="fl">0.25</span>)</span>
+<span id="cb306-2"><a href="tensors.html#cb306-2"></a>expo_sample &lt;-<span class="st"> </span>expo<span class="op">$</span><span class="kw">sample_n</span>(250L)   <span class="co"># generate 250 samples</span></span>
+<span id="cb306-3"><a href="tensors.html#cb306-3"></a><span class="kw">print</span>(expo_sample<span class="op">$</span>shape)</span>
+<span id="cb306-4"><a href="tensors.html#cb306-4"></a><span class="co">#&gt; torch.Size([250])</span></span>
+<span id="cb306-5"><a href="tensors.html#cb306-5"></a><span class="kw">plot</span>(expo_sample<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb306-6"><a href="tensors.html#cb306-6"></a><span class="kw">hist</span>(expo_sample<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-107-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-107-2.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="weibull-distribution" class="section level3">
+<h3><span class="header-section-number">5.12.4</span> Weibull distribution</h3>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="tensors.html#cb307-1"></a>Weibull &lt;-<span class="st"> </span>torch<span class="op">$</span>distributions<span class="op">$</span>weibull<span class="op">$</span>Weibull</span>
+<span id="cb307-2"><a href="tensors.html#cb307-2"></a></span>
+<span id="cb307-3"><a href="tensors.html#cb307-3"></a>m =<span class="st"> </span><span class="kw">Weibull</span>(torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="fl">1.0</span>)), torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">list</span>(<span class="fl">1.0</span>)))</span>
+<span id="cb307-4"><a href="tensors.html#cb307-4"></a>m<span class="op">$</span><span class="kw">sample</span>()  <span class="co"># sample from a Weibull distribution with scale=1, concentration=1</span></span>
+<span id="cb307-5"><a href="tensors.html#cb307-5"></a><span class="co">#&gt; tensor([1.8383])</span></span></code></pre></div>
+<div id="weibull-at-constant-scale" class="section level4">
+<h4><span class="header-section-number">5.12.4.1</span> Weibull at constant <code>scale</code></h4>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="tensors.html#cb308-1"></a><span class="co"># constant scale</span></span>
+<span id="cb308-2"><a href="tensors.html#cb308-2"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</span>
+<span id="cb308-3"><a href="tensors.html#cb308-3"></a>    wei &lt;-<span class="st"> </span><span class="kw">Weibull</span>(<span class="dt">scale=</span><span class="dv">100</span>, <span class="dt">concentration=</span>k)</span>
+<span id="cb308-4"><a href="tensors.html#cb308-4"></a>    wei_sample &lt;-<span class="st"> </span>wei<span class="op">$</span><span class="kw">sample_n</span>(500L)</span>
+<span id="cb308-5"><a href="tensors.html#cb308-5"></a>    <span class="co"># plot(wei_sample$flatten()$numpy())</span></span>
+<span id="cb308-6"><a href="tensors.html#cb308-6"></a>    <span class="kw">hist</span>(<span class="dt">main=</span><span class="kw">paste0</span>(<span class="st">&quot;Scale=100; Concentration=&quot;</span>, k),</span>
+<span id="cb308-7"><a href="tensors.html#cb308-7"></a>        wei_sample<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb308-8"><a href="tensors.html#cb308-8"></a>}</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-109-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-2.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-3.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-4.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-5.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-6.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-7.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-8.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-9.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-109-10.png" width="70%" style="display: block; margin: auto;" />
+#### Weibull at constant <code>concentration</code></p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="tensors.html#cb309-1"></a><span class="co"># constant concentration</span></span>
+<span id="cb309-2"><a href="tensors.html#cb309-2"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">100</span>)) {</span>
+<span id="cb309-3"><a href="tensors.html#cb309-3"></a>    wei &lt;-<span class="st"> </span><span class="kw">Weibull</span>(<span class="dt">scale=</span>s, <span class="dt">concentration=</span><span class="dv">1</span>)</span>
+<span id="cb309-4"><a href="tensors.html#cb309-4"></a>    wei_sample &lt;-<span class="st"> </span>wei<span class="op">$</span><span class="kw">sample_n</span>(500L)</span>
+<span id="cb309-5"><a href="tensors.html#cb309-5"></a>    <span class="co"># plot(wei_sample$flatten()$numpy())</span></span>
+<span id="cb309-6"><a href="tensors.html#cb309-6"></a>    <span class="kw">hist</span>(<span class="dt">main=</span><span class="kw">paste0</span>(<span class="st">&quot;Concentration=1; Scale=&quot;</span>, s),</span>
+<span id="cb309-7"><a href="tensors.html#cb309-7"></a>        wei_sample<span class="op">$</span><span class="kw">flatten</span>()<span class="op">$</span><span class="kw">numpy</span>())</span>
+<span id="cb309-8"><a href="tensors.html#cb309-8"></a>}</span></code></pre></div>
+<p><img src="0201-tensors_files/figure-html/unnamed-chunk-110-1.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-2.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-3.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-4.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-5.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-6.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-7.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-8.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-9.png" width="70%" style="display: block; margin: auto;" /><img src="0201-tensors_files/figure-html/unnamed-chunk-110-10.png" width="70%" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="converting-tensors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linearalgebra.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
