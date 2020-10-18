@@ -30,12 +30,4 @@ This is mainly required for these reasons:
 
 
 ## Transforming a tensor from PyTorch to R and viceversa
-
-```{python}
-import torch
-import torchvision
-
-torch.nn
-torchvision.transforms
-torchvision.datasets
-```
+TODO
