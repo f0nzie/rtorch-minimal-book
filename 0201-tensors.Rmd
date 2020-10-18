@@ -561,73 +561,39 @@ v
 ```{r}
 (z = torch$zeros(10L))             # A tensor of size 10 containing all zeros
 ```
-
-
-## Tensor fill
-
-On this tensor:
 ```{r}
-(v = torch$ones(3L, 3L))
+# matrix of zeros
+torch$zeros(c(4L, 4L))
 ```
-
-Fill row 1 with 2s:
 ```{r}
-v[1L, ]$fill_(2L)         
-print(v)
+# a 3D tensor of zeros
+torch$zeros(c(3L, 4L, 2L))
 ```
+### Diagonal operations
 
-Fill row 2 with 3s:
-```{r}
-v[2L, ]$fill_(3L)       
-print(v)
-```
+Given the 1D tensor
 
 ```{r}
-# Initialize Tensor with a range of value
-v = torch$arange(10L)             # similar to range(5) but creating a Tensor
-(v = torch$arange(0L, 10L, step = 1L))  # Size 5. Similar to range(0, 5, 1)
+a <- torch$tensor(c(1L, 2L, 3L))
+a
 ```
 
-
-### Initialize a linear or log scale Tensor
-
-Create a tensor with 10 linear points for (1, 10) inclusive:
-```{r}
-(v = torch$linspace(1L, 10L, steps = 10L)) 
-```
-
-Create a tensor with 10 logarithmic points for (1, 10) inclusive:
-```{r}
-(v = torch$logspace(start=-10L, end = 10L, steps = 5L)) 
-```
-
-
-### Inplace / Out-of-place
-
-On this uninitialized tensor:
-```{r}
-(a <- torch$FloatTensor(5L, 7L))
-```
-
-Fill the tensor with the value 3.5:
-```{r}
-a$fill_(3.5)
-```
-
-Add a scalar to the tensor:
-```{r}
-b <- a$add(4.0)
-```
-
-The tensor `a` is still filled with 3.5.
-A new tensor `b` is returned with values 3.5 + 4.0 = 7.5
+#### Diagonal matrix
+We want to fill the main diagonal with the vector:
 
 ```{r}
-print(a)
-print(b)
+torch$diag(a)
 ```
 
+What about filling the diagonal above the main:
+```{r}
+torch$diag(a, 1L)
+```
+Or the diagonal below the main:
 
+```{r}
+torch$diag(a, -1L)
+```
 
 ## Access to tensor elements
 
