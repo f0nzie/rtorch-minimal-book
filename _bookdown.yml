@@ -18,7 +18,6 @@ rmd_files: [
     "0402-lr-rainfall.Rmd",
     "0501-neural_networks.Rmd",
     "0502-neural_networks.Rmd",
-    "0503-neural_networks.Rmd",
     "0712-r_data_structures-dataframe.Rmd",
     "0713-r_data_structures-datatable.Rmd",
     "9991-appendixA.Rmd",
