@@ -688,19 +688,27 @@ v1 = torch$ones(3L)
 
 ### Dot product
 
-```{r}
+```{r collapse=TRUE, results="markup"}
 # Dot product of 2 tensors
 # Dot product of 2 tensors
 
 p <- torch$Tensor(list(4L, 2L))
 q <- torch$Tensor(list(3L, 1L))                   
 
-(r = torch$dot(p, q)) # 14
-(r <- p %.*% q)
+(r = torch$dot(p, q))  # 14
+(r <- p %.*% q)        # 14
 ```
 
 
 ## Logical operations
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    results = "markup"
+)
+```
+
 
 ```{r}
 m0 = torch$zeros(3L, 5L)
