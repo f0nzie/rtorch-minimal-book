@@ -13,6 +13,3 @@ libs/jquery-2.2.3/*
 *.rds
 *.md
 
-docs/
-
-public/
