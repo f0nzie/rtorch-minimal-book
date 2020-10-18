@@ -466,11 +466,19 @@ print(img_chunk$size())
 print(img_chunk$sum())        # if the tensor had all ones, what is the sum?
 ```
 
+#### Exercise
+1. Create a tensor of shape 3x28x28 filled with values 0.25 on the first channel
+2. The second channel with 0.5
+3. The third chanel with 0.75
+4. Find the sum for ecah separate channel
+5. Find the sum of all channels
+
 
 ### With `index_select()`:
 
 ```{r}
 img <- torch$ones(3L, 28L, 28L)  # Create the tensor of ones
+img$size()
 ```
 
 
