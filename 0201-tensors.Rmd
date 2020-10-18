@@ -23,7 +23,7 @@ torch$set_default_dtype(torch$float64)
 torch$tensor(list(1.2, 3))$dtype         # a new floating point tensor
 ```
 
-
+### Major tensor types
 There are five major type of Tensors in PyTorch
 
 ```{r}
@@ -34,34 +34,48 @@ float   <- torch$FloatTensor(3L, 3L)
 double  <- torch$DoubleTensor(3L, 3L)
 long    <- torch$LongTensor(3L, 3L)
 boolean <- torch$BoolTensor(5L, 5L)
+```
 
+```{r byte-tensor, collapse=TRUE}
 message("byte tensor")
 byte
+```
 
+```{r float-tensor, collapse=TRUE}
 message("float tensor")
 float
+```
 
+
+```{r double-tensor, collapse=TRUE}
 message("double")
 double
+```
 
+```{r long-tensor, collapse=TRUE}
 message("long")
 long
+```
 
+```{r bool-tensor, collapse=TRUE}
 message("boolean")
 boolean
 ```
 
+### Example: Basic attributes of a 4D tensor
 A 4D tensor like in MNIST hand-written digits recognition dataset:
 
 ```{r}
 mnist_4d <- torch$FloatTensor(60000L, 3L, 28L, 28L)
+```
 
+
+```{r collapse=TRUE, results="markup"}
 message("size")
 mnist_4d$size()
 
 message("length")
 length(mnist_4d)
-
 
 message("shape, like in numpy")
 mnist_4d$shape
@@ -70,11 +84,20 @@ message("number of elements")
 mnist_4d$numel()
 ```
 
-A 3D tensor:
+
+### Example: Attributes of a 3D tensor
+Given a 3D tensor:
 
 ```{r}
 ft3d <- torch$FloatTensor(4L, 3L, 2L)
 ft3d
+```
+
+```{r collapse=TRUE, results="markup"}
+ft3d$size()
+length(ft3d)
+ft3d$shape
+ft3d$numel
 ```
 
 
@@ -89,22 +112,22 @@ mat0 <- torch$FloatTensor(3L, 5L)$uniform_(0L, 1L)
 mat0 + 0.1
 ```
 
-> The expression ``tensor.index(m)`` is equivalent to ``tensor[m]``.
 
-Add an element of tensor to a tensor:
+### Add an element of a tensor to another tensor
 
-```{r}
+```{r collapse=TRUE, results="markup"}
 # fill a 3x5 matrix with 0.1
 mat1 <- torch$FloatTensor(3L, 5L)$uniform_(0.1, 0.1)
+print(mat1)
+
 # a vector with all ones
 mat2 <- torch$FloatTensor(5L)$uniform_(1, 1)
+print(mat2)
+
+# add element (1,1) to another tensor
 mat1[1, 1] + mat2
 ```
 
-```{r}
-# add two tensors
-mat1 + mat0
-```
 
 Add two tensors using the function `add()`:
 ```{r}
@@ -166,15 +189,19 @@ syn1 = syn1 + 0.1
 print(syn1)
 ```
 
-### Tuples (Python) and vectors (R)
-In numpy a multidimensional array needs to be defined with a tuple
-in R we do it with a vector.
+And the dot product of both:
+```{r}
+np$dot(syn0, syn1)
+```
 
-In Python, we use a tuple, `(5, 5)`
+### In Python we use Tuples, in R we use vectors
+In `numpy` a multidimensional array needs to be defined with a `tuple`.
+in R we do it with a `vector`.
+
+In Python, we use a tuple, `(5, 5)` to indicate the shape of the array:
 
 ```{python}
 import numpy as np
-
 print(np.ones((5, 5)))
 ```
 
@@ -185,23 +212,18 @@ l1 <- np$ones(c(5L, 5L))
 print(l1)
 ```
 
-Vector-matrix multiplication in numpy:
-```{r}
-np$dot(syn0, syn1)
-```
-
-Build a numpy array from three R vectors:
+###  Build a numpy array from three R vectors
 ```{r}
 X <- np$array(rbind(c(1,2,3), c(4,5,6), c(7,8,9)))
 print(X)
 ```
 
-And transpose the array:
+And we could transpose the array using `numpy` as well:
 ```{r}
 np$transpose(X)
 ```
 
-### Make a numpy array a tensor with `as_tensor()`
+### Convert a numpy array to a tensor with `as_tensor()`
 
 ```{r}
 a = np$array(list(1, 2, 3))   # a numpy array
@@ -209,6 +231,8 @@ t = torch$as_tensor(a)        # convert it to tensor
 print(t)
 ```
 
+
+### Create and fill a tensor
 We can create the tensor directly from R using `tensor()`:
 ```{r}
 torch$tensor(list( 1,  2,  3))   # create a tensor
@@ -243,13 +267,13 @@ ft1 <- torch$FloatTensor(np$random$rand(5L))
 print(ft1)
 ```
 
-Force a tensor as a float of 64-bits:
+Force a tensor as a `float` of 64-bits:
 ```{r}
 ft2 <- torch$as_tensor(np$random$rand(5L), dtype= torch$float64)
 print(ft2)
 ```
 
-Convert the tensor to float 16-bits:
+Convert the tensor to a `float` of 16-bits:
 ```{r}
 ft2_dbl <- torch$as_tensor(ft2, dtype = torch$float16)
 ft2_dbl
@@ -257,181 +281,24 @@ ft2_dbl
 
 
 Create a tensor of size (5 x 7) with uninitialized memory:
-
 ```{r}
 a <- torch$FloatTensor(5L, 7L)
 print(a)
 ```
 
-Using arange to create a tensor. Start from 0:
+Using arange to create a tensor. 
+`arange` starts at 0.
 ```{r}
 v = torch$arange(9L)
+print(v)
+```
+
+```{r}
+# reshape
 (v = v$view(3L, 3L))
 ```
 
-
-
-## Tensor resizing
-
-```{r}
-x = torch$randn(2L, 3L)            # Size 2x3
-y = x$view(6L)                     # Resize x to size 6
-z = x$view(-1L, 2L)                # Size 3x2
-print(y)
-print(z)
-```
-
-Reproduce this tensor:
-
-```
- 0 1 2
- 3 4 5
- 6 7 8
-``` 
-
-```{r}
-v = torch$arange(9L)
-(v = v$view(3L, 3L))
-```
-
-### Concatenate tensors
-
-```{r}
-x = torch$randn(2L, 3L)
-print(x)
-```
-
-Concatenate tensors by `dim=0`:
-```{r}
-torch$cat(list(x, x, x), 0L)
-```
-
-
-Concatenate tensors by `dim=1`:
-```{r}
-torch$cat(list(x, x, x), 1L)
-```
-
-
-## Reshape tensors
-
-### With function `chunk()`:
-
-Let's say this is an image tensor with the 3-channels and 28x28 pixels
-
-```{r}
-# ----- Reshape tensors -----
-img <- torch$ones(3L, 28L, 28L)  # Create the tensor of ones
-print(img$size())
-```
-
-On the first dimension `dim = 0L`, reshape the tensor:
-```{r}
-img_chunks <- torch$chunk(img, chunks = 3L, dim = 0L)
-print(length(img_chunks))
-```
-
-The first chunk member:
-```{r}
-# 1st chunk member
-img_chunk <- img_chunks[[1]]
-print(img_chunk$size())
-print(img_chunk$sum())      # if the tensor had all ones, what is the sum?
-```
-
-The second chunk member:
-```{r}
-# 2nd chunk member
-img_chunk <- img_chunks[[2]]
-print(img_chunk$size())
-print(img_chunk$sum())        # if the tensor had all ones, what is the sum?
-```
-
-```{r}
-# 3rd chunk member
-img_chunk <- img_chunks[[3]]
-print(img_chunk$size())
-print(img_chunk$sum())        # if the tensor had all ones, what is the sum?
-```
-
-
-### With `index_select()`:
-
-```{r}
-img <- torch$ones(3L, 28L, 28L)  # Create the tensor of ones
-```
-
-
-This is the layer 1:
-```{r}
-# index_select. get layer 1
-indices = torch$tensor(c(0L))
-img_layer <- torch$index_select(img, dim = 0L, index = indices)
-```
-
-The size of the layer:
-```{r}
-print(img_layer$size())
-```
-
-The sum of all elements in that layer:
-```{r}
-print(img_layer$sum())
-```
-
-
-This is the layer 2:
-```{r}
-# index_select. get layer 2
-indices = torch$tensor(c(1L))
-img_layer <- torch$index_select(img, dim = 0L, index = indices)
-print(img_layer$size())
-print(img_layer$sum())
-```
-
-
-This is the layer 3:
-```{r}
-# index_select. get layer 3
-indices = torch$tensor(c(2L))
-img_layer <- torch$index_select(img, dim = 0L, index = indices)
-print(img_layer$size())
-print(img_layer$sum())
-```
-
-
-
-## Special tensors
-
-### Identity matrix
-
-```{r}
-# identity matrix
-eye = torch$eye(3L)              # Create an identity 3x3 tensor
-print(eye)
-```
-
-### Ones
-
-```{r}
-(v = torch$ones(10L))              # A tensor of size 10 containing all ones
-(v = torch$ones(2L, 1L, 2L, 1L))      # Size 2x1x2x1
-
-```
-
-```{r}
-v = torch$ones_like(eye)     # A tensor with same shape as eye. Fill it with 1.
-v
-```
-
-### Zeros
-
-```{r}
-(z = torch$zeros(10L))             # A tensor of size 10 containing all zeros
-```
-
-
-## Tensor fill
+### Tensor fill
 
 On this tensor:
 ```{r}
@@ -440,15 +307,22 @@ On this tensor:
 
 Fill row 1 with 2s:
 ```{r}
-v[1L, ]$fill_(2L)         
+invisible(v[1L, ]$fill_(2L))
 print(v)
 ```
 
 Fill row 2 with 3s:
 ```{r}
-v[2L, ]$fill_(3L)       
+invisible(v[2L, ]$fill_(3L))
 print(v)
 ```
+Fill column 3 with fours (4):
+```{r}
+invisible(v[, 3]$fill_(4L))
+print(v)
+```
+
+### Initialize Tensor with a range of values
 
 ```{r}
 # Initialize Tensor with a range of value
@@ -470,7 +344,7 @@ Create a tensor with 10 logarithmic points for (1, 10) inclusive:
 ```
 
 
-### Inplace / Out-of-place
+### Fill a tensor In-place / Out-of-place
 
 On this uninitialized tensor:
 ```{r}
@@ -496,6 +370,230 @@ print(b)
 ```
 
 
+## Tensor resizing
+
+```{r collapse=TRUE, results="markup"}
+x = torch$randn(2L, 3L)            # Size 2x3
+print(x)
+
+y = x$view(6L)                     # Resize x to size 6
+print(y)
+
+z = x$view(-1L, 2L)                # Size 3x2
+print(z)
+print(z$shape)
+```
+
+### Exercise
+Reproduce this tensor:
+
+```
+ 0 1 2
+ 3 4 5
+ 6 7 8
+``` 
+
+```{r}
+# create a vector with the number of elements
+v = torch$arange(9L)
+
+# resize to a 3x3 tensor
+(v = v$view(3L, 3L))
+```
+
+## Concatenate tensors
+
+```{r}
+x = torch$randn(2L, 3L)
+print(x)
+print(x$shape)
+```
+
+### Concatenate tensors by `dim=0` (rows)
+```{r}
+(x0 <- torch$cat(list(x, x, x), 0L))
+print(x0$shape)
+```
+
+
+### Concatenate tensors by `dim=1` (columns)
+```{r}
+(x1 <- torch$cat(list(x, x, x), 1L))
+print(x1$shape)
+```
+
+
+## Reshape tensors
+
+### With `chunk()`:
+
+Let's say this is an image tensor with the 3-channels and 28x28 pixels
+
+```{r}
+# ----- Reshape tensors -----
+img <- torch$ones(3L, 28L, 28L)  # Create the tensor of ones
+print(img$size())
+```
+
+On the first dimension `dim = 0L`, reshape the tensor:
+```{r}
+img_chunks <- torch$chunk(img, chunks = 3L, dim = 0L)
+print(length(img_chunks))
+print(class(img_chunks))
+```
+`img_chunks` is a `list` of three members.
+
+The first chunk member:
+```{r}
+# 1st chunk member
+img_chunk <- img_chunks[[1]]
+print(img_chunk$size())
+print(img_chunk$sum())      # if the tensor had all ones, what is the sum?
+```
+
+The second chunk member:
+```{r}
+# 2nd chunk member
+img_chunk <- img_chunks[[2]]
+print(img_chunk$size())
+print(img_chunk$sum())        # if the tensor had all ones, what is the sum?
+```
+
+```{r}
+# 3rd chunk member
+img_chunk <- img_chunks[[3]]
+print(img_chunk$size())
+print(img_chunk$sum())        # if the tensor had all ones, what is the sum?
+```
+
+#### Exercise
+1. Create a tensor of shape 3x28x28 filled with values 0.25 on the first channel
+2. The second channel with 0.5
+3. The third chanel with 0.75
+4. Find the sum for ecah separate channel
+5. Find the sum of all channels
+
+
+### With `index_select()`:
+
+```{r}
+img <- torch$ones(3L, 28L, 28L)  # Create the tensor of ones
+img$size()
+```
+
+
+This is the layer 1:
+```{r}
+# index_select. get layer 1
+indices = torch$tensor(c(0L))
+img_layer_1 <- torch$index_select(img, dim = 0L, index = indices)
+```
+
+The size of the layer:
+```{r}
+print(img_layer_1$size())
+```
+
+The sum of all elements in that layer:
+```{r}
+print(img_layer_1$sum())
+```
+
+This is the layer 2:
+```{r}
+# index_select. get layer 2
+indices = torch$tensor(c(1L))
+img_layer_2 <- torch$index_select(img, dim = 0L, index = indices)
+print(img_layer_2$size())
+print(img_layer_2$sum())
+```
+
+This is the layer 3:
+```{r}
+# index_select. get layer 3
+indices = torch$tensor(c(2L))
+img_layer_3 <- torch$index_select(img, dim = 0L, index = indices)
+print(img_layer_3$size())
+print(img_layer_3$sum())
+```
+
+## Special tensors
+
+### Identity matrix
+
+```{r}
+# identity matrix
+eye = torch$eye(3L)              # Create an identity 3x3 tensor
+print(eye)
+```
+```{r}
+# a 5x5 identity or unit matrix
+torch$eye(5L)
+```
+
+
+### Ones
+
+```{r}
+(v = torch$ones(10L))               # A tensor of size 10 containing all ones
+
+# reshape
+(v = torch$ones(2L, 1L, 2L, 1L))     # Size 2x1x2x1, a 4D tensor
+```
+The _matrix of ones_ is also called ``unitary matrix`. This is a `4x4` unitary matrix.
+
+```{r}
+torch$ones(c(4L, 4L))
+```
+
+
+```{r}
+# eye tensor
+eye = torch$eye(3L)
+print(eye)
+# like eye tensor
+v = torch$ones_like(eye)     # A tensor with same shape as eye. Fill it with 1.
+v
+```
+
+### Zeros
+
+```{r}
+(z = torch$zeros(10L))             # A tensor of size 10 containing all zeros
+```
+```{r}
+# matrix of zeros
+torch$zeros(c(4L, 4L))
+```
+```{r}
+# a 3D tensor of zeros
+torch$zeros(c(3L, 4L, 2L))
+```
+### Diagonal operations
+
+Given the 1D tensor
+
+```{r}
+a <- torch$tensor(c(1L, 2L, 3L))
+a
+```
+
+#### Diagonal matrix
+We want to fill the main diagonal with the vector:
+
+```{r}
+torch$diag(a)
+```
+
+What about filling the diagonal above the main:
+```{r}
+torch$diag(a, 1L)
+```
+Or the diagonal below the main:
+
+```{r}
+torch$diag(a, -1L)
+```
 
 ## Access to tensor elements
 
@@ -572,19 +670,27 @@ v1 = torch$ones(3L)
 
 ### Dot product
 
-```{r}
+```{r collapse=TRUE, results="markup"}
 # Dot product of 2 tensors
 # Dot product of 2 tensors
 
 p <- torch$Tensor(list(4L, 2L))
 q <- torch$Tensor(list(3L, 1L))                   
 
-(r = torch$dot(p, q)) # 14
-(r <- p %.*% q)
+(r = torch$dot(p, q))  # 14
+(r <- p %.*% q)        # 14
 ```
 
 
 ## Logical operations
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    results = "markup"
+)
+```
+
 
 ```{r}
 m0 = torch$zeros(3L, 5L)
@@ -618,12 +724,10 @@ m0 | m2
 m1 | m2
 ```
 
-```{r}
-# all_boolean <- function(x) {
-#   # convert tensor of 1s and 0s to a unique boolean
-#   as.logical(torch$all(x)$numpy())
-# }
+### Using a function to extract a unique logical result
 
+With `all`:
+```{r}
 # tensor is less than
 A <- torch$ones(60000L, 1L, 28L, 28L)
 C <- A * 0.5
@@ -634,6 +738,23 @@ all(C < A)
 # is A < C
 all(A < C)
 ```
+With function `all_boolean`:
+```{r}
+all_boolean <- function(x) {
+  # convert tensor of 1s and 0s to a unique boolean
+  as.logical(torch$all(x)$numpy())
+}
+
+# is C < A
+all_boolean(torch$lt(C, A))
+all_boolean(C < A)
+
+# is A < C
+all_boolean(A < C)
+```
+
+
+### Greater than (`gt`)
 
 ```{r}
 # tensor is greater than
@@ -643,7 +764,7 @@ all(torch$gt(D, A))
 all(torch$gt(A, D))
 ```
 
-
+### Less than or equal (`le`)
 ```{r}
 # tensor is less than or equal
 A1 <- torch$ones(60000L, 1L, 28L, 28L)
@@ -659,7 +780,7 @@ all(A1 >= A0)
 all(A1 <= A0)
 ```
 
-### Logical NOT
+### Logical NOT (!`)
 
 ```{r}
 all_true <- torch$BoolTensor(list(TRUE, TRUE, TRUE, TRUE))
@@ -684,12 +805,23 @@ not_diag$to(dtype=torch$uint8)
 
 ## Distributions
 
-Initialize a tensor randomized with a normal distribution with mean=0, var=1:
+Initialize a tensor randomized with a normal distribution with `mean=0`, `var=1`:
 
 ```{r}
-a  <- torch$randn(5L, 7L)
-print(a)
+n <- torch$randn(3500L)
+n
+plot(n$numpy())
+hist(n$numpy())
+```
+
+
+```{r}
+a  <- torch$randn(8L, 5L, 6L)
+# print(a)
 print(a$size())
+
+plot(a$flatten()$numpy())
+hist(a$flatten()$numpy())
 ```
 
 ### Uniform matrix
@@ -698,17 +830,27 @@ print(a$size())
 library(rTorch)
 
 # 3x5 matrix uniformly distributed between 0 and 1
-mat0 <- torch$FloatTensor(3L, 5L)$uniform_(0L, 1L)
+mat0 <- torch$FloatTensor(13L, 15L)$uniform_(0L, 1L)
+plot(mat0$flatten()$numpy())
+hist(mat0$flatten()$numpy())
 
-# fill a 3x5 matrix with 0.1
-mat1 <- torch$FloatTensor(3L, 5L)$uniform_(0.1, 0.1)
-
-# a vector with all ones
-mat2 <- torch$FloatTensor(5L)$uniform_(1, 1)
-
-mat0
-mat1
 ```
+
+```{r}
+# fill a 3x5 matrix with 0.1
+mat1 <- torch$FloatTensor(30L, 50L)$uniform_(0.1, 0.2)
+plot(mat1$flatten()$numpy())
+hist(mat1$flatten()$numpy())
+```
+
+```{r}
+# a vector with all ones
+mat2 <- torch$FloatTensor(500L)$uniform_(1, 2)
+plot(mat2$flatten()$numpy())
+hist(mat2$flatten()$numpy())
+```
+
+
 
 ### Binomial distribution
 
@@ -724,6 +866,17 @@ m = Binomial(torch$tensor(list(list(5.), list(10.))),
              torch$tensor(list(0.5, 0.8)))
 (x = m$sample())
 ```
+```{r}
+binom <- Binomial(100, torch$FloatTensor(5L, 10L))
+print(binom)
+```
+
+```{r}
+print(binom$sample_n(100L)$shape)
+plot(binom$sample_n(100L)$flatten()$numpy())
+hist(binom$sample_n(100L)$flatten()$numpy())
+```
+
 
 ### Exponential distribution
 
@@ -731,7 +884,16 @@ m = Binomial(torch$tensor(list(list(5.), list(10.))),
 Exponential <- torch$distributions$exponential$Exponential
 
 m = Exponential(torch$tensor(list(1.0)))
+m
 m$sample()  # Exponential distributed with rate=1
+```
+
+```{r}
+expo <- Exponential(rate=0.25)
+expo_sample <- expo$sample_n(250L)   # generate 250 samples
+print(expo_sample$shape)
+plot(expo_sample$flatten()$numpy())
+hist(expo_sample$flatten()$numpy())
 ```
 
 ### Weibull distribution
@@ -742,5 +904,30 @@ Weibull <- torch$distributions$weibull$Weibull
 m = Weibull(torch$tensor(list(1.0)), torch$tensor(list(1.0)))
 m$sample()  # sample from a Weibull distribution with scale=1, concentration=1
 
+```
+
+#### Weibull at constant `scale`
+
+```{r}
+# constant scale
+for (k in 1:10) {
+    wei <- Weibull(scale=100, concentration=k)
+    wei_sample <- wei$sample_n(500L)
+    # plot(wei_sample$flatten()$numpy())
+    hist(main=paste0("Scale=100; Concentration=", k),
+        wei_sample$flatten()$numpy())
+}
+```
+#### Weibull at constant `concentration`
+
+```{r}
+# constant concentration
+for (s in seq(100, 1000, 100)) {
+    wei <- Weibull(scale=s, concentration=1)
+    wei_sample <- wei$sample_n(500L)
+    # plot(wei_sample$flatten()$numpy())
+    hist(main=paste0("Concentration=1; Scale=", s),
+        wei_sample$flatten()$numpy())
+}
 ```
 

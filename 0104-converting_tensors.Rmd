@@ -1,5 +1,10 @@
 # Converting tensors
 
+```{r}
+library(rTorch)
+```
+
+
 
 ## Transforming a tensor from `numpy` and viceversa
 * Explain how transform a tensor back and forth to `numpy`.
@@ -25,12 +30,4 @@ This is mainly required for these reasons:
 
 
 ## Transforming a tensor from PyTorch to R and viceversa
-
-```{python}
-import torch
-import torchvision
-
-torch.nn
-torchvision.transforms
-torchvision.datasets
-```
+TODO

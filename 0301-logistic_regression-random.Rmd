@@ -1,4 +1,8 @@
-# A classic classification problem
+# (PART) Logistic Regression {-}
+
+# Example 1: A classification problem with Logistic Regression
+
+## Code in Python
 
 I will combine here R and Python code just to show how easy is integrating R and Python. First thing we have to do is loading the package `rTorch`. We do that in a chunk:
 
@@ -9,6 +13,7 @@ library(rTorch)
 Then, we proceed to copy the standard Python code but in their own `Python` chunks. This is a very nice example that I found in the web. It explains the classic challenge of classification.
 
 When `rTorch` is loaded, a number of Python libraries are also loaded, which enable us the immediate use of numpy, torch and matplotlib.
+
 
 ```{python}
 # Logistic Regression
