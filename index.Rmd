@@ -10,6 +10,10 @@ link-citations: yes
 description: "This is a minimal tutorial about using the `rTorch` package to have fun while doing machine learning. This book was written with [bookdown]()."
 ---
 
+```{r echo=FALSE}
+reticulate::use_condaenv("r-torch", required = TRUE)
+```
+
 # Prerequisites {-}
 
 You need couple of things to get `rTorch` working:
