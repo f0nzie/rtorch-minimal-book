@@ -5,7 +5,7 @@
 
 ## A neural network with `numpy`
 
-```{python, engine="python3"}
+```{python, nn-numpy, engine="python3"}
 # A simple neural network using NumPy
 # Code in file tensor/two_layer_net_numpy.py
 import time
@@ -63,7 +63,7 @@ print(toc - tic)
 ## A neural network with `r-base`
 It is the same algorithm above in `numpy` but written in R base.
 
-```{r}
+```{r nn-rbase}
 library(tictoc)
 tic()
 set.seed(123)
@@ -113,7 +113,7 @@ Source: https://github.com/jcjohnson/pytorch-examples#pytorch-tensors
 
 ### Load the libraries
 
-```{r example-device-cpu}
+```{r rtorch-device-cpu}
 library(rTorch)
 library(ggplot2)
 
@@ -121,6 +121,7 @@ device = torch$device('cpu')
 # device = torch.device('cuda')  # Uncomment this to run on GPU
 invisible(torch$manual_seed(0))
 ```
+
 * `N` is batch size; 
 * `D_in` is input dimension;
 * `H` is hidden dimension; 
@@ -194,7 +195,7 @@ We see a lot of dispersion between the predicted values, $y_{pred}$ and the real
 
 Let's take a look at the dataframe:
 
-```{r}
+```{r dt-50-iters}
 library('DT')
 datatable(df_50, options = list(pageLength = 10))
 ```
@@ -205,7 +206,7 @@ Now, we convert the script above to a function, so we could reuse it several tim
 
 This time we create a function `train` to input the number of iterations that we want to run:
 
-```{r run-model-100, fig.asp=1}
+```{r train-function, fig.asp=1}
 train <- function(iterations) {
     # Randomly initialize weights
     w1 <- torch$randn(D_in, H, device=device)   # layer 1
@@ -242,7 +243,7 @@ train <- function(iterations) {
 }
 ```
 
-```{r}
+```{r dt-100-iters}
 # retrieve the results and store them in a dataframe
 df_100 <- train(iterations = 100)
 datatable(df_100, options = list(pageLength = 10))
@@ -255,7 +256,7 @@ ggplot(df_100, aes(x = y_pred, y = y)) +
 #### 250 iterations
 Still there are differences between the value and the prediction. Let's try with more iterations, like __250__:
 
-```{r, fig.asp=1}
+```{r dt-250-iters, fig.asp=1}
 df_250 <- train(iterations = 200)
 datatable(df_250, options = list(pageLength = 25))
 # plot
@@ -268,7 +269,7 @@ We see the formation of a line between the values and prediction, which means we
 #### 500 iterations
 Let's try one more time with 500 iterations:
 
-```{r, fig.asp=1}
+```{r dt-500-iters, fig.asp=1}
 df_500 <- train(iterations = 500)
 datatable(df_500, options = list(pageLength = 25))
 ggplot(df_500, aes(x = y_pred, y = y)) +
@@ -280,7 +281,7 @@ ggplot(df_500, aes(x = y_pred, y = y)) +
 Here is the same example we have used above but written in PyTorch.
 
 
-```{python, engine="python3"}
+```{python, nn-pytorch, engine="python3"}
 # Code in file tensor/two_layer_net_tensor.py
 import torch
 
@@ -329,3 +330,4 @@ for t in range(500):
 1. Rewrite the R code but including the loss at each iteration
 
 2. On the last Python code, instead of printing a long table, print the table by pages that we could navigate using vertical and horizontal bars.
+
