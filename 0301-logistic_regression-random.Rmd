@@ -1,4 +1,6 @@
-# Example 2: A classification problem with Logistic Regression
+# (PART) Logistic Regression {-}
+
+# Example 1: A classification problem with Logistic Regression
 
 ## Code in Python
 

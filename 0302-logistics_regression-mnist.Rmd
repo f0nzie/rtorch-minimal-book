@@ -1,6 +1,4 @@
-# (PART) Logistic Regression {-}
-
-# Example 1: MNIST handwritten digits {#mnistdigits}
+# Example 2: MNIST handwritten digits {#mnistdigits}
 
 ## Code in R
 
