@@ -7,7 +7,7 @@ In this example we use the torch `nn` package to implement our two-layer network
 
 ## Select device
 
-```{r device}
+```{r select-device-cpu}
 library(rTorch)
 
 device = torch$device('cpu')
@@ -110,7 +110,7 @@ param$data <- param$data - param$grad * learning_rate
 
 ## A more elegant way of writing the neural network
 
-```{r}
+```{r nn-rtorch-elegant}
 invisible(torch$manual_seed(0))   # do not show the generator output
 N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
 
@@ -158,7 +158,7 @@ for (t in 1:500) {
 }  
 ```
 
-```{r}
+```{r dt-loss-reduce}
 library(DT)
 loss_df <- data.frame(Reduce(rbind, loss_row), row.names = NULL)
 names(loss_df)[1] <- "iter"
@@ -166,7 +166,7 @@ names(loss_df)[2] <- "loss"
 DT::datatable(loss_df)
 ```
 
-```{r}
+```{r plot-loss}
 library(ggplot2)
 # plot
 ggplot(loss_df, aes(x = iter, y = loss)) +
