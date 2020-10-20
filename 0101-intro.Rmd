@@ -74,7 +74,7 @@ rTorch::torch
 
 ## Getting help
 
-We get a glimpse of the first lines of the `help("torch")` via a Python markdown chunk:
+We get a glimpse of the first lines of the `help("torch")` via a Python chunk:
 
 ```{python, help-python, engine="python3", output.lines=c(3:10)}
 help("torch")
@@ -98,4 +98,4 @@ Finally, these are the classes for the module `torchvision.datasets`. We are usi
 help("torchvision.datasets")
 ```
 
-In other words, all the functions, modules, classes in PyTorch are available to `rTorch`.
+In other words, all the functions, modules, classes in PyTorch are available to rTorch.
