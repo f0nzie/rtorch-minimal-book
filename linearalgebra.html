@@ -1237,9 +1237,9 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="12.4.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.4.4.4</b> 250 iterations</a></li>
 <li class="chapter" data-level="12.4.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.4.4.5</b> 500 iterations</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.4.5</b> Complete code for neural network in rTorch</a></li>
 </ul></li>
-<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> Complete code for neural network in rTorch</a></li>
+<li class="chapter" data-level="12.6" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.6</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a>
 <ul>
@@ -1248,9 +1248,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.3" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
 <li class="chapter" data-level="13.4" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
 <li class="chapter" data-level="13.5" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
-<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-dataset"><i class="fa fa-check"></i><b>13.6</b> Iterate through dataset</a></li>
+<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
 <li class="chapter" data-level="13.7" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#using-r-generics-to-simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7</b> Using R generics to simplify tensor operations</a></li>
 <li class="chapter" data-level="13.8" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#a-more-elegant-way-of-writing-the-neural-network"><i class="fa fa-check"></i><b>13.8</b> A more elegant way of writing the neural network</a></li>
+<li class="chapter" data-level="13.9" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-a-browseable-dataframe"><i class="fa fa-check"></i><b>13.9</b> Create a browseable dataframe</a></li>
+<li class="chapter" data-level="13.10" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
 <li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a>
@@ -1470,34 +1472,34 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="linearalgebra.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RGB color image has three axes </span></span>
 <span id="cb336-2"><a href="linearalgebra.html#cb336-2" aria-hidden="true" tabindex="-1"></a>(img <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">rand</span>(3L, 28L, 28L))</span>
 <span id="cb336-3"><a href="linearalgebra.html#cb336-3" aria-hidden="true" tabindex="-1"></a>img<span class="sc">$</span>shape</span></code></pre></div>
-<pre><code>#&gt; tensor([[[0.0614, 0.9532, 0.3877,  ..., 0.0499, 0.2930, 0.9052],
-#&gt;          [0.1328, 0.8385, 0.8973,  ..., 0.1305, 0.7616, 0.7129],
-#&gt;          [0.9372, 0.2149, 0.2388,  ..., 0.3857, 0.6170, 0.4351],
+<pre><code>#&gt; tensor([[[0.7749, 0.0162, 0.6935,  ..., 0.5445, 0.0781, 0.9628],
+#&gt;          [0.0142, 0.3002, 0.3356,  ..., 0.0950, 0.5778, 0.4992],
+#&gt;          [0.4685, 0.5511, 0.0291,  ..., 0.8049, 0.5803, 0.0278],
 #&gt;          ...,
-#&gt;          [0.1202, 0.4297, 0.7919,  ..., 0.8304, 0.8033, 0.8647],
-#&gt;          [0.9621, 0.1888, 0.5935,  ..., 0.5086, 0.8331, 0.3231],
-#&gt;          [0.7963, 0.0695, 0.2104,  ..., 0.8334, 0.9055, 0.5691]],
+#&gt;          [0.2990, 0.1171, 0.4530,  ..., 0.5161, 0.8102, 0.7951],
+#&gt;          [0.6924, 0.4317, 0.3941,  ..., 0.8678, 0.9077, 0.9072],
+#&gt;          [0.4356, 0.5116, 0.6923,  ..., 0.4630, 0.5425, 0.8416]],
 #&gt; 
-#&gt;         [[0.5349, 0.9001, 0.7753,  ..., 0.7957, 0.7010, 0.4160],
-#&gt;          [0.7264, 0.0034, 0.6360,  ..., 0.7666, 0.4731, 0.6289],
-#&gt;          [0.1735, 0.5189, 0.4036,  ..., 0.0084, 0.1906, 0.3160],
+#&gt;         [[0.7075, 0.1961, 0.4499,  ..., 0.0980, 0.6701, 0.9864],
+#&gt;          [0.0850, 0.2964, 0.8794,  ..., 0.2024, 0.9161, 0.3888],
+#&gt;          [0.9373, 0.0202, 0.2911,  ..., 0.1249, 0.7650, 0.8151],
 #&gt;          ...,
-#&gt;          [0.3759, 0.6858, 0.7699,  ..., 0.6268, 0.4861, 0.5868],
-#&gt;          [0.2269, 0.7573, 0.3305,  ..., 0.8772, 0.4409, 0.7650],
-#&gt;          [0.8342, 0.3672, 0.7719,  ..., 0.3306, 0.9523, 0.8511]],
+#&gt;          [0.5030, 0.5712, 0.8811,  ..., 0.9839, 0.9114, 0.1080],
+#&gt;          [0.7374, 0.9387, 0.9818,  ..., 0.8081, 0.6594, 0.7133],
+#&gt;          [0.2744, 0.0278, 0.7661,  ..., 0.8544, 0.8719, 0.8844]],
 #&gt; 
-#&gt;         [[0.6196, 0.0841, 0.9026,  ..., 0.2005, 0.8471, 0.3263],
-#&gt;          [0.7772, 0.5906, 0.3464,  ..., 0.4793, 0.6875, 0.5658],
-#&gt;          [0.7696, 0.0486, 0.0432,  ..., 0.3740, 0.3893, 0.9533],
+#&gt;         [[0.1437, 0.1459, 0.7312,  ..., 0.6127, 0.0432, 0.1843],
+#&gt;          [0.9743, 0.8424, 0.3076,  ..., 0.9645, 0.8159, 0.8055],
+#&gt;          [0.3236, 0.1325, 0.1722,  ..., 0.3372, 0.6671, 0.7440],
 #&gt;          ...,
-#&gt;          [0.3556, 0.4090, 0.5200,  ..., 0.8909, 0.6704, 0.1318],
-#&gt;          [0.6588, 0.1204, 0.5471,  ..., 0.2632, 0.8200, 0.1133],
-#&gt;          [0.8266, 0.8344, 0.7700,  ..., 0.7128, 0.4246, 0.0207]]])
+#&gt;          [0.6547, 0.2002, 0.3962,  ..., 0.4531, 0.2684, 0.1886],
+#&gt;          [0.1214, 0.6585, 0.4621,  ..., 0.3818, 0.4965, 0.0180],
+#&gt;          [0.8353, 0.4519, 0.1134,  ..., 0.7486, 0.2241, 0.3295]]])
 #&gt; torch.Size([3, 28, 28])</code></pre>
 <div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="linearalgebra.html#cb338-1" aria-hidden="true" tabindex="-1"></a>img[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
 <span id="cb338-2"><a href="linearalgebra.html#cb338-2" aria-hidden="true" tabindex="-1"></a>img[<span class="dv">3</span>, <span class="dv">28</span>, <span class="dv">28</span>]</span></code></pre></div>
-<pre><code>#&gt; tensor(0.0614)
-#&gt; tensor(0.0207)</code></pre>
+<pre><code>#&gt; tensor(0.7749)
+#&gt; tensor(0.3295)</code></pre>
 </div>
 <div id="transpose-of-a-matrix" class="section level2" number="6.5">
 <h2><span class="header-section-number">6.5</span> Transpose of a matrix</h2>
@@ -1790,28 +1792,28 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb428-4"><a href="linearalgebra.html#cb428-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb428-5"><a href="linearalgebra.html#cb428-5" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span><span class="fu">mm</span>(b)</span>
 <span id="cb428-6"><a href="linearalgebra.html#cb428-6" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span><span class="fu">matmul</span>(b)</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 1.6870,  0.3935, -0.0065,  0.4203],
-#&gt;         [-0.1936,  0.9324, -0.0650,  0.0997]])
-#&gt; tensor([[ 1.6870,  0.3935, -0.0065,  0.4203],
-#&gt;         [-0.1936,  0.9324, -0.0650,  0.0997]])</code></pre>
+<pre><code>#&gt; tensor([[ 3.2012, -3.0469,  1.6203, -0.2590],
+#&gt;         [-2.8888,  4.0693, -0.7771, -1.3075]])
+#&gt; tensor([[ 3.2012, -3.0469,  1.6203, -0.2590],
+#&gt;         [-2.8888,  4.0693, -0.7771, -1.3075]])</code></pre>
 <p>Here is a good explanation: <a href="https://stackoverflow.com/a/44525687/5270873" class="uri">https://stackoverflow.com/a/44525687/5270873</a></p>
 <p>Let’s now prove the associative property of tensors:</p>
 <p><span class="math display">\[(A B)^T = B^T A^T\]</span></p>
 <div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="linearalgebra.html#cb430-1" aria-hidden="true" tabindex="-1"></a>abt <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">mm</span>(a, b)<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
 <span id="cb430-2"><a href="linearalgebra.html#cb430-2" aria-hidden="true" tabindex="-1"></a>abt</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 1.6870, -0.1936],
-#&gt;         [ 0.3935,  0.9324],
-#&gt;         [-0.0065, -0.0650],
-#&gt;         [ 0.4203,  0.0997]])</code></pre>
+<pre><code>#&gt; tensor([[ 3.2012, -2.8888],
+#&gt;         [-3.0469,  4.0693],
+#&gt;         [ 1.6203, -0.7771],
+#&gt;         [-0.2590, -1.3075]])</code></pre>
 <div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="linearalgebra.html#cb432-1" aria-hidden="true" tabindex="-1"></a>at <span class="ot">&lt;-</span> a<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
 <span id="cb432-2"><a href="linearalgebra.html#cb432-2" aria-hidden="true" tabindex="-1"></a>bt <span class="ot">&lt;-</span> b<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
 <span id="cb432-3"><a href="linearalgebra.html#cb432-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb432-4"><a href="linearalgebra.html#cb432-4" aria-hidden="true" tabindex="-1"></a>btat <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">matmul</span>(bt, at)</span>
 <span id="cb432-5"><a href="linearalgebra.html#cb432-5" aria-hidden="true" tabindex="-1"></a>btat</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 1.6870, -0.1936],
-#&gt;         [ 0.3935,  0.9324],
-#&gt;         [-0.0065, -0.0650],
-#&gt;         [ 0.4203,  0.0997]])</code></pre>
+<pre><code>#&gt; tensor([[ 3.2012, -2.8888],
+#&gt;         [-3.0469,  4.0693],
+#&gt;         [ 1.6203, -0.7771],
+#&gt;         [-0.2590, -1.3075]])</code></pre>
 <p>And we could unit test if the results are nearly the same with <code>allclose()</code>:</p>
 <div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="linearalgebra.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tolerance</span></span>
 <span id="cb434-2"><a href="linearalgebra.html#cb434-2" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">allclose</span>(abt, btat, <span class="at">rtol=</span><span class="fl">0.0001</span>)</span></code></pre></div>

@@ -1237,9 +1237,9 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="12.4.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.4.4.4</b> 250 iterations</a></li>
 <li class="chapter" data-level="12.4.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.4.4.5</b> 500 iterations</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.4.5</b> Complete code for neural network in rTorch</a></li>
 </ul></li>
-<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> Complete code for neural network in rTorch</a></li>
+<li class="chapter" data-level="12.6" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.6</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a>
 <ul>
@@ -1248,9 +1248,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.3" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
 <li class="chapter" data-level="13.4" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
 <li class="chapter" data-level="13.5" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
-<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-dataset"><i class="fa fa-check"></i><b>13.6</b> Iterate through dataset</a></li>
+<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
 <li class="chapter" data-level="13.7" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#using-r-generics-to-simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7</b> Using R generics to simplify tensor operations</a></li>
 <li class="chapter" data-level="13.8" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#a-more-elegant-way-of-writing-the-neural-network"><i class="fa fa-check"></i><b>13.8</b> A more elegant way of writing the neural network</a></li>
+<li class="chapter" data-level="13.9" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-a-browseable-dataframe"><i class="fa fa-check"></i><b>13.9</b> Create a browseable dataframe</a></li>
+<li class="chapter" data-level="13.10" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
 <li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a>
@@ -1346,29 +1348,29 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="tensors.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;float tensor&quot;</span>)</span>
 <span id="cb106-2"><a href="tensors.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; float tensor</span></span>
 <span id="cb106-3"><a href="tensors.html#cb106-3" aria-hidden="true" tabindex="-1"></a>float</span>
-<span id="cb106-4"><a href="tensors.html#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([[0., 0., 0.],</span></span>
-<span id="cb106-5"><a href="tensors.html#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [0., 0., 0.],</span></span>
-<span id="cb106-6"><a href="tensors.html#cb106-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [0., 0., 0.]], dtype=torch.float32)</span></span></code></pre></div>
+<span id="cb106-4"><a href="tensors.html#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([[-4.1238e+02,  3.0652e-41,  0.0000e+00],</span></span>
+<span id="cb106-5"><a href="tensors.html#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00],</span></span>
+<span id="cb106-6"><a href="tensors.html#cb106-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [ 0.0000e+00,  1.0184e+03,  1.1210e-43]], dtype=torch.float32)</span></span></code></pre></div>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="tensors.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;double&quot;</span>)</span>
 <span id="cb107-2"><a href="tensors.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; double</span></span>
 <span id="cb107-3"><a href="tensors.html#cb107-3" aria-hidden="true" tabindex="-1"></a>double</span>
-<span id="cb107-4"><a href="tensors.html#cb107-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([[4.6377e-310, 6.9200e-310, 3.1620e-322],</span></span>
-<span id="cb107-5"><a href="tensors.html#cb107-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [3.9525e-322, 4.6377e-310,  0.0000e+00],</span></span>
-<span id="cb107-6"><a href="tensors.html#cb107-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00]])</span></span></code></pre></div>
+<span id="cb107-4"><a href="tensors.html#cb107-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([[4.6418e-310, 4.6418e-310, 4.6418e-310],</span></span>
+<span id="cb107-5"><a href="tensors.html#cb107-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [4.0019e-322, 9.8813e-324, 2.1220e-314],</span></span>
+<span id="cb107-6"><a href="tensors.html#cb107-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [        nan,  0.0000e+00,  0.0000e+00]])</span></span></code></pre></div>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="tensors.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;long&quot;</span>)</span>
 <span id="cb108-2"><a href="tensors.html#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; long</span></span>
 <span id="cb108-3"><a href="tensors.html#cb108-3" aria-hidden="true" tabindex="-1"></a>long</span>
-<span id="cb108-4"><a href="tensors.html#cb108-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([[93867703956912, 93867693328448, 93867557847904],</span></span>
-<span id="cb108-5"><a href="tensors.html#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [93867548095064, 93867513550152, 93867516967712],</span></span>
-<span id="cb108-6"><a href="tensors.html#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [93867548377296, 93867547883216, 93867532244984]])</span></span></code></pre></div>
+<span id="cb108-4"><a href="tensors.html#cb108-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([[     140702247370112,       93951373949696,  5599728769762797108],</span></span>
+<span id="cb108-5"><a href="tensors.html#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [ -115218666502872030, -5711872464619273408, -3750240410398780658],</span></span>
+<span id="cb108-6"><a href="tensors.html#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [-5730363657698275572,  8731755044138450618,  6919643086861342104]])</span></span></code></pre></div>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="tensors.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;boolean&quot;</span>)</span>
 <span id="cb109-2"><a href="tensors.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; boolean</span></span>
 <span id="cb109-3"><a href="tensors.html#cb109-3" aria-hidden="true" tabindex="-1"></a>boolean</span>
-<span id="cb109-4"><a href="tensors.html#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([[True, True, True, True, True],</span></span>
-<span id="cb109-5"><a href="tensors.html#cb109-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [True, True, True, True, True],</span></span>
-<span id="cb109-6"><a href="tensors.html#cb109-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [True, True, True, True, True],</span></span>
-<span id="cb109-7"><a href="tensors.html#cb109-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [True, True, True, True, True],</span></span>
-<span id="cb109-8"><a href="tensors.html#cb109-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [True, True, True, True, True]])</span></span></code></pre></div>
+<span id="cb109-4"><a href="tensors.html#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([[ True,  True,  True,  True,  True],</span></span>
+<span id="cb109-5"><a href="tensors.html#cb109-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [ True, False, False,  True,  True],</span></span>
+<span id="cb109-6"><a href="tensors.html#cb109-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [ True,  True,  True,  True, False],</span></span>
+<span id="cb109-7"><a href="tensors.html#cb109-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [False,  True, False, False, False],</span></span>
+<span id="cb109-8"><a href="tensors.html#cb109-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         [ True, False, False, False,  True]])</span></span></code></pre></div>
 </div>
 <div id="example-basic-attributes-of-a-4d-tensor" class="section level3" number="5.1.2">
 <h3><span class="header-section-number">5.1.2</span> Example: Basic attributes of a 4D tensor</h3>
@@ -1399,21 +1401,21 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>Given a 3D tensor:</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="tensors.html#cb112-1" aria-hidden="true" tabindex="-1"></a>ft3d <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">FloatTensor</span>(4L, 3L, 2L)</span>
 <span id="cb112-2"><a href="tensors.html#cb112-2" aria-hidden="true" tabindex="-1"></a>ft3d</span></code></pre></div>
-<pre><code>#&gt; tensor([[[2.8026e-45, 4.2039e-45],
-#&gt;          [5.6052e-45, 7.0065e-45],
-#&gt;          [8.4078e-45, 9.8091e-45]],
+<pre><code>#&gt; tensor([[[5.7453e-44, 0.0000e+00],
+#&gt;          [0.0000e+00, 0.0000e+00],
+#&gt;          [2.8026e-45, 4.2039e-45]],
 #&gt; 
-#&gt;         [[1.1210e-44, 1.2612e-44],
-#&gt;          [1.4013e-44, 1.5414e-44],
-#&gt;          [1.6816e-44, 1.8217e-44]],
+#&gt;         [[5.6052e-45, 7.0065e-45],
+#&gt;          [8.4078e-45, 9.8091e-45],
+#&gt;          [1.1210e-44, 1.2612e-44]],
 #&gt; 
-#&gt;         [[1.9618e-44, 2.1019e-44],
-#&gt;          [2.2421e-44, 2.3822e-44],
-#&gt;          [2.5223e-44, 2.6625e-44]],
+#&gt;         [[1.4013e-44, 1.5414e-44],
+#&gt;          [1.6816e-44, 1.8217e-44],
+#&gt;          [1.9618e-44, 2.1019e-44]],
 #&gt; 
-#&gt;         [[2.8026e-44, 2.9427e-44],
-#&gt;          [3.0829e-44, 3.2230e-44],
-#&gt;          [3.3631e-44, 3.5032e-44]]], dtype=torch.float32)</code></pre>
+#&gt;         [[2.2421e-44, 2.3822e-44],
+#&gt;          [2.5223e-44, 2.6625e-44],
+#&gt;          [2.8026e-44, 2.9427e-44]]], dtype=torch.float32)</code></pre>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="tensors.html#cb114-1" aria-hidden="true" tabindex="-1"></a>ft3d<span class="sc">$</span><span class="fu">size</span>()</span>
 <span id="cb114-2"><a href="tensors.html#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; torch.Size([4, 3, 2])</span></span>
 <span id="cb114-3"><a href="tensors.html#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(ft3d)</span>
@@ -1613,16 +1615,16 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>Create a tensor of size (5 x 7) with uninitialized memory:</p>
 <div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="tensors.html#cb158-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">FloatTensor</span>(5L, 7L)</span>
 <span id="cb158-2"><a href="tensors.html#cb158-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a)</span></code></pre></div>
-<pre><code>#&gt; tensor([[7.5670e-44, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.4013e-45, 2.8026e-45,
-#&gt;          4.2039e-45],
-#&gt;         [5.6052e-45, 7.0065e-45, 8.4078e-45, 9.8091e-45, 1.1210e-44, 1.2612e-44,
-#&gt;          1.4013e-44],
-#&gt;         [1.5414e-44, 1.6816e-44, 1.8217e-44, 1.9618e-44, 2.1019e-44, 2.2421e-44,
-#&gt;          2.3822e-44],
-#&gt;         [2.5223e-44, 2.6625e-44, 2.8026e-44, 2.9427e-44, 3.0829e-44, 3.2230e-44,
-#&gt;          3.3631e-44],
-#&gt;         [3.5032e-44, 3.6434e-44, 3.7835e-44, 3.9236e-44, 4.0638e-44, 4.2039e-44,
-#&gt;          4.4842e-44]], dtype=torch.float32)</code></pre>
+<pre><code>#&gt; tensor([[ 0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00, -9.0160e+01,
+#&gt;           3.0652e-41,  0.0000e+00],
+#&gt;         [ 0.0000e+00, -3.8843e+01,  3.0652e-41, -3.8843e+01,  3.0652e-41,
+#&gt;          -3.8843e+01,  3.0652e-41],
+#&gt;         [ 0.0000e+00,  0.0000e+00,  1.8217e-44,  1.9618e-44,  2.1019e-44,
+#&gt;           2.2421e-44,  2.3822e-44],
+#&gt;         [ 2.5223e-44,  2.6625e-44,  2.8026e-44, -3.8843e+01,  3.0652e-41,
+#&gt;          -3.8843e+01,  3.0652e-41],
+#&gt;         [-3.8843e+01,  3.0652e-41,  1.4013e-45,  0.0000e+00,  4.0638e-44,
+#&gt;           4.2039e-44,  4.4842e-44]], dtype=torch.float32)</code></pre>
 <p>Using arange to create a tensor. <code>arange</code> starts at 0.</p>
 <div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="tensors.html#cb160-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">arange</span>(9L)</span>
 <span id="cb160-2"><a href="tensors.html#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(v)</span></code></pre></div>
@@ -1678,13 +1680,13 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3><span class="header-section-number">5.4.4</span> Fill a tensor In-place / Out-of-place</h3>
 <p>On this uninitialized tensor:</p>
 <div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="tensors.html#cb178-1" aria-hidden="true" tabindex="-1"></a>(a <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">FloatTensor</span>(5L, 7L))</span></code></pre></div>
-<pre><code>#&gt; tensor([[-3.9386e-24,  4.5696e-41,  9.6422e+01,  3.0625e-41,  0.0000e+00,
+<pre><code>#&gt; tensor([[-1.6334e+07,  4.5905e-41, -4.6627e+01,  3.0652e-41,  1.4013e-45,
+#&gt;           0.0000e+00, -2.2777e-04],
+#&gt;         [ 3.0652e-41,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
 #&gt;           0.0000e+00,  0.0000e+00],
-#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
-#&gt;           0.0000e+00,  0.0000e+00],
-#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
-#&gt;           0.0000e+00,  0.0000e+00],
-#&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+#&gt;         [ 0.0000e+00,  0.0000e+00,  6.3058e-44,  6.3058e-44, -8.3989e+01,
+#&gt;           3.0652e-41,  1.4013e-45],
+#&gt;         [ 0.0000e+00, -1.4938e+04,  3.0652e-41,  0.0000e+00,  0.0000e+00,
 #&gt;           0.0000e+00,  0.0000e+00],
 #&gt;         [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
 #&gt;           0.0000e+00,  0.0000e+00]], dtype=torch.float32)</code></pre>
@@ -2236,7 +2238,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb282-4"><a href="tensors.html#cb282-4" aria-hidden="true" tabindex="-1"></a>m</span>
 <span id="cb282-5"><a href="tensors.html#cb282-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Exponential(rate: tensor([1.]))</span></span>
 <span id="cb282-6"><a href="tensors.html#cb282-6" aria-hidden="true" tabindex="-1"></a>m<span class="sc">$</span><span class="fu">sample</span>()  <span class="co"># Exponential distributed with rate=1</span></span>
-<span id="cb282-7"><a href="tensors.html#cb282-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([3.8097])</span></span></code></pre></div>
+<span id="cb282-7"><a href="tensors.html#cb282-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([0.0498])</span></span></code></pre></div>
 <div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="tensors.html#cb283-1" aria-hidden="true" tabindex="-1"></a>expo <span class="ot">&lt;-</span> <span class="fu">Exponential</span>(<span class="at">rate=</span><span class="fl">0.25</span>)</span>
 <span id="cb283-2"><a href="tensors.html#cb283-2" aria-hidden="true" tabindex="-1"></a>expo_sample <span class="ot">&lt;-</span> expo<span class="sc">$</span><span class="fu">sample_n</span>(250L)   <span class="co"># generate 250 samples</span></span>
 <span id="cb283-3"><a href="tensors.html#cb283-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(expo_sample<span class="sc">$</span>shape)</span>
@@ -2251,7 +2253,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb284-2"><a href="tensors.html#cb284-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb284-3"><a href="tensors.html#cb284-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">Weibull</span>(torch<span class="sc">$</span><span class="fu">tensor</span>(<span class="fu">list</span>(<span class="fl">1.0</span>)), torch<span class="sc">$</span><span class="fu">tensor</span>(<span class="fu">list</span>(<span class="fl">1.0</span>)))</span>
 <span id="cb284-4"><a href="tensors.html#cb284-4" aria-hidden="true" tabindex="-1"></a>m<span class="sc">$</span><span class="fu">sample</span>()  <span class="co"># sample from a Weibull distribution with scale=1, concentration=1</span></span>
-<span id="cb284-5"><a href="tensors.html#cb284-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([0.4774])</span></span></code></pre></div>
+<span id="cb284-5"><a href="tensors.html#cb284-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tensor([0.9460])</span></span></code></pre></div>
 <div id="weibull-at-constant-scale" class="section level4" number="5.12.4.1">
 <h4><span class="header-section-number">5.12.4.1</span> Weibull at constant <code>scale</code></h4>
 <div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="tensors.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="co"># constant scale</span></span>
