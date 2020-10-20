@@ -1,4 +1,5 @@
 delete_merged_file: true
+repo: https://github.com/f0nzie/rtorch-minimal-book/
 book_filename: "rtorch-minimal-book"
 # new_session: yes
 output_dir: "public"
@@ -27,4 +28,4 @@ rmd_files: [
     "9992-appendixB.Rmd",
     "9999-references.Rmd"
 ]
-repo: https://github.com/f0nzie/rtorch-minimal-book.git
+

@@ -1,21 +1,22 @@
 bookdown::gitbook:
-  #dev: svglite # in case I need svg images
+  # dev: svglite # in case I need svg images
   includes:
     in_header: hide_code.html
   split_bib: false
   # highlight options: tango, kate, pygments, textmate
   highlight: kate
-  toc_depth: 4
+  # toc_depth: 4
   config:
     toc:
-      collapse: section
+      collapse: none
       before: |
         <li><a href="./">The rTorch Minimal Book</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+        <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
     download: no
+    edit: https://github.com/f0nzie/rtorch-minimal-book/edit/master/%s
     sharing:
       github: yes
-      twitter: no
       facebook: no
       all: no
+      
