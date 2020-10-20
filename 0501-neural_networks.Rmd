@@ -243,6 +243,8 @@ train <- function(iterations) {
 }
 ```
 
+#### Run it at 100 iterations
+
 ```{r dt-100-iters}
 # retrieve the results and store them in a dataframe
 df_100 <- train(iterations = 100)
@@ -252,9 +254,9 @@ ggplot(df_100, aes(x = y_pred, y = y)) +
     geom_point()
 ```
 
-
 #### 250 iterations
-Still there are differences between the value and the prediction. Let's try with more iterations, like __250__:
+
+Still there are differences between the value and the prediction. Let's try with more iterations, like **250**:
 
 ```{r dt-250-iters, fig.asp=1}
 df_250 <- train(iterations = 200)
@@ -267,6 +269,7 @@ ggplot(df_250, aes(x = y_pred, y = y)) +
 We see the formation of a line between the values and prediction, which means we are getting closer at finding the right algorithm, in this particular case, weights and bias.
 
 #### 500 iterations
+
 Let's try one more time with 500 iterations:
 
 ```{r dt-500-iters, fig.asp=1}

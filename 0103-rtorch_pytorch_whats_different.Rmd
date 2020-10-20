@@ -1,13 +1,15 @@
 # rTorch vs PyTorch: What's different
-This chapter will explain the main differences between `PyTorch` and `rTorch`.
-Most of the things work directly in `PyTorch` but we need to be aware of some minor differences when working with rTorch. Here is a review of existing methods.
+
+This chapter will explain the main differences between `PyTorch` and `rTorch`. Most of the things work directly in `PyTorch` but we need to be aware of some minor differences when working with rTorch. Here is a review of existing methods.
 
 Let's start by loading `rTorch`:
+
 ```{r}
 library(rTorch)
 ```
 
 ## Calling objects from PyTorch
+
 We use the dollar sign or `$` to call a class, function or method from the `rTorch` modules. In this case, from the `torch` module:
 
 ```{r}
@@ -23,7 +25,6 @@ torch.tensor
 
 ```
 
-
 ## Call modules and functions from `torch`
 
 ```{r import-pytorch-modules}
@@ -35,7 +36,6 @@ dsets       <- torchvision$datasets
 
 Then we can proceed to extract classes, methods and functions from the `nn`, `transforms`, and `dsets` objects. In this example we use the module `torchvision$datasets` and the function `transforms$ToTensor()`
 
-
 ```{r mnist-digits-train-dataset}
 local_folder <- './datasets/mnist_digits'
 train_dataset = torchvision$datasets$MNIST(root = local_folder, 
@@ -45,10 +45,13 @@ train_dataset = torchvision$datasets$MNIST(root = local_folder,
 
 train_dataset
 ```
+
 ## Show the attributes (methods) of a class or PyTorch object
+
 Sometimes we are interested in knowing the internal components of a class. In that case, we use the reticulate function `py_list_attributes()`.
 
 In this example, we want to show the attributes of `train_dataset`:
+
 ```{r list-attributes}
 reticulate::py_list_attributes(train_dataset)
 ```
@@ -62,6 +65,7 @@ train_dataset$`__len__`()
 ## How to iterate through datasets
 
 ### Enumeration
+
 Given the following training dataset `x_train`, we want to find the number of elements of the tensor. We start by entering a `numpy` array, which then will convert to a tensor with the PyTorch function `from_numpy()`:
 
 ```{r create-r-array}
@@ -75,7 +79,9 @@ x_train <- x_train$type(torch$FloatTensor)   # make it a a FloatTensor
 
 x_train
 ```
+
 with this number of elements:
+
 ```{r number-of-elements}
 x_train$nelement()    # number of elements in the tensor
 ```
@@ -90,6 +96,7 @@ enum_x_train
 
 py$len(x_train)
 ```
+
 If we directly use `iterate` over the `enum_x_train` object, we get an R list with the index and the value of the `1D` tensor:
 
 ```{r iterate-train}
@@ -98,6 +105,7 @@ xit
 ```
 
 ### Using a `for-loop` to iterate
+
 Another way of iterating through a dataset that you will see a lot in the PyTorch tutorials is a `loop` through the length of the dataset. In this case, `x_train`. We are using `cat()` for the index (an integer), and `print()` for the tensor, since `cat` doesn't know how to deal with tensors:
 
 ```{r loop-iterator}
@@ -114,7 +122,8 @@ for (i in 1:py$len(x_train)) {
 > We will find very frequently this kind of iterators when we read a dataset read by `torchvision`. There are several different ways to iterate through these objects as you will find.
 
 ## Zero gradient
-The zero gradient was one of the most difficult to implement in R if we don't pay attention to the content of the objects carrying the __weights__ and __biases__. This happens when the algorithm written in __PyTorch__ is not immediately translatable to __rTorch__. This can be appreciated in this example.
+
+The zero gradient was one of the most difficult to implement in R if we don't pay attention to the content of the objects carrying the **weights** and **biases**. This happens when the algorithm written in **PyTorch** is not immediately translatable to **rTorch**. This can be appreciated in this example.
 
 > We are using the same seed in the PyTorch and rTorch versions, so, we could compare the results.
 
@@ -277,14 +286,14 @@ w$data <- torch$sub(w$data, torch$mul(w$grad, torch$scalar_tensor(1e-5)))
 ```
 
 ## R generics for PyTorch functions
-Which why we simplified these common operations using the R generic function. When we use the generic methods from __rTorch__ the operation looks much neater.
+
+Which why we simplified these common operations using the R generic function. When we use the generic methods from **rTorch** the operation looks much neater.
 
 ```{r r-calc-gradient2, eval=FALSE}
 w$data <- w$data - w$grad * 1e-5
 ```
 
-
-The following two expressions are equivalent, with the first being the long version natural way of doing it in __PyTorch__. The second is using the generics in R for subtraction, multiplication and scalar conversion.
+The following two expressions are equivalent, with the first being the long version natural way of doing it in **PyTorch**. The second is using the generics in R for subtraction, multiplication and scalar conversion.
 
 ```{r eval=FALSE}
 param$data <- torch$sub(param$data,
@@ -296,5 +305,3 @@ param$data <- torch$sub(param$data,
 ```{r eval=FALSE}
 param$data <- param$data - param$grad * learning_rate
 ```
-
-
