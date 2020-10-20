@@ -363,6 +363,7 @@ datatable(df_500, options = list(pageLength = 25))
 ggplot(df_500, aes(x = y_pred, y = y)) +
     geom_point()
 ```
+
 ### Complete code for neural network in rTorch
 
 ```{r rotch-complete, fig.asp=1}
