@@ -19,6 +19,7 @@ device = torch$device('cpu')
 * `H` is hidden dimension; 
 * `D_out` is output dimension.
 
+
 ## Create the dataset
 
 ```{r datasets-64x1000x10}
@@ -32,8 +33,7 @@ y = torch$randn(N, D_out, device=device)
 
 
 ## Define the model
-We use the `nn` package to define our model as a sequence of layers. `nn.Sequential` is a __Module__ which contains other modules, and applies them in sequence to produce an output. Each _Linear Module_ computes the output by using a linear function, and holds internal tensors for its weights and biases.
-After constructing the model we use the `.to()` method to move it to the desired device, which could be `CPU` or `GPU`. Remember that we selected `CPU` with `torch$device('cpu')`.
+We use the `nn` package to define our model as a sequence of layers. `nn.Sequential` applies these leayers in sequence to produce an output. Each _Linear Module_ computes the output by using a linear function, and holds also tensors for its weights and biases. After constructing the model we use the `.to()` method to move it to the desired device, which could be `CPU` or `GPU`. Remember that we selected `CPU` with `torch$device('cpu')`.
 
 ```{r model-layers}
 model <- torch$nn$Sequential(
@@ -53,7 +53,7 @@ loss_fn = torch$nn$MSELoss(reduction = 'sum')
 ```
 
 
-## Iterate through dataset
+## Iterate through the dataset
 
 ```{r iterate}
 learning_rate = 1e-4
@@ -108,25 +108,30 @@ param$data <- torch$sub(param$data,
 param$data <- param$data - param$grad * learning_rate
 ```
 
+
 ## A more elegant way of writing the neural network
 
 ```{r nn-rtorch-elegant}
 invisible(torch$manual_seed(0))   # do not show the generator output
+# layer properties
 N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
 
 # Create random Tensors to hold inputs and outputs
 x = torch$randn(N, D_in, device=device)
 y = torch$randn(N, D_out, device=device)
 
+# set up the neural network
 model <- torch$nn$Sequential(
   torch$nn$Linear(D_in, H),              # first layer
   torch$nn$ReLU(),                       # activation
   torch$nn$Linear(H, D_out))$to(device)  # output layer
 
+# specify how we will be computing the loss
 loss_fn = torch$nn$MSELoss(reduction = 'sum')
 
 learning_rate = 1e-4
-loss_row <- list(vector())
+loss_row <- list(vector())     # collect a list for the final dataframe
+
 for (t in 1:500) {
   # Forward pass: compute predicted y by passing x to the model. Module objects
   # override the __call__ operator so you can call them like functions. When
@@ -138,6 +143,7 @@ for (t in 1:500) {
   # values of y, and the loss function returns a Tensor containing the loss.
   loss = loss_fn(y_pred, y)  # (y_pred - y) is a tensor; loss_fn output is a scalar
   loss_row[[t]] <- c(t, loss$item())
+  
   # Zero the gradients before running the backward pass.
   model$zero_grad()
 
@@ -158,6 +164,8 @@ for (t in 1:500) {
 }  
 ```
 
+## Create a browseable dataframe
+
 ```{r dt-loss-reduce}
 library(DT)
 loss_df <- data.frame(Reduce(rbind, loss_row), row.names = NULL)
@@ -165,6 +173,8 @@ names(loss_df)[1] <- "iter"
 names(loss_df)[2] <- "loss"
 DT::datatable(loss_df)
 ```
+
+## Plot the loss at each iteration
 
 ```{r plot-loss}
 library(ggplot2)
