@@ -65,18 +65,18 @@ for t in range(500):
   # Update weights
   w1 -= learning_rate * grad_w1
   w2 -= learning_rate * grad_w2
-```
-
-```{python, engine="python3"}
+# processing time  
 toc = time.process_time()
-print(toc - tic)
+print(toc - tic, "seconds")
 ```
 
 ## A neural network with `r-base`
+
 It is the same algorithm above in `numpy` but written in R base.
 
 ```{r nn-rbase}
 library(tictoc)
+
 tic()
 set.seed(123)
 N <- 64; D_in <- 1000; H <- 100; D_out <- 10;
