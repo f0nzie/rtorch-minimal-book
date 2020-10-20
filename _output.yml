@@ -12,7 +12,7 @@ bookdown::gitbook:
       after: |
         <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
     download: no
-    edit: https://github.com/f0nzie/rtorch-minimal-book/edit/master/%s
+    edit: https://github.com/f0nzie/rtorch-minimal-book/edit/main/%s
     sharing:
       github: yes
       facebook: no

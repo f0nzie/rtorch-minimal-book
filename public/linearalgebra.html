@@ -1438,34 +1438,52 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="linearalgebra.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RGB color image has three axes </span></span>
 <span id="cb336-2"><a href="linearalgebra.html#cb336-2" aria-hidden="true" tabindex="-1"></a>(img <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">rand</span>(3L, 28L, 28L))</span>
 <span id="cb336-3"><a href="linearalgebra.html#cb336-3" aria-hidden="true" tabindex="-1"></a>img<span class="sc">$</span>shape</span></code></pre></div>
-<pre><code>#&gt; tensor([[[0.6649, 0.8076, 0.5356,  ..., 0.6286, 0.6232, 0.4773],
-#&gt;          [0.4858, 0.5645, 0.6242,  ..., 0.9883, 0.9201, 0.6705],
-#&gt;          [0.0373, 0.7354, 0.6576,  ..., 0.4868, 0.2090, 0.0499],
+<pre><code>#&gt; tensor([[[1.6836e-01, 3.6265e-01, 6.1869e-01,  ..., 4.4982e-01,
+#&gt;           6.5265e-01, 8.2577e-01],
+#&gt;          [9.1213e-01, 1.4648e-01, 2.7800e-01,  ..., 6.1794e-01,
+#&gt;           5.8249e-01, 5.9635e-02],
+#&gt;          [1.7007e-01, 8.2363e-02, 3.5053e-01,  ..., 4.9360e-01,
+#&gt;           4.9048e-01, 1.1792e-01],
 #&gt;          ...,
-#&gt;          [0.0334, 0.6451, 0.1102,  ..., 0.3437, 0.4063, 0.6496],
-#&gt;          [0.1211, 0.9591, 0.6696,  ..., 0.4564, 0.6739, 0.3123],
-#&gt;          [0.4590, 0.6792, 0.5712,  ..., 0.6297, 0.7003, 0.6348]],
+#&gt;          [4.4324e-01, 4.3879e-02, 5.9162e-01,  ..., 4.8322e-01,
+#&gt;           3.7653e-01, 3.7039e-02],
+#&gt;          [5.4735e-05, 1.8088e-01, 2.5342e-02,  ..., 9.7743e-01,
+#&gt;           8.2178e-01, 9.2232e-01],
+#&gt;          [8.0383e-01, 1.6805e-01, 4.9571e-01,  ..., 1.0230e-03,
+#&gt;           2.0197e-01, 6.0639e-01]],
 #&gt; 
-#&gt;         [[0.6633, 0.3401, 0.2361,  ..., 0.8480, 0.3508, 0.7434],
-#&gt;          [0.2443, 0.5099, 0.0731,  ..., 0.0456, 0.4479, 0.0902],
-#&gt;          [0.9472, 0.2458, 0.9398,  ..., 0.3798, 0.1608, 0.9548],
+#&gt;         [[7.3320e-01, 6.7363e-01, 8.3496e-01,  ..., 8.2424e-01,
+#&gt;           1.9870e-01, 9.6480e-01],
+#&gt;          [7.4739e-01, 6.2276e-01, 5.5990e-01,  ..., 7.7505e-02,
+#&gt;           8.1708e-01, 3.9763e-01],
+#&gt;          [3.5529e-01, 3.0404e-01, 9.7874e-01,  ..., 4.9420e-01,
+#&gt;           8.0356e-01, 8.0596e-01],
 #&gt;          ...,
-#&gt;          [0.5583, 0.7330, 0.3796,  ..., 0.9144, 0.9364, 0.0538],
-#&gt;          [0.3570, 0.6374, 0.7462,  ..., 0.6142, 0.5580, 0.9743],
-#&gt;          [0.8250, 0.9773, 0.4531,  ..., 0.1594, 0.8384, 0.1661]],
+#&gt;          [9.1692e-01, 3.1745e-01, 6.8569e-01,  ..., 3.9836e-01,
+#&gt;           5.6677e-01, 3.1267e-02],
+#&gt;          [3.5336e-01, 6.7174e-01, 2.3885e-01,  ..., 3.5496e-01,
+#&gt;           9.2168e-01, 1.6117e-01],
+#&gt;          [4.4839e-01, 8.2085e-01, 7.6265e-01,  ..., 6.1645e-01,
+#&gt;           7.6175e-01, 6.9267e-01]],
 #&gt; 
-#&gt;         [[0.4403, 0.7264, 0.0790,  ..., 0.5591, 0.9523, 0.3193],
-#&gt;          [0.3565, 0.3372, 0.0727,  ..., 0.6821, 0.6871, 0.8948],
-#&gt;          [0.7682, 0.9532, 0.6992,  ..., 0.5191, 0.2223, 0.7372],
+#&gt;         [[5.9610e-01, 7.6411e-01, 5.4070e-01,  ..., 1.6344e-01,
+#&gt;           1.6408e-01, 7.6130e-01],
+#&gt;          [4.8999e-01, 1.5998e-02, 8.2047e-01,  ..., 3.4251e-01,
+#&gt;           1.1003e-02, 3.7748e-01],
+#&gt;          [8.8045e-01, 3.0184e-01, 3.2653e-01,  ..., 4.0639e-01,
+#&gt;           2.9219e-01, 1.3802e-01],
 #&gt;          ...,
-#&gt;          [0.7844, 0.6312, 0.6340,  ..., 0.2410, 0.1111, 0.9353],
-#&gt;          [0.6052, 0.8178, 0.4517,  ..., 0.2854, 0.9349, 0.3627],
-#&gt;          [0.6669, 0.3032, 0.3247,  ..., 0.1230, 0.3068, 0.7194]]])
+#&gt;          [4.9990e-01, 9.8192e-01, 8.7167e-01,  ..., 7.8504e-01,
+#&gt;           2.8762e-01, 8.4793e-01],
+#&gt;          [3.2722e-01, 2.6618e-01, 2.7236e-01,  ..., 6.6324e-01,
+#&gt;           8.0288e-01, 3.5891e-01],
+#&gt;          [9.4425e-01, 5.6483e-01, 7.2335e-01,  ..., 9.3020e-01,
+#&gt;           7.2256e-01, 3.3468e-02]]])
 #&gt; torch.Size([3, 28, 28])</code></pre>
 <div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="linearalgebra.html#cb338-1" aria-hidden="true" tabindex="-1"></a>img[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
 <span id="cb338-2"><a href="linearalgebra.html#cb338-2" aria-hidden="true" tabindex="-1"></a>img[<span class="dv">3</span>, <span class="dv">28</span>, <span class="dv">28</span>]</span></code></pre></div>
-<pre><code>#&gt; tensor(0.6649)
-#&gt; tensor(0.7194)</code></pre>
+<pre><code>#&gt; tensor(0.1684)
+#&gt; tensor(0.0335)</code></pre>
 </div>
 <div id="transpose-of-a-matrix" class="section level2" number="6.5">
 <h2><span class="header-section-number">6.5</span> Transpose of a matrix</h2>
@@ -1758,28 +1776,28 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb428-4"><a href="linearalgebra.html#cb428-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb428-5"><a href="linearalgebra.html#cb428-5" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span><span class="fu">mm</span>(b)</span>
 <span id="cb428-6"><a href="linearalgebra.html#cb428-6" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span><span class="fu">matmul</span>(b)</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 0.2494,  0.9921, -0.6360, -0.4715],
-#&gt;         [-0.4138,  0.9182, -1.4868,  1.0343]])
-#&gt; tensor([[ 0.2494,  0.9921, -0.6360, -0.4715],
-#&gt;         [-0.4138,  0.9182, -1.4868,  1.0343]])</code></pre>
+<pre><code>#&gt; tensor([[ 0.0632,  0.6107,  0.2593, -0.1163],
+#&gt;         [-2.9816, -6.6149,  0.2877, -1.8191]])
+#&gt; tensor([[ 0.0632,  0.6107,  0.2593, -0.1163],
+#&gt;         [-2.9816, -6.6149,  0.2877, -1.8191]])</code></pre>
 <p>Here is a good explanation: <a href="https://stackoverflow.com/a/44525687/5270873" class="uri">https://stackoverflow.com/a/44525687/5270873</a></p>
 <p>Let’s now prove the associative property of tensors:</p>
 <p><span class="math display">\[(A B)^T = B^T A^T\]</span></p>
 <div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="linearalgebra.html#cb430-1" aria-hidden="true" tabindex="-1"></a>abt <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">mm</span>(a, b)<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
 <span id="cb430-2"><a href="linearalgebra.html#cb430-2" aria-hidden="true" tabindex="-1"></a>abt</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 0.2494, -0.4138],
-#&gt;         [ 0.9921,  0.9182],
-#&gt;         [-0.6360, -1.4868],
-#&gt;         [-0.4715,  1.0343]])</code></pre>
+<pre><code>#&gt; tensor([[ 0.0632, -2.9816],
+#&gt;         [ 0.6107, -6.6149],
+#&gt;         [ 0.2593,  0.2877],
+#&gt;         [-0.1163, -1.8191]])</code></pre>
 <div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="linearalgebra.html#cb432-1" aria-hidden="true" tabindex="-1"></a>at <span class="ot">&lt;-</span> a<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
 <span id="cb432-2"><a href="linearalgebra.html#cb432-2" aria-hidden="true" tabindex="-1"></a>bt <span class="ot">&lt;-</span> b<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
 <span id="cb432-3"><a href="linearalgebra.html#cb432-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb432-4"><a href="linearalgebra.html#cb432-4" aria-hidden="true" tabindex="-1"></a>btat <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">matmul</span>(bt, at)</span>
 <span id="cb432-5"><a href="linearalgebra.html#cb432-5" aria-hidden="true" tabindex="-1"></a>btat</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 0.2494, -0.4138],
-#&gt;         [ 0.9921,  0.9182],
-#&gt;         [-0.6360, -1.4868],
-#&gt;         [-0.4715,  1.0343]])</code></pre>
+<pre><code>#&gt; tensor([[ 0.0632, -2.9816],
+#&gt;         [ 0.6107, -6.6149],
+#&gt;         [ 0.2593,  0.2877],
+#&gt;         [-0.1163, -1.8191]])</code></pre>
 <p>And we could unit test if the results are nearly the same with <code>allclose()</code>:</p>
 <div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="linearalgebra.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tolerance</span></span>
 <span id="cb434-2"><a href="linearalgebra.html#cb434-2" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">allclose</span>(abt, btat, <span class="at">rtol=</span><span class="fl">0.0001</span>)</span></code></pre></div>
@@ -1825,7 +1843,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/f0nzie/rtorch-minimal-book/edit/master/0202-linear_algebra.Rmd",
+"link": "https://github.com/f0nzie/rtorch-minimal-book/edit/main/0202-linear_algebra.Rmd",
 "text": "Edit"
 },
 "history": {
