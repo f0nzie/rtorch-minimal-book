@@ -805,7 +805,7 @@ all(A1 >= A0)
 all(A1 <= A0)
 ```
 
-### Logical NOT (!`)
+### Logical NOT (`!`)
 
 ```{r}
 all_true <- torch$BoolTensor(list(TRUE, TRUE, TRUE, TRUE))
