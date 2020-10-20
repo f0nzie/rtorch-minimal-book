@@ -24,7 +24,7 @@
 <meta name="author" content="Alfonso R. Reyes" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1127,7 +1127,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#using-a-function-to-extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Using a function to extract a unique logical result</a></li>
 <li class="chapter" data-level="5.11.2" data-path="tensors.html"><a href="tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>5.11.2</b> Greater than (<code>gt</code>)</a></li>
 <li class="chapter" data-level="5.11.3" data-path="tensors.html"><a href="tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>5.11.3</b> Less than or equal (<code>le</code>)</a></li>
-<li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (!`)</a></li>
+<li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (<code>!</code>)</a></li>
 </ul></li>
 <li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a>
 <ul>
@@ -1237,6 +1237,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="12.4.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.4.4.4</b> 250 iterations</a></li>
 <li class="chapter" data-level="12.4.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.4.4.5</b> 500 iterations</a></li>
 </ul></li>
+<li class="chapter" data-level="12.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.4.5</b> Complete code for neural network in rTorch</a></li>
 </ul></li>
 <li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
@@ -1327,7 +1328,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="rtorch-vs-pytorch-whats-different.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb60-2"><a href="rtorch-vs-pytorch-whats-different.html#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-3"><a href="rtorch-vs-pytorch-whats-different.html#cb60-3" aria-hidden="true" tabindex="-1"></a>torch.tensor</span></code></pre></div>
-<pre><code>#&gt; &lt;built-in method tensor of type object at 0x7f9d06507000&gt;</code></pre>
+<pre><code>#&gt; &lt;built-in method tensor of type object at 0x7f62813f8000&gt;</code></pre>
 </div>
 <div id="call-modules-and-functions-from-torch" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Call modules and functions from <code>torch</code></h2>
@@ -1587,7 +1588,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb79-4"><a href="rtorch-vs-pytorch-whats-different.html#cb79-4" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">0</span>)  <span class="co"># reproducible</span></span>
 <span id="cb79-5"><a href="rtorch-vs-pytorch-whats-different.html#cb79-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb79-6"><a href="rtorch-vs-pytorch-whats-different.html#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Input (temp, rainfall, humidity)</span></span></code></pre></div>
-<pre><code>#&gt; &lt;torch._C.Generator object at 0x7f9cfdf843d0&gt;</code></pre>
+<pre><code>#&gt; &lt;torch._C.Generator object at 0x7f6278e753d0&gt;</code></pre>
 <div class="sourceCode" id="cb81"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb81-1"><a href="rtorch-vs-pytorch-whats-different.html#cb81-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> np.array([[<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>],</span>
 <span id="cb81-2"><a href="rtorch-vs-pytorch-whats-different.html#cb81-2" aria-hidden="true" tabindex="-1"></a>                   [<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>],</span>
 <span id="cb81-3"><a href="rtorch-vs-pytorch-whats-different.html#cb81-3" aria-hidden="true" tabindex="-1"></a>                   [<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>],</span>

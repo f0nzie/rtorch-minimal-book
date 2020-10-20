@@ -24,7 +24,7 @@
 <meta name="author" content="Alfonso R. Reyes" />
 
 
-<meta name="date" content="2020-10-19" />
+<meta name="date" content="2020-10-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1127,7 +1127,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#using-a-function-to-extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Using a function to extract a unique logical result</a></li>
 <li class="chapter" data-level="5.11.2" data-path="tensors.html"><a href="tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>5.11.2</b> Greater than (<code>gt</code>)</a></li>
 <li class="chapter" data-level="5.11.3" data-path="tensors.html"><a href="tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>5.11.3</b> Less than or equal (<code>le</code>)</a></li>
-<li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (!`)</a></li>
+<li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (<code>!</code>)</a></li>
 </ul></li>
 <li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a>
 <ul>
@@ -1237,6 +1237,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="12.4.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.4.4.4</b> 250 iterations</a></li>
 <li class="chapter" data-level="12.4.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.4.4.5</b> 500 iterations</a></li>
 </ul></li>
+<li class="chapter" data-level="12.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.4.5</b> Complete code for neural network in rTorch</a></li>
 </ul></li>
 <li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
@@ -1406,36 +1407,36 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb456-26"><a href="mnistdigits.html#cb456-26" aria-hidden="true" tabindex="-1"></a>        i <span class="ot">&lt;-</span>  i <span class="sc">+</span> <span class="dv">1</span></span>
 <span id="cb456-27"><a href="mnistdigits.html#cb456-27" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb456-28"><a href="mnistdigits.html#cb456-28" aria-hidden="true" tabindex="-1"></a>}  </span></code></pre></div>
-<pre><code>#&gt; Epoch [2/5], Step [100/600], Loss: 2.232754 
-#&gt; Epoch [2/5], Step [200/600], Loss: 2.134371 
-#&gt; Epoch [2/5], Step [300/600], Loss: 2.023998 
-#&gt; Epoch [2/5], Step [400/600], Loss: 1.952160 
-#&gt; Epoch [2/5], Step [500/600], Loss: 1.889332 
-#&gt; Epoch [2/5], Step [600/600], Loss: 1.796754 
-#&gt; Epoch [3/5], Step [100/600], Loss: 1.759579 
-#&gt; Epoch [3/5], Step [200/600], Loss: 1.688235 
-#&gt; Epoch [3/5], Step [300/600], Loss: 1.602870 
-#&gt; Epoch [3/5], Step [400/600], Loss: 1.579923 
-#&gt; Epoch [3/5], Step [500/600], Loss: 1.541716 
-#&gt; Epoch [3/5], Step [600/600], Loss: 1.466372 
-#&gt; Epoch [4/5], Step [100/600], Loss: 1.452733 
-#&gt; Epoch [4/5], Step [200/600], Loss: 1.398537 
-#&gt; Epoch [4/5], Step [300/600], Loss: 1.326588 
-#&gt; Epoch [4/5], Step [400/600], Loss: 1.341380 
-#&gt; Epoch [4/5], Step [500/600], Loss: 1.317852 
-#&gt; Epoch [4/5], Step [600/600], Loss: 1.251857 
-#&gt; Epoch [5/5], Step [100/600], Loss: 1.250609 
-#&gt; Epoch [5/5], Step [200/600], Loss: 1.204018 
-#&gt; Epoch [5/5], Step [300/600], Loss: 1.142893 
-#&gt; Epoch [5/5], Step [400/600], Loss: 1.182365 
-#&gt; Epoch [5/5], Step [500/600], Loss: 1.168364 
-#&gt; Epoch [5/5], Step [600/600], Loss: 1.104990 
-#&gt; Epoch [6/5], Step [100/600], Loss: 1.112000 
-#&gt; Epoch [6/5], Step [200/600], Loss: 1.067025 
-#&gt; Epoch [6/5], Step [300/600], Loss: 1.014896 
-#&gt; Epoch [6/5], Step [400/600], Loss: 1.070996 
-#&gt; Epoch [6/5], Step [500/600], Loss: 1.063139 
-#&gt; Epoch [6/5], Step [600/600], Loss: 0.999358</code></pre>
+<pre><code>#&gt; Epoch [2/5], Step [100/600], Loss: 2.238728 
+#&gt; Epoch [2/5], Step [200/600], Loss: 2.108998 
+#&gt; Epoch [2/5], Step [300/600], Loss: 2.039330 
+#&gt; Epoch [2/5], Step [400/600], Loss: 1.950050 
+#&gt; Epoch [2/5], Step [500/600], Loss: 1.879612 
+#&gt; Epoch [2/5], Step [600/600], Loss: 1.786871 
+#&gt; Epoch [3/5], Step [100/600], Loss: 1.770456 
+#&gt; Epoch [3/5], Step [200/600], Loss: 1.679464 
+#&gt; Epoch [3/5], Step [300/600], Loss: 1.643975 
+#&gt; Epoch [3/5], Step [400/600], Loss: 1.551982 
+#&gt; Epoch [3/5], Step [500/600], Loss: 1.513269 
+#&gt; Epoch [3/5], Step [600/600], Loss: 1.450148 
+#&gt; Epoch [4/5], Step [100/600], Loss: 1.465798 
+#&gt; Epoch [4/5], Step [200/600], Loss: 1.401506 
+#&gt; Epoch [4/5], Step [300/600], Loss: 1.388049 
+#&gt; Epoch [4/5], Step [400/600], Loss: 1.298913 
+#&gt; Epoch [4/5], Step [500/600], Loss: 1.275538 
+#&gt; Epoch [4/5], Step [600/600], Loss: 1.234479 
+#&gt; Epoch [5/5], Step [100/600], Loss: 1.260409 
+#&gt; Epoch [5/5], Step [200/600], Loss: 1.218647 
+#&gt; Epoch [5/5], Step [300/600], Loss: 1.214707 
+#&gt; Epoch [5/5], Step [400/600], Loss: 1.131312 
+#&gt; Epoch [5/5], Step [500/600], Loss: 1.115616 
+#&gt; Epoch [5/5], Step [600/600], Loss: 1.089735 
+#&gt; Epoch [6/5], Step [100/600], Loss: 1.116020 
+#&gt; Epoch [6/5], Step [200/600], Loss: 1.092557 
+#&gt; Epoch [6/5], Step [300/600], Loss: 1.091431 
+#&gt; Epoch [6/5], Step [400/600], Loss: 1.014656 
+#&gt; Epoch [6/5], Step [500/600], Loss: 1.002884 
+#&gt; Epoch [6/5], Step [600/600], Loss: 0.987533</code></pre>
 </div>
 <div id="prediction" class="section level3" number="9.1.5">
 <h3><span class="header-section-number">9.1.5</span> Prediction</h3>
@@ -1459,7 +1460,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb458-18"><a href="mnistdigits.html#cb458-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&#39;Accuracy of the model on the 10000 test images: %f %%&#39;</span>, (<span class="dv">100</span> <span class="sc">*</span> correct <span class="sc">/</span> total)))</span>
 <span id="cb458-19"><a href="mnistdigits.html#cb458-19" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb458-20"><a href="mnistdigits.html#cb458-20" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
-<pre><code>#&gt; Accuracy of the model on the 10000 test images: 83.040000 %</code></pre>
+<pre><code>#&gt; Accuracy of the model on the 10000 test images: 82.270000 %</code></pre>
 </div>
 <div id="save-the-model" class="section level3" number="9.1.6">
 <h3><span class="header-section-number">9.1.6</span> Save the model</h3>
