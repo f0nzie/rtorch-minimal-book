@@ -134,12 +134,15 @@ device = torch$device('cpu')
 invisible(torch$manual_seed(0))
 ```
 
-* `N` is batch size; 
-* `D_in` is input dimension;
-* `H` is hidden dimension; 
-* `D_out` is output dimension.
- 
+
+-   `N` is batch size;
+-   `D_in` is input dimension;
+-   `H` is hidden dimension;
+-   `D_out` is output dimension.
+
+
 ### Dataset
+
 We will create a random dataset for a **two layer neural network**.
 
 ```{r create-random-tensors}
@@ -162,9 +165,13 @@ w2 <- torch$randn(H, D_out, device=device)  # layer 2
 dim(w1)
 dim(w2)
 ```
+
 ### Iterate through the dataset
 
+Now, we are going to train our neural network on the `training` dataset. The equestion is: *"how many times do we have to expose the training data to the algorithm?".* By looking at the graph of the loss we may get an idea when we should stop.
+
 #### Iterate 50 times
+
 Let's say that for the sake of time we select to run only 50 iterations of the loop doing the training.
 
 ```{r run-model, fig.asp=1}
