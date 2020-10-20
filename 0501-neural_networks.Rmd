@@ -115,13 +115,78 @@ for (t in seq(1, 500)) {
 toc()
 ```
 
-## A neural network in `rTorch`
-The example shows the long and manual way of calculating the forward and backward passes but using rTorch. The objective is getting familiarized with the rTorch tensor operations.
+##  The neural network written in `PyTorch`
 
-The following example was converted from PyTorch to rTorch to show differences and similarities of both approaches. The original source can be found here:
+Here is the same example we have used above but written in PyTorch. Notice the following differences with the `numpy` code:
 
-Source: https://github.com/jcjohnson/pytorch-examples#pytorch-tensors
+-   we select the computation device which could be `cpu` or `gpu`
 
+-   when building or creating the tensors, we specify which device we want to use
+
+-   the tensors have `torch` methods and properties. Example: `mm()`, `clamp()`, `sum()`, `clone()`, and `t()`,
+
+-   also notice the use some `torch` functions: `device()`, `randn()`
+
+```{r}
+reticulate::use_condaenv("r-torch")
+```
+
+
+```{python, nn-pytorch, engine="python3"}
+# Code in file tensor/two_layer_net_tensor.py
+import torch
+import time
+
+ms = torch.manual_seed(0)
+tic = time.process_time()
+device = torch.device('cpu')
+# device = torch.device('cuda')  # Uncomment this to run on GPU
+
+# N is batch size; D_in is input dimension;
+# H is hidden dimension; D_out is output dimension.
+N, D_in, H, D_out = 64, 1000, 100, 10
+
+# Create random input and output data
+x = torch.randn(N, D_in, device=device)
+y = torch.randn(N, D_out, device=device)
+
+# Randomly initialize weights
+w1 = torch.randn(D_in, H, device=device)
+w2 = torch.randn(H, D_out, device=device)
+
+learning_rate = 1e-6
+for t in range(500):
+  # Forward pass: compute predicted y
+  h = x.mm(w1)
+  h_relu = h.clamp(min=0)
+  y_pred = h_relu.mm(w2)
+
+  # Compute and print loss; loss is a scalar, and is stored in a PyTorch Tensor
+  # of shape (); we can get its value as a Python number with loss.item().
+  loss = (y_pred - y).pow(2).sum()
+  print(t, loss.item())
+
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred = 2.0 * (y_pred - y)
+  grad_w2 = h_relu.t().mm(grad_y_pred)
+  grad_h_relu = grad_y_pred.mm(w2.t())
+  grad_h = grad_h_relu.clone()
+  grad_h[h < 0] = 0
+  grad_w1 = x.t().mm(grad_h)
+
+  # Update weights using gradient descent
+  w1 -= learning_rate * grad_w1
+  w2 -= learning_rate * grad_w2
+
+toc = time.process_time()
+print(toc - tic, "seconds")
+```
+
+## A neural network written in `rTorch`
+
+The example shows the long and manual way of calculating the forward and backward passes but using `rTorch`. The objective is getting familiarized with the rTorch tensor operations.
+
+The following example was converted from **PyTorch** to **rTorch** to show differences and similarities of both approaches. The original source can be found here: [Source](https://github.com/jcjohnson/pytorch-examples#pytorch-tensors){.uri}.
 
 ### Load the libraries
 
