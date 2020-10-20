@@ -1,12 +1,12 @@
-delete_merged_file: true
-repo: https://github.com/f0nzie/rtorch-minimal-book/
 book_filename: "rtorch-minimal-book"
+repo: https://github.com/f0nzie/rtorch-minimal-book/
 # new_session: yes
 output_dir: "public"
 language:
   ui:
     chapter_name: "Chapter "
 before_chapter_script: "_common.R"
+delete_merged_file: true
 rmd_files: [
     "index.Rmd",
     "0101-intro.Rmd",
