@@ -86,7 +86,7 @@ The last part `-c pytorch` specifies the __stable__ _conda_ channel to download 
 
 Now, you can load `rTorch` in R or RStudio with:
 
-```{r load-rtorch, eval=FALSE}
+```{r index-load-rtorch, eval=FALSE}
 library(rTorch)
 ```
 

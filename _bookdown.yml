@@ -1,6 +1,6 @@
-book_filename: "rtorch-minimal-book"
 delete_merged_file: true
-new_session: yes
+book_filename: "rtorch-minimal-book"
+# new_session: yes
 output_dir: "public"
 language:
   ui:

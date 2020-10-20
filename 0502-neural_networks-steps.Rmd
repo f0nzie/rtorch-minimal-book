@@ -21,7 +21,7 @@ device = torch$device('cpu')
 
 ## Create the dataset
 
-```{r datasets}
+```{r datasets-64x1000x10}
 invisible(torch$manual_seed(0))   # do not show the generator output
 N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
 

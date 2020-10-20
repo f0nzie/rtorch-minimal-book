@@ -30,16 +30,15 @@ knit_hooks$set(output = function(x, options) {
 
 *Why do we want a package of something that is already working well, such as PyTorch?*
 
-There are several reasons, but the main one is to bring another machine learning framework to R. Probably it is just me but I feel _PyTorch_ very comfortable to work with. Feels pretty much like everything else in Python. Very Pythonic. I have tried other frameworks in R. The closest that matches a natural language like PyTorch, is [MXnet](https://mxnet.apache.org/versions/1.7.0/get_started?). Unfortunately, _MXnet_ it is the hardest to install and maintain after updates.
+There are several reasons, but the main one is to bring another machine learning framework to R. Probably it is just me but I feel *PyTorch* very comfortable to work with. Feels pretty much like everything else in Python. Very Pythonic. I have tried other frameworks in R. The closest that matches a natural language like PyTorch, is [MXnet](https://mxnet.apache.org/versions/1.7.0/get_started?). Unfortunately, *MXnet* it is the hardest to install and maintain after updates.
 
-Yes. I could have worked directly with _PyTorch_ in a native Python environment, such as _Jupyter_ or _PyCharm_ or [vscode](https://code.visualstudio.com/docs/python/jupyter-support) notebooks but it very hard to quit **RMarkdown** once you get used to it. It is the real thing in regards to [literate programming](https://en.wikipedia.org/wiki/Literate_programming)and __reproducibility__. It does not only contribute to improving the quality of the code but establishes a workflow for a better understanding of a subject by your intended readers [@knuth1983], in what is been called the *literate programming paradigm* [@cordes1991].
+Yes. I could have worked directly with *PyTorch* in a native Python environment, such as *Jupyter* or *PyCharm* or [vscode](https://code.visualstudio.com/docs/python/jupyter-support) notebooks but it very hard to quit **RMarkdown** once you get used to it. It is the real thing in regards to [literate programming](https://en.wikipedia.org/wiki/Literate_programming)and **reproducibility**. It does not only contribute to improving the quality of the code but establishes a workflow for a better understanding of a subject by your intended readers [@knuth1983], in what is been called the *literate programming paradigm* [@cordes1991].
 
-This has the additional benefit of giving the ability to write combination of _Python_ and _R_ code together in the same document. There will times when it is better to create a class in _Python_; and other times where _R_ will be more convenient to handle a data structure. I show some examples using `data.frame` and `data.table` along with _PyTorch_ tensors.
+This has the additional benefit of giving the ability to write combination of *Python* and *R* code together in the same document. There will times when it is better to create a class in *Python*; and other times where *R* will be more convenient to handle a data structure. I show some examples using `data.frame` and `data.table` along with *PyTorch* tensors.
 
 ## How do we start using `rTorch`
 
-Start using `rTorch` is very simple. After installing the minimum system requirements -such as _conda_- you just call it with:
-
+Start using `rTorch` is very simple. After installing the minimum system requirements -such as *conda*- you just call it with:
 
 ```{r call-rtorch, class.source="badCode"}
 library(rTorch)
@@ -61,7 +60,8 @@ This will show the PyTorch version and the current version of Python installed, 
 rTorch::torch_config()
 ```
 
-____
+------------------------------------------------------------------------
+
 ## What can you do with `rTorch`
 
 Practically, you can do everything you could with **PyTorch** within the **R** ecosystem. Additionally to the `rTorch` module, from where you can extract methods, functions and classes, there are available two more modules: `torchvision` and `np`, which is short for `numpy`. We could use the modules with:
@@ -74,7 +74,7 @@ rTorch::torch
 
 ## Getting help
 
-We get a glimpse of the first lines of the `help("torch")` via a Python chunk:
+We get a glimpse of the first lines of the `help("torch")` via a Python markdown chunk:
 
 ```{python, help-python, engine="python3", output.lines=c(3:10)}
 help("torch")
@@ -98,9 +98,4 @@ Finally, these are the classes for the module `torchvision.datasets`. We are usi
 help("torchvision.datasets")
 ```
 
-
-In other words, all the functions, modules, classes in PyTorch are available to rTorch.
-
-
-
-
+In other words, all the functions, modules, classes in PyTorch are available to `rTorch`.

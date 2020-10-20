@@ -19,7 +19,7 @@ invisible(torch$manual_seed(123))
 
 Before you start the training process, you need to know our data. You make a random function to test our model. $Y = x3 sin(x)+ 3x+0.8 rand(100)$
 
-```{r datasets, fig.width=5.5, fig.height=5.5}
+```{r datasets-lr, fig.width=5.5, fig.height=5.5}
 np$random$seed(123L)
 
 x = np$random$rand(100L)
