@@ -1,9 +1,21 @@
-# (PART) Neural Networks {-}
+# (PART) Neural Networks {.unnumbered}
 
+# Neural Networks using NumPy, r-base, rTorch and PyTorch
 
-#  Neural Networks using NumPy, r-base, rTorch and PyTorch
+We will compare three neural networks:
+
+-   a neural network written in `numpy`
+
+-   a neural network written in `r-base`
+
+-   a neural network written in `PyTorch`
+
+-   a neural network written in `rTorch`
+
 
 ## A neural network with `numpy`
+
+We start the neural network by simply using `numpy`:
 
 ```{python, nn-numpy, engine="python3"}
 # A simple neural network using NumPy

@@ -1,32 +1,32 @@
-# (PART) Basic Tensor Operations {-}
+# (PART) Basic Tensor Operations {.unnumbered}
 
 # Tensors
 
 We describe the most important PyTorch methods in this chapter.
 
-
-```{r}
+```{r tensors-load-rtorch}
 library(rTorch)
 
 ```
 
 ## Tensor data types
 
-```{r}
+```{r default-tensor}
 # Default data type
 torch$tensor(list(1.2, 3))$dtype  # default for floating point is torch.float32
 ```
 
-```{r}
+```{r tensor-float64}
 # change default data type to float64
 torch$set_default_dtype(torch$float64)
 torch$tensor(list(1.2, 3))$dtype         # a new floating point tensor
 ```
 
 ### Major tensor types
-There are five major type of Tensors in PyTorch
 
-```{r}
+There are five major type of tensors in PyTorch:
+
+```{r all-tensor-types}
 library(rTorch)
 
 byte    <- torch$ByteTensor(3L, 3L)
@@ -83,38 +83,36 @@ message("number of elements")
 mnist_4d$numel()
 ```
 
-
 ### Example: Attributes of a 3D tensor
+
 Given a 3D tensor:
 
-```{r}
+```{r 3d-tensor}
 ft3d <- torch$FloatTensor(4L, 3L, 2L)
 ft3d
 ```
 
-```{r collapse=TRUE, results="markup"}
+```{r 3d-tensor-basic-attr, collapse=TRUE, results="markup"}
 ft3d$size()
 length(ft3d)
 ft3d$shape
 ft3d$numel
 ```
 
-
 ## Arithmetic of tensors
 
 ### Add tensors
 
-```{r}
+```{r add-tensor-3x5}
 # add a scalar to a tensor
 # 3x5 matrix uniformly distributed between 0 and 1
 mat0 <- torch$FloatTensor(3L, 5L)$uniform_(0L, 1L)
 mat0 + 0.1
 ```
 
-
 ### Add an element of a tensor to another tensor
 
-```{r collapse=TRUE, results="markup"}
+```{r add-tensor-element, collapse=TRUE, results="markup"}
 # fill a 3x5 matrix with 0.1
 mat1 <- torch$FloatTensor(3L, 5L)$uniform_(0.1, 0.1)
 print(mat1)
@@ -127,9 +125,9 @@ print(mat2)
 mat1[1, 1] + mat2
 ```
 
-
 Add two tensors using the function `add()`:
-```{r}
+
+```{r add-tensors-with-add}
 # PyTorch add two tensors
 x = torch$rand(5L, 4L)
 y = torch$rand(5L, 4L)
