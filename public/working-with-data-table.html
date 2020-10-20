@@ -1237,9 +1237,9 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="12.4.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.4.4.4</b> 250 iterations</a></li>
 <li class="chapter" data-level="12.4.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.4.4.5</b> 500 iterations</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.4.5</b> Complete code for neural network in rTorch</a></li>
 </ul></li>
-<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> Complete code for neural network in rTorch</a></li>
+<li class="chapter" data-level="12.6" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.6</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a>
 <ul>
@@ -1248,9 +1248,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.3" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
 <li class="chapter" data-level="13.4" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
 <li class="chapter" data-level="13.5" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
-<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-dataset"><i class="fa fa-check"></i><b>13.6</b> Iterate through dataset</a></li>
+<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
 <li class="chapter" data-level="13.7" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#using-r-generics-to-simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7</b> Using R generics to simplify tensor operations</a></li>
 <li class="chapter" data-level="13.8" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#a-more-elegant-way-of-writing-the-neural-network"><i class="fa fa-check"></i><b>13.8</b> A more elegant way of writing the neural network</a></li>
+<li class="chapter" data-level="13.9" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-a-browseable-dataframe"><i class="fa fa-check"></i><b>13.9</b> Create a browseable dataframe</a></li>
+<li class="chapter" data-level="13.10" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
 <li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a>
@@ -1403,7 +1405,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb559-4"><a href="working-with-data-table.html#cb559-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   600   11.798 sec elapsed;</span></span>
 <span id="cb559-5"><a href="working-with-data-table.html#cb559-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  6000  119.256 sec elapsed;</span></span>
 <span id="cb559-6"><a href="working-with-data-table.html#cb559-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 60000 1117.619 sec elapsed</span></span></code></pre></div>
-<pre><code>#&gt; 10.207 sec elapsed</code></pre>
+<pre><code>#&gt; 10.146 sec elapsed</code></pre>
 
 </div>
 </div>

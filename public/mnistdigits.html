@@ -1237,9 +1237,9 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="12.4.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.4.4.4</b> 250 iterations</a></li>
 <li class="chapter" data-level="12.4.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.4.4.5</b> 500 iterations</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.4.5</b> Complete code for neural network in rTorch</a></li>
 </ul></li>
-<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> Complete code for neural network in rTorch</a></li>
+<li class="chapter" data-level="12.6" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.6</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a>
 <ul>
@@ -1248,9 +1248,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.3" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
 <li class="chapter" data-level="13.4" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
 <li class="chapter" data-level="13.5" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
-<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-dataset"><i class="fa fa-check"></i><b>13.6</b> Iterate through dataset</a></li>
+<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
 <li class="chapter" data-level="13.7" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#using-r-generics-to-simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7</b> Using R generics to simplify tensor operations</a></li>
 <li class="chapter" data-level="13.8" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#a-more-elegant-way-of-writing-the-neural-network"><i class="fa fa-check"></i><b>13.8</b> A more elegant way of writing the neural network</a></li>
+<li class="chapter" data-level="13.9" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-a-browseable-dataframe"><i class="fa fa-check"></i><b>13.9</b> Create a browseable dataframe</a></li>
+<li class="chapter" data-level="13.10" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
 <li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a>
@@ -1407,36 +1409,36 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb456-26"><a href="mnistdigits.html#cb456-26" aria-hidden="true" tabindex="-1"></a>        i <span class="ot">&lt;-</span>  i <span class="sc">+</span> <span class="dv">1</span></span>
 <span id="cb456-27"><a href="mnistdigits.html#cb456-27" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb456-28"><a href="mnistdigits.html#cb456-28" aria-hidden="true" tabindex="-1"></a>}  </span></code></pre></div>
-<pre><code>#&gt; Epoch [2/5], Step [100/600], Loss: 2.238728 
-#&gt; Epoch [2/5], Step [200/600], Loss: 2.108998 
-#&gt; Epoch [2/5], Step [300/600], Loss: 2.039330 
-#&gt; Epoch [2/5], Step [400/600], Loss: 1.950050 
-#&gt; Epoch [2/5], Step [500/600], Loss: 1.879612 
-#&gt; Epoch [2/5], Step [600/600], Loss: 1.786871 
-#&gt; Epoch [3/5], Step [100/600], Loss: 1.770456 
-#&gt; Epoch [3/5], Step [200/600], Loss: 1.679464 
-#&gt; Epoch [3/5], Step [300/600], Loss: 1.643975 
-#&gt; Epoch [3/5], Step [400/600], Loss: 1.551982 
-#&gt; Epoch [3/5], Step [500/600], Loss: 1.513269 
-#&gt; Epoch [3/5], Step [600/600], Loss: 1.450148 
-#&gt; Epoch [4/5], Step [100/600], Loss: 1.465798 
-#&gt; Epoch [4/5], Step [200/600], Loss: 1.401506 
-#&gt; Epoch [4/5], Step [300/600], Loss: 1.388049 
-#&gt; Epoch [4/5], Step [400/600], Loss: 1.298913 
-#&gt; Epoch [4/5], Step [500/600], Loss: 1.275538 
-#&gt; Epoch [4/5], Step [600/600], Loss: 1.234479 
-#&gt; Epoch [5/5], Step [100/600], Loss: 1.260409 
-#&gt; Epoch [5/5], Step [200/600], Loss: 1.218647 
-#&gt; Epoch [5/5], Step [300/600], Loss: 1.214707 
-#&gt; Epoch [5/5], Step [400/600], Loss: 1.131312 
-#&gt; Epoch [5/5], Step [500/600], Loss: 1.115616 
-#&gt; Epoch [5/5], Step [600/600], Loss: 1.089735 
-#&gt; Epoch [6/5], Step [100/600], Loss: 1.116020 
-#&gt; Epoch [6/5], Step [200/600], Loss: 1.092557 
-#&gt; Epoch [6/5], Step [300/600], Loss: 1.091431 
-#&gt; Epoch [6/5], Step [400/600], Loss: 1.014656 
-#&gt; Epoch [6/5], Step [500/600], Loss: 1.002884 
-#&gt; Epoch [6/5], Step [600/600], Loss: 0.987533</code></pre>
+<pre><code>#&gt; Epoch [2/5], Step [100/600], Loss: 2.240896 
+#&gt; Epoch [2/5], Step [200/600], Loss: 2.129228 
+#&gt; Epoch [2/5], Step [300/600], Loss: 2.029456 
+#&gt; Epoch [2/5], Step [400/600], Loss: 1.980433 
+#&gt; Epoch [2/5], Step [500/600], Loss: 1.830135 
+#&gt; Epoch [2/5], Step [600/600], Loss: 1.834503 
+#&gt; Epoch [3/5], Step [100/600], Loss: 1.705441 
+#&gt; Epoch [3/5], Step [200/600], Loss: 1.695143 
+#&gt; Epoch [3/5], Step [300/600], Loss: 1.631905 
+#&gt; Epoch [3/5], Step [400/600], Loss: 1.579270 
+#&gt; Epoch [3/5], Step [500/600], Loss: 1.443014 
+#&gt; Epoch [3/5], Step [600/600], Loss: 1.516607 
+#&gt; Epoch [4/5], Step [100/600], Loss: 1.363907 
+#&gt; Epoch [4/5], Step [200/600], Loss: 1.412789 
+#&gt; Epoch [4/5], Step [300/600], Loss: 1.383410 
+#&gt; Epoch [4/5], Step [400/600], Loss: 1.313333 
+#&gt; Epoch [4/5], Step [500/600], Loss: 1.197013 
+#&gt; Epoch [4/5], Step [600/600], Loss: 1.304760 
+#&gt; Epoch [5/5], Step [100/600], Loss: 1.140884 
+#&gt; Epoch [5/5], Step [200/600], Loss: 1.223700 
+#&gt; Epoch [5/5], Step [300/600], Loss: 1.220693 
+#&gt; Epoch [5/5], Step [400/600], Loss: 1.132753 
+#&gt; Epoch [5/5], Step [500/600], Loss: 1.033799 
+#&gt; Epoch [5/5], Step [600/600], Loss: 1.158078 
+#&gt; Epoch [6/5], Step [100/600], Loss: 0.988812 
+#&gt; Epoch [6/5], Step [200/600], Loss: 1.091375 
+#&gt; Epoch [6/5], Step [300/600], Loss: 1.108186 
+#&gt; Epoch [6/5], Step [400/600], Loss: 1.004609 
+#&gt; Epoch [6/5], Step [500/600], Loss: 0.919397 
+#&gt; Epoch [6/5], Step [600/600], Loss: 1.052056</code></pre>
 </div>
 <div id="prediction" class="section level3" number="9.1.5">
 <h3><span class="header-section-number">9.1.5</span> Prediction</h3>
@@ -1460,7 +1462,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb458-18"><a href="mnistdigits.html#cb458-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&#39;Accuracy of the model on the 10000 test images: %f %%&#39;</span>, (<span class="dv">100</span> <span class="sc">*</span> correct <span class="sc">/</span> total)))</span>
 <span id="cb458-19"><a href="mnistdigits.html#cb458-19" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb458-20"><a href="mnistdigits.html#cb458-20" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
-<pre><code>#&gt; Accuracy of the model on the 10000 test images: 82.270000 %</code></pre>
+<pre><code>#&gt; Accuracy of the model on the 10000 test images: 82.840000 %</code></pre>
 </div>
 <div id="save-the-model" class="section level3" number="9.1.6">
 <h3><span class="header-section-number">9.1.6</span> Save the model</h3>
