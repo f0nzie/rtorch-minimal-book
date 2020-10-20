@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Example 1: A classification problem with Logistic Regression | A Minimal rTorch Book</title>
   <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Example 1: A classification problem with Logistic Regression | A Minimal rTorch Book" />
   <meta property="og:type" content="book" />
@@ -53,9 +53,9 @@
 
 <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.13/datatables.js"></script>
+<script src="libs/datatables-binding-0.15/datatables.js"></script>
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1287,88 +1287,88 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="code-in-python" class="section level2" number="8.1">
 <h2><span class="header-section-number">8.1</span> Code in Python</h2>
 <p>I will combine here R and Python code just to show how easy is integrating R and Python. First thing we have to do is loading the package <code>rTorch</code>. We do that in a chunk:</p>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb438-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span></code></pre></div>
 <p>Then, we proceed to copy the standard Python code but in their own <code>Python</code> chunks. This is a very nice example that I found in the web. It explains the classic challenge of classification.</p>
 <p>When <code>rTorch</code> is loaded, a number of Python libraries are also loaded, which enable us the immediate use of numpy, torch and matplotlib.</p>
-<div class="sourceCode" id="cb439"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb439-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic Regression</span></span>
-<span id="cb439-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb439-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://m-alcu.github.io/blog/2018/02/10/logit-pytorch/</span></span>
-<span id="cb439-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb439-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb439-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb439-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb439-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb439-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
-<span id="cb439-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb439-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.autograd <span class="im">import</span> Variable</span>
-<span id="cb439-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb439-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb444-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic Regression</span></span>
+<span id="cb444-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://m-alcu.github.io/blog/2018/02/10/logit-pytorch/</span></span>
+<span id="cb444-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb444-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb444-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb444-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.autograd <span class="im">import</span> Variable</span>
+<span id="cb444-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div>
 <p>The next thing we do is setting a seed to make the example repeatable, in my machine and yours.</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb440-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb440-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2048</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb445-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb445-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2048</span>)</span></code></pre></div>
 <p>Then we generate some random samples.</p>
-<div class="sourceCode" id="cb441"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb441-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb441-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-2" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb441-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.randn(N, D) <span class="op">*</span> <span class="dv">2</span></span>
-<span id="cb441-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-4" aria-hidden="true" tabindex="-1"></a>ctr <span class="op">=</span> <span class="bu">int</span>(N<span class="op">/</span><span class="dv">2</span>)</span>
-<span id="cb441-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-5" aria-hidden="true" tabindex="-1"></a><span class="co"># center the first N/2 points at (-2,-2)</span></span>
-<span id="cb441-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-6" aria-hidden="true" tabindex="-1"></a>X[:ctr,:] <span class="op">=</span> X[:ctr,:] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> np.ones((ctr, D))</span>
-<span id="cb441-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-7" aria-hidden="true" tabindex="-1"></a><span class="co"># center the last N/2 points at (2, 2)</span></span>
-<span id="cb441-8"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-8" aria-hidden="true" tabindex="-1"></a>X[ctr:,:] <span class="op">=</span> X[ctr:,:] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.ones((ctr, D))</span>
-<span id="cb441-9"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb441-10"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-10" aria-hidden="true" tabindex="-1"></a><span class="co"># labels: first N/2 are 0, last N/2 are 1</span></span>
-<span id="cb441-11"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-11" aria-hidden="true" tabindex="-1"></a><span class="co"># mark the first half with 0 and the sceond half with 1</span></span>
-<span id="cb441-12"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb441-12" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.array([<span class="dv">0</span>] <span class="op">*</span> ctr <span class="op">+</span> [<span class="dv">1</span>] <span class="op">*</span> ctr).reshape(<span class="dv">100</span>, <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb446-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb446-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-2" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb446-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.randn(N, D) <span class="op">*</span> <span class="dv">2</span></span>
+<span id="cb446-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-4" aria-hidden="true" tabindex="-1"></a>ctr <span class="op">=</span> <span class="bu">int</span>(N<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb446-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-5" aria-hidden="true" tabindex="-1"></a><span class="co"># center the first N/2 points at (-2,-2)</span></span>
+<span id="cb446-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-6" aria-hidden="true" tabindex="-1"></a>X[:ctr,:] <span class="op">=</span> X[:ctr,:] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> np.ones((ctr, D))</span>
+<span id="cb446-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-7" aria-hidden="true" tabindex="-1"></a><span class="co"># center the last N/2 points at (2, 2)</span></span>
+<span id="cb446-8"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-8" aria-hidden="true" tabindex="-1"></a>X[ctr:,:] <span class="op">=</span> X[ctr:,:] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.ones((ctr, D))</span>
+<span id="cb446-9"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb446-10"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-10" aria-hidden="true" tabindex="-1"></a><span class="co"># labels: first N/2 are 0, last N/2 are 1</span></span>
+<span id="cb446-11"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-11" aria-hidden="true" tabindex="-1"></a><span class="co"># mark the first half with 0 and the sceond half with 1</span></span>
+<span id="cb446-12"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb446-12" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> np.array([<span class="dv">0</span>] <span class="op">*</span> ctr <span class="op">+</span> [<span class="dv">1</span>] <span class="op">*</span> ctr).reshape(<span class="dv">100</span>, <span class="dv">1</span>)</span></code></pre></div>
 <p>And plot the original data for reference.</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb442-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data. color the dots using T</span></span>
-<span id="cb442-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb442-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb442-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb442-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;X(1)&#39;</span>)</span>
-<span id="cb442-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb442-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;X(2)&#39;</span>)</span></code></pre></div>
-<p><img src="rtorch-minimal-book_files/figure-html/unnamed-chunk-151-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb447"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb447-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data. color the dots using T</span></span>
+<span id="cb447-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb447-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;X(1)&#39;</span>)</span>
+<span id="cb447-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;X(2)&#39;</span>)</span></code></pre></div>
+<p><img src="rtorch-minimal-book_files/figure-html/unnamed-chunk-153-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>What follows is the definition of the model using a neural network and train the model. We set up the model:</p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb443-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Model(torch.nn.Module):</span>
-<span id="cb443-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb443-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Model, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb443-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.linear <span class="op">=</span> torch.nn.Linear(<span class="dv">2</span>, <span class="dv">1</span>) <span class="co"># 2 in and 1 out</span></span>
-<span id="cb443-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-5" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb443-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb443-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-7" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span> torch.sigmoid(<span class="va">self</span>.linear(x))</span>
-<span id="cb443-8"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y_pred</span>
-<span id="cb443-9"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb443-10"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Our model    </span></span>
-<span id="cb443-11"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Model()</span>
-<span id="cb443-12"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb443-13"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-13" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> torch.nn.BCELoss(reduction<span class="op">=</span><span class="st">&#39;mean&#39;</span>)</span>
-<span id="cb443-14"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb443-14" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb448-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Model(torch.nn.Module):</span>
+<span id="cb448-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb448-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(Model, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb448-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.linear <span class="op">=</span> torch.nn.Linear(<span class="dv">2</span>, <span class="dv">1</span>) <span class="co"># 2 in and 1 out</span></span>
+<span id="cb448-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb448-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb448-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-7" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span> torch.sigmoid(<span class="va">self</span>.linear(x))</span>
+<span id="cb448-8"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y_pred</span>
+<span id="cb448-9"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb448-10"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Our model    </span></span>
+<span id="cb448-11"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Model()</span>
+<span id="cb448-12"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb448-13"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-13" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> torch.nn.BCELoss(reduction<span class="op">=</span><span class="st">&#39;mean&#39;</span>)</span>
+<span id="cb448-14"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb448-14" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.SGD(model.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span></code></pre></div>
 <p>Train the model:</p>
-<div class="sourceCode" id="cb444"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb444-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-1" aria-hidden="true" tabindex="-1"></a>x_data <span class="op">=</span> Variable(torch.Tensor(X))</span>
-<span id="cb444-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-2" aria-hidden="true" tabindex="-1"></a>y_data <span class="op">=</span> Variable(torch.Tensor(T))</span>
-<span id="cb444-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb444-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Training loop</span></span>
-<span id="cb444-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
-<span id="cb444-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Forward pass: Compute predicted y by passing x to the model</span></span>
-<span id="cb444-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-7" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> model(x_data)</span>
-<span id="cb444-8"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb444-9"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute and print loss</span></span>
-<span id="cb444-10"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-10" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> criterion(y_pred, y_data)</span>
-<span id="cb444-11"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(epoch, loss.data[0])</span></span>
-<span id="cb444-12"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb444-13"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Zero gradients, perform a backward pass, and update the weights.</span></span>
-<span id="cb444-14"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-14" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
-<span id="cb444-15"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-15" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
-<span id="cb444-16"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-16" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span>
-<span id="cb444-17"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb444-18"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-18" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="bu">list</span>(model.parameters())</span>
-<span id="cb444-19"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-19" aria-hidden="true" tabindex="-1"></a>w0 <span class="op">=</span> w[<span class="dv">0</span>].data.numpy()</span>
-<span id="cb444-20"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb444-20" aria-hidden="true" tabindex="-1"></a>w1 <span class="op">=</span> w[<span class="dv">1</span>].data.numpy()    </span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb449-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-1" aria-hidden="true" tabindex="-1"></a>x_data <span class="op">=</span> Variable(torch.Tensor(X))</span>
+<span id="cb449-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-2" aria-hidden="true" tabindex="-1"></a>y_data <span class="op">=</span> Variable(torch.Tensor(T))</span>
+<span id="cb449-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb449-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Training loop</span></span>
+<span id="cb449-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
+<span id="cb449-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Forward pass: Compute predicted y by passing x to the model</span></span>
+<span id="cb449-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-7" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> model(x_data)</span>
+<span id="cb449-8"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb449-9"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute and print loss</span></span>
+<span id="cb449-10"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-10" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> criterion(y_pred, y_data)</span>
+<span id="cb449-11"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(epoch, loss.data[0])</span></span>
+<span id="cb449-12"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb449-13"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Zero gradients, perform a backward pass, and update the weights.</span></span>
+<span id="cb449-14"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-14" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
+<span id="cb449-15"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-15" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb449-16"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-16" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span>
+<span id="cb449-17"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb449-18"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-18" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="bu">list</span>(model.parameters())</span>
+<span id="cb449-19"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-19" aria-hidden="true" tabindex="-1"></a>w0 <span class="op">=</span> w[<span class="dv">0</span>].data.numpy()</span>
+<span id="cb449-20"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb449-20" aria-hidden="true" tabindex="-1"></a>w1 <span class="op">=</span> w[<span class="dv">1</span>].data.numpy()    </span></code></pre></div>
 <p>Finally, we plot the results, by tracing the line that separates two classes, 0 and 1, which are both colored in the plot.</p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb445-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Final gradient descend:&quot;</span>, w)</span>
-<span id="cb445-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb445-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data and separating line</span></span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb450-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb450-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Final gradient descend:&quot;</span>, w)</span>
+<span id="cb450-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb450-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data and separating line</span></span></code></pre></div>
 <pre><code>#&gt; Final gradient descend: [Parameter containing:
-#&gt; tensor([[1.0841, 1.1162]], requires_grad=True), Parameter containing:
-#&gt; tensor([0.0476], requires_grad=True)]</code></pre>
-<div class="sourceCode" id="cb447"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb447-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb447-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-2" aria-hidden="true" tabindex="-1"></a>x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">100</span>)</span>
-<span id="cb447-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-3" aria-hidden="true" tabindex="-1"></a>y_axis <span class="op">=</span> <span class="op">-</span>(w1[<span class="dv">0</span>] <span class="op">+</span> x_axis <span class="op">*</span> w0[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">/</span> w0[<span class="dv">0</span>][<span class="dv">1</span>]</span>
-<span id="cb447-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-4" aria-hidden="true" tabindex="-1"></a>line_up, <span class="op">=</span> plt.plot(x_axis, y_axis,<span class="st">&#39;r--&#39;</span>, label<span class="op">=</span><span class="st">&#39;gradient descent&#39;</span>)</span>
-<span id="cb447-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-5" aria-hidden="true" tabindex="-1"></a>plt.legend(handles<span class="op">=</span>[line_up])</span>
-<span id="cb447-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;X(1)&#39;</span>)</span>
-<span id="cb447-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;X(2)&#39;</span>)</span>
-<span id="cb447-8"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
-<p><img src="rtorch-minimal-book_files/figure-html/unnamed-chunk-154-1.png" width="70%" style="display: block; margin: auto;" /></p>
+#&gt; tensor([[1.1009, 1.1182]], requires_grad=True), Parameter containing:
+#&gt; tensor([0.2488], requires_grad=True)]</code></pre>
+<div class="sourceCode" id="cb452"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb452-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb452-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb452-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb452-2" aria-hidden="true" tabindex="-1"></a>x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">100</span>)</span>
+<span id="cb452-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb452-3" aria-hidden="true" tabindex="-1"></a>y_axis <span class="op">=</span> <span class="op">-</span>(w1[<span class="dv">0</span>] <span class="op">+</span> x_axis <span class="op">*</span> w0[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">/</span> w0[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb452-4"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb452-4" aria-hidden="true" tabindex="-1"></a>line_up, <span class="op">=</span> plt.plot(x_axis, y_axis,<span class="st">&#39;r--&#39;</span>, label<span class="op">=</span><span class="st">&#39;gradient descent&#39;</span>)</span>
+<span id="cb452-5"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb452-5" aria-hidden="true" tabindex="-1"></a>plt.legend(handles<span class="op">=</span>[line_up])</span>
+<span id="cb452-6"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb452-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;X(1)&#39;</span>)</span>
+<span id="cb452-7"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb452-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;X(2)&#39;</span>)</span>
+<span id="cb452-8"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb452-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<p><img src="rtorch-minimal-book_files/figure-html/unnamed-chunk-156-1.png" width="70%" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
