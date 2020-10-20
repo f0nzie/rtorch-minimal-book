@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Linear Algebra with Torch | A Minimal rTorch Book</title>
   <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Linear Algebra with Torch | A Minimal rTorch Book" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alfonso R. Reyes" />
 
 
-<meta name="date" content="2020-10-18" />
+<meta name="date" content="2020-10-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="tensors.html"/>
 <link rel="next" href="creating-pytorch-classes.html"/>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,10 +51,11 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.15/datatables.js"></script>
+<script src="libs/datatables-binding-0.13/datatables.js"></script>
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -900,18 +902,17 @@ $(document).ready(function () {
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -932,9 +933,9 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-le
 div.sourceCode
   { color: #1f1c1b; background-color: #ffffff; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span. { color: #1f1c1b; } /* Normal */
+code span { color: #1f1c1b; } /* Normal */
 code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
 code span.an { color: #ca60ca; } /* Annotation */
 code span.at { color: #0057ae; } /* Attribute */
@@ -982,136 +983,169 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="./">The rTorch Minimal Book</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#example"><i class="fa fa-check"></i>Example</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#automatic-installation"><i class="fa fa-check"></i>Automatic installation</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>I Getting Started</b></span></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
-<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#how-do-we-start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> How do we start using <code>rTorch</code></a><ul>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#how-do-we-start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> How do we start using <code>rTorch</code></a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#getting-the-pytorch-version"><i class="fa fa-check"></i><b>1.2.1</b> Getting the PyTorch version</a></li>
 <li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#pytorch-configuration"><i class="fa fa-check"></i><b>1.2.2</b> PyTorch configuration</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#what-can-you-do-with-rtorch"><i class="fa fa-check"></i><b>1.3</b> What can you do with <code>rTorch</code></a></li>
 <li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#getting-help"><i class="fa fa-check"></i><b>1.4</b> Getting help</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a><ul>
-<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#callable-pytorch-modules-from-rtorch"><i class="fa fa-check"></i><b>2.1</b> Callable PyTorch modules from rTorch</a><ul>
+<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#callable-pytorch-modules-from-rtorch"><i class="fa fa-check"></i><b>2.1</b> Callable PyTorch modules from rTorch</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-torchvision-module"><i class="fa fa-check"></i><b>2.1.1</b> The <code>torchvision</code> module</a></li>
-<li class="chapter" data-level="2.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-numpy-module"><i class="fa fa-check"></i><b>2.1.2</b> The <code>numpy</code> module</a><ul>
+<li class="chapter" data-level="2.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-numpy-module"><i class="fa fa-check"></i><b>2.1.2</b> The <code>numpy</code> module</a>
+<ul>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#create-an-array"><i class="fa fa-check"></i>Create an array</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-and-tensor-operations-in-numpy-and-pytorch"><i class="fa fa-check"></i><b>2.2</b> Common array and tensor operations in NumPy and PyTorch</a><ul>
+<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-and-tensor-operations-in-numpy-and-pytorch"><i class="fa fa-check"></i><b>2.2</b> Common array and tensor operations in NumPy and PyTorch</a>
+<ul>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#reshape-an-array"><i class="fa fa-check"></i>Reshape an array</a></li>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-a-random-array-in-numpy"><i class="fa fa-check"></i>Generate a random array in NumPy</a></li>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-a-random-array-in-pytorch"><i class="fa fa-check"></i>Generate a random array in PyTorch</a></li>
 <li><a href="pytorch-and-numpy.html#convert-a-numpy-array-to-a-pytorch-tensor">Convert a <code>numpy</code> array to a PyTorch tensor</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions"><i class="fa fa-check"></i><b>2.3</b> Python built-in functions</a><ul>
+<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions"><i class="fa fa-check"></i><b>2.3</b> Python built-in functions</a>
+<ul>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#length-of-a-dataset"><i class="fa fa-check"></i>Length of a dataset</a></li>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#iterators"><i class="fa fa-check"></i>Iterators</a></li>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#types-and-instances"><i class="fa fa-check"></i>Types and instances</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch: What’s different</a><ul>
+<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch: What’s different</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#calling-objects-from-pytorch"><i class="fa fa-check"></i><b>3.1</b> Calling objects from PyTorch</a></li>
 <li class="chapter" data-level="3.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#call-modules-and-functions-from-torch"><i class="fa fa-check"></i><b>3.2</b> Call modules and functions from <code>torch</code></a></li>
 <li class="chapter" data-level="3.3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#show-the-attributes-methods-of-a-class-or-pytorch-object"><i class="fa fa-check"></i><b>3.3</b> Show the attributes (methods) of a class or PyTorch object</a></li>
-<li class="chapter" data-level="3.4" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#how-to-iterate-through-datasets"><i class="fa fa-check"></i><b>3.4</b> How to iterate through datasets</a><ul>
+<li class="chapter" data-level="3.4" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#how-to-iterate-through-datasets"><i class="fa fa-check"></i><b>3.4</b> How to iterate through datasets</a>
+<ul>
 <li class="chapter" data-level="3.4.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#enumeration"><i class="fa fa-check"></i><b>3.4.1</b> Enumeration</a></li>
 <li class="chapter" data-level="3.4.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#using-enumerate-and-iterate"><i class="fa fa-check"></i><b>3.4.2</b> Using <code>enumerate</code> and <code>iterate</code></a></li>
 <li class="chapter" data-level="3.4.3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#using-a-for-loop-to-iterate"><i class="fa fa-check"></i><b>3.4.3</b> Using a <code>for-loop</code> to iterate</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#zero-gradient"><i class="fa fa-check"></i><b>3.5</b> Zero gradient</a><ul>
+<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#zero-gradient"><i class="fa fa-check"></i><b>3.5</b> Zero gradient</a>
+<ul>
 <li class="chapter" data-level="3.5.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#version-in-python"><i class="fa fa-check"></i><b>3.5.1</b> Version in Python</a></li>
 <li class="chapter" data-level="3.5.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#version-in-r"><i class="fa fa-check"></i><b>3.5.2</b> Version in R</a></li>
 </ul></li>
 <li class="chapter" data-level="3.6" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#r-generics-for-pytorch-functions"><i class="fa fa-check"></i><b>3.6</b> R generics for PyTorch functions</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a><ul>
-<li class="chapter" data-level="4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-numpy-and-viceversa"><i class="fa fa-check"></i><b>4.1</b> Transforming a tensor from <code>numpy</code> and viceversa</a><ul>
+<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-numpy-and-viceversa"><i class="fa fa-check"></i><b>4.1</b> Transforming a tensor from <code>numpy</code> and viceversa</a>
+<ul>
 <li class="chapter" data-level="4.1.1" data-path="converting-tensors.html"><a href="converting-tensors.html#convert-a-tensor-to-numpy-object"><i class="fa fa-check"></i><b>4.1.1</b> Convert a tensor to <code>numpy</code> object</a></li>
 <li class="chapter" data-level="4.1.2" data-path="converting-tensors.html"><a href="converting-tensors.html#convert-a-numpy-object-to-an-r-object"><i class="fa fa-check"></i><b>4.1.2</b> Convert a <code>numpy</code> object to an <code>R</code> object</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-pytorch-to-r-and-viceversa"><i class="fa fa-check"></i><b>4.2</b> Transforming a tensor from PyTorch to R and viceversa</a></li>
 </ul></li>
 <li class="part"><span><b>II Basic Tensor Operations</b></span></li>
-<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a><ul>
-<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a><ul>
+<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a>
+<ul>
 <li class="chapter" data-level="5.1.1" data-path="tensors.html"><a href="tensors.html#major-tensor-types"><i class="fa fa-check"></i><b>5.1.1</b> Major tensor types</a></li>
 <li class="chapter" data-level="5.1.2" data-path="tensors.html"><a href="tensors.html#example-basic-attributes-of-a-4d-tensor"><i class="fa fa-check"></i><b>5.1.2</b> Example: Basic attributes of a 4D tensor</a></li>
 <li class="chapter" data-level="5.1.3" data-path="tensors.html"><a href="tensors.html#example-attributes-of-a-3d-tensor"><i class="fa fa-check"></i><b>5.1.3</b> Example: Attributes of a 3D tensor</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a><ul>
+<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="tensors.html"><a href="tensors.html#add-tensors"><i class="fa fa-check"></i><b>5.2.1</b> Add tensors</a></li>
 <li class="chapter" data-level="5.2.2" data-path="tensors.html"><a href="tensors.html#add-an-element-of-a-tensor-to-another-tensor"><i class="fa fa-check"></i><b>5.2.2</b> Add an element of a tensor to another tensor</a></li>
 <li class="chapter" data-level="5.2.3" data-path="tensors.html"><a href="tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>5.2.3</b> Multiply a tensor by a scalar</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a><ul>
+<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a>
+<ul>
 <li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#in-python-we-use-tuples-in-r-we-use-vectors"><i class="fa fa-check"></i><b>5.3.1</b> In Python we use Tuples, in R we use vectors</a></li>
 <li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#build-a-numpy-array-from-three-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> Build a numpy array from three R vectors</a></li>
 <li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#convert-a-numpy-array-to-a-tensor-with-as_tensor"><i class="fa fa-check"></i><b>5.3.3</b> Convert a numpy array to a tensor with <code>as_tensor()</code></a></li>
 <li class="chapter" data-level="5.3.4" data-path="tensors.html"><a href="tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>5.3.4</b> Create and fill a tensor</a></li>
 <li class="chapter" data-level="5.3.5" data-path="tensors.html"><a href="tensors.html#tensor-to-array-and-viceversa"><i class="fa fa-check"></i><b>5.3.5</b> Tensor to array, and viceversa</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a><ul>
+<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a>
+<ul>
 <li class="chapter" data-level="5.4.1" data-path="tensors.html"><a href="tensors.html#tensor-fill"><i class="fa fa-check"></i><b>5.4.1</b> Tensor fill</a></li>
 <li class="chapter" data-level="5.4.2" data-path="tensors.html"><a href="tensors.html#initialize-tensor-with-a-range-of-values"><i class="fa fa-check"></i><b>5.4.2</b> Initialize Tensor with a range of values</a></li>
 <li class="chapter" data-level="5.4.3" data-path="tensors.html"><a href="tensors.html#initialize-a-linear-or-log-scale-tensor"><i class="fa fa-check"></i><b>5.4.3</b> Initialize a linear or log scale Tensor</a></li>
 <li class="chapter" data-level="5.4.4" data-path="tensors.html"><a href="tensors.html#fill-a-tensor-in-place-out-of-place"><i class="fa fa-check"></i><b>5.4.4</b> Fill a tensor In-place / Out-of-place</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a><ul>
+<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a>
+<ul>
 <li class="chapter" data-level="5.5.1" data-path="tensors.html"><a href="tensors.html#exercise"><i class="fa fa-check"></i><b>5.5.1</b> Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a><ul>
+<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a>
+<ul>
 <li class="chapter" data-level="5.6.1" data-path="tensors.html"><a href="tensors.html#concatenate-tensors-by-dim0-rows"><i class="fa fa-check"></i><b>5.6.1</b> Concatenate tensors by <code>dim=0</code> (rows)</a></li>
 <li class="chapter" data-level="5.6.2" data-path="tensors.html"><a href="tensors.html#concatenate-tensors-by-dim1-columns"><i class="fa fa-check"></i><b>5.6.2</b> Concatenate tensors by <code>dim=1</code> (columns)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a><ul>
-<li class="chapter" data-level="5.7.1" data-path="tensors.html"><a href="tensors.html#with-chunk"><i class="fa fa-check"></i><b>5.7.1</b> With <code>chunk()</code>:</a><ul>
+<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="tensors.html"><a href="tensors.html#with-chunk"><i class="fa fa-check"></i><b>5.7.1</b> With <code>chunk()</code>:</a>
+<ul>
 <li class="chapter" data-level="5.7.1.1" data-path="tensors.html"><a href="tensors.html#exercise-1"><i class="fa fa-check"></i><b>5.7.1.1</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="5.7.2" data-path="tensors.html"><a href="tensors.html#with-index_select"><i class="fa fa-check"></i><b>5.7.2</b> With <code>index_select()</code>:</a></li>
 </ul></li>
-<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a><ul>
+<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a>
+<ul>
 <li class="chapter" data-level="5.8.1" data-path="tensors.html"><a href="tensors.html#identity-matrix"><i class="fa fa-check"></i><b>5.8.1</b> Identity matrix</a></li>
 <li class="chapter" data-level="5.8.2" data-path="tensors.html"><a href="tensors.html#ones"><i class="fa fa-check"></i><b>5.8.2</b> Ones</a></li>
 <li class="chapter" data-level="5.8.3" data-path="tensors.html"><a href="tensors.html#zeros"><i class="fa fa-check"></i><b>5.8.3</b> Zeros</a></li>
-<li class="chapter" data-level="5.8.4" data-path="tensors.html"><a href="tensors.html#diagonal-operations"><i class="fa fa-check"></i><b>5.8.4</b> Diagonal operations</a><ul>
+<li class="chapter" data-level="5.8.4" data-path="tensors.html"><a href="tensors.html#diagonal-operations"><i class="fa fa-check"></i><b>5.8.4</b> Diagonal operations</a>
+<ul>
 <li class="chapter" data-level="5.8.4.1" data-path="tensors.html"><a href="tensors.html#diagonal-matrix"><i class="fa fa-check"></i><b>5.8.4.1</b> Diagonal matrix</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a><ul>
+<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a>
+<ul>
 <li class="chapter" data-level="5.9.1" data-path="tensors.html"><a href="tensors.html#using-indices-to-access-elements"><i class="fa fa-check"></i><b>5.9.1</b> Using indices to access elements</a></li>
 <li class="chapter" data-level="5.9.2" data-path="tensors.html"><a href="tensors.html#using-the-take-function"><i class="fa fa-check"></i><b>5.9.2</b> Using the <code>take</code> function</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a><ul>
+<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a>
+<ul>
 <li class="chapter" data-level="5.10.1" data-path="tensors.html"><a href="tensors.html#cross-product"><i class="fa fa-check"></i><b>5.10.1</b> Cross product</a></li>
 <li class="chapter" data-level="5.10.2" data-path="tensors.html"><a href="tensors.html#dot-product"><i class="fa fa-check"></i><b>5.10.2</b> Dot product</a></li>
 </ul></li>
-<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a><ul>
+<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a>
+<ul>
 <li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#using-a-function-to-extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Using a function to extract a unique logical result</a></li>
 <li class="chapter" data-level="5.11.2" data-path="tensors.html"><a href="tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>5.11.2</b> Greater than (<code>gt</code>)</a></li>
 <li class="chapter" data-level="5.11.3" data-path="tensors.html"><a href="tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>5.11.3</b> Less than or equal (<code>le</code>)</a></li>
 <li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (!`)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a><ul>
+<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a>
+<ul>
 <li class="chapter" data-level="5.12.1" data-path="tensors.html"><a href="tensors.html#uniform-matrix"><i class="fa fa-check"></i><b>5.12.1</b> Uniform matrix</a></li>
 <li class="chapter" data-level="5.12.2" data-path="tensors.html"><a href="tensors.html#binomial-distribution"><i class="fa fa-check"></i><b>5.12.2</b> Binomial distribution</a></li>
 <li class="chapter" data-level="5.12.3" data-path="tensors.html"><a href="tensors.html#exponential-distribution"><i class="fa fa-check"></i><b>5.12.3</b> Exponential distribution</a></li>
-<li class="chapter" data-level="5.12.4" data-path="tensors.html"><a href="tensors.html#weibull-distribution"><i class="fa fa-check"></i><b>5.12.4</b> Weibull distribution</a><ul>
+<li class="chapter" data-level="5.12.4" data-path="tensors.html"><a href="tensors.html#weibull-distribution"><i class="fa fa-check"></i><b>5.12.4</b> Weibull distribution</a>
+<ul>
 <li class="chapter" data-level="5.12.4.1" data-path="tensors.html"><a href="tensors.html#weibull-at-constant-scale"><i class="fa fa-check"></i><b>5.12.4.1</b> Weibull at constant <code>scale</code></a></li>
+<li class="chapter" data-level="5.12.4.2" data-path="tensors.html"><a href="tensors.html#weibull-at-constant-concentration"><i class="fa fa-check"></i><b>5.12.4.2</b> Weibull at constant <code>concentration</code></a></li>
 </ul></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a><ul>
+<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="linearalgebra.html"><a href="linearalgebra.html#scalars"><i class="fa fa-check"></i><b>6.1</b> Scalars</a></li>
-<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a><ul>
+<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a>
+<ul>
 <li class="chapter" data-level="6.2.1" data-path="linearalgebra.html"><a href="linearalgebra.html#vector-to-matrix-matrix-to-tensor"><i class="fa fa-check"></i><b>6.2.1</b> Vector to matrix, matrix to tensor</a></li>
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="linearalgebra.html"><a href="linearalgebra.html#matrices"><i class="fa fa-check"></i><b>6.3</b> Matrices</a></li>
@@ -1121,24 +1155,30 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="6.7" data-path="linearalgebra.html"><a href="linearalgebra.html#tensor-arithmetic"><i class="fa fa-check"></i><b>6.7</b> Tensor arithmetic</a></li>
 <li class="chapter" data-level="6.8" data-path="linearalgebra.html"><a href="linearalgebra.html#add-a-scalar-to-a-tensor"><i class="fa fa-check"></i><b>6.8</b> Add a scalar to a tensor</a></li>
 <li class="chapter" data-level="6.9" data-path="linearalgebra.html"><a href="linearalgebra.html#multiplying-tensors"><i class="fa fa-check"></i><b>6.9</b> Multiplying tensors</a></li>
-<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a><ul>
+<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a>
+<ul>
 <li class="chapter" data-level="6.10.1" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-of-2d-array-using-python"><i class="fa fa-check"></i><b>6.10.1</b> Dot product of 2D array using Python</a></li>
 <li class="chapter" data-level="6.10.2" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-of-2d-array-using-r"><i class="fa fa-check"></i><b>6.10.2</b> Dot product of 2D array using R</a></li>
 <li class="chapter" data-level="6.10.3" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-with-mm-and-matmul-functions"><i class="fa fa-check"></i><b>6.10.3</b> Dot product with <code>mm</code> and <code>matmul</code> functions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a><ul>
-<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a><ul>
+<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a>
+<ul>
 <li class="chapter" data-level="7.1.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-1-a-neural-network-with-one-layer"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: a neural network with one layer</a></li>
 <li class="chapter" data-level="7.1.2" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-2-logistic-regression"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: Logistic Regression</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Logistic Regression</b></span></li>
-<li class="chapter" data-level="8" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem with Logistic Regression</a><ul>
+<li class="chapter" data-level="8" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem with Logistic Regression</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html#code-in-python"><i class="fa fa-check"></i><b>8.1</b> Code in Python</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a><ul>
-<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a><ul>
+<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="mnistdigits.html"><a href="mnistdigits.html#hyperparameters"><i class="fa fa-check"></i><b>9.1.1</b> Hyperparameters</a></li>
 <li class="chapter" data-level="9.1.2" data-path="mnistdigits.html"><a href="mnistdigits.html#read-datasets"><i class="fa fa-check"></i><b>9.1.2</b> Read datasets</a></li>
 <li class="chapter" data-level="9.1.3" data-path="mnistdigits.html"><a href="mnistdigits.html#define-the-model"><i class="fa fa-check"></i><b>9.1.3</b> Define the model</a></li>
@@ -1149,7 +1189,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="9.2" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-python-1"><i class="fa fa-check"></i><b>9.2</b> Code in Python</a></li>
 </ul></li>
 <li class="part"><span><b>IV Linear Regression</b></span></li>
-<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a><ul>
+<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a>
+<ul>
 <li class="chapter" data-level="10.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
 <li class="chapter" data-level="10.2" data-path="linear-regression.html"><a href="linear-regression.html#generate-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Generate the dataset</a></li>
 <li class="chapter" data-level="10.3" data-path="linear-regression.html"><a href="linear-regression.html#convert-arrays-to-tensors"><i class="fa fa-check"></i><b>10.3</b> Convert arrays to tensors</a></li>
@@ -1159,41 +1200,48 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="10.7" data-path="linear-regression.html"><a href="linear-regression.html#training-1"><i class="fa fa-check"></i><b>10.7</b> Training</a></li>
 <li class="chapter" data-level="10.8" data-path="linear-regression.html"><a href="linear-regression.html#results"><i class="fa fa-check"></i><b>10.8</b> Results</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Rainfall prediction with Linear Regression</a><ul>
+<li class="chapter" data-level="11" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Rainfall prediction with Linear Regression</a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#training-data"><i class="fa fa-check"></i><b>11.1</b> Training data</a></li>
 <li class="chapter" data-level="11.2" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#convert-arrays-to-tensors-1"><i class="fa fa-check"></i><b>11.2</b> Convert arrays to tensors</a></li>
 <li class="chapter" data-level="11.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#build-the-model"><i class="fa fa-check"></i><b>11.3</b> Build the model</a></li>
 <li class="chapter" data-level="11.4" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#generate-predictions"><i class="fa fa-check"></i><b>11.4</b> Generate predictions</a></li>
 <li class="chapter" data-level="11.5" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#loss-function"><i class="fa fa-check"></i><b>11.5</b> Loss Function</a></li>
-<li class="chapter" data-level="11.6" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#step-by-step-process"><i class="fa fa-check"></i><b>11.6</b> Step by step process</a><ul>
+<li class="chapter" data-level="11.6" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#step-by-step-process"><i class="fa fa-check"></i><b>11.6</b> Step by step process</a>
+<ul>
 <li class="chapter" data-level="11.6.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#compute-the-losses"><i class="fa fa-check"></i><b>11.6.1</b> Compute the losses</a></li>
 <li class="chapter" data-level="11.6.2" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#compute-gradients"><i class="fa fa-check"></i><b>11.6.2</b> Compute Gradients</a></li>
-<li class="chapter" data-level="11.6.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#reset-the-gradients"><i class="fa fa-check"></i><b>11.6.3</b> Reset the gradients</a><ul>
+<li class="chapter" data-level="11.6.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#reset-the-gradients"><i class="fa fa-check"></i><b>11.6.3</b> Reset the gradients</a>
+<ul>
 <li class="chapter" data-level="11.6.3.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#adjust-weights-and-biases-using-gradient-descent"><i class="fa fa-check"></i><b>11.6.3.1</b> Adjust weights and biases using gradient descent</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11.7" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#all-together-train-for-multiple-epochs"><i class="fa fa-check"></i><b>11.7</b> All together: train for multiple epochs</a></li>
 </ul></li>
 <li class="part"><span><b>V Neural Networks</b></span></li>
-<li class="chapter" data-level="12" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><i class="fa fa-check"></i><b>12</b> Neural Networks using NumPy, r-base, rTorch and PyTorch</a><ul>
+<li class="chapter" data-level="12" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><i class="fa fa-check"></i><b>12</b> Neural Networks using NumPy, r-base, rTorch and PyTorch</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-with-numpy"><i class="fa fa-check"></i><b>12.1</b> A neural network with <code>numpy</code></a></li>
 <li class="chapter" data-level="12.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-with-r-base"><i class="fa fa-check"></i><b>12.2</b> A neural network with <code>r-base</code></a></li>
-<li class="chapter" data-level="12.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.3</b> A neural network in <code>rTorch</code></a><ul>
-<li class="chapter" data-level="12.3.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#load-the-libraries"><i class="fa fa-check"></i><b>12.3.1</b> Load the libraries</a></li>
-<li class="chapter" data-level="12.3.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#dataset"><i class="fa fa-check"></i><b>12.3.2</b> Dataset</a></li>
-<li class="chapter" data-level="12.3.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#initialize-the-weights"><i class="fa fa-check"></i><b>12.3.3</b> Initialize the weights</a></li>
-<li class="chapter" data-level="12.3.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterate-through-the-dataset"><i class="fa fa-check"></i><b>12.3.4</b> Iterate through the dataset</a><ul>
-<li class="chapter" data-level="12.3.4.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterate-50-times"><i class="fa fa-check"></i><b>12.3.4.1</b> Iterate 50 times</a></li>
+<li class="chapter" data-level="12.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#the-neural-network-written-in-pytorch"><i class="fa fa-check"></i><b>12.3</b> The neural network written in <code>PyTorch</code></a></li>
+<li class="chapter" data-level="12.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-written-in-rtorch"><i class="fa fa-check"></i><b>12.4</b> A neural network written in <code>rTorch</code></a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#load-the-libraries"><i class="fa fa-check"></i><b>12.4.1</b> Load the libraries</a></li>
+<li class="chapter" data-level="12.4.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#dataset"><i class="fa fa-check"></i><b>12.4.2</b> Dataset</a></li>
+<li class="chapter" data-level="12.4.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#initialize-the-weights"><i class="fa fa-check"></i><b>12.4.3</b> Initialize the weights</a></li>
+<li class="chapter" data-level="12.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterate-through-the-dataset"><i class="fa fa-check"></i><b>12.4.4</b> Iterate through the dataset</a>
+<ul>
+<li class="chapter" data-level="12.4.4.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterate-50-times"><i class="fa fa-check"></i><b>12.4.4.1</b> Iterate 50 times</a></li>
+<li class="chapter" data-level="12.4.4.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-function-to-train-the-neural-network"><i class="fa fa-check"></i><b>12.4.4.2</b> A function to train the neural network</a></li>
+<li class="chapter" data-level="12.4.4.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#run-it-at-100-iterations"><i class="fa fa-check"></i><b>12.4.4.3</b> Run it at 100 iterations</a></li>
+<li class="chapter" data-level="12.4.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.4.4.4</b> 250 iterations</a></li>
+<li class="chapter" data-level="12.4.4.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.4.4.5</b> 500 iterations</a></li>
 </ul></li>
-<li class="chapter" data-level="12.3.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#run-it-at-100-iterations"><i class="fa fa-check"></i><b>12.3.5</b> Run it at 100 iterations</a><ul>
-<li class="chapter" data-level="12.3.5.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations"><i class="fa fa-check"></i><b>12.3.5.1</b> 250 iterations</a></li>
-<li class="chapter" data-level="12.3.5.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterations-1"><i class="fa fa-check"></i><b>12.3.5.2</b> 500 iterations</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="12.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#the-same-neural-network-but-written-in-pytorch"><i class="fa fa-check"></i><b>12.4</b> The same neural network but written in <code>PyTorch</code></a></li>
 <li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a><ul>
+<li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#introduction-1"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
 <li class="chapter" data-level="13.2" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#select-device"><i class="fa fa-check"></i><b>13.2</b> Select device</a></li>
 <li class="chapter" data-level="13.3" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
@@ -1204,31 +1252,38 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.8" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#a-more-elegant-way-of-writing-the-neural-network"><i class="fa fa-check"></i><b>13.8</b> A more elegant way of writing the neural network</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
-<li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a><ul>
+<li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
 <li class="chapter" data-level="14.2" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
-<li class="chapter" data-level="14.3" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
+<li class="chapter" data-level="14.3" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a>
+<ul>
 <li class="chapter" data-level="14.3.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> using <code>data.frame</code></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a><ul>
+<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a>
+<ul>
 <li class="chapter" data-level="15.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
 <li class="chapter" data-level="15.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
 <li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#read-the-datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Read the datasets without normalization</a></li>
 <li class="chapter" data-level="15.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a><ul>
-<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a><ul>
+<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a>
+<ul>
 <li class="chapter" data-level="A.1.1" data-path="appendixA.html"><a href="appendixA.html#five-number-summary"><i class="fa fa-check"></i><b>A.1.1</b> Five-number summary</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a><ul>
+<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a>
+<ul>
 <li class="chapter" data-level="B.1" data-path="appendixB.html"><a href="appendixB.html#the-sigmoid-function"><i class="fa fa-check"></i><b>B.1</b> The Sigmoid function</a></li>
 <li class="chapter" data-level="B.2" data-path="appendixB.html"><a href="appendixB.html#the-relu-function"><i class="fa fa-check"></i><b>B.2</b> The ReLU function</a></li>
 <li class="chapter" data-level="B.3" data-path="appendixB.html"><a href="appendixB.html#the-tanh-function"><i class="fa fa-check"></i><b>B.3</b> The tanh function</a></li>
 <li class="chapter" data-level="B.4" data-path="appendixB.html"><a href="appendixB.html#the-softmax-activation-function"><i class="fa fa-check"></i><b>B.4</b> The Softmax Activation function</a></li>
-<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#coding-your-own-activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Coding your own activation functions in Python</a><ul>
+<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#coding-your-own-activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Coding your own activation functions in Python</a>
+<ul>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#linear-activation"><i class="fa fa-check"></i>Linear activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#sigmoid-activation"><i class="fa fa-check"></i>Sigmoid activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#hyperbolic-tangent-activation"><i class="fa fa-check"></i>Hyperbolic Tangent activation</a></li>
@@ -1258,58 +1313,58 @@ code span.wa { color: #bf0303; } /* Warning */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="linearalgebra" class="section level1">
+<div id="linearalgebra" class="section level1" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Linear Algebra with Torch</h1>
 <p>The following are basic operations of Linear Algebra using PyTorch.</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="linearalgebra.html#cb287-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
-<div id="scalars" class="section level2">
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="linearalgebra.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span></code></pre></div>
+<div id="scalars" class="section level2" number="6.1">
 <h2><span class="header-section-number">6.1</span> Scalars</h2>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="linearalgebra.html#cb288-1"></a>torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">2.78654</span>)</span>
-<span id="cb288-2"><a href="linearalgebra.html#cb288-2"></a></span>
-<span id="cb288-3"><a href="linearalgebra.html#cb288-3"></a>torch<span class="op">$</span><span class="kw">scalar_tensor</span>(0L)</span>
-<span id="cb288-4"><a href="linearalgebra.html#cb288-4"></a></span>
-<span id="cb288-5"><a href="linearalgebra.html#cb288-5"></a>torch<span class="op">$</span><span class="kw">scalar_tensor</span>(1L)</span>
-<span id="cb288-6"><a href="linearalgebra.html#cb288-6"></a></span>
-<span id="cb288-7"><a href="linearalgebra.html#cb288-7"></a>torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="ot">TRUE</span>)</span>
-<span id="cb288-8"><a href="linearalgebra.html#cb288-8"></a></span>
-<span id="cb288-9"><a href="linearalgebra.html#cb288-9"></a>torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="linearalgebra.html#cb288-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(<span class="fl">2.78654</span>)</span>
+<span id="cb288-2"><a href="linearalgebra.html#cb288-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-3"><a href="linearalgebra.html#cb288-3" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(0L)</span>
+<span id="cb288-4"><a href="linearalgebra.html#cb288-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-5"><a href="linearalgebra.html#cb288-5" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(1L)</span>
+<span id="cb288-6"><a href="linearalgebra.html#cb288-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-7"><a href="linearalgebra.html#cb288-7" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(<span class="cn">TRUE</span>)</span>
+<span id="cb288-8"><a href="linearalgebra.html#cb288-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb288-9"><a href="linearalgebra.html#cb288-9" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(<span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>#&gt; tensor(2.7865)
 #&gt; tensor(0.)
 #&gt; tensor(1.)
 #&gt; tensor(1.)
 #&gt; tensor(0.)</code></pre>
 </div>
-<div id="vectors" class="section level2">
+<div id="vectors" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> Vectors</h2>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="linearalgebra.html#cb290-1"></a>v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb290-2"><a href="linearalgebra.html#cb290-2"></a>torch<span class="op">$</span><span class="kw">as_tensor</span>(v)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="linearalgebra.html#cb290-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb290-2"><a href="linearalgebra.html#cb290-2" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">as_tensor</span>(v)</span></code></pre></div>
 <pre><code>#&gt; tensor([0., 1., 2., 3., 4., 5.])</code></pre>
-<div id="vector-to-matrix-matrix-to-tensor" class="section level3">
+<div id="vector-to-matrix-matrix-to-tensor" class="section level3" number="6.2.1">
 <h3><span class="header-section-number">6.2.1</span> Vector to matrix, matrix to tensor</h3>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="linearalgebra.html#cb292-1"></a><span class="co"># row-vector</span></span>
-<span id="cb292-2"><a href="linearalgebra.html#cb292-2"></a><span class="kw">message</span>(<span class="st">&quot;R matrix&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="linearalgebra.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="co"># row-vector</span></span>
+<span id="cb292-2"><a href="linearalgebra.html#cb292-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;R matrix&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; R matrix</code></pre>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="linearalgebra.html#cb294-1"></a>(mr &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">nrow=</span><span class="dv">1</span>))</span>
-<span id="cb294-2"><a href="linearalgebra.html#cb294-2"></a><span class="kw">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="linearalgebra.html#cb294-1" aria-hidden="true" tabindex="-1"></a>(mr <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">nrow=</span><span class="dv">1</span>))</span>
+<span id="cb294-2"><a href="linearalgebra.html#cb294-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; as_tensor</code></pre>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="linearalgebra.html#cb296-1"></a>torch<span class="op">$</span><span class="kw">as_tensor</span>(mr)</span>
-<span id="cb296-2"><a href="linearalgebra.html#cb296-2"></a><span class="kw">message</span>(<span class="st">&quot;shape_of_tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="linearalgebra.html#cb296-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">as_tensor</span>(mr)</span>
+<span id="cb296-2"><a href="linearalgebra.html#cb296-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;shape_of_tensor&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; shape_of_tensor</code></pre>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="linearalgebra.html#cb298-1"></a>torch<span class="op">$</span><span class="kw">as_tensor</span>(mr)<span class="op">$</span>shape</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="linearalgebra.html#cb298-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">as_tensor</span>(mr)<span class="sc">$</span>shape</span></code></pre></div>
 <pre><code>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
 #&gt; [1,]    1    2    3    4    5    6    7    8    9    10
 #&gt; tensor([[ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10]], dtype=torch.int32)
 #&gt; torch.Size([1, 10])</code></pre>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="linearalgebra.html#cb300-1"></a><span class="co"># column-vector</span></span>
-<span id="cb300-2"><a href="linearalgebra.html#cb300-2"></a><span class="kw">message</span>(<span class="st">&quot;R matrix, one column&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="linearalgebra.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="co"># column-vector</span></span>
+<span id="cb300-2"><a href="linearalgebra.html#cb300-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;R matrix, one column&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; R matrix, one column</code></pre>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="linearalgebra.html#cb302-1"></a>(mc &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">ncol=</span><span class="dv">1</span>))</span>
-<span id="cb302-2"><a href="linearalgebra.html#cb302-2"></a><span class="kw">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="linearalgebra.html#cb302-1" aria-hidden="true" tabindex="-1"></a>(mc <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">ncol=</span><span class="dv">1</span>))</span>
+<span id="cb302-2"><a href="linearalgebra.html#cb302-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; as_tensor</code></pre>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="linearalgebra.html#cb304-1"></a>torch<span class="op">$</span><span class="kw">as_tensor</span>(mc)</span>
-<span id="cb304-2"><a href="linearalgebra.html#cb304-2"></a><span class="kw">message</span>(<span class="st">&quot;size of tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="linearalgebra.html#cb304-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">as_tensor</span>(mc)</span>
+<span id="cb304-2"><a href="linearalgebra.html#cb304-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;size of tensor&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; size of tensor</code></pre>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="linearalgebra.html#cb306-1"></a>torch<span class="op">$</span><span class="kw">as_tensor</span>(mc)<span class="op">$</span>shape</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="linearalgebra.html#cb306-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">as_tensor</span>(mc)<span class="sc">$</span>shape</span></code></pre></div>
 <pre><code>#&gt;       [,1]
 #&gt;  [1,]    1
 #&gt;  [2,]    2
@@ -1334,26 +1389,26 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt; torch.Size([10, 1])</code></pre>
 </div>
 </div>
-<div id="matrices" class="section level2">
+<div id="matrices" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> Matrices</h2>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="linearalgebra.html#cb308-1"></a><span class="kw">message</span>(<span class="st">&quot;R matrix&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="linearalgebra.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;R matrix&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; R matrix</code></pre>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="linearalgebra.html#cb310-1"></a>(m1 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">24</span>, <span class="dt">nrow =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</span>
-<span id="cb310-2"><a href="linearalgebra.html#cb310-2"></a><span class="kw">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="linearalgebra.html#cb310-1" aria-hidden="true" tabindex="-1"></a>(m1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb310-2"><a href="linearalgebra.html#cb310-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; as_tensor</code></pre>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="linearalgebra.html#cb312-1"></a>(t1 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(m1))</span>
-<span id="cb312-2"><a href="linearalgebra.html#cb312-2"></a><span class="kw">message</span>(<span class="st">&quot;shape&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="linearalgebra.html#cb312-1" aria-hidden="true" tabindex="-1"></a>(t1 <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">as_tensor</span>(m1))</span>
+<span id="cb312-2"><a href="linearalgebra.html#cb312-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;shape&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; shape</code></pre>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="linearalgebra.html#cb314-1"></a>torch<span class="op">$</span><span class="kw">as_tensor</span>(m1)<span class="op">$</span>shape</span>
-<span id="cb314-2"><a href="linearalgebra.html#cb314-2"></a><span class="kw">message</span>(<span class="st">&quot;size&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="linearalgebra.html#cb314-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">as_tensor</span>(m1)<span class="sc">$</span>shape</span>
+<span id="cb314-2"><a href="linearalgebra.html#cb314-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;size&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; size</code></pre>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="linearalgebra.html#cb316-1"></a>torch<span class="op">$</span><span class="kw">as_tensor</span>(m1)<span class="op">$</span><span class="kw">size</span>()</span>
-<span id="cb316-2"><a href="linearalgebra.html#cb316-2"></a><span class="kw">message</span>(<span class="st">&quot;dim&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="linearalgebra.html#cb316-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">as_tensor</span>(m1)<span class="sc">$</span><span class="fu">size</span>()</span>
+<span id="cb316-2"><a href="linearalgebra.html#cb316-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;dim&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; dim</code></pre>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="linearalgebra.html#cb318-1"></a><span class="kw">dim</span>(torch<span class="op">$</span><span class="kw">as_tensor</span>(m1))</span>
-<span id="cb318-2"><a href="linearalgebra.html#cb318-2"></a><span class="kw">message</span>(<span class="st">&quot;length&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="linearalgebra.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(torch<span class="sc">$</span><span class="fu">as_tensor</span>(m1))</span>
+<span id="cb318-2"><a href="linearalgebra.html#cb318-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;length&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; length</code></pre>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="linearalgebra.html#cb320-1"></a><span class="kw">length</span>(torch<span class="op">$</span><span class="kw">as_tensor</span>(m1))</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="linearalgebra.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(torch<span class="sc">$</span><span class="fu">as_tensor</span>(m1))</span></code></pre></div>
 <pre><code>#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
 #&gt; [1,]    1    2    3    4    5    6    7    8
 #&gt; [2,]    9   10   11   12   13   14   15   16
@@ -1365,18 +1420,18 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt; torch.Size([3, 8])
 #&gt; [1] 3 8
 #&gt; [1] 24</code></pre>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="linearalgebra.html#cb322-1"></a><span class="kw">message</span>(<span class="st">&quot;R matrix&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="linearalgebra.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;R matrix&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; R matrix</code></pre>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="linearalgebra.html#cb324-1"></a>(m2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">99</span>, <span class="dt">ncol =</span> <span class="dv">10</span>))</span>
-<span id="cb324-2"><a href="linearalgebra.html#cb324-2"></a><span class="kw">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="linearalgebra.html#cb324-1" aria-hidden="true" tabindex="-1"></a>(m2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">99</span>, <span class="at">ncol =</span> <span class="dv">10</span>))</span>
+<span id="cb324-2"><a href="linearalgebra.html#cb324-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; as_tensor</code></pre>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="linearalgebra.html#cb326-1"></a>(t2 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(m2))</span>
-<span id="cb326-2"><a href="linearalgebra.html#cb326-2"></a><span class="kw">message</span>(<span class="st">&quot;shape&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="linearalgebra.html#cb326-1" aria-hidden="true" tabindex="-1"></a>(t2 <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">as_tensor</span>(m2))</span>
+<span id="cb326-2"><a href="linearalgebra.html#cb326-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;shape&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; shape</code></pre>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="linearalgebra.html#cb328-1"></a>t2<span class="op">$</span>shape</span>
-<span id="cb328-2"><a href="linearalgebra.html#cb328-2"></a><span class="kw">message</span>(<span class="st">&quot;dim&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="linearalgebra.html#cb328-1" aria-hidden="true" tabindex="-1"></a>t2<span class="sc">$</span>shape</span>
+<span id="cb328-2"><a href="linearalgebra.html#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;dim&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; dim</code></pre>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="linearalgebra.html#cb330-1"></a><span class="kw">dim</span>(torch<span class="op">$</span><span class="kw">as_tensor</span>(m2))</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="linearalgebra.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(torch<span class="sc">$</span><span class="fu">as_tensor</span>(m2))</span></code></pre></div>
 <pre><code>#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
 #&gt;  [1,]    0   10   20   30   40   50   60   70   80    90
 #&gt;  [2,]    1   11   21   31   41   51   61   71   81    91
@@ -1400,58 +1455,58 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;         [ 9, 19, 29, 39, 49, 59, 69, 79, 89, 99]], dtype=torch.int32)
 #&gt; torch.Size([10, 10])
 #&gt; [1] 10 10</code></pre>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="linearalgebra.html#cb332-1"></a>m1[<span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb332-2"><a href="linearalgebra.html#cb332-2"></a>m2[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="linearalgebra.html#cb332-1" aria-hidden="true" tabindex="-1"></a>m1[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb332-2"><a href="linearalgebra.html#cb332-2" aria-hidden="true" tabindex="-1"></a>m2[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>#&gt; [1] 1
 #&gt; [1] 0</code></pre>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="linearalgebra.html#cb334-1"></a>t1[<span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb334-2"><a href="linearalgebra.html#cb334-2"></a>t2[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="linearalgebra.html#cb334-1" aria-hidden="true" tabindex="-1"></a>t1[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb334-2"><a href="linearalgebra.html#cb334-2" aria-hidden="true" tabindex="-1"></a>t2[<span class="dv">1</span>, <span class="dv">1</span>]</span></code></pre></div>
 <pre><code>#&gt; tensor(1, dtype=torch.int32)
 #&gt; tensor(0, dtype=torch.int32)</code></pre>
 </div>
-<div id="d-tensors" class="section level2">
+<div id="d-tensors" class="section level2" number="6.4">
 <h2><span class="header-section-number">6.4</span> 3D+ tensors</h2>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="linearalgebra.html#cb336-1"></a><span class="co"># RGB color image has three axes </span></span>
-<span id="cb336-2"><a href="linearalgebra.html#cb336-2"></a>(img &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(3L, 28L, 28L))</span>
-<span id="cb336-3"><a href="linearalgebra.html#cb336-3"></a>img<span class="op">$</span>shape</span></code></pre></div>
-<pre><code>#&gt; tensor([[[0.8286, 0.1210, 0.3262,  ..., 0.6566, 0.0565, 0.9330],
-#&gt;          [0.9622, 0.0341, 0.8739,  ..., 0.2350, 0.6885, 0.1599],
-#&gt;          [0.0087, 0.5336, 0.8419,  ..., 0.0694, 0.3324, 0.8020],
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="linearalgebra.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="co"># RGB color image has three axes </span></span>
+<span id="cb336-2"><a href="linearalgebra.html#cb336-2" aria-hidden="true" tabindex="-1"></a>(img <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">rand</span>(3L, 28L, 28L))</span>
+<span id="cb336-3"><a href="linearalgebra.html#cb336-3" aria-hidden="true" tabindex="-1"></a>img<span class="sc">$</span>shape</span></code></pre></div>
+<pre><code>#&gt; tensor([[[0.9305, 0.0977, 0.1086,  ..., 0.9410, 0.4287, 0.8470],
+#&gt;          [0.3552, 0.9911, 0.9336,  ..., 0.4130, 0.6486, 0.3798],
+#&gt;          [0.0309, 0.8260, 0.4665,  ..., 0.7730, 0.7296, 0.8287],
 #&gt;          ...,
-#&gt;          [0.0873, 0.1055, 0.8222,  ..., 0.3090, 0.5607, 0.3368],
-#&gt;          [0.5544, 0.9597, 0.7271,  ..., 0.2532, 0.7047, 0.5500],
-#&gt;          [0.8197, 0.7270, 0.1299,  ..., 0.0069, 0.2759, 0.4065]],
+#&gt;          [0.6221, 0.4723, 0.6094,  ..., 0.6861, 0.6573, 0.8461],
+#&gt;          [0.6244, 0.2570, 0.2129,  ..., 0.0746, 0.8410, 0.1278],
+#&gt;          [0.9194, 0.7521, 0.7040,  ..., 0.5164, 0.8780, 0.7326]],
 #&gt; 
-#&gt;         [[0.9374, 0.3945, 0.9165,  ..., 0.9302, 0.9195, 0.4494],
-#&gt;          [0.9204, 0.7058, 0.1755,  ..., 0.5626, 0.8192, 0.7098],
-#&gt;          [0.0751, 0.5714, 0.7443,  ..., 0.3799, 0.6824, 0.4590],
+#&gt;         [[0.7370, 0.6116, 0.4463,  ..., 0.7635, 0.9839, 0.8554],
+#&gt;          [0.5405, 0.7145, 0.5654,  ..., 0.5249, 0.5295, 0.4627],
+#&gt;          [0.2392, 0.7286, 0.0214,  ..., 0.0293, 0.6653, 0.8782],
 #&gt;          ...,
-#&gt;          [0.2025, 0.5746, 0.9737,  ..., 0.7432, 0.8083, 0.2463],
-#&gt;          [0.4018, 0.7596, 0.5440,  ..., 0.1402, 0.8931, 0.9387],
-#&gt;          [0.8624, 0.4776, 0.1389,  ..., 0.8923, 0.1667, 0.0840]],
+#&gt;          [0.6585, 0.2730, 0.8035,  ..., 0.8771, 0.7390, 0.6112],
+#&gt;          [0.9894, 0.7420, 0.9999,  ..., 0.1553, 0.3077, 0.2575],
+#&gt;          [0.7271, 0.0381, 0.6234,  ..., 0.5454, 0.5445, 0.7738]],
 #&gt; 
-#&gt;         [[0.5111, 0.2194, 0.4601,  ..., 0.7227, 0.8479, 0.3815],
-#&gt;          [0.6474, 0.4724, 0.3470,  ..., 0.6153, 0.5078, 0.6284],
-#&gt;          [0.7641, 0.0078, 0.6814,  ..., 0.5263, 0.4372, 0.9147],
+#&gt;         [[0.6961, 0.8182, 0.7035,  ..., 0.4069, 0.2596, 0.5659],
+#&gt;          [0.5953, 0.8211, 0.1043,  ..., 0.3698, 0.9349, 0.4274],
+#&gt;          [0.9318, 0.5161, 0.8102,  ..., 0.6375, 0.4332, 0.9190],
 #&gt;          ...,
-#&gt;          [0.8433, 0.5342, 0.3885,  ..., 0.2370, 0.7202, 0.1104],
-#&gt;          [0.5175, 0.3071, 0.0889,  ..., 0.0534, 0.9867, 0.1141],
-#&gt;          [0.9971, 0.1673, 0.3996,  ..., 0.2579, 0.7543, 0.4296]]])
+#&gt;          [0.1481, 0.3094, 0.6684,  ..., 0.6963, 0.1656, 0.8843],
+#&gt;          [0.2439, 0.4446, 0.4962,  ..., 0.2318, 0.3293, 0.1729],
+#&gt;          [0.9333, 0.5044, 0.1210,  ..., 0.1671, 0.3386, 0.0282]]])
 #&gt; torch.Size([3, 28, 28])</code></pre>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="linearalgebra.html#cb338-1"></a>img[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb338-2"><a href="linearalgebra.html#cb338-2"></a>img[<span class="dv">3</span>, <span class="dv">28</span>, <span class="dv">28</span>]</span></code></pre></div>
-<pre><code>#&gt; tensor(0.8286)
-#&gt; tensor(0.4296)</code></pre>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="linearalgebra.html#cb338-1" aria-hidden="true" tabindex="-1"></a>img[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb338-2"><a href="linearalgebra.html#cb338-2" aria-hidden="true" tabindex="-1"></a>img[<span class="dv">3</span>, <span class="dv">28</span>, <span class="dv">28</span>]</span></code></pre></div>
+<pre><code>#&gt; tensor(0.9305)
+#&gt; tensor(0.0282)</code></pre>
 </div>
-<div id="transpose-of-a-matrix" class="section level2">
+<div id="transpose-of-a-matrix" class="section level2" number="6.5">
 <h2><span class="header-section-number">6.5</span> Transpose of a matrix</h2>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="linearalgebra.html#cb340-1"></a>(m3 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>, <span class="dt">ncol =</span> <span class="dv">5</span>))</span>
-<span id="cb340-2"><a href="linearalgebra.html#cb340-2"></a></span>
-<span id="cb340-3"><a href="linearalgebra.html#cb340-3"></a><span class="co"># transpose</span></span>
-<span id="cb340-4"><a href="linearalgebra.html#cb340-4"></a><span class="kw">message</span>(<span class="st">&quot;transpose&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="linearalgebra.html#cb340-1" aria-hidden="true" tabindex="-1"></a>(m3 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">ncol =</span> <span class="dv">5</span>))</span>
+<span id="cb340-2"><a href="linearalgebra.html#cb340-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb340-3"><a href="linearalgebra.html#cb340-3" aria-hidden="true" tabindex="-1"></a><span class="co"># transpose</span></span>
+<span id="cb340-4"><a href="linearalgebra.html#cb340-4" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;transpose&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; transpose</code></pre>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="linearalgebra.html#cb342-1"></a>tm3 &lt;-<span class="st"> </span><span class="kw">t</span>(m3)</span>
-<span id="cb342-2"><a href="linearalgebra.html#cb342-2"></a>tm3</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="linearalgebra.html#cb342-1" aria-hidden="true" tabindex="-1"></a>tm3 <span class="ot">&lt;-</span> <span class="fu">t</span>(m3)</span>
+<span id="cb342-2"><a href="linearalgebra.html#cb342-2" aria-hidden="true" tabindex="-1"></a>tm3</span></code></pre></div>
 <pre><code>#&gt;      [,1] [,2] [,3] [,4] [,5]
 #&gt; [1,]    1    6   11   16   21
 #&gt; [2,]    2    7   12   17   22
@@ -1464,13 +1519,13 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt; [3,]   11   12   13   14   15
 #&gt; [4,]   16   17   18   19   20
 #&gt; [5,]   21   22   23   24   25</code></pre>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="linearalgebra.html#cb344-1"></a><span class="kw">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="linearalgebra.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; as_tensor</code></pre>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="linearalgebra.html#cb346-1"></a>(t3 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(m3))</span>
-<span id="cb346-2"><a href="linearalgebra.html#cb346-2"></a><span class="kw">message</span>(<span class="st">&quot;transpose&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="linearalgebra.html#cb346-1" aria-hidden="true" tabindex="-1"></a>(t3 <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">as_tensor</span>(m3))</span>
+<span id="cb346-2"><a href="linearalgebra.html#cb346-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;transpose&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; transpose</code></pre>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="linearalgebra.html#cb348-1"></a>tt3 &lt;-<span class="st"> </span>t3<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0 =</span> 0L, <span class="dt">dim1 =</span> 1L)</span>
-<span id="cb348-2"><a href="linearalgebra.html#cb348-2"></a>tt3</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="linearalgebra.html#cb348-1" aria-hidden="true" tabindex="-1"></a>tt3 <span class="ot">&lt;-</span> t3<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0 =</span> 0L, <span class="at">dim1 =</span> 1L)</span>
+<span id="cb348-2"><a href="linearalgebra.html#cb348-2" aria-hidden="true" tabindex="-1"></a>tt3</span></code></pre></div>
 <pre><code>#&gt; tensor([[ 1,  6, 11, 16, 21],
 #&gt;         [ 2,  7, 12, 17, 22],
 #&gt;         [ 3,  8, 13, 18, 23],
@@ -1481,7 +1536,7 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;         [11, 12, 13, 14, 15],
 #&gt;         [16, 17, 18, 19, 20],
 #&gt;         [21, 22, 23, 24, 25]], dtype=torch.int32)</code></pre>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="linearalgebra.html#cb350-1"></a>tm3 <span class="op">==</span><span class="st"> </span>tt3<span class="op">$</span><span class="kw">numpy</span>()   <span class="co"># convert first the tensor to numpy</span></span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="linearalgebra.html#cb350-1" aria-hidden="true" tabindex="-1"></a>tm3 <span class="sc">==</span> tt3<span class="sc">$</span><span class="fu">numpy</span>()   <span class="co"># convert first the tensor to numpy</span></span></code></pre></div>
 <pre><code>#&gt;      [,1] [,2] [,3] [,4] [,5]
 #&gt; [1,] TRUE TRUE TRUE TRUE TRUE
 #&gt; [2,] TRUE TRUE TRUE TRUE TRUE
@@ -1489,22 +1544,22 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt; [4,] TRUE TRUE TRUE TRUE TRUE
 #&gt; [5,] TRUE TRUE TRUE TRUE TRUE</code></pre>
 </div>
-<div id="vectors-special-case-of-a-matrix" class="section level2">
+<div id="vectors-special-case-of-a-matrix" class="section level2" number="6.6">
 <h2><span class="header-section-number">6.6</span> Vectors, special case of a matrix</h2>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="linearalgebra.html#cb352-1"></a><span class="kw">message</span>(<span class="st">&quot;R matrix&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="linearalgebra.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;R matrix&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; R matrix</code></pre>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="linearalgebra.html#cb354-1"></a>m2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">99</span>, <span class="dt">ncol =</span> <span class="dv">10</span>)</span>
-<span id="cb354-2"><a href="linearalgebra.html#cb354-2"></a><span class="kw">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="linearalgebra.html#cb354-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">99</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span>
+<span id="cb354-2"><a href="linearalgebra.html#cb354-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;as_tensor&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; as_tensor</code></pre>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="linearalgebra.html#cb356-1"></a>(t2 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(m2))</span>
-<span id="cb356-2"><a href="linearalgebra.html#cb356-2"></a></span>
-<span id="cb356-3"><a href="linearalgebra.html#cb356-3"></a><span class="co"># in R</span></span>
-<span id="cb356-4"><a href="linearalgebra.html#cb356-4"></a><span class="kw">message</span>(<span class="st">&quot;select column of matrix&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="linearalgebra.html#cb356-1" aria-hidden="true" tabindex="-1"></a>(t2 <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">as_tensor</span>(m2))</span>
+<span id="cb356-2"><a href="linearalgebra.html#cb356-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb356-3"><a href="linearalgebra.html#cb356-3" aria-hidden="true" tabindex="-1"></a><span class="co"># in R</span></span>
+<span id="cb356-4"><a href="linearalgebra.html#cb356-4" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;select column of matrix&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; select column of matrix</code></pre>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="linearalgebra.html#cb358-1"></a>(v1 &lt;-<span class="st"> </span>m2[, <span class="dv">1</span>])</span>
-<span id="cb358-2"><a href="linearalgebra.html#cb358-2"></a><span class="kw">message</span>(<span class="st">&quot;select row of matrix&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="linearalgebra.html#cb358-1" aria-hidden="true" tabindex="-1"></a>(v1 <span class="ot">&lt;-</span> m2[, <span class="dv">1</span>])</span>
+<span id="cb358-2"><a href="linearalgebra.html#cb358-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;select row of matrix&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; select row of matrix</code></pre>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="linearalgebra.html#cb360-1"></a>(v2 &lt;-<span class="st"> </span>m2[<span class="dv">10</span>, ])</span></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="linearalgebra.html#cb360-1" aria-hidden="true" tabindex="-1"></a>(v2 <span class="ot">&lt;-</span> m2[<span class="dv">10</span>, ])</span></code></pre></div>
 <pre><code>#&gt; tensor([[ 0, 10, 20, 30, 40, 50, 60, 70, 80, 90],
 #&gt;         [ 1, 11, 21, 31, 41, 51, 61, 71, 81, 91],
 #&gt;         [ 2, 12, 22, 32, 42, 52, 62, 72, 82, 92],
@@ -1517,35 +1572,35 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;         [ 9, 19, 29, 39, 49, 59, 69, 79, 89, 99]], dtype=torch.int32)
 #&gt;  [1] 0 1 2 3 4 5 6 7 8 9
 #&gt;  [1]  9 19 29 39 49 59 69 79 89 99</code></pre>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="linearalgebra.html#cb362-1"></a><span class="co"># PyTorch</span></span>
-<span id="cb362-2"><a href="linearalgebra.html#cb362-2"></a><span class="kw">message</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="linearalgebra.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PyTorch</span></span>
+<span id="cb362-2"><a href="linearalgebra.html#cb362-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>()</span></code></pre></div>
 <pre><code>#&gt; </code></pre>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="linearalgebra.html#cb364-1"></a>t2c &lt;-<span class="st"> </span>t2[, <span class="dv">1</span>]</span>
-<span id="cb364-2"><a href="linearalgebra.html#cb364-2"></a>t2r &lt;-<span class="st"> </span>t2[<span class="dv">10</span>, ]</span>
-<span id="cb364-3"><a href="linearalgebra.html#cb364-3"></a></span>
-<span id="cb364-4"><a href="linearalgebra.html#cb364-4"></a>t2c</span>
-<span id="cb364-5"><a href="linearalgebra.html#cb364-5"></a>t2r</span></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="linearalgebra.html#cb364-1" aria-hidden="true" tabindex="-1"></a>t2c <span class="ot">&lt;-</span> t2[, <span class="dv">1</span>]</span>
+<span id="cb364-2"><a href="linearalgebra.html#cb364-2" aria-hidden="true" tabindex="-1"></a>t2r <span class="ot">&lt;-</span> t2[<span class="dv">10</span>, ]</span>
+<span id="cb364-3"><a href="linearalgebra.html#cb364-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb364-4"><a href="linearalgebra.html#cb364-4" aria-hidden="true" tabindex="-1"></a>t2c</span>
+<span id="cb364-5"><a href="linearalgebra.html#cb364-5" aria-hidden="true" tabindex="-1"></a>t2r</span></code></pre></div>
 <pre><code>#&gt; tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=torch.int32)
 #&gt; tensor([ 9, 19, 29, 39, 49, 59, 69, 79, 89, 99], dtype=torch.int32)</code></pre>
 <p>In vectors, the vector and its transpose are equal.</p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="linearalgebra.html#cb366-1"></a>tt2r &lt;-<span class="st"> </span>t2r<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0 =</span> 0L, <span class="dt">dim1 =</span> 0L)</span>
-<span id="cb366-2"><a href="linearalgebra.html#cb366-2"></a>tt2r</span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="linearalgebra.html#cb366-1" aria-hidden="true" tabindex="-1"></a>tt2r <span class="ot">&lt;-</span> t2r<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0 =</span> 0L, <span class="at">dim1 =</span> 0L)</span>
+<span id="cb366-2"><a href="linearalgebra.html#cb366-2" aria-hidden="true" tabindex="-1"></a>tt2r</span></code></pre></div>
 <pre><code>#&gt; tensor([ 9, 19, 29, 39, 49, 59, 69, 79, 89, 99], dtype=torch.int32)</code></pre>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="linearalgebra.html#cb368-1"></a><span class="co"># a tensor of booleans. is vector equal to its transposed?</span></span>
-<span id="cb368-2"><a href="linearalgebra.html#cb368-2"></a>t2r <span class="op">==</span><span class="st"> </span>tt2r</span></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="linearalgebra.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a tensor of booleans. is vector equal to its transposed?</span></span>
+<span id="cb368-2"><a href="linearalgebra.html#cb368-2" aria-hidden="true" tabindex="-1"></a>t2r <span class="sc">==</span> tt2r</span></code></pre></div>
 <pre><code>#&gt; tensor([True, True, True, True, True, True, True, True, True, True])</code></pre>
 </div>
-<div id="tensor-arithmetic" class="section level2">
+<div id="tensor-arithmetic" class="section level2" number="6.7">
 <h2><span class="header-section-number">6.7</span> Tensor arithmetic</h2>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="linearalgebra.html#cb370-1"></a><span class="kw">message</span>(<span class="st">&quot;x&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="linearalgebra.html#cb370-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;x&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; x</code></pre>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="linearalgebra.html#cb372-1"></a>(<span class="dt">x =</span> torch<span class="op">$</span><span class="kw">ones</span>(5L, 4L))</span>
-<span id="cb372-2"><a href="linearalgebra.html#cb372-2"></a><span class="kw">message</span>(<span class="st">&quot;y&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="linearalgebra.html#cb372-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">x =</span> torch<span class="sc">$</span><span class="fu">ones</span>(5L, 4L))</span>
+<span id="cb372-2"><a href="linearalgebra.html#cb372-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;y&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; y</code></pre>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="linearalgebra.html#cb374-1"></a>(<span class="dt">y =</span> torch<span class="op">$</span><span class="kw">ones</span>(5L, 4L))</span>
-<span id="cb374-2"><a href="linearalgebra.html#cb374-2"></a><span class="kw">message</span>(<span class="st">&quot;x+y&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="linearalgebra.html#cb374-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">y =</span> torch<span class="sc">$</span><span class="fu">ones</span>(5L, 4L))</span>
+<span id="cb374-2"><a href="linearalgebra.html#cb374-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;x+y&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; x+y</code></pre>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="linearalgebra.html#cb376-1"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="linearalgebra.html#cb376-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code></pre></div>
 <pre><code>#&gt; tensor([[1., 1., 1., 1.],
 #&gt;         [1., 1., 1., 1.],
 #&gt;         [1., 1., 1., 1.],
@@ -1562,42 +1617,42 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;         [2., 2., 2., 2.],
 #&gt;         [2., 2., 2., 2.]])</code></pre>
 <p><span class="math display">\[A + B = B + A\]</span></p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="linearalgebra.html#cb378-1"></a>x <span class="op">+</span><span class="st"> </span>y <span class="op">==</span><span class="st"> </span>y <span class="op">+</span><span class="st"> </span>x</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="linearalgebra.html#cb378-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y <span class="sc">==</span> y <span class="sc">+</span> x</span></code></pre></div>
 <pre><code>#&gt; tensor([[True, True, True, True],
 #&gt;         [True, True, True, True],
 #&gt;         [True, True, True, True],
 #&gt;         [True, True, True, True],
 #&gt;         [True, True, True, True]])</code></pre>
 </div>
-<div id="add-a-scalar-to-a-tensor" class="section level2">
+<div id="add-a-scalar-to-a-tensor" class="section level2" number="6.8">
 <h2><span class="header-section-number">6.8</span> Add a scalar to a tensor</h2>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="linearalgebra.html#cb380-1"></a>s &lt;-<span class="st"> </span><span class="fl">0.5</span>    <span class="co"># scalar</span></span>
-<span id="cb380-2"><a href="linearalgebra.html#cb380-2"></a>x <span class="op">+</span><span class="st"> </span>s</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="linearalgebra.html#cb380-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fl">0.5</span>    <span class="co"># scalar</span></span>
+<span id="cb380-2"><a href="linearalgebra.html#cb380-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> s</span></code></pre></div>
 <pre><code>#&gt; tensor([[1.5000, 1.5000, 1.5000, 1.5000],
 #&gt;         [1.5000, 1.5000, 1.5000, 1.5000],
 #&gt;         [1.5000, 1.5000, 1.5000, 1.5000],
 #&gt;         [1.5000, 1.5000, 1.5000, 1.5000],
 #&gt;         [1.5000, 1.5000, 1.5000, 1.5000]])</code></pre>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="linearalgebra.html#cb382-1"></a><span class="co"># scalar multiplying two tensors</span></span>
-<span id="cb382-2"><a href="linearalgebra.html#cb382-2"></a>s <span class="op">*</span><span class="st"> </span>(x <span class="op">+</span><span class="st"> </span>y)</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="linearalgebra.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scalar multiplying two tensors</span></span>
+<span id="cb382-2"><a href="linearalgebra.html#cb382-2" aria-hidden="true" tabindex="-1"></a>s <span class="sc">*</span> (x <span class="sc">+</span> y)</span></code></pre></div>
 <pre><code>#&gt; tensor([[1., 1., 1., 1.],
 #&gt;         [1., 1., 1., 1.],
 #&gt;         [1., 1., 1., 1.],
 #&gt;         [1., 1., 1., 1.],
 #&gt;         [1., 1., 1., 1.]])</code></pre>
 </div>
-<div id="multiplying-tensors" class="section level2">
+<div id="multiplying-tensors" class="section level2" number="6.9">
 <h2><span class="header-section-number">6.9</span> Multiplying tensors</h2>
 <p><span class="math display">\[A * B = B * A\]</span></p>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="linearalgebra.html#cb384-1"></a><span class="kw">message</span>(<span class="st">&quot;x&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="linearalgebra.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;x&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; x</code></pre>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="linearalgebra.html#cb386-1"></a>(<span class="dt">x =</span> torch<span class="op">$</span><span class="kw">ones</span>(5L, 4L))</span>
-<span id="cb386-2"><a href="linearalgebra.html#cb386-2"></a><span class="kw">message</span>(<span class="st">&quot;y&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="linearalgebra.html#cb386-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">x =</span> torch<span class="sc">$</span><span class="fu">ones</span>(5L, 4L))</span>
+<span id="cb386-2"><a href="linearalgebra.html#cb386-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;y&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; y</code></pre>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="linearalgebra.html#cb388-1"></a>(<span class="dt">y =</span> torch<span class="op">$</span><span class="kw">ones</span>(5L, 4L))</span>
-<span id="cb388-2"><a href="linearalgebra.html#cb388-2"></a><span class="kw">message</span>(<span class="st">&quot;2x+4y&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="linearalgebra.html#cb388-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">y =</span> torch<span class="sc">$</span><span class="fu">ones</span>(5L, 4L))</span>
+<span id="cb388-2"><a href="linearalgebra.html#cb388-2" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;2x+4y&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; 2x+4y</code></pre>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="linearalgebra.html#cb390-1"></a>(<span class="dt">z =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">4</span> <span class="op">*</span><span class="st"> </span>y)</span></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="linearalgebra.html#cb390-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">z =</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">4</span> <span class="sc">*</span> y)</span></code></pre></div>
 <pre><code>#&gt; tensor([[1., 1., 1., 1.],
 #&gt;         [1., 1., 1., 1.],
 #&gt;         [1., 1., 1., 1.],
@@ -1613,42 +1668,42 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;         [6., 6., 6., 6.],
 #&gt;         [6., 6., 6., 6.],
 #&gt;         [6., 6., 6., 6.]])</code></pre>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="linearalgebra.html#cb392-1"></a>x <span class="op">*</span><span class="st"> </span>y <span class="op">==</span><span class="st"> </span>y <span class="op">*</span><span class="st"> </span>x</span></code></pre></div>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="linearalgebra.html#cb392-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> y <span class="sc">==</span> y <span class="sc">*</span> x</span></code></pre></div>
 <pre><code>#&gt; tensor([[True, True, True, True],
 #&gt;         [True, True, True, True],
 #&gt;         [True, True, True, True],
 #&gt;         [True, True, True, True],
 #&gt;         [True, True, True, True]])</code></pre>
 </div>
-<div id="dot-product-1" class="section level2">
+<div id="dot-product-1" class="section level2" number="6.10">
 <h2><span class="header-section-number">6.10</span> Dot product</h2>
 <p><span class="math display">\[dot(a,b)_{i,j,k,a,b,c} = \sum_m a_{i,j,k,m}b_{a,b,m,c}\]</span></p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="linearalgebra.html#cb394-1"></a>torch<span class="op">$</span><span class="kw">dot</span>(torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)), torch<span class="op">$</span><span class="kw">tensor</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="linearalgebra.html#cb394-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">dot</span>(torch<span class="sc">$</span><span class="fu">tensor</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)), torch<span class="sc">$</span><span class="fu">tensor</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)))</span></code></pre></div>
 <pre><code>#&gt; tensor(7.)</code></pre>
-<div id="dot-product-of-2d-array-using-python" class="section level3">
+<div id="dot-product-of-2d-array-using-python" class="section level3" number="6.10.1">
 <h3><span class="header-section-number">6.10.1</span> Dot product of 2D array using Python</h3>
-<div class="sourceCode" id="cb396"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb396-1"><a href="linearalgebra.html#cb396-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb396-2"><a href="linearalgebra.html#cb396-2"></a></span>
-<span id="cb396-3"><a href="linearalgebra.html#cb396-3"></a>a <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
-<span id="cb396-4"><a href="linearalgebra.html#cb396-4"></a>b <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
-<span id="cb396-5"><a href="linearalgebra.html#cb396-5"></a><span class="bu">print</span>(a)</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb396-1"><a href="linearalgebra.html#cb396-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb396-2"><a href="linearalgebra.html#cb396-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb396-3"><a href="linearalgebra.html#cb396-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb396-4"><a href="linearalgebra.html#cb396-4" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb396-5"><a href="linearalgebra.html#cb396-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a)</span></code></pre></div>
 <pre><code>#&gt; [[1 2]
 #&gt;  [3 4]]</code></pre>
-<div class="sourceCode" id="cb398"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb398-1"><a href="linearalgebra.html#cb398-1"></a><span class="bu">print</span>(b)</span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb398-1"><a href="linearalgebra.html#cb398-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(b)</span></code></pre></div>
 <pre><code>#&gt; [[1 2]
 #&gt;  [3 4]]</code></pre>
-<div class="sourceCode" id="cb400"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb400-1"><a href="linearalgebra.html#cb400-1"></a>np.dot(a, b)</span></code></pre></div>
+<div class="sourceCode" id="cb400"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb400-1"><a href="linearalgebra.html#cb400-1" aria-hidden="true" tabindex="-1"></a>np.dot(a, b)</span></code></pre></div>
 <pre><code>#&gt; array([[ 7, 10],
 #&gt;        [15, 22]])</code></pre>
 </div>
-<div id="dot-product-of-2d-array-using-r" class="section level3">
+<div id="dot-product-of-2d-array-using-r" class="section level3" number="6.10.2">
 <h3><span class="header-section-number">6.10.2</span> Dot product of 2D array using R</h3>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="linearalgebra.html#cb402-1"></a>a &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">list</span>(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
-<span id="cb402-2"><a href="linearalgebra.html#cb402-2"></a>a</span>
-<span id="cb402-3"><a href="linearalgebra.html#cb402-3"></a>b &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">list</span>(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
-<span id="cb402-4"><a href="linearalgebra.html#cb402-4"></a>b</span>
-<span id="cb402-5"><a href="linearalgebra.html#cb402-5"></a></span>
-<span id="cb402-6"><a href="linearalgebra.html#cb402-6"></a>np<span class="op">$</span><span class="kw">dot</span>(a, b)</span></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="linearalgebra.html#cb402-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">list</span>(<span class="fu">list</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">list</span>(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
+<span id="cb402-2"><a href="linearalgebra.html#cb402-2" aria-hidden="true" tabindex="-1"></a>a</span>
+<span id="cb402-3"><a href="linearalgebra.html#cb402-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">list</span>(<span class="fu">list</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">list</span>(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
+<span id="cb402-4"><a href="linearalgebra.html#cb402-4" aria-hidden="true" tabindex="-1"></a>b</span>
+<span id="cb402-5"><a href="linearalgebra.html#cb402-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb402-6"><a href="linearalgebra.html#cb402-6" aria-hidden="true" tabindex="-1"></a>np<span class="sc">$</span><span class="fu">dot</span>(a, b)</span></code></pre></div>
 <pre><code>#&gt;      [,1] [,2]
 #&gt; [1,]    1    2
 #&gt; [2,]    3    4
@@ -1659,106 +1714,106 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt; [1,]    7   10
 #&gt; [2,]   15   22</code></pre>
 <p><code>torch.dot()</code> treats both <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> as <strong>1D</strong> vectors (irrespective of their original shape) and computes their inner product.</p>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="linearalgebra.html#cb404-1"></a>at &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(a)</span>
-<span id="cb404-2"><a href="linearalgebra.html#cb404-2"></a>bt &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">as_tensor</span>(b)</span>
-<span id="cb404-3"><a href="linearalgebra.html#cb404-3"></a></span>
-<span id="cb404-4"><a href="linearalgebra.html#cb404-4"></a><span class="co"># torch$dot(at, bt)  &lt;- RuntimeError: dot: Expected 1-D argument self, but got 2-D</span></span>
-<span id="cb404-5"><a href="linearalgebra.html#cb404-5"></a><span class="co"># at %.*% bt</span></span></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="linearalgebra.html#cb404-1" aria-hidden="true" tabindex="-1"></a>at <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">as_tensor</span>(a)</span>
+<span id="cb404-2"><a href="linearalgebra.html#cb404-2" aria-hidden="true" tabindex="-1"></a>bt <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">as_tensor</span>(b)</span>
+<span id="cb404-3"><a href="linearalgebra.html#cb404-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb404-4"><a href="linearalgebra.html#cb404-4" aria-hidden="true" tabindex="-1"></a><span class="co"># torch$dot(at, bt)  &lt;- RuntimeError: dot: Expected 1-D argument self, but got 2-D</span></span>
+<span id="cb404-5"><a href="linearalgebra.html#cb404-5" aria-hidden="true" tabindex="-1"></a><span class="co"># at %.*% bt</span></span></code></pre></div>
 <p>If we perform the same dot product operation in Python, we get the same error:</p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb405-1"><a href="linearalgebra.html#cb405-1"></a><span class="im">import</span> torch</span>
-<span id="cb405-2"><a href="linearalgebra.html#cb405-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb405-3"><a href="linearalgebra.html#cb405-3"></a></span>
-<span id="cb405-4"><a href="linearalgebra.html#cb405-4"></a>a <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
-<span id="cb405-5"><a href="linearalgebra.html#cb405-5"></a>a</span></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb405-1"><a href="linearalgebra.html#cb405-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb405-2"><a href="linearalgebra.html#cb405-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb405-3"><a href="linearalgebra.html#cb405-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb405-4"><a href="linearalgebra.html#cb405-4" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb405-5"><a href="linearalgebra.html#cb405-5" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
 <pre><code>#&gt; array([[1, 2],
 #&gt;        [3, 4]])</code></pre>
-<div class="sourceCode" id="cb407"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb407-1"><a href="linearalgebra.html#cb407-1"></a>b <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
-<span id="cb407-2"><a href="linearalgebra.html#cb407-2"></a>b</span></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb407-1"><a href="linearalgebra.html#cb407-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
+<span id="cb407-2"><a href="linearalgebra.html#cb407-2" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div>
 <pre><code>#&gt; array([[1, 2],
 #&gt;        [3, 4]])</code></pre>
-<div class="sourceCode" id="cb409"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb409-1"><a href="linearalgebra.html#cb409-1"></a>np.dot(a, b)</span></code></pre></div>
+<div class="sourceCode" id="cb409"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb409-1"><a href="linearalgebra.html#cb409-1" aria-hidden="true" tabindex="-1"></a>np.dot(a, b)</span></code></pre></div>
 <pre><code>#&gt; array([[ 7, 10],
 #&gt;        [15, 22]])</code></pre>
-<div class="sourceCode" id="cb411"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb411-1"><a href="linearalgebra.html#cb411-1"></a>at <span class="op">=</span> torch.as_tensor(a)</span>
-<span id="cb411-2"><a href="linearalgebra.html#cb411-2"></a>bt <span class="op">=</span> torch.as_tensor(b)</span>
-<span id="cb411-3"><a href="linearalgebra.html#cb411-3"></a></span>
-<span id="cb411-4"><a href="linearalgebra.html#cb411-4"></a>at</span></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb411-1"><a href="linearalgebra.html#cb411-1" aria-hidden="true" tabindex="-1"></a>at <span class="op">=</span> torch.as_tensor(a)</span>
+<span id="cb411-2"><a href="linearalgebra.html#cb411-2" aria-hidden="true" tabindex="-1"></a>bt <span class="op">=</span> torch.as_tensor(b)</span>
+<span id="cb411-3"><a href="linearalgebra.html#cb411-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb411-4"><a href="linearalgebra.html#cb411-4" aria-hidden="true" tabindex="-1"></a>at</span></code></pre></div>
 <pre><code>#&gt; tensor([[1, 2],
 #&gt;         [3, 4]])</code></pre>
-<div class="sourceCode" id="cb413"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb413-1"><a href="linearalgebra.html#cb413-1"></a>bt</span></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb413-1"><a href="linearalgebra.html#cb413-1" aria-hidden="true" tabindex="-1"></a>bt</span></code></pre></div>
 <pre><code>#&gt; tensor([[1, 2],
 #&gt;         [3, 4]])</code></pre>
-<div class="sourceCode" id="cb415"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb415-1"><a href="linearalgebra.html#cb415-1"></a>torch.dot(at, bt)</span></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb415-1"><a href="linearalgebra.html#cb415-1" aria-hidden="true" tabindex="-1"></a>torch.dot(at, bt)</span></code></pre></div>
 <pre><code>#&gt; Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: 1D tensors expected, got 2D, 2D tensors at /opt/conda/conda-bld/pytorch_1595629401553/work/aten/src/TH/generic/THTensorEvenMoreMath.cpp:83
 #&gt; 
 #&gt; Detailed traceback: 
 #&gt;   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="linearalgebra.html#cb417-1"></a>a &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">Tensor</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">list</span>(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
-<span id="cb417-2"><a href="linearalgebra.html#cb417-2"></a>b &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">Tensor</span>(<span class="kw">c</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
-<span id="cb417-3"><a href="linearalgebra.html#cb417-3"></a>c &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">Tensor</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">11</span>, <span class="dv">12</span>), <span class="kw">list</span>(<span class="dv">13</span>, <span class="dv">14</span>)))</span>
-<span id="cb417-4"><a href="linearalgebra.html#cb417-4"></a></span>
-<span id="cb417-5"><a href="linearalgebra.html#cb417-5"></a>a</span>
-<span id="cb417-6"><a href="linearalgebra.html#cb417-6"></a>b</span>
-<span id="cb417-7"><a href="linearalgebra.html#cb417-7"></a>torch<span class="op">$</span><span class="kw">dot</span>(a, b)</span></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="linearalgebra.html#cb417-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">Tensor</span>(<span class="fu">list</span>(<span class="fu">list</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">list</span>(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
+<span id="cb417-2"><a href="linearalgebra.html#cb417-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">Tensor</span>(<span class="fu">c</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
+<span id="cb417-3"><a href="linearalgebra.html#cb417-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">Tensor</span>(<span class="fu">list</span>(<span class="fu">list</span>(<span class="dv">11</span>, <span class="dv">12</span>), <span class="fu">list</span>(<span class="dv">13</span>, <span class="dv">14</span>)))</span>
+<span id="cb417-4"><a href="linearalgebra.html#cb417-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb417-5"><a href="linearalgebra.html#cb417-5" aria-hidden="true" tabindex="-1"></a>a</span>
+<span id="cb417-6"><a href="linearalgebra.html#cb417-6" aria-hidden="true" tabindex="-1"></a>b</span>
+<span id="cb417-7"><a href="linearalgebra.html#cb417-7" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">dot</span>(a, b)</span></code></pre></div>
 <pre><code>#&gt; Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: 1D tensors expected, got 2D, 1D tensors at /opt/conda/conda-bld/pytorch_1595629401553/work/aten/src/TH/generic/THTensorEvenMoreMath.cpp:83</code></pre>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="linearalgebra.html#cb419-1"></a><span class="co"># this is another way of performing dot product in PyTorch</span></span>
-<span id="cb419-2"><a href="linearalgebra.html#cb419-2"></a><span class="co"># a$dot(a)</span></span></code></pre></div>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="linearalgebra.html#cb419-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is another way of performing dot product in PyTorch</span></span>
+<span id="cb419-2"><a href="linearalgebra.html#cb419-2" aria-hidden="true" tabindex="-1"></a><span class="co"># a$dot(a)</span></span></code></pre></div>
 <pre><code>#&gt; tensor([[1., 2.],
 #&gt;         [3., 4.]])
 #&gt; tensor([1., 2., 3., 4.])</code></pre>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="linearalgebra.html#cb421-1"></a>o1 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(2L, 2L)</span>
-<span id="cb421-2"><a href="linearalgebra.html#cb421-2"></a>o2 &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">ones</span>(2L, 2L)</span>
-<span id="cb421-3"><a href="linearalgebra.html#cb421-3"></a></span>
-<span id="cb421-4"><a href="linearalgebra.html#cb421-4"></a>o1</span>
-<span id="cb421-5"><a href="linearalgebra.html#cb421-5"></a>o2</span>
-<span id="cb421-6"><a href="linearalgebra.html#cb421-6"></a></span>
-<span id="cb421-7"><a href="linearalgebra.html#cb421-7"></a>torch<span class="op">$</span><span class="kw">dot</span>(o1, o2)</span></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="linearalgebra.html#cb421-1" aria-hidden="true" tabindex="-1"></a>o1 <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">ones</span>(2L, 2L)</span>
+<span id="cb421-2"><a href="linearalgebra.html#cb421-2" aria-hidden="true" tabindex="-1"></a>o2 <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">ones</span>(2L, 2L)</span>
+<span id="cb421-3"><a href="linearalgebra.html#cb421-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb421-4"><a href="linearalgebra.html#cb421-4" aria-hidden="true" tabindex="-1"></a>o1</span>
+<span id="cb421-5"><a href="linearalgebra.html#cb421-5" aria-hidden="true" tabindex="-1"></a>o2</span>
+<span id="cb421-6"><a href="linearalgebra.html#cb421-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb421-7"><a href="linearalgebra.html#cb421-7" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">dot</span>(o1, o2)</span></code></pre></div>
 <pre><code>#&gt; Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: 1D tensors expected, got 2D, 2D tensors at /opt/conda/conda-bld/pytorch_1595629401553/work/aten/src/TH/generic/THTensorEvenMoreMath.cpp:83</code></pre>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="linearalgebra.html#cb423-1"></a>o1<span class="op">$</span><span class="kw">dot</span>(o2)</span></code></pre></div>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="linearalgebra.html#cb423-1" aria-hidden="true" tabindex="-1"></a>o1<span class="sc">$</span><span class="fu">dot</span>(o2)</span></code></pre></div>
 <pre><code>#&gt; Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: 1D tensors expected, got 2D, 2D tensors at /opt/conda/conda-bld/pytorch_1595629401553/work/aten/src/TH/generic/THTensorEvenMoreMath.cpp:83</code></pre>
 <pre><code>#&gt; tensor([[1., 1.],
 #&gt;         [1., 1.]])
 #&gt; tensor([[1., 1.],
 #&gt;         [1., 1.]])</code></pre>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="linearalgebra.html#cb426-1"></a><span class="co"># 1D tensors work fine</span></span>
-<span id="cb426-2"><a href="linearalgebra.html#cb426-2"></a>r =<span class="st"> </span>torch<span class="op">$</span><span class="kw">dot</span>(torch<span class="op">$</span><span class="kw">Tensor</span>(<span class="kw">list</span>(4L, 2L, 4L)), torch<span class="op">$</span><span class="kw">Tensor</span>(<span class="kw">list</span>(3L, 4L, 1L)))</span>
-<span id="cb426-3"><a href="linearalgebra.html#cb426-3"></a>r</span></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="linearalgebra.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1D tensors work fine</span></span>
+<span id="cb426-2"><a href="linearalgebra.html#cb426-2" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">dot</span>(torch<span class="sc">$</span><span class="fu">Tensor</span>(<span class="fu">list</span>(4L, 2L, 4L)), torch<span class="sc">$</span><span class="fu">Tensor</span>(<span class="fu">list</span>(3L, 4L, 1L)))</span>
+<span id="cb426-3"><a href="linearalgebra.html#cb426-3" aria-hidden="true" tabindex="-1"></a>r</span></code></pre></div>
 <pre><code>#&gt; tensor(24.)</code></pre>
 </div>
-<div id="dot-product-with-mm-and-matmul-functions" class="section level3">
+<div id="dot-product-with-mm-and-matmul-functions" class="section level3" number="6.10.3">
 <h3><span class="header-section-number">6.10.3</span> Dot product with <code>mm</code> and <code>matmul</code> functions</h3>
 <p>So, if we cannor perform 2D tensor operations with the <code>dot</code> product, how do we manage then?</p>
-<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="linearalgebra.html#cb428-1"></a><span class="co">## mm and matmul seem to address the dot product we are looking for in tensors</span></span>
-<span id="cb428-2"><a href="linearalgebra.html#cb428-2"></a>a =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, 3L)</span>
-<span id="cb428-3"><a href="linearalgebra.html#cb428-3"></a>b =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(3L, 4L)</span>
-<span id="cb428-4"><a href="linearalgebra.html#cb428-4"></a></span>
-<span id="cb428-5"><a href="linearalgebra.html#cb428-5"></a>a<span class="op">$</span><span class="kw">mm</span>(b)</span>
-<span id="cb428-6"><a href="linearalgebra.html#cb428-6"></a>a<span class="op">$</span><span class="kw">matmul</span>(b)</span></code></pre></div>
-<pre><code>#&gt; tensor([[-1.9660,  0.8381,  3.2905, -0.3403],
-#&gt;         [ 0.5248, -0.6470, -0.6984,  0.6306]])
-#&gt; tensor([[-1.9660,  0.8381,  3.2905, -0.3403],
-#&gt;         [ 0.5248, -0.6470, -0.6984,  0.6306]])</code></pre>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="linearalgebra.html#cb428-1" aria-hidden="true" tabindex="-1"></a><span class="do">## mm and matmul seem to address the dot product we are looking for in tensors</span></span>
+<span id="cb428-2"><a href="linearalgebra.html#cb428-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">randn</span>(2L, 3L)</span>
+<span id="cb428-3"><a href="linearalgebra.html#cb428-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">randn</span>(3L, 4L)</span>
+<span id="cb428-4"><a href="linearalgebra.html#cb428-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb428-5"><a href="linearalgebra.html#cb428-5" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span><span class="fu">mm</span>(b)</span>
+<span id="cb428-6"><a href="linearalgebra.html#cb428-6" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span><span class="fu">matmul</span>(b)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 0.8691, -1.5437,  0.9368,  0.1141],
+#&gt;         [-0.9413,  2.7064,  0.9507,  0.5996]])
+#&gt; tensor([[ 0.8691, -1.5437,  0.9368,  0.1141],
+#&gt;         [-0.9413,  2.7064,  0.9507,  0.5996]])</code></pre>
 <p>Here is a good explanation: <a href="https://stackoverflow.com/a/44525687/5270873" class="uri">https://stackoverflow.com/a/44525687/5270873</a></p>
 <p>Let’s now prove the associative property of tensors:</p>
 <p><span class="math display">\[(A B)^T = B^T A^T\]</span></p>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="linearalgebra.html#cb430-1"></a>abt &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">mm</span>(a, b)<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
-<span id="cb430-2"><a href="linearalgebra.html#cb430-2"></a>abt</span></code></pre></div>
-<pre><code>#&gt; tensor([[-1.9660,  0.5248],
-#&gt;         [ 0.8381, -0.6470],
-#&gt;         [ 3.2905, -0.6984],
-#&gt;         [-0.3403,  0.6306]])</code></pre>
-<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="linearalgebra.html#cb432-1"></a>at &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
-<span id="cb432-2"><a href="linearalgebra.html#cb432-2"></a>bt &lt;-<span class="st"> </span>b<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
-<span id="cb432-3"><a href="linearalgebra.html#cb432-3"></a></span>
-<span id="cb432-4"><a href="linearalgebra.html#cb432-4"></a>btat &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">matmul</span>(bt, at)</span>
-<span id="cb432-5"><a href="linearalgebra.html#cb432-5"></a>btat</span></code></pre></div>
-<pre><code>#&gt; tensor([[-1.9660,  0.5248],
-#&gt;         [ 0.8381, -0.6470],
-#&gt;         [ 3.2905, -0.6984],
-#&gt;         [-0.3403,  0.6306]])</code></pre>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="linearalgebra.html#cb430-1" aria-hidden="true" tabindex="-1"></a>abt <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">mm</span>(a, b)<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
+<span id="cb430-2"><a href="linearalgebra.html#cb430-2" aria-hidden="true" tabindex="-1"></a>abt</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 0.8691, -0.9413],
+#&gt;         [-1.5437,  2.7064],
+#&gt;         [ 0.9368,  0.9507],
+#&gt;         [ 0.1141,  0.5996]])</code></pre>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="linearalgebra.html#cb432-1" aria-hidden="true" tabindex="-1"></a>at <span class="ot">&lt;-</span> a<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
+<span id="cb432-2"><a href="linearalgebra.html#cb432-2" aria-hidden="true" tabindex="-1"></a>bt <span class="ot">&lt;-</span> b<span class="sc">$</span><span class="fu">transpose</span>(<span class="at">dim0=</span>0L, <span class="at">dim1=</span>1L)</span>
+<span id="cb432-3"><a href="linearalgebra.html#cb432-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb432-4"><a href="linearalgebra.html#cb432-4" aria-hidden="true" tabindex="-1"></a>btat <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">matmul</span>(bt, at)</span>
+<span id="cb432-5"><a href="linearalgebra.html#cb432-5" aria-hidden="true" tabindex="-1"></a>btat</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 0.8691, -0.9413],
+#&gt;         [-1.5437,  2.7064],
+#&gt;         [ 0.9368,  0.9507],
+#&gt;         [ 0.1141,  0.5996]])</code></pre>
 <p>And we could unit test if the results are nearly the same with <code>allclose()</code>:</p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="linearalgebra.html#cb434-1"></a><span class="co"># tolerance</span></span>
-<span id="cb434-2"><a href="linearalgebra.html#cb434-2"></a>torch<span class="op">$</span><span class="kw">allclose</span>(abt, btat, <span class="dt">rtol=</span><span class="fl">0.0001</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="linearalgebra.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tolerance</span></span>
+<span id="cb434-2"><a href="linearalgebra.html#cb434-2" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">allclose</span>(abt, btat, <span class="at">rtol=</span><span class="fl">0.0001</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] TRUE</code></pre>
 
 </div>
