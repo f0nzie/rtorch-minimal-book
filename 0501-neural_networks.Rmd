@@ -275,6 +275,7 @@ df_50 <- data.frame(y = y$flatten()$numpy(),
 ggplot(df_50, aes(x = y, y = y_pred)) +
     geom_point()
 ```
+
 We see a lot of dispersion between the predicted values, $y_{pred}$ and the real values, $y$. We are far from our goal.
 
 Let's take a look at the dataframe:
@@ -284,8 +285,8 @@ library('DT')
 datatable(df_50, options = list(pageLength = 10))
 ```
 
+#### A function to train the neural network
 
-### Run it at 100 iterations
 Now, we convert the script above to a function, so we could reuse it several times. We want to study the effect of the iteration on the performance of the algorithm.
 
 This time we create a function `train` to input the number of iterations that we want to run:
