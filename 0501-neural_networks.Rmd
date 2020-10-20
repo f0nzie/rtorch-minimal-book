@@ -364,7 +364,7 @@ ggplot(df_500, aes(x = y_pred, y = y)) +
     geom_point()
 ```
 
-### Complete code for neural network in rTorch
+## Complete code for neural network in rTorch
 
 ```{r rotch-complete, fig.asp=1}
 library(rTorch)
