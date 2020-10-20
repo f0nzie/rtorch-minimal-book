@@ -1358,8 +1358,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb445"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb445-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Final gradient descend:&quot;</span>, w)</span>
 <span id="cb445-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb445-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data and separating line</span></span></code></pre></div>
 <pre><code>#&gt; Final gradient descend: [Parameter containing:
-#&gt; tensor([[1.1831, 1.2035]], requires_grad=True), Parameter containing:
-#&gt; tensor([-0.2102], requires_grad=True)]</code></pre>
+#&gt; tensor([[1.1009, 1.1182]], requires_grad=True), Parameter containing:
+#&gt; tensor([0.2488], requires_grad=True)]</code></pre>
 <div class="sourceCode" id="cb447"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb447-1"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb447-2"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-2" aria-hidden="true" tabindex="-1"></a>x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">100</span>)</span>
 <span id="cb447-3"><a href="example-1-a-classification-problem-with-logistic-regression.html#cb447-3" aria-hidden="true" tabindex="-1"></a>y_axis <span class="op">=</span> <span class="op">-</span>(w1[<span class="dv">0</span>] <span class="op">+</span> x_axis <span class="op">*</span> w0[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">/</span> w0[<span class="dv">0</span>][<span class="dv">1</span>]</span>
