@@ -38,7 +38,6 @@ test_dataset
 There are several operations that we could perform with `numpy` such creating arrays:
 
 #### Create an array {.unnumbered}
-
 Create an array:
 
 ```{r}
@@ -82,6 +81,7 @@ For the same `test` dataset that we loaded above from `MNIST` digits, we will sh
 2.  Convert the tensor to a numpy array
 3.  Reshape the tensor as a 2D array
 4.  Plot the digit and its label
+
 
 ```{r fig.asp=1}
 rotate <- function(x) t(apply(x, 2, rev))   # function to rotate the matrix

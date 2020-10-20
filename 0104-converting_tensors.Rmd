@@ -5,7 +5,6 @@ library(rTorch)
 ```
 
 
-
 ## Transforming a tensor from `numpy` and viceversa
 * Explain how transform a tensor back and forth to `numpy`.
 * Why is this important?

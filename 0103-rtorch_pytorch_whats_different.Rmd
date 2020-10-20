@@ -13,28 +13,42 @@ library(rTorch)
 We use the dollar sign or `$` to call a class, function or method from the `rTorch` modules. In this case, from the `torch` module:
 
 ```{r}
-torch$tensor
+torch$tensor(c(1, 2, 3))
 ```
 
 In Python, what we do is using the dot to separate the sub-members of an object:
 
 ```{python, engine="python3"}
 import torch
-
-torch.tensor
-
+torch.tensor([1, 2, 3])
 ```
 
 ## Call modules and functions from `torch`
 
 ```{r import-pytorch-modules}
+library(rTorch)
 # these are the equivalents of the Python import module
 nn          <- torch$nn
 transforms  <- torchvision$transforms
 dsets       <- torchvision$datasets
+
+torch$tensor(c(1, 2, 3))
 ```
 
+The code above is equivalent to writing this code in Python:
+
+```{python}
+import torch
+import torch.nn as nn
+import torchvision.transforms as transforms
+import torchvision.datasets as dsets
+
+torch.tensor([1, 2, 3])
+```
+
+
 Then we can proceed to extract classes, methods and functions from the `nn`, `transforms`, and `dsets` objects. In this example we use the module `torchvision$datasets` and the function `transforms$ToTensor()`
+
 
 ```{r mnist-digits-train-dataset}
 local_folder <- './datasets/mnist_digits'
@@ -42,7 +56,6 @@ train_dataset = torchvision$datasets$MNIST(root = local_folder,
                                            train = TRUE, 
                                            transform = transforms$ToTensor(),
                                            download = TRUE)
-
 train_dataset
 ```
 
@@ -69,20 +82,21 @@ train_dataset$`__len__`()
 Given the following training dataset `x_train`, we want to find the number of elements of the tensor. We start by entering a `numpy` array, which then will convert to a tensor with the PyTorch function `from_numpy()`:
 
 ```{r create-r-array}
-x_train = array(c(3.3, 4.4, 5.5, 6.71, 6.93, 4.168, 
+x_train_r <- array(c(3.3, 4.4, 5.5, 6.71, 6.93, 4.168, 
                   9.779, 6.182, 7.59, 2.167, 7.042,
                   10.791, 5.313, 7.997, 3.1), dim = c(15,1))
 
-x_train <- r_to_py(x_train)
-x_train <- torch$from_numpy(x_train)         # convert to tensor
-x_train <- x_train$type(torch$FloatTensor)   # make it a a FloatTensor
-
-x_train
+x_train_np <- r_to_py(x_train_r)
+x_train_   <- torch$from_numpy(x_train_np)          # convert to tensor
+x_train    <- x_train_$type(torch$FloatTensor)      # make it a a FloatTensor
+print(x_train$dtype)
+print(x_train)
 ```
 
-with this number of elements:
+`length` is similar to `nelement` for number of elements:
 
 ```{r number-of-elements}
+length(x_train)
 x_train$nelement()    # number of elements in the tensor
 ```
 
@@ -118,6 +132,20 @@ for (i in 1:py$len(x_train)) {
     print(obj[[2]])         # 2nd part or tensor
 }
 ```
+
+Similarly, if we want the scalar values but not as tensor, then we will need to use `item()`.
+
+```{r}
+# reset the iterator
+enum_x_train = py$enumerate(x_train)
+
+for (i in 1:py$len(x_train)) {
+    obj <- iter_next(enum_x_train)    # next item
+    cat(obj[[1]], "\t")               # 1st part or index
+    print(obj[[2]]$item())            # 2nd part or tensor
+}
+```
+
 
 > We will find very frequently this kind of iterators when we read a dataset read by `torchvision`. There are several different ways to iterate through these objects as you will find.
 
@@ -279,7 +307,7 @@ In Python, it is a very straight forwward and clean code:
 w -= w.grad * 1e-5
 ```
 
-In R it shows a little bit more convoluted:
+In R, without generics, it shows a little bit more convoluted:
 
 ```{r r-calc-gradient1, eval=FALSE}
 w$data <- torch$sub(w$data, torch$mul(w$grad, torch$scalar_tensor(1e-5)))
