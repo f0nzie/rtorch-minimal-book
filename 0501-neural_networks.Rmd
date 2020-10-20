@@ -363,59 +363,71 @@ datatable(df_500, options = list(pageLength = 25))
 ggplot(df_500, aes(x = y_pred, y = y)) +
     geom_point()
 ```
+### Complete code for neural network in rTorch
 
+```{r rotch-complete, fig.asp=1}
+library(rTorch)
+library(ggplot2)
+library(tictoc)
 
-## The same neural network but written in `PyTorch`
-Here is the same example we have used above but written in PyTorch.
-
-
-```{python, nn-pytorch, engine="python3"}
-# Code in file tensor/two_layer_net_tensor.py
-import torch
-
-device = torch.device('cpu')
+tic()
+device = torch$device('cpu')
 # device = torch.device('cuda')  # Uncomment this to run on GPU
+invisible(torch$manual_seed(0))
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
-N, D_in, H, D_out = 64, 1000, 100, 10
+# Properties of tensors and neural network
+N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
 
-# Create random input and output data
-x = torch.randn(N, D_in, device=device)
-y = torch.randn(N, D_out, device=device)
+# Create random Tensors to hold inputs and outputs
+x <- torch$randn(N, D_in, device=device)
+y <- torch$randn(N, D_out, device=device)
+# dimensions of both tensors
 
-# Randomly initialize weights
-w1 = torch.randn(D_in, H, device=device)
-w2 = torch.randn(H, D_out, device=device)
+# initialize the weights
+w1 <- torch$randn(D_in, H, device=device)   # layer 1
+w2 <- torch$randn(H, D_out, device=device)  # layer 2
 
 learning_rate = 1e-6
-for t in range(500):
-  # Forward pass: compute predicted y
-  h = x.mm(w1)
-  h_relu = h.clamp(min=0)
-  y_pred = h_relu.mm(w2)
+# loop
+for (t in 1:500) {
+  # Forward pass: compute predicted y, y_pred
+  h <- x$mm(w1)              # matrix multiplication, x*w1
+  h_relu <- h$clamp(min=0)   # make elements greater than zero
+  y_pred <- h_relu$mm(w2)    # matrix multiplication, h_relu*w2
 
   # Compute and print loss; loss is a scalar, and is stored in a PyTorch Tensor
   # of shape (); we can get its value as a Python number with loss.item().
-  loss = (y_pred - y).pow(2).sum()
-  print(t, loss.item())
+  loss <- (torch$sub(y_pred, y))$pow(2)$sum()   # sum((y_pred-y)^2)
+  # cat(t, "\t")
+  # cat(loss$item(), "\n")
 
   # Backprop to compute gradients of w1 and w2 with respect to loss
-  grad_y_pred = 2.0 * (y_pred - y)
-  grad_w2 = h_relu.t().mm(grad_y_pred)
-  grad_h_relu = grad_y_pred.mm(w2.t())
-  grad_h = grad_h_relu.clone()
-  grad_h[h < 0] = 0
-  grad_w1 = x.t().mm(grad_h)
-
+  grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
+  grad_w2 <- h_relu$t()$mm(grad_y_pred)        # compute gradient of w2
+  grad_h_relu <- grad_y_pred$mm(w2$t())
+  grad_h <- grad_h_relu$clone()
+  mask <- grad_h$lt(0)                         # filter values lower than zero 
+  torch$masked_select(grad_h, mask)$fill_(0.0) # make them equal to zero
+  grad_w1 <- x$t()$mm(grad_h)                  # compute gradient of w1
+   
   # Update weights using gradient descent
-  w1 -= learning_rate * grad_w1
-  w2 -= learning_rate * grad_w2
+  w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
+  w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
+}
+# y vs predicted y
+df<- data.frame(y = y$flatten()$numpy(), 
+                    y_pred = y_pred$flatten()$numpy(), iter = 500)
+datatable(df, options = list(pageLength = 25))
+ggplot(df, aes(x = y_pred, y = y)) +
+    geom_point()
+
+toc()
 ```
+
+
 
 ## Exercise
 
-1. Rewrite the R code but including the loss at each iteration
+1.  Rewrite the code in `rTorch` but including and plotting the loss at each iteration
 
-2. On the last Python code, instead of printing a long table, print the table by pages that we could navigate using vertical and horizontal bars.
-
+2.  On the neural network written in `PyTorch`, code, instead of printing a long table, print the table by pages that we could navigate using vertical and horizontal bars. Tip: read the PyThon data structure from R and plot it with `ggplot2`
