@@ -2,9 +2,9 @@ set.seed(1234)
 options(digits = 3)
 
 knitr::opts_chunk$set(
-    comment = "#>",      # characters to show in the output box
+    comment = "#>",       # characters to show in the output box
     collapse = FALSE,     # output will not be shown; figures will show
-    # collapse = TRUE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
     results = "hold",     # wait for last operation before printing
     cache = FALSE,
     out.width = "70%",
