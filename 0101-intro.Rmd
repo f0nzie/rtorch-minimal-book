@@ -1,3 +1,7 @@
+# (PART) Getting Started {.unnumbered}
+
+# Introduction {#intro}
+
 ```{r output-lines, echo=FALSE}
 library(knitr)
 hook_output <- knit_hooks$get("output")
@@ -21,10 +25,6 @@ knit_hooks$set(output = function(x, options) {
    hook_output(x, options)
  })
 ```
-
-# (PART) Getting Started {.unnumbered}
-
-# Introduction {#intro}
 
 ## Motivation
 

@@ -1,6 +1,5 @@
 \cleardoublepage
 
-
 # Activation Functions {#appendixB}
 
 ```{r}
