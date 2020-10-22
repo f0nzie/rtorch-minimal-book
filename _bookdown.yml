@@ -1,6 +1,6 @@
 book_filename: "rtorch-minimal-book"
 repo: https://github.com/f0nzie/rtorch-minimal-book
-# new_session: yes
+new_session: yes
 output_dir: "public"
 language:
   ui:
