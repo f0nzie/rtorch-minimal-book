@@ -6,7 +6,7 @@ bookdown::gitbook:
   highlight: kate
   config:
     toc:
-      collapse: none
+      # collapse: none
       before: |
         <li><a href="./">The rTorch Minimal Book</a></li>
       after: |
@@ -14,7 +14,6 @@ bookdown::gitbook:
     download: no
     edit: https://github.com/f0nzie/rtorch-minimal-book/edit/main/%s
     sharing:
-      github: yes
       facebook: no
       all: no
       

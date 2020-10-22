@@ -36,7 +36,7 @@ Yes. I could have worked directly with *PyTorch* in a native Python environment,
 
 This has the additional benefit of giving the ability to write combination of *Python* and *R* code together in the same document. There will times when it is better to create a class in *Python*; and other times where *R* will be more convenient to handle a data structure. I show some examples using `data.frame` and `data.table` along with *PyTorch* tensors.
 
-## How do we start using `rTorch`
+## Start using `rTorch`
 
 Start using `rTorch` is very simple. After installing the minimum system requirements -such as *conda*- you just call it with:
 
@@ -46,7 +46,7 @@ library(rTorch)
 
 There are several way of testing if `rTorch` is up and running. Let's see some of them:
 
-### Getting the PyTorch version
+### Get the PyTorch version
 
 ```{r}
 rTorch::torch_version()

@@ -1,4 +1,6 @@
-# rTorch vs PyTorch: What's different
+# rTorch vs PyTorch
+
+## What's different
 
 This chapter will explain the main differences between `PyTorch` and `rTorch`. Most of the things work directly in `PyTorch` but we need to be aware of some minor differences when working with rTorch. Here is a review of existing methods.
 
@@ -23,7 +25,7 @@ import torch
 torch.tensor([1, 2, 3])
 ```
 
-## Call modules and functions from `torch`
+## Call functions from `torch`
 
 ```{r import-pytorch-modules}
 library(rTorch)
@@ -59,9 +61,9 @@ train_dataset = torchvision$datasets$MNIST(root = local_folder,
 train_dataset
 ```
 
-## Show the attributes (methods) of a class or PyTorch object
+## Python objects
 
-Sometimes we are interested in knowing the internal components of a class. In that case, we use the reticulate function `py_list_attributes()`.
+Sometimes we are interested in knowing the internal components of a class. In that case, we use the `reticulate` function `py_list_attributes()`.
 
 In this example, we want to show the attributes of `train_dataset`:
 
@@ -75,7 +77,7 @@ Knowing the internal methods of a class could be useful when we want to refer to
 train_dataset$`__len__`()
 ```
 
-## How to iterate through datasets
+## Iterating through datasets
 
 ### Enumeration
 
@@ -100,7 +102,7 @@ length(x_train)
 x_train$nelement()    # number of elements in the tensor
 ```
 
-### Using `enumerate` and `iterate`
+### `enumerate` and `iterate`
 
 ```{r import-builtins}
 py = import_builtins()
@@ -118,7 +120,7 @@ xit = iterate(enum_x_train, simplify = TRUE)
 xit
 ```
 
-### Using a `for-loop` to iterate
+### `for-loop` for iteration
 
 Another way of iterating through a dataset that you will see a lot in the PyTorch tutorials is a `loop` through the length of the dataset. In this case, `x_train`. We are using `cat()` for the index (an integer), and `print()` for the tensor, since `cat` doesn't know how to deal with tensors:
 
@@ -155,7 +157,7 @@ The zero gradient was one of the most difficult to implement in R if we don't pa
 
 > We are using the same seed in the PyTorch and rTorch versions, so, we could compare the results.
 
-### Version in Python
+### Code version in Python
 
 ```{python, python-rainfall-code}
 import numpy as np
@@ -223,7 +225,7 @@ print("\nTargets:")
 targets
 ```
 
-### Version in R
+### Code version in R
 
 ```{r rtorch-rainfall-code}
 library(rTorch)
@@ -313,7 +315,7 @@ In R, without generics, it shows a little bit more convoluted:
 w$data <- torch$sub(w$data, torch$mul(w$grad, torch$scalar_tensor(1e-5)))
 ```
 
-## R generics for PyTorch functions
+## R generic functions
 
 Which why we simplified these common operations using the R generic function. When we use the generic methods from **rTorch** the operation looks much neater.
 

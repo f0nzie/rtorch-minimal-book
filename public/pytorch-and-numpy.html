@@ -24,7 +24,7 @@
 <meta name="author" content="Alfonso R. Reyes" />
 
 
-<meta name="date" content="2020-10-20" />
+<meta name="date" content="2020-10-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,7 @@
   
   
 <link rel="prev" href="intro.html"/>
-<link rel="next" href="rtorch-vs-pytorch-whats-different.html"/>
-<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
+<link rel="next" href="rtorch-vs-pytorch.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,11 +50,12 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.15/datatables.js"></script>
+<script src="libs/datatables-binding-0.16/datatables.js"></script>
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -902,17 +902,18 @@ $(document).ready(function () {
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -933,9 +934,9 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-le
 div.sourceCode
   { color: #1f1c1b; background-color: #ffffff; }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span { color: #1f1c1b; } /* Normal */
+code span. { color: #1f1c1b; } /* Normal */
 code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
 code span.an { color: #ca60ca; } /* Annotation */
 code span.at { color: #0057ae; } /* Attribute */
@@ -983,146 +984,130 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="./">The rTorch Minimal Book</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a>
-<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a>
-<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#example"><i class="fa fa-check"></i>Example</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#automatic-installation"><i class="fa fa-check"></i>Automatic installation</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>I Getting Started</b></span></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
-<ul>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
-<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#how-do-we-start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> How do we start using <code>rTorch</code></a>
-<ul>
-<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#getting-the-pytorch-version"><i class="fa fa-check"></i><b>1.2.1</b> Getting the PyTorch version</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> Start using <code>rTorch</code></a><ul>
+<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#get-the-pytorch-version"><i class="fa fa-check"></i><b>1.2.1</b> Get the PyTorch version</a></li>
 <li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#pytorch-configuration"><i class="fa fa-check"></i><b>1.2.2</b> PyTorch configuration</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#what-can-you-do-with-rtorch"><i class="fa fa-check"></i><b>1.3</b> What can you do with <code>rTorch</code></a></li>
 <li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#getting-help"><i class="fa fa-check"></i><b>1.4</b> Getting help</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#callable-pytorch-modules-from-rtorch"><i class="fa fa-check"></i><b>2.1</b> Callable PyTorch modules from rTorch</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-torchvision-module"><i class="fa fa-check"></i><b>2.1.1</b> The <code>torchvision</code> module</a></li>
-<li class="chapter" data-level="2.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-numpy-module"><i class="fa fa-check"></i><b>2.1.2</b> The <code>numpy</code> module</a></li>
+<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a><ul>
+<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#pytorch-modules-in-rtorch"><i class="fa fa-check"></i><b>2.1</b> PyTorch modules in <code>rTorch</code></a><ul>
+<li class="chapter" data-level="2.1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#torchvision"><i class="fa fa-check"></i><b>2.1.1</b> torchvision</a></li>
+<li class="chapter" data-level="2.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#numpy"><i class="fa fa-check"></i><b>2.1.2</b> numpy</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-and-tensor-operations-in-numpy-and-pytorch"><i class="fa fa-check"></i><b>2.2</b> Common array and tensor operations in NumPy and PyTorch</a></li>
-<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions"><i class="fa fa-check"></i><b>2.3</b> Python built-in functions</a></li>
+<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-operations"><i class="fa fa-check"></i><b>2.2</b> Common array operations</a><ul>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#create-an-array"><i class="fa fa-check"></i>Create an array</a></li>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#reshape-an-array"><i class="fa fa-check"></i>Reshape an array</a></li>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-a-random-array-in-numpy"><i class="fa fa-check"></i>Generate a random array in NumPy</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch: What’s different</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#calling-objects-from-pytorch"><i class="fa fa-check"></i><b>3.1</b> Calling objects from PyTorch</a></li>
-<li class="chapter" data-level="3.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#call-modules-and-functions-from-torch"><i class="fa fa-check"></i><b>3.2</b> Call modules and functions from <code>torch</code></a></li>
-<li class="chapter" data-level="3.3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#show-the-attributes-methods-of-a-class-or-pytorch-object"><i class="fa fa-check"></i><b>3.3</b> Show the attributes (methods) of a class or PyTorch object</a></li>
-<li class="chapter" data-level="3.4" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#how-to-iterate-through-datasets"><i class="fa fa-check"></i><b>3.4</b> How to iterate through datasets</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#enumeration"><i class="fa fa-check"></i><b>3.4.1</b> Enumeration</a></li>
-<li class="chapter" data-level="3.4.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#using-enumerate-and-iterate"><i class="fa fa-check"></i><b>3.4.2</b> Using <code>enumerate</code> and <code>iterate</code></a></li>
-<li class="chapter" data-level="3.4.3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#using-a-for-loop-to-iterate"><i class="fa fa-check"></i><b>3.4.3</b> Using a <code>for-loop</code> to iterate</a></li>
+<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-tensor-operations"><i class="fa fa-check"></i><b>2.3</b> Common tensor operations</a><ul>
+<li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-random-tensors"><i class="fa fa-check"></i>Generate random tensors</a></li>
+<li><a href="pytorch-and-numpy.html#numpy-array-to-pytorch-tensor"><code>numpy</code> array to PyTorch tensor</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#zero-gradient"><i class="fa fa-check"></i><b>3.5</b> Zero gradient</a>
-<ul>
-<li class="chapter" data-level="3.5.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#version-in-python"><i class="fa fa-check"></i><b>3.5.1</b> Version in Python</a></li>
-<li class="chapter" data-level="3.5.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#version-in-r"><i class="fa fa-check"></i><b>3.5.2</b> Version in R</a></li>
+<li class="chapter" data-level="2.4" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions"><i class="fa fa-check"></i><b>2.4</b> Python built-in functions</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#r-generics-for-pytorch-functions"><i class="fa fa-check"></i><b>3.6</b> R generics for PyTorch functions</a></li>
+<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch</a><ul>
+<li class="chapter" data-level="3.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#whats-different"><i class="fa fa-check"></i><b>3.1</b> What’s different</a></li>
+<li class="chapter" data-level="3.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#calling-objects-from-pytorch"><i class="fa fa-check"></i><b>3.2</b> Calling objects from PyTorch</a></li>
+<li class="chapter" data-level="3.3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#call-functions-from-torch"><i class="fa fa-check"></i><b>3.3</b> Call functions from <code>torch</code></a></li>
+<li class="chapter" data-level="3.4" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#python-objects"><i class="fa fa-check"></i><b>3.4</b> Python objects</a></li>
+<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#iterating-through-datasets"><i class="fa fa-check"></i><b>3.5</b> Iterating through datasets</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#enumeration"><i class="fa fa-check"></i><b>3.5.1</b> Enumeration</a></li>
+<li class="chapter" data-level="3.5.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#enumerate-and-iterate"><i class="fa fa-check"></i><b>3.5.2</b> <code>enumerate</code> and <code>iterate</code></a></li>
+<li class="chapter" data-level="3.5.3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#for-loop-for-iteration"><i class="fa fa-check"></i><b>3.5.3</b> <code>for-loop</code> for iteration</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-numpy-and-viceversa"><i class="fa fa-check"></i><b>4.1</b> Transforming a tensor from <code>numpy</code> and viceversa</a>
-<ul>
-<li class="chapter" data-level="4.1.1" data-path="converting-tensors.html"><a href="converting-tensors.html#convert-a-tensor-to-numpy-object"><i class="fa fa-check"></i><b>4.1.1</b> Convert a tensor to <code>numpy</code> object</a></li>
-<li class="chapter" data-level="4.1.2" data-path="converting-tensors.html"><a href="converting-tensors.html#convert-a-numpy-object-to-an-r-object"><i class="fa fa-check"></i><b>4.1.2</b> Convert a <code>numpy</code> object to an <code>R</code> object</a></li>
+<li class="chapter" data-level="3.6" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#zero-gradient"><i class="fa fa-check"></i><b>3.6</b> Zero gradient</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#code-version-in-python"><i class="fa fa-check"></i><b>3.6.1</b> Code version in Python</a></li>
+<li class="chapter" data-level="3.6.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#code-version-in-r"><i class="fa fa-check"></i><b>3.6.2</b> Code version in R</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-pytorch-to-r-and-viceversa"><i class="fa fa-check"></i><b>4.2</b> Transforming a tensor from PyTorch to R and viceversa</a></li>
+<li class="chapter" data-level="3.7" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#r-generic-functions"><i class="fa fa-check"></i><b>3.7</b> R generic functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a><ul>
+<li class="chapter" data-level="4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-to-numpy-array"><i class="fa fa-check"></i><b>4.1</b> Tensor to <code>numpy</code> array</a></li>
+<li class="chapter" data-level="4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-tensor"><i class="fa fa-check"></i><b>4.2</b> <code>numpy</code> array to tensor</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-r"><i class="fa fa-check"></i><b>4.2.1</b> <code>numpy</code> array to <code>R</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="converting-tensors.html"><a href="converting-tensors.html#r-objects-to-numpy-objects"><i class="fa fa-check"></i><b>4.3</b> R objects to <code>numpy</code> objects</a></li>
 </ul></li>
 <li class="part"><span><b>II Basic Tensor Operations</b></span></li>
-<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a>
-<ul>
+<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a><ul>
+<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a><ul>
 <li class="chapter" data-level="5.1.1" data-path="tensors.html"><a href="tensors.html#major-tensor-types"><i class="fa fa-check"></i><b>5.1.1</b> Major tensor types</a></li>
-<li class="chapter" data-level="5.1.2" data-path="tensors.html"><a href="tensors.html#example-basic-attributes-of-a-4d-tensor"><i class="fa fa-check"></i><b>5.1.2</b> Example: Basic attributes of a 4D tensor</a></li>
-<li class="chapter" data-level="5.1.3" data-path="tensors.html"><a href="tensors.html#example-attributes-of-a-3d-tensor"><i class="fa fa-check"></i><b>5.1.3</b> Example: Attributes of a 3D tensor</a></li>
+<li class="chapter" data-level="5.1.2" data-path="tensors.html"><a href="tensors.html#example-a-4d-tensor"><i class="fa fa-check"></i><b>5.1.2</b> Example: A 4D tensor</a></li>
+<li class="chapter" data-level="5.1.3" data-path="tensors.html"><a href="tensors.html#example-a-3d-tensor"><i class="fa fa-check"></i><b>5.1.3</b> Example: A 3D tensor</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a>
-<ul>
+<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a><ul>
 <li class="chapter" data-level="5.2.1" data-path="tensors.html"><a href="tensors.html#add-tensors"><i class="fa fa-check"></i><b>5.2.1</b> Add tensors</a></li>
-<li class="chapter" data-level="5.2.2" data-path="tensors.html"><a href="tensors.html#add-an-element-of-a-tensor-to-another-tensor"><i class="fa fa-check"></i><b>5.2.2</b> Add an element of a tensor to another tensor</a></li>
+<li class="chapter" data-level="5.2.2" data-path="tensors.html"><a href="tensors.html#add-tensor-elements"><i class="fa fa-check"></i><b>5.2.2</b> Add tensor elements</a></li>
 <li class="chapter" data-level="5.2.3" data-path="tensors.html"><a href="tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>5.2.3</b> Multiply a tensor by a scalar</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#in-python-we-use-tuples-in-r-we-use-vectors"><i class="fa fa-check"></i><b>5.3.1</b> In Python we use Tuples, in R we use vectors</a></li>
-<li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#build-a-numpy-array-from-three-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> Build a numpy array from three R vectors</a></li>
-<li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#convert-a-numpy-array-to-a-tensor-with-as_tensor"><i class="fa fa-check"></i><b>5.3.3</b> Convert a numpy array to a tensor with <code>as_tensor()</code></a></li>
+<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#python-tuples-and-r-vectors"><i class="fa fa-check"></i><b>5.3.1</b> Python Tuples and R vectors</a></li>
+<li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#a-numpy-array-from-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> A numpy array from R vectors</a></li>
+<li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#numpy-arrays-to-tensors"><i class="fa fa-check"></i><b>5.3.3</b> numpy arrays to tensors</a></li>
 <li class="chapter" data-level="5.3.4" data-path="tensors.html"><a href="tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>5.3.4</b> Create and fill a tensor</a></li>
 <li class="chapter" data-level="5.3.5" data-path="tensors.html"><a href="tensors.html#tensor-to-array-and-viceversa"><i class="fa fa-check"></i><b>5.3.5</b> Tensor to array, and viceversa</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a>
-<ul>
+<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a><ul>
 <li class="chapter" data-level="5.4.1" data-path="tensors.html"><a href="tensors.html#tensor-fill"><i class="fa fa-check"></i><b>5.4.1</b> Tensor fill</a></li>
-<li class="chapter" data-level="5.4.2" data-path="tensors.html"><a href="tensors.html#initialize-tensor-with-a-range-of-values"><i class="fa fa-check"></i><b>5.4.2</b> Initialize Tensor with a range of values</a></li>
-<li class="chapter" data-level="5.4.3" data-path="tensors.html"><a href="tensors.html#initialize-a-linear-or-log-scale-tensor"><i class="fa fa-check"></i><b>5.4.3</b> Initialize a linear or log scale Tensor</a></li>
-<li class="chapter" data-level="5.4.4" data-path="tensors.html"><a href="tensors.html#fill-a-tensor-in-place-out-of-place"><i class="fa fa-check"></i><b>5.4.4</b> Fill a tensor In-place / Out-of-place</a></li>
+<li class="chapter" data-level="5.4.2" data-path="tensors.html"><a href="tensors.html#tensor-with-a-range-of-values"><i class="fa fa-check"></i><b>5.4.2</b> Tensor with a range of values</a></li>
+<li class="chapter" data-level="5.4.3" data-path="tensors.html"><a href="tensors.html#linear-or-log-scale-tensor"><i class="fa fa-check"></i><b>5.4.3</b> Linear or log scale Tensor</a></li>
+<li class="chapter" data-level="5.4.4" data-path="tensors.html"><a href="tensors.html#in-place-out-of-place-fill"><i class="fa fa-check"></i><b>5.4.4</b> In-place / Out-of-place fill</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a>
-<ul>
+<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a><ul>
 <li class="chapter" data-level="5.5.1" data-path="tensors.html"><a href="tensors.html#exercise"><i class="fa fa-check"></i><b>5.5.1</b> Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a>
-<ul>
-<li class="chapter" data-level="5.6.1" data-path="tensors.html"><a href="tensors.html#concatenate-tensors-by-dim0-rows"><i class="fa fa-check"></i><b>5.6.1</b> Concatenate tensors by <code>dim=0</code> (rows)</a></li>
-<li class="chapter" data-level="5.6.2" data-path="tensors.html"><a href="tensors.html#concatenate-tensors-by-dim1-columns"><i class="fa fa-check"></i><b>5.6.2</b> Concatenate tensors by <code>dim=1</code> (columns)</a></li>
+<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="tensors.html"><a href="tensors.html#concatenate-by-rows"><i class="fa fa-check"></i><b>5.6.1</b> Concatenate by rows</a></li>
+<li class="chapter" data-level="5.6.2" data-path="tensors.html"><a href="tensors.html#concatenate-by-columns"><i class="fa fa-check"></i><b>5.6.2</b> Concatenate by columns</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a>
-<ul>
+<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a><ul>
 <li class="chapter" data-level="5.7.1" data-path="tensors.html"><a href="tensors.html#with-chunk"><i class="fa fa-check"></i><b>5.7.1</b> With <code>chunk()</code>:</a></li>
 <li class="chapter" data-level="5.7.2" data-path="tensors.html"><a href="tensors.html#with-index_select"><i class="fa fa-check"></i><b>5.7.2</b> With <code>index_select()</code>:</a></li>
 </ul></li>
-<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a>
-<ul>
+<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a><ul>
 <li class="chapter" data-level="5.8.1" data-path="tensors.html"><a href="tensors.html#identity-matrix"><i class="fa fa-check"></i><b>5.8.1</b> Identity matrix</a></li>
 <li class="chapter" data-level="5.8.2" data-path="tensors.html"><a href="tensors.html#ones"><i class="fa fa-check"></i><b>5.8.2</b> Ones</a></li>
 <li class="chapter" data-level="5.8.3" data-path="tensors.html"><a href="tensors.html#zeros"><i class="fa fa-check"></i><b>5.8.3</b> Zeros</a></li>
 <li class="chapter" data-level="5.8.4" data-path="tensors.html"><a href="tensors.html#diagonal-operations"><i class="fa fa-check"></i><b>5.8.4</b> Diagonal operations</a></li>
 </ul></li>
-<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a>
-<ul>
-<li class="chapter" data-level="5.9.1" data-path="tensors.html"><a href="tensors.html#using-indices-to-access-elements"><i class="fa fa-check"></i><b>5.9.1</b> Using indices to access elements</a></li>
+<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="tensors.html"><a href="tensors.html#indices-to-tensor-elements"><i class="fa fa-check"></i><b>5.9.1</b> Indices to tensor elements</a></li>
 <li class="chapter" data-level="5.9.2" data-path="tensors.html"><a href="tensors.html#using-the-take-function"><i class="fa fa-check"></i><b>5.9.2</b> Using the <code>take</code> function</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a>
-<ul>
+<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a><ul>
 <li class="chapter" data-level="5.10.1" data-path="tensors.html"><a href="tensors.html#cross-product"><i class="fa fa-check"></i><b>5.10.1</b> Cross product</a></li>
 <li class="chapter" data-level="5.10.2" data-path="tensors.html"><a href="tensors.html#dot-product"><i class="fa fa-check"></i><b>5.10.2</b> Dot product</a></li>
 </ul></li>
-<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a>
-<ul>
-<li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#using-a-function-to-extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Using a function to extract a unique logical result</a></li>
+<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a><ul>
+<li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Extract a unique logical result</a></li>
 <li class="chapter" data-level="5.11.2" data-path="tensors.html"><a href="tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>5.11.2</b> Greater than (<code>gt</code>)</a></li>
 <li class="chapter" data-level="5.11.3" data-path="tensors.html"><a href="tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>5.11.3</b> Less than or equal (<code>le</code>)</a></li>
 <li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (<code>!</code>)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a>
-<ul>
+<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a><ul>
 <li class="chapter" data-level="5.12.1" data-path="tensors.html"><a href="tensors.html#uniform-matrix"><i class="fa fa-check"></i><b>5.12.1</b> Uniform matrix</a></li>
 <li class="chapter" data-level="5.12.2" data-path="tensors.html"><a href="tensors.html#binomial-distribution"><i class="fa fa-check"></i><b>5.12.2</b> Binomial distribution</a></li>
 <li class="chapter" data-level="5.12.3" data-path="tensors.html"><a href="tensors.html#exponential-distribution"><i class="fa fa-check"></i><b>5.12.3</b> Exponential distribution</a></li>
 <li class="chapter" data-level="5.12.4" data-path="tensors.html"><a href="tensors.html#weibull-distribution"><i class="fa fa-check"></i><b>5.12.4</b> Weibull distribution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a>
-<ul>
+<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a><ul>
 <li class="chapter" data-level="6.1" data-path="linearalgebra.html"><a href="linearalgebra.html#scalars"><i class="fa fa-check"></i><b>6.1</b> Scalars</a></li>
-<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="linearalgebra.html"><a href="linearalgebra.html#vector-to-matrix-matrix-to-tensor"><i class="fa fa-check"></i><b>6.2.1</b> Vector to matrix, matrix to tensor</a></li>
+<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="linearalgebra.html"><a href="linearalgebra.html#vector-to-matrix"><i class="fa fa-check"></i><b>6.2.1</b> Vector to matrix</a></li>
+<li class="chapter" data-level="6.2.2" data-path="linearalgebra.html"><a href="linearalgebra.html#matrix-to-tensor"><i class="fa fa-check"></i><b>6.2.2</b> Matrix to tensor</a></li>
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="linearalgebra.html"><a href="linearalgebra.html#matrices"><i class="fa fa-check"></i><b>6.3</b> Matrices</a></li>
 <li class="chapter" data-level="6.4" data-path="linearalgebra.html"><a href="linearalgebra.html#d-tensors"><i class="fa fa-check"></i><b>6.4</b> 3D+ tensors</a></li>
@@ -1131,30 +1116,24 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="6.7" data-path="linearalgebra.html"><a href="linearalgebra.html#tensor-arithmetic"><i class="fa fa-check"></i><b>6.7</b> Tensor arithmetic</a></li>
 <li class="chapter" data-level="6.8" data-path="linearalgebra.html"><a href="linearalgebra.html#add-a-scalar-to-a-tensor"><i class="fa fa-check"></i><b>6.8</b> Add a scalar to a tensor</a></li>
 <li class="chapter" data-level="6.9" data-path="linearalgebra.html"><a href="linearalgebra.html#multiplying-tensors"><i class="fa fa-check"></i><b>6.9</b> Multiplying tensors</a></li>
-<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a>
-<ul>
-<li class="chapter" data-level="6.10.1" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-of-2d-array-using-python"><i class="fa fa-check"></i><b>6.10.1</b> Dot product of 2D array using Python</a></li>
-<li class="chapter" data-level="6.10.2" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-of-2d-array-using-r"><i class="fa fa-check"></i><b>6.10.2</b> Dot product of 2D array using R</a></li>
-<li class="chapter" data-level="6.10.3" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-with-mm-and-matmul-functions"><i class="fa fa-check"></i><b>6.10.3</b> Dot product with <code>mm</code> and <code>matmul</code> functions</a></li>
+<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a><ul>
+<li class="chapter" data-level="6.10.1" data-path="linearalgebra.html"><a href="linearalgebra.html#d-array-using-python"><i class="fa fa-check"></i><b>6.10.1</b> 2D array using Python</a></li>
+<li class="chapter" data-level="6.10.2" data-path="linearalgebra.html"><a href="linearalgebra.html#d-array-using-r"><i class="fa fa-check"></i><b>6.10.2</b> 2D array using R</a></li>
+<li class="chapter" data-level="6.10.3" data-path="linearalgebra.html"><a href="linearalgebra.html#mm-and-matmul-functions"><i class="fa fa-check"></i><b>6.10.3</b> <code>mm</code> and <code>matmul</code> functions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a>
-<ul>
-<li class="chapter" data-level="7.1.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-1-a-neural-network-with-one-layer"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: a neural network with one layer</a></li>
+<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a><ul>
+<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-1-one-layer-nn"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: One layer NN</a></li>
 <li class="chapter" data-level="7.1.2" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-2-logistic-regression"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: Logistic Regression</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Logistic Regression</b></span></li>
-<li class="chapter" data-level="8" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem with Logistic Regression</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html#code-in-python"><i class="fa fa-check"></i><b>8.1</b> Code in Python</a></li>
+<li class="chapter" data-level="8" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem</a><ul>
+<li class="chapter" data-level="8.1" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html#code-in-python"><i class="fa fa-check"></i><b>8.1</b> Code in Python</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a>
-<ul>
+<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a><ul>
+<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a><ul>
 <li class="chapter" data-level="9.1.1" data-path="mnistdigits.html"><a href="mnistdigits.html#hyperparameters"><i class="fa fa-check"></i><b>9.1.1</b> Hyperparameters</a></li>
 <li class="chapter" data-level="9.1.2" data-path="mnistdigits.html"><a href="mnistdigits.html#read-datasets"><i class="fa fa-check"></i><b>9.1.2</b> Read datasets</a></li>
 <li class="chapter" data-level="9.1.3" data-path="mnistdigits.html"><a href="mnistdigits.html#define-the-model"><i class="fa fa-check"></i><b>9.1.3</b> Define the model</a></li>
@@ -1165,101 +1144,92 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="9.2" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-python-1"><i class="fa fa-check"></i><b>9.2</b> Code in Python</a></li>
 </ul></li>
 <li class="part"><span><b>IV Linear Regression</b></span></li>
-<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a>
-<ul>
+<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a><ul>
 <li class="chapter" data-level="10.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
 <li class="chapter" data-level="10.2" data-path="linear-regression.html"><a href="linear-regression.html#generate-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Generate the dataset</a></li>
 <li class="chapter" data-level="10.3" data-path="linear-regression.html"><a href="linear-regression.html#convert-arrays-to-tensors"><i class="fa fa-check"></i><b>10.3</b> Convert arrays to tensors</a></li>
-<li class="chapter" data-level="10.4" data-path="linear-regression.html"><a href="linear-regression.html#converting-from-numpy-to-tensor"><i class="fa fa-check"></i><b>10.4</b> Converting from numpy to tensor</a></li>
+<li class="chapter" data-level="10.4" data-path="linear-regression.html"><a href="linear-regression.html#numpy-array-to-tensor-1"><i class="fa fa-check"></i><b>10.4</b> <code>numpy</code> array to tensor</a></li>
 <li class="chapter" data-level="10.5" data-path="linear-regression.html"><a href="linear-regression.html#creating-the-network-model"><i class="fa fa-check"></i><b>10.5</b> Creating the network model</a></li>
 <li class="chapter" data-level="10.6" data-path="linear-regression.html"><a href="linear-regression.html#optimizer-and-loss"><i class="fa fa-check"></i><b>10.6</b> Optimizer and Loss</a></li>
 <li class="chapter" data-level="10.7" data-path="linear-regression.html"><a href="linear-regression.html#training-1"><i class="fa fa-check"></i><b>10.7</b> Training</a></li>
 <li class="chapter" data-level="10.8" data-path="linear-regression.html"><a href="linear-regression.html#results"><i class="fa fa-check"></i><b>10.8</b> Results</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Rainfall prediction with Linear Regression</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#training-data"><i class="fa fa-check"></i><b>11.1</b> Training data</a></li>
-<li class="chapter" data-level="11.2" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#convert-arrays-to-tensors-1"><i class="fa fa-check"></i><b>11.2</b> Convert arrays to tensors</a></li>
-<li class="chapter" data-level="11.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#build-the-model"><i class="fa fa-check"></i><b>11.3</b> Build the model</a></li>
-<li class="chapter" data-level="11.4" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#generate-predictions"><i class="fa fa-check"></i><b>11.4</b> Generate predictions</a></li>
-<li class="chapter" data-level="11.5" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#loss-function"><i class="fa fa-check"></i><b>11.5</b> Loss Function</a></li>
-<li class="chapter" data-level="11.6" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#step-by-step-process"><i class="fa fa-check"></i><b>11.6</b> Step by step process</a>
-<ul>
-<li class="chapter" data-level="11.6.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#compute-the-losses"><i class="fa fa-check"></i><b>11.6.1</b> Compute the losses</a></li>
-<li class="chapter" data-level="11.6.2" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#compute-gradients"><i class="fa fa-check"></i><b>11.6.2</b> Compute Gradients</a></li>
-<li class="chapter" data-level="11.6.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#reset-the-gradients"><i class="fa fa-check"></i><b>11.6.3</b> Reset the gradients</a></li>
+<li class="chapter" data-level="11" data-path="linear-regression-1.html"><a href="linear-regression-1.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a><ul>
+<li class="chapter" data-level="11.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#rainfall-prediction"><i class="fa fa-check"></i><b>11.1</b> Rainfall prediction</a></li>
+<li class="chapter" data-level="11.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#training-data"><i class="fa fa-check"></i><b>11.2</b> Training data</a></li>
+<li class="chapter" data-level="11.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#convert-arrays-to-tensors-1"><i class="fa fa-check"></i><b>11.3</b> Convert arrays to tensors</a></li>
+<li class="chapter" data-level="11.4" data-path="linear-regression-1.html"><a href="linear-regression-1.html#build-the-model"><i class="fa fa-check"></i><b>11.4</b> Build the model</a></li>
+<li class="chapter" data-level="11.5" data-path="linear-regression-1.html"><a href="linear-regression-1.html#generate-predictions"><i class="fa fa-check"></i><b>11.5</b> Generate predictions</a></li>
+<li class="chapter" data-level="11.6" data-path="linear-regression-1.html"><a href="linear-regression-1.html#loss-function"><i class="fa fa-check"></i><b>11.6</b> Loss Function</a></li>
+<li class="chapter" data-level="11.7" data-path="linear-regression-1.html"><a href="linear-regression-1.html#step-by-step-process"><i class="fa fa-check"></i><b>11.7</b> Step by step process</a><ul>
+<li class="chapter" data-level="11.7.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#compute-the-losses"><i class="fa fa-check"></i><b>11.7.1</b> Compute the losses</a></li>
+<li class="chapter" data-level="11.7.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#compute-gradients"><i class="fa fa-check"></i><b>11.7.2</b> Compute Gradients</a></li>
+<li class="chapter" data-level="11.7.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#reset-the-gradients"><i class="fa fa-check"></i><b>11.7.3</b> Reset the gradients</a></li>
 </ul></li>
-<li class="chapter" data-level="11.7" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#all-together-train-for-multiple-epochs"><i class="fa fa-check"></i><b>11.7</b> All together: train for multiple epochs</a></li>
+<li class="chapter" data-level="11.8" data-path="linear-regression-1.html"><a href="linear-regression-1.html#all-together"><i class="fa fa-check"></i><b>11.8</b> All together</a></li>
 </ul></li>
 <li class="part"><span><b>V Neural Networks</b></span></li>
-<li class="chapter" data-level="12" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><i class="fa fa-check"></i><b>12</b> Neural Networks using NumPy, r-base, rTorch and PyTorch</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-with-numpy"><i class="fa fa-check"></i><b>12.1</b> A neural network with <code>numpy</code></a></li>
-<li class="chapter" data-level="12.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-with-r-base"><i class="fa fa-check"></i><b>12.2</b> A neural network with <code>r-base</code></a></li>
-<li class="chapter" data-level="12.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#the-neural-network-written-in-pytorch"><i class="fa fa-check"></i><b>12.3</b> The neural network written in <code>PyTorch</code></a></li>
-<li class="chapter" data-level="12.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-written-in-rtorch"><i class="fa fa-check"></i><b>12.4</b> A neural network written in <code>rTorch</code></a>
-<ul>
-<li class="chapter" data-level="12.4.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#load-the-libraries"><i class="fa fa-check"></i><b>12.4.1</b> Load the libraries</a></li>
-<li class="chapter" data-level="12.4.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#dataset"><i class="fa fa-check"></i><b>12.4.2</b> Dataset</a></li>
-<li class="chapter" data-level="12.4.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#initialize-the-weights"><i class="fa fa-check"></i><b>12.4.3</b> Initialize the weights</a></li>
-<li class="chapter" data-level="12.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterate-through-the-dataset"><i class="fa fa-check"></i><b>12.4.4</b> Iterate through the dataset</a></li>
+<li class="chapter" data-level="12" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a><ul>
+<li class="chapter" data-level="12.1" data-path="neural-networks.html"><a href="neural-networks.html#rtorch-and-pytorch"><i class="fa fa-check"></i><b>12.1</b> rTorch and PyTorch</a></li>
+<li class="chapter" data-level="12.2" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-with-numpy"><i class="fa fa-check"></i><b>12.2</b> A neural network with <code>numpy</code></a></li>
+<li class="chapter" data-level="12.3" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-with-r-base"><i class="fa fa-check"></i><b>12.3</b> A neural network with <code>r-base</code></a></li>
+<li class="chapter" data-level="12.4" data-path="neural-networks.html"><a href="neural-networks.html#a-pytorch-neural-network"><i class="fa fa-check"></i><b>12.4</b> A <code>PyTorch</code> neural network</a></li>
+<li class="chapter" data-level="12.5" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> A neural network in <code>rTorch</code></a><ul>
+<li class="chapter" data-level="12.5.1" data-path="neural-networks.html"><a href="neural-networks.html#load-the-libraries"><i class="fa fa-check"></i><b>12.5.1</b> Load the libraries</a></li>
+<li class="chapter" data-level="12.5.2" data-path="neural-networks.html"><a href="neural-networks.html#dataset"><i class="fa fa-check"></i><b>12.5.2</b> Dataset</a></li>
+<li class="chapter" data-level="12.5.3" data-path="neural-networks.html"><a href="neural-networks.html#initialize-the-weights"><i class="fa fa-check"></i><b>12.5.3</b> Initialize the weights</a></li>
+<li class="chapter" data-level="12.5.4" data-path="neural-networks.html"><a href="neural-networks.html#iterate-through-the-dataset"><i class="fa fa-check"></i><b>12.5.4</b> Iterate through the dataset</a></li>
 </ul></li>
-<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> Complete code for neural network in rTorch</a></li>
-<li class="chapter" data-level="12.6" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.6</b> Exercise</a></li>
+<li class="chapter" data-level="12.6" data-path="neural-networks.html"><a href="neural-networks.html#full-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.6</b> Full Neural Network in rTorch</a></li>
+<li class="chapter" data-level="12.7" data-path="neural-networks.html"><a href="neural-networks.html#exercise-2"><i class="fa fa-check"></i><b>12.7</b> Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#introduction-1"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
-<li class="chapter" data-level="13.2" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#select-device"><i class="fa fa-check"></i><b>13.2</b> Select device</a></li>
-<li class="chapter" data-level="13.3" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
-<li class="chapter" data-level="13.4" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
-<li class="chapter" data-level="13.5" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
-<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
-<li class="chapter" data-level="13.7" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#using-r-generics-to-simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7</b> Using R generics to simplify tensor operations</a></li>
-<li class="chapter" data-level="13.8" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#a-more-elegant-way-of-writing-the-neural-network"><i class="fa fa-check"></i><b>13.8</b> A more elegant way of writing the neural network</a></li>
-<li class="chapter" data-level="13.9" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-a-browseable-dataframe"><i class="fa fa-check"></i><b>13.9</b> Create a browseable dataframe</a></li>
-<li class="chapter" data-level="13.10" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
+<li class="chapter" data-level="13" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html"><i class="fa fa-check"></i><b>13</b> A neural network step-by-step</a><ul>
+<li class="chapter" data-level="13.1" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#introduction-1"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
+<li class="chapter" data-level="13.2" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#select-device"><i class="fa fa-check"></i><b>13.2</b> Select device</a></li>
+<li class="chapter" data-level="13.3" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
+<li class="chapter" data-level="13.4" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
+<li class="chapter" data-level="13.5" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
+<li class="chapter" data-level="13.6" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
+<li class="chapter" data-level="13.7" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#using-r-generics"><i class="fa fa-check"></i><b>13.7</b> Using R generics</a><ul>
+<li class="chapter" data-level="13.7.1" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7.1</b> Simplify tensor operations</a></li>
+</ul></li>
+<li class="chapter" data-level="13.8" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#an-elegant-neural-network"><i class="fa fa-check"></i><b>13.8</b> An elegant neural network</a></li>
+<li class="chapter" data-level="13.9" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#a-browseable-dataframe"><i class="fa fa-check"></i><b>13.9</b> A browseable dataframe</a></li>
+<li class="chapter" data-level="13.10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
-<li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a>
-<ul>
+<li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a><ul>
 <li class="chapter" data-level="14.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
 <li class="chapter" data-level="14.2" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
-<li class="chapter" data-level="14.3" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a>
-<ul>
-<li class="chapter" data-level="14.3.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> using <code>data.frame</code></a></li>
+<li class="chapter" data-level="14.3" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a>
-<ul>
+<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a><ul>
 <li class="chapter" data-level="15.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
 <li class="chapter" data-level="15.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
-<li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#read-the-datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Read the datasets without normalization</a></li>
+<li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Datasets without normalization</a></li>
 <li class="chapter" data-level="15.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a>
-<ul>
-<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a>
-<ul>
+<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a><ul>
+<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a><ul>
 <li class="chapter" data-level="A.1.1" data-path="appendixA.html"><a href="appendixA.html#five-number-summary"><i class="fa fa-check"></i><b>A.1.1</b> Five-number summary</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a>
-<ul>
-<li class="chapter" data-level="B.1" data-path="appendixB.html"><a href="appendixB.html#the-sigmoid-function"><i class="fa fa-check"></i><b>B.1</b> The Sigmoid function</a></li>
-<li class="chapter" data-level="B.2" data-path="appendixB.html"><a href="appendixB.html#the-relu-function"><i class="fa fa-check"></i><b>B.2</b> The ReLU function</a></li>
-<li class="chapter" data-level="B.3" data-path="appendixB.html"><a href="appendixB.html#the-tanh-function"><i class="fa fa-check"></i><b>B.3</b> The tanh function</a></li>
-<li class="chapter" data-level="B.4" data-path="appendixB.html"><a href="appendixB.html#the-softmax-activation-function"><i class="fa fa-check"></i><b>B.4</b> The Softmax Activation function</a></li>
-<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#coding-your-own-activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Coding your own activation functions in Python</a>
-<ul>
+<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a><ul>
+<li class="chapter" data-level="B.1" data-path="appendixB.html"><a href="appendixB.html#sigmoid"><i class="fa fa-check"></i><b>B.1</b> Sigmoid</a></li>
+<li class="chapter" data-level="B.2" data-path="appendixB.html"><a href="appendixB.html#relu"><i class="fa fa-check"></i><b>B.2</b> ReLU</a></li>
+<li class="chapter" data-level="B.3" data-path="appendixB.html"><a href="appendixB.html#tanh"><i class="fa fa-check"></i><b>B.3</b> tanh</a></li>
+<li class="chapter" data-level="B.4" data-path="appendixB.html"><a href="appendixB.html#softmax"><i class="fa fa-check"></i><b>B.4</b> Softmax</a></li>
+<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Activation functions in Python</a><ul>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#linear-activation"><i class="fa fa-check"></i>Linear activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#sigmoid-activation"><i class="fa fa-check"></i>Sigmoid activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#hyperbolic-tangent-activation"><i class="fa fa-check"></i>Hyperbolic Tangent activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#rectifier-linear-unit-relu"><i class="fa fa-check"></i>Rectifier linear unit (ReLU)</a></li>
 <li><a href="appendixB.html#visualization-with-matplotlib">Visualization with <code>matplotlib</code></a></li>
 </ul></li>
-<li class="chapter" data-level="B.6" data-path="appendixB.html"><a href="appendixB.html#softmax-in-python"><i class="fa fa-check"></i><b>B.6</b> Softmax in Python</a></li>
+<li class="chapter" data-level="B.6" data-path="appendixB.html"><a href="appendixB.html#softmax-code-in-python"><i class="fa fa-check"></i><b>B.6</b> Softmax code in Python</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -1282,26 +1252,26 @@ code span.wa { color: #bf0303; } /* Warning */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="pytorch-and-numpy" class="section level1" number="2">
+<div id="pytorch-and-numpy" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> PyTorch and NumPy</h1>
-<div id="callable-pytorch-modules-from-rtorch" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Callable PyTorch modules from rTorch</h2>
-<div id="the-torchvision-module" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> The <code>torchvision</code> module</h3>
+<div id="pytorch-modules-in-rtorch" class="section level2">
+<h2><span class="header-section-number">2.1</span> PyTorch modules in <code>rTorch</code></h2>
+<div id="torchvision" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> torchvision</h3>
 <p>This is an example of using the <code>torchvision</code> module. With <code>torchvision</code> we could download any of the datasets made available by PyTorch. In this example, we will be downloading the training dataset of the <strong>MNIST</strong> handwritten digits. There are 60,000 images in the training set and 10,000 images in the test set. The images will download on the folder <code>./datasets</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="pytorch-and-numpy.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span>
-<span id="cb27-2"><a href="pytorch-and-numpy.html#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="pytorch-and-numpy.html#cb27-3" aria-hidden="true" tabindex="-1"></a>transforms  <span class="ot">&lt;-</span> torchvision<span class="sc">$</span>transforms</span>
-<span id="cb27-4"><a href="pytorch-and-numpy.html#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="pytorch-and-numpy.html#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># this is the folder where the datasets will be downloaded</span></span>
-<span id="cb27-6"><a href="pytorch-and-numpy.html#cb27-6" aria-hidden="true" tabindex="-1"></a>local_folder <span class="ot">&lt;-</span> <span class="st">&#39;./datasets/mnist_digits&#39;</span></span>
-<span id="cb27-7"><a href="pytorch-and-numpy.html#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-8"><a href="pytorch-and-numpy.html#cb27-8" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="ot">=</span> torchvision<span class="sc">$</span>datasets<span class="sc">$</span><span class="fu">MNIST</span>(<span class="at">root =</span> local_folder, </span>
-<span id="cb27-9"><a href="pytorch-and-numpy.html#cb27-9" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">train =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb27-10"><a href="pytorch-and-numpy.html#cb27-10" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">transform =</span> transforms<span class="sc">$</span><span class="fu">ToTensor</span>(),</span>
-<span id="cb27-11"><a href="pytorch-and-numpy.html#cb27-11" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">download =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb27-12"><a href="pytorch-and-numpy.html#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-13"><a href="pytorch-and-numpy.html#cb27-13" aria-hidden="true" tabindex="-1"></a>train_dataset</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="pytorch-and-numpy.html#cb27-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb27-2"><a href="pytorch-and-numpy.html#cb27-2"></a></span>
+<span id="cb27-3"><a href="pytorch-and-numpy.html#cb27-3"></a>transforms  &lt;-<span class="st"> </span>torchvision<span class="op">$</span>transforms</span>
+<span id="cb27-4"><a href="pytorch-and-numpy.html#cb27-4"></a></span>
+<span id="cb27-5"><a href="pytorch-and-numpy.html#cb27-5"></a><span class="co"># this is the folder where the datasets will be downloaded</span></span>
+<span id="cb27-6"><a href="pytorch-and-numpy.html#cb27-6"></a>local_folder &lt;-<span class="st"> &#39;./datasets/mnist_digits&#39;</span></span>
+<span id="cb27-7"><a href="pytorch-and-numpy.html#cb27-7"></a></span>
+<span id="cb27-8"><a href="pytorch-and-numpy.html#cb27-8"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root =</span> local_folder, </span>
+<span id="cb27-9"><a href="pytorch-and-numpy.html#cb27-9"></a>                                           <span class="dt">train =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb27-10"><a href="pytorch-and-numpy.html#cb27-10"></a>                                           <span class="dt">transform =</span> transforms<span class="op">$</span><span class="kw">ToTensor</span>(),</span>
+<span id="cb27-11"><a href="pytorch-and-numpy.html#cb27-11"></a>                                           <span class="dt">download =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb27-12"><a href="pytorch-and-numpy.html#cb27-12"></a></span>
+<span id="cb27-13"><a href="pytorch-and-numpy.html#cb27-13"></a>train_dataset</span></code></pre></div>
 <pre><code>#&gt; Dataset MNIST
 #&gt;     Number of datapoints: 60000
 #&gt;     Root location: ./datasets/mnist_digits
@@ -1309,10 +1279,10 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;     StandardTransform
 #&gt; Transform: ToTensor()</code></pre>
 <p>You can do similarly for the <code>test</code> dataset if you set the flag <code>train = FALSE</code>. The <code>test</code> dataset has only 10,000 images.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="pytorch-and-numpy.html#cb29-1" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="ot">=</span> torchvision<span class="sc">$</span>datasets<span class="sc">$</span><span class="fu">MNIST</span>(<span class="at">root =</span> local_folder, </span>
-<span id="cb29-2"><a href="pytorch-and-numpy.html#cb29-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">train =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb29-3"><a href="pytorch-and-numpy.html#cb29-3" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">transform =</span> transforms<span class="sc">$</span><span class="fu">ToTensor</span>())</span>
-<span id="cb29-4"><a href="pytorch-and-numpy.html#cb29-4" aria-hidden="true" tabindex="-1"></a>test_dataset</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="pytorch-and-numpy.html#cb29-1"></a>test_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root =</span> local_folder, </span>
+<span id="cb29-2"><a href="pytorch-and-numpy.html#cb29-2"></a>                                          <span class="dt">train =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb29-3"><a href="pytorch-and-numpy.html#cb29-3"></a>                                          <span class="dt">transform =</span> transforms<span class="op">$</span><span class="kw">ToTensor</span>())</span>
+<span id="cb29-4"><a href="pytorch-and-numpy.html#cb29-4"></a>test_dataset</span></code></pre></div>
 <pre><code>#&gt; Dataset MNIST
 #&gt;     Number of datapoints: 10000
 #&gt;     Root location: ./datasets/mnist_digits
@@ -1320,36 +1290,40 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;     StandardTransform
 #&gt; Transform: ToTensor()</code></pre>
 </div>
-<div id="the-numpy-module" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> The <code>numpy</code> module</h3>
+<div id="numpy" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> numpy</h3>
 <p><code>numpy</code> is automaticaly installed when <code>PyTorch</code> is. There is some interdependence between both. Anytime that we need to do some transformation that is not available in <code>PyTorch</code>, we will use <code>numpy</code>. Just keep in mind that <code>numpy</code> does not have support for <em>GPUs</em>.</p>
+</div>
+</div>
+<div id="common-array-operations" class="section level2">
+<h2><span class="header-section-number">2.2</span> Common array operations</h2>
 <p>There are several operations that we could perform with <code>numpy</code> such creating arrays:</p>
-<div id="create-an-array" class="section level4 unnumbered">
-<h4>Create an array</h4>
+<div id="create-an-array" class="section level3 unnumbered">
+<h3>Create an array</h3>
 <p>Create an array:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="pytorch-and-numpy.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do some array manipulations with NumPy</span></span>
-<span id="cb31-2"><a href="pytorch-and-numpy.html#cb31-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>))</span>
-<span id="cb31-3"><a href="pytorch-and-numpy.html#cb31-3" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="pytorch-and-numpy.html#cb31-1"></a><span class="co"># do some array manipulations with NumPy</span></span>
+<span id="cb31-2"><a href="pytorch-and-numpy.html#cb31-2"></a>a &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</span>
+<span id="cb31-3"><a href="pytorch-and-numpy.html#cb31-3"></a>a</span></code></pre></div>
 <pre><code>#&gt; [1] 1 2 3 4</code></pre>
 <p>Create an array of a desired shape:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="pytorch-and-numpy.html#cb33-1" aria-hidden="true" tabindex="-1"></a>np<span class="sc">$</span><span class="fu">reshape</span>(np<span class="sc">$</span><span class="fu">arange</span>(<span class="dv">0</span>, <span class="dv">9</span>), <span class="fu">c</span>(3L, 3L))</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="pytorch-and-numpy.html#cb33-1"></a>np<span class="op">$</span><span class="kw">reshape</span>(np<span class="op">$</span><span class="kw">arange</span>(<span class="dv">0</span>, <span class="dv">9</span>), <span class="kw">c</span>(3L, 3L))</span></code></pre></div>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    0    1    2
 #&gt; [2,]    3    4    5
 #&gt; [3,]    6    7    8</code></pre>
 <p>Create an array by spelling out its components and <code>type</code>:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="pytorch-and-numpy.html#cb35-1" aria-hidden="true" tabindex="-1"></a>np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">list</span>(</span>
-<span id="cb35-2"><a href="pytorch-and-numpy.html#cb35-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
-<span id="cb35-3"><a href="pytorch-and-numpy.html#cb35-3" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
-<span id="cb35-4"><a href="pytorch-and-numpy.html#cb35-4" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
-<span id="cb35-5"><a href="pytorch-and-numpy.html#cb35-5" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>), </span>
-<span id="cb35-6"><a href="pytorch-and-numpy.html#cb35-6" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>), </span>
-<span id="cb35-7"><a href="pytorch-and-numpy.html#cb35-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>), </span>
-<span id="cb35-8"><a href="pytorch-and-numpy.html#cb35-8" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>), </span>
-<span id="cb35-9"><a href="pytorch-and-numpy.html#cb35-9" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>), </span>
-<span id="cb35-10"><a href="pytorch-and-numpy.html#cb35-10" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>), </span>
-<span id="cb35-11"><a href="pytorch-and-numpy.html#cb35-11" aria-hidden="true" tabindex="-1"></a>             <span class="fu">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)</span>
-<span id="cb35-12"><a href="pytorch-and-numpy.html#cb35-12" aria-hidden="true" tabindex="-1"></a>           ), <span class="at">dtype=</span><span class="st">&#39;float32&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="pytorch-and-numpy.html#cb35-1"></a>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(</span>
+<span id="cb35-2"><a href="pytorch-and-numpy.html#cb35-2"></a>             <span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
+<span id="cb35-3"><a href="pytorch-and-numpy.html#cb35-3"></a>             <span class="kw">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
+<span id="cb35-4"><a href="pytorch-and-numpy.html#cb35-4"></a>             <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
+<span id="cb35-5"><a href="pytorch-and-numpy.html#cb35-5"></a>             <span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>), </span>
+<span id="cb35-6"><a href="pytorch-and-numpy.html#cb35-6"></a>             <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>), </span>
+<span id="cb35-7"><a href="pytorch-and-numpy.html#cb35-7"></a>             <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>), </span>
+<span id="cb35-8"><a href="pytorch-and-numpy.html#cb35-8"></a>             <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>), </span>
+<span id="cb35-9"><a href="pytorch-and-numpy.html#cb35-9"></a>             <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>), </span>
+<span id="cb35-10"><a href="pytorch-and-numpy.html#cb35-10"></a>             <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>), </span>
+<span id="cb35-11"><a href="pytorch-and-numpy.html#cb35-11"></a>             <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)</span>
+<span id="cb35-12"><a href="pytorch-and-numpy.html#cb35-12"></a>           ), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span></code></pre></div>
 <pre><code>#&gt;       [,1] [,2] [,3]
 #&gt;  [1,]   73   67   43
 #&gt;  [2,]   87  134   58
@@ -1361,14 +1335,10 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;  [8,]   91   88   64
 #&gt;  [9,]  102   43   37
 #&gt; [10,]   69   96   70</code></pre>
-</div>
-</div>
-</div>
-<div id="common-array-and-tensor-operations-in-numpy-and-pytorch" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Common array and tensor operations in NumPy and PyTorch</h2>
 <p>We will use the <code>train</code> and <code>test</code> datasets that we loaded with <code>torchvision</code>.</p>
-<div id="reshape-an-array" class="section level4 unnumbered">
-<h4>Reshape an array</h4>
+</div>
+<div id="reshape-an-array" class="section level3 unnumbered">
+<h3>Reshape an array</h3>
 <p>For the same <code>test</code> dataset that we loaded above from <code>MNIST</code> digits, we will show the image of the handwritten digit and its label or class. Before plotting the image, we need to:</p>
 <ol style="list-style-type: decimal">
 <li>Extract the image and label from the dataset</li>
@@ -1376,38 +1346,38 @@ code span.wa { color: #bf0303; } /* Warning */
 <li>Reshape the tensor as a 2D array</li>
 <li>Plot the digit and its label</li>
 </ol>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="pytorch-and-numpy.html#cb37-1" aria-hidden="true" tabindex="-1"></a>rotate <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">t</span>(<span class="fu">apply</span>(x, <span class="dv">2</span>, rev))   <span class="co"># function to rotate the matrix</span></span>
-<span id="cb37-2"><a href="pytorch-and-numpy.html#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="pytorch-and-numpy.html#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># label for the image</span></span>
-<span id="cb37-4"><a href="pytorch-and-numpy.html#cb37-4" aria-hidden="true" tabindex="-1"></a>label <span class="ot">&lt;-</span> test_dataset[<span class="dv">0</span>][[<span class="dv">2</span>]]</span>
-<span id="cb37-5"><a href="pytorch-and-numpy.html#cb37-5" aria-hidden="true" tabindex="-1"></a>label    </span>
-<span id="cb37-6"><a href="pytorch-and-numpy.html#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="pytorch-and-numpy.html#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># convert tensor to numpy array</span></span>
-<span id="cb37-8"><a href="pytorch-and-numpy.html#cb37-8" aria-hidden="true" tabindex="-1"></a>.show_img <span class="ot">&lt;-</span> test_dataset[<span class="dv">0</span>][[<span class="dv">1</span>]]<span class="sc">$</span><span class="fu">numpy</span>()</span>
-<span id="cb37-9"><a href="pytorch-and-numpy.html#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(.show_img) </span>
-<span id="cb37-10"><a href="pytorch-and-numpy.html#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-11"><a href="pytorch-and-numpy.html#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co"># reshape 3D array to 2D </span></span>
-<span id="cb37-12"><a href="pytorch-and-numpy.html#cb37-12" aria-hidden="true" tabindex="-1"></a>show_img <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">reshape</span>(.show_img, <span class="fu">c</span>(28L, 28L))</span>
-<span id="cb37-13"><a href="pytorch-and-numpy.html#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(show_img)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="pytorch-and-numpy.html#cb37-1"></a>rotate &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">t</span>(<span class="kw">apply</span>(x, <span class="dv">2</span>, rev))   <span class="co"># function to rotate the matrix</span></span>
+<span id="cb37-2"><a href="pytorch-and-numpy.html#cb37-2"></a></span>
+<span id="cb37-3"><a href="pytorch-and-numpy.html#cb37-3"></a><span class="co"># label for the image</span></span>
+<span id="cb37-4"><a href="pytorch-and-numpy.html#cb37-4"></a>label &lt;-<span class="st"> </span>test_dataset[<span class="dv">0</span>][[<span class="dv">2</span>]]</span>
+<span id="cb37-5"><a href="pytorch-and-numpy.html#cb37-5"></a>label    </span>
+<span id="cb37-6"><a href="pytorch-and-numpy.html#cb37-6"></a></span>
+<span id="cb37-7"><a href="pytorch-and-numpy.html#cb37-7"></a><span class="co"># convert tensor to numpy array</span></span>
+<span id="cb37-8"><a href="pytorch-and-numpy.html#cb37-8"></a>.show_img &lt;-<span class="st"> </span>test_dataset[<span class="dv">0</span>][[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">numpy</span>()</span>
+<span id="cb37-9"><a href="pytorch-and-numpy.html#cb37-9"></a><span class="kw">dim</span>(.show_img) </span>
+<span id="cb37-10"><a href="pytorch-and-numpy.html#cb37-10"></a></span>
+<span id="cb37-11"><a href="pytorch-and-numpy.html#cb37-11"></a><span class="co"># reshape 3D array to 2D </span></span>
+<span id="cb37-12"><a href="pytorch-and-numpy.html#cb37-12"></a>show_img &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">reshape</span>(.show_img, <span class="kw">c</span>(28L, 28L))</span>
+<span id="cb37-13"><a href="pytorch-and-numpy.html#cb37-13"></a><span class="kw">dim</span>(show_img)</span></code></pre></div>
 <pre><code>#&gt; [1] 7
 #&gt; [1]  1 28 28
 #&gt; [1] 28 28</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="pytorch-and-numpy.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># show in gray shades and rotate</span></span>
-<span id="cb39-2"><a href="pytorch-and-numpy.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(<span class="fu">rotate</span>(show_img), <span class="at">col =</span> <span class="fu">gray.colors</span>(<span class="dv">64</span>))</span>
-<span id="cb39-3"><a href="pytorch-and-numpy.html#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(label)</span></code></pre></div>
-<p><img src="rtorch-minimal-book_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="pytorch-and-numpy.html#cb39-1"></a><span class="co"># show in gray shades and rotate</span></span>
+<span id="cb39-2"><a href="pytorch-and-numpy.html#cb39-2"></a><span class="kw">image</span>(<span class="kw">rotate</span>(show_img), <span class="dt">col =</span> <span class="kw">gray.colors</span>(<span class="dv">64</span>))</span>
+<span id="cb39-3"><a href="pytorch-and-numpy.html#cb39-3"></a><span class="kw">title</span>(label)</span></code></pre></div>
+<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="generate-a-random-array-in-numpy" class="section level4 unnumbered">
-<h4>Generate a random array in NumPy</h4>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="pytorch-and-numpy.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set the seed</span></span>
-<span id="cb40-2"><a href="pytorch-and-numpy.html#cb40-2" aria-hidden="true" tabindex="-1"></a>np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">seed</span>(123L)</span>
-<span id="cb40-3"><a href="pytorch-and-numpy.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a random array</span></span>
-<span id="cb40-4"><a href="pytorch-and-numpy.html#cb40-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">rand</span>(100L)</span>
-<span id="cb40-5"><a href="pytorch-and-numpy.html#cb40-5" aria-hidden="true" tabindex="-1"></a>x</span>
-<span id="cb40-6"><a href="pytorch-and-numpy.html#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the y array</span></span>
-<span id="cb40-7"><a href="pytorch-and-numpy.html#cb40-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> np<span class="sc">$</span><span class="fu">sin</span>(x) <span class="sc">*</span> np<span class="sc">$</span><span class="fu">power</span>(x, 3L) <span class="sc">+</span> 3L <span class="sc">*</span> x <span class="sc">+</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">rand</span>(100L) <span class="sc">*</span> <span class="fl">0.8</span></span>
-<span id="cb40-8"><a href="pytorch-and-numpy.html#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span>
-<span id="cb40-9"><a href="pytorch-and-numpy.html#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(y)</span></code></pre></div>
+<div id="generate-a-random-array-in-numpy" class="section level3 unnumbered">
+<h3>Generate a random array in NumPy</h3>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="pytorch-and-numpy.html#cb40-1"></a><span class="co"># set the seed</span></span>
+<span id="cb40-2"><a href="pytorch-and-numpy.html#cb40-2"></a>np<span class="op">$</span>random<span class="op">$</span><span class="kw">seed</span>(123L)</span>
+<span id="cb40-3"><a href="pytorch-and-numpy.html#cb40-3"></a><span class="co"># generate a random array</span></span>
+<span id="cb40-4"><a href="pytorch-and-numpy.html#cb40-4"></a>x =<span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L)</span>
+<span id="cb40-5"><a href="pytorch-and-numpy.html#cb40-5"></a>x</span>
+<span id="cb40-6"><a href="pytorch-and-numpy.html#cb40-6"></a><span class="co"># calculate the y array</span></span>
+<span id="cb40-7"><a href="pytorch-and-numpy.html#cb40-7"></a>y =<span class="st"> </span>np<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>np<span class="op">$</span><span class="kw">power</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></span>
+<span id="cb40-8"><a href="pytorch-and-numpy.html#cb40-8"></a><span class="kw">class</span>(x)</span>
+<span id="cb40-9"><a href="pytorch-and-numpy.html#cb40-9"></a><span class="kw">class</span>(y)</span></code></pre></div>
 <pre><code>#&gt;   [1] 0.6965 0.2861 0.2269 0.5513 0.7195 0.4231 0.9808 0.6848 0.4809 0.3921
 #&gt;  [11] 0.3432 0.7290 0.4386 0.0597 0.3980 0.7380 0.1825 0.1755 0.5316 0.5318
 #&gt;  [21] 0.6344 0.8494 0.7245 0.6110 0.7224 0.3230 0.3618 0.2283 0.2937 0.6310
@@ -1421,60 +1391,63 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt; [1] &quot;array&quot;
 #&gt; [1] &quot;array&quot;</code></pre>
 <p>From the classes, we can tell that the <code>numpy</code> arrays are automatically converted to <code>R</code> arrays.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="pytorch-and-numpy.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
-<p><img src="rtorch-minimal-book_files/figure-html/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="pytorch-and-numpy.html#cb42-1"></a><span class="kw">plot</span>(x, y)</span></code></pre></div>
+<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="generate-a-random-array-in-pytorch" class="section level4 unnumbered">
-<h4>Generate a random array in PyTorch</h4>
+</div>
+<div id="common-tensor-operations" class="section level2">
+<h2><span class="header-section-number">2.3</span> Common tensor operations</h2>
+<div id="generate-random-tensors" class="section level3 unnumbered">
+<h3>Generate random tensors</h3>
 <p>The same operation can be performed with pure <code>torch</code> tensors:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="pytorch-and-numpy.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span>
-<span id="cb43-2"><a href="pytorch-and-numpy.html#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="pytorch-and-numpy.html#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(torch<span class="sc">$</span><span class="fu">manual_seed</span>(123L))</span>
-<span id="cb43-4"><a href="pytorch-and-numpy.html#cb43-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">rand</span>(100L)     <span class="co"># use torch$randn(100L): positive and negative numbers</span></span>
-<span id="cb43-5"><a href="pytorch-and-numpy.html#cb43-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">sin</span>(x) <span class="sc">*</span> torch<span class="sc">$</span><span class="fu">pow</span>(x, 3L) <span class="sc">+</span> 3L <span class="sc">*</span> x <span class="sc">+</span> torch<span class="sc">$</span><span class="fu">rand</span>(100L) <span class="sc">*</span> <span class="fl">0.8</span></span>
-<span id="cb43-6"><a href="pytorch-and-numpy.html#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span>
-<span id="cb43-7"><a href="pytorch-and-numpy.html#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(y)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="pytorch-and-numpy.html#cb43-1"></a><span class="kw">library</span>(rTorch)</span>
+<span id="cb43-2"><a href="pytorch-and-numpy.html#cb43-2"></a></span>
+<span id="cb43-3"><a href="pytorch-and-numpy.html#cb43-3"></a><span class="kw">invisible</span>(torch<span class="op">$</span><span class="kw">manual_seed</span>(123L))</span>
+<span id="cb43-4"><a href="pytorch-and-numpy.html#cb43-4"></a>x &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(100L)     <span class="co"># use torch$randn(100L): positive and negative numbers</span></span>
+<span id="cb43-5"><a href="pytorch-and-numpy.html#cb43-5"></a>y &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>torch<span class="op">$</span><span class="kw">pow</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></span>
+<span id="cb43-6"><a href="pytorch-and-numpy.html#cb43-6"></a><span class="kw">class</span>(x)</span>
+<span id="cb43-7"><a href="pytorch-and-numpy.html#cb43-7"></a><span class="kw">class</span>(y)</span></code></pre></div>
 <pre><code>#&gt; [1] &quot;torch.Tensor&quot;          &quot;torch._C._TensorBase&quot;  &quot;python.builtin.object&quot;
 #&gt; [1] &quot;torch.Tensor&quot;          &quot;torch._C._TensorBase&quot;  &quot;python.builtin.object&quot;</code></pre>
 <p>Since the clasess are <code>torch</code> tensors, to plot them in R, they need to be converted to numpy, and then R:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="pytorch-and-numpy.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x<span class="sc">$</span><span class="fu">numpy</span>(), y<span class="sc">$</span><span class="fu">numpy</span>())</span></code></pre></div>
-<p><img src="rtorch-minimal-book_files/figure-html/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="pytorch-and-numpy.html#cb45-1"></a><span class="kw">plot</span>(x<span class="op">$</span><span class="kw">numpy</span>(), y<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
+<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="convert-a-numpy-array-to-a-pytorch-tensor" class="section level4 unnumbered">
-<h4>Convert a <code>numpy</code> array to a PyTorch tensor</h4>
-<p>This is a very common operation that I have seen in examples using PyTorch. Creating first the array in <code>numpy</code>. and then convert it to a <code>torch</code> tensor.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="pytorch-and-numpy.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input array</span></span>
-<span id="cb46-2"><a href="pytorch-and-numpy.html#cb46-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">rbind</span>(</span>
-<span id="cb46-3"><a href="pytorch-and-numpy.html#cb46-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb46-4"><a href="pytorch-and-numpy.html#cb46-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
-<span id="cb46-5"><a href="pytorch-and-numpy.html#cb46-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb46-6"><a href="pytorch-and-numpy.html#cb46-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)))</span>
-<span id="cb46-7"><a href="pytorch-and-numpy.html#cb46-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-8"><a href="pytorch-and-numpy.html#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="co"># the numpy array</span></span>
-<span id="cb46-9"><a href="pytorch-and-numpy.html#cb46-9" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div id="numpy-array-to-pytorch-tensor" class="section level3 unnumbered">
+<h3><code>numpy</code> array to PyTorch tensor</h3>
+<p>Converting a <code>numpy</code> array to a PyTorch tensor is a very common operation that I have seen in examples using PyTorch. Creating first the array in <code>numpy</code>. and then convert it to a <code>torch</code> tensor.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="pytorch-and-numpy.html#cb46-1"></a><span class="co"># input array</span></span>
+<span id="cb46-2"><a href="pytorch-and-numpy.html#cb46-2"></a>x =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">rbind</span>(</span>
+<span id="cb46-3"><a href="pytorch-and-numpy.html#cb46-3"></a>            <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb46-4"><a href="pytorch-and-numpy.html#cb46-4"></a>            <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb46-5"><a href="pytorch-and-numpy.html#cb46-5"></a>            <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb46-6"><a href="pytorch-and-numpy.html#cb46-6"></a>            <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)))</span>
+<span id="cb46-7"><a href="pytorch-and-numpy.html#cb46-7"></a></span>
+<span id="cb46-8"><a href="pytorch-and-numpy.html#cb46-8"></a><span class="co"># the numpy array</span></span>
+<span id="cb46-9"><a href="pytorch-and-numpy.html#cb46-9"></a>x</span></code></pre></div>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    0    0    1
 #&gt; [2,]    0    1    1
 #&gt; [3,]    1    0    1
 #&gt; [4,]    1    1    1</code></pre>
 <p>This is another common operation that will find in the PyTorch tutorials: converting a <code>numpy</code> array from a certain type to a tensor of the same type:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="pytorch-and-numpy.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the numpy array to a float type</span></span>
-<span id="cb48-2"><a href="pytorch-and-numpy.html#cb48-2" aria-hidden="true" tabindex="-1"></a>Xn <span class="ot">&lt;-</span> np<span class="sc">$</span><span class="fu">float32</span>(x)</span>
-<span id="cb48-3"><a href="pytorch-and-numpy.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the numpy array to a float tensor</span></span>
-<span id="cb48-4"><a href="pytorch-and-numpy.html#cb48-4" aria-hidden="true" tabindex="-1"></a>Xt <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">FloatTensor</span>(Xn)</span>
-<span id="cb48-5"><a href="pytorch-and-numpy.html#cb48-5" aria-hidden="true" tabindex="-1"></a>Xt</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="pytorch-and-numpy.html#cb48-1"></a><span class="co"># convert the numpy array to a float type</span></span>
+<span id="cb48-2"><a href="pytorch-and-numpy.html#cb48-2"></a>Xn &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">float32</span>(x)</span>
+<span id="cb48-3"><a href="pytorch-and-numpy.html#cb48-3"></a><span class="co"># convert the numpy array to a float tensor</span></span>
+<span id="cb48-4"><a href="pytorch-and-numpy.html#cb48-4"></a>Xt &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(Xn)</span>
+<span id="cb48-5"><a href="pytorch-and-numpy.html#cb48-5"></a>Xt</span></code></pre></div>
 <pre><code>#&gt; tensor([[0., 0., 1.],
 #&gt;         [0., 1., 1.],
 #&gt;         [1., 0., 1.],
 #&gt;         [1., 1., 1.]])</code></pre>
 </div>
 </div>
-<div id="python-built-in-functions" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Python built-in functions</h2>
+<div id="python-built-in-functions" class="section level2">
+<h2><span class="header-section-number">2.4</span> Python built-in functions</h2>
 <p>To access the Python built-in functions we make use of the package <code>reticulate</code> and the function <code>import_builtins()</code>.</p>
 <p>Here are part of the built-in functions and operators offered by <code>reticulate</code>:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="pytorch-and-numpy.html#cb50-1" aria-hidden="true" tabindex="-1"></a>py_bi <span class="ot">&lt;-</span> <span class="fu">import_builtins</span>()</span>
-<span id="cb50-2"><a href="pytorch-and-numpy.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Error|Warning|Exit&quot;</span>, <span class="fu">names</span>(py_bi), <span class="at">value =</span> <span class="cn">TRUE</span>, <span class="at">invert =</span> <span class="cn">TRUE</span>, <span class="at">perl =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="pytorch-and-numpy.html#cb50-1"></a>py_bi &lt;-<span class="st"> </span><span class="kw">import_builtins</span>()</span>
+<span id="cb50-2"><a href="pytorch-and-numpy.html#cb50-2"></a><span class="kw">grep</span>(<span class="st">&quot;Error|Warning|Exit&quot;</span>, <span class="kw">names</span>(py_bi), <span class="dt">value =</span> <span class="ot">TRUE</span>, <span class="dt">invert =</span> <span class="ot">TRUE</span>, <span class="dt">perl =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>#&gt;  [1] &quot;abs&quot;                &quot;all&quot;                &quot;any&quot;               
 #&gt;  [4] &quot;ascii&quot;              &quot;BaseException&quot;      &quot;bin&quot;               
 #&gt;  [7] &quot;bool&quot;               &quot;breakpoint&quot;         &quot;bytearray&quot;         
@@ -1506,8 +1479,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="length-of-a-dataset" class="section level4 unnumbered">
 <h4>Length of a dataset</h4>
 <p>Sometimes, we will need the Python <code>len</code> function to find out the length of an object:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="pytorch-and-numpy.html#cb52-1" aria-hidden="true" tabindex="-1"></a>py_bi<span class="sc">$</span><span class="fu">len</span>(train_dataset)</span>
-<span id="cb52-2"><a href="pytorch-and-numpy.html#cb52-2" aria-hidden="true" tabindex="-1"></a>py_bi<span class="sc">$</span><span class="fu">len</span>(test_dataset)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="pytorch-and-numpy.html#cb52-1"></a>py_bi<span class="op">$</span><span class="kw">len</span>(train_dataset)</span>
+<span id="cb52-2"><a href="pytorch-and-numpy.html#cb52-2"></a>py_bi<span class="op">$</span><span class="kw">len</span>(test_dataset)</span></code></pre></div>
 <pre><code>#&gt; [1] 60000
 #&gt; [1] 10000</code></pre>
 </div>
@@ -1515,126 +1488,126 @@ code span.wa { color: #bf0303; } /* Warning */
 <h4>Iterators</h4>
 <p>Iterators are used a lot in dataset operations when running a neural network. In this example we will iterate through only 100 elements of the 60,000 of the <code>train</code> dataset. The goal is printing the “label” or “class” for the digits we are reading. The digits are not show here; they are stored in tensors.</p>
 <!-- we use results="hold" to wait for the header of the table -->
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="pytorch-and-numpy.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># iterate through training dataset</span></span>
-<span id="cb54-2"><a href="pytorch-and-numpy.html#cb54-2" aria-hidden="true" tabindex="-1"></a>enum_train_dataset <span class="ot">&lt;-</span> py_bi<span class="sc">$</span><span class="fu">enumerate</span>(train_dataset)</span>
-<span id="cb54-3"><a href="pytorch-and-numpy.html#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%8s %8s </span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;index&quot;</span>, <span class="st">&quot;label&quot;</span>))</span>
-<span id="cb54-4"><a href="pytorch-and-numpy.html#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-5"><a href="pytorch-and-numpy.html#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>py_bi<span class="sc">$</span><span class="fu">len</span>(train_dataset)) {</span>
-<span id="cb54-6"><a href="pytorch-and-numpy.html#cb54-6" aria-hidden="true" tabindex="-1"></a>    obj <span class="ot">&lt;-</span> reticulate<span class="sc">::</span><span class="fu">iter_next</span>(enum_train_dataset)</span>
-<span id="cb54-7"><a href="pytorch-and-numpy.html#cb54-7" aria-hidden="true" tabindex="-1"></a>    idx   <span class="ot">&lt;-</span> obj[[<span class="dv">1</span>]]        <span class="co"># index number</span></span>
-<span id="cb54-8"><a href="pytorch-and-numpy.html#cb54-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%8d %5d </span><span class="sc">\n</span><span class="st">&quot;</span>, idx, obj[[<span class="dv">2</span>]][[<span class="dv">2</span>]]))</span>
-<span id="cb54-9"><a href="pytorch-and-numpy.html#cb54-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="sc">&gt;=</span> <span class="dv">100</span>) <span class="cf">break</span>   <span class="co"># print only 100 labels</span></span>
-<span id="cb54-10"><a href="pytorch-and-numpy.html#cb54-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb54-11"><a href="pytorch-and-numpy.html#cb54-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    index    label </span></span>
-<span id="cb54-12"><a href="pytorch-and-numpy.html#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        0     5 </span></span>
-<span id="cb54-13"><a href="pytorch-and-numpy.html#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        1     0 </span></span>
-<span id="cb54-14"><a href="pytorch-and-numpy.html#cb54-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        2     4 </span></span>
-<span id="cb54-15"><a href="pytorch-and-numpy.html#cb54-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        3     1 </span></span>
-<span id="cb54-16"><a href="pytorch-and-numpy.html#cb54-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        4     9 </span></span>
-<span id="cb54-17"><a href="pytorch-and-numpy.html#cb54-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        5     2 </span></span>
-<span id="cb54-18"><a href="pytorch-and-numpy.html#cb54-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        6     1 </span></span>
-<span id="cb54-19"><a href="pytorch-and-numpy.html#cb54-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        7     3 </span></span>
-<span id="cb54-20"><a href="pytorch-and-numpy.html#cb54-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        8     1 </span></span>
-<span id="cb54-21"><a href="pytorch-and-numpy.html#cb54-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        9     4 </span></span>
-<span id="cb54-22"><a href="pytorch-and-numpy.html#cb54-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       10     3 </span></span>
-<span id="cb54-23"><a href="pytorch-and-numpy.html#cb54-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       11     5 </span></span>
-<span id="cb54-24"><a href="pytorch-and-numpy.html#cb54-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       12     3 </span></span>
-<span id="cb54-25"><a href="pytorch-and-numpy.html#cb54-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       13     6 </span></span>
-<span id="cb54-26"><a href="pytorch-and-numpy.html#cb54-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       14     1 </span></span>
-<span id="cb54-27"><a href="pytorch-and-numpy.html#cb54-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       15     7 </span></span>
-<span id="cb54-28"><a href="pytorch-and-numpy.html#cb54-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       16     2 </span></span>
-<span id="cb54-29"><a href="pytorch-and-numpy.html#cb54-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       17     8 </span></span>
-<span id="cb54-30"><a href="pytorch-and-numpy.html#cb54-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       18     6 </span></span>
-<span id="cb54-31"><a href="pytorch-and-numpy.html#cb54-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       19     9 </span></span>
-<span id="cb54-32"><a href="pytorch-and-numpy.html#cb54-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       20     4 </span></span>
-<span id="cb54-33"><a href="pytorch-and-numpy.html#cb54-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       21     0 </span></span>
-<span id="cb54-34"><a href="pytorch-and-numpy.html#cb54-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       22     9 </span></span>
-<span id="cb54-35"><a href="pytorch-and-numpy.html#cb54-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       23     1 </span></span>
-<span id="cb54-36"><a href="pytorch-and-numpy.html#cb54-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       24     1 </span></span>
-<span id="cb54-37"><a href="pytorch-and-numpy.html#cb54-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       25     2 </span></span>
-<span id="cb54-38"><a href="pytorch-and-numpy.html#cb54-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       26     4 </span></span>
-<span id="cb54-39"><a href="pytorch-and-numpy.html#cb54-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       27     3 </span></span>
-<span id="cb54-40"><a href="pytorch-and-numpy.html#cb54-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       28     2 </span></span>
-<span id="cb54-41"><a href="pytorch-and-numpy.html#cb54-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       29     7 </span></span>
-<span id="cb54-42"><a href="pytorch-and-numpy.html#cb54-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       30     3 </span></span>
-<span id="cb54-43"><a href="pytorch-and-numpy.html#cb54-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       31     8 </span></span>
-<span id="cb54-44"><a href="pytorch-and-numpy.html#cb54-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       32     6 </span></span>
-<span id="cb54-45"><a href="pytorch-and-numpy.html#cb54-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       33     9 </span></span>
-<span id="cb54-46"><a href="pytorch-and-numpy.html#cb54-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       34     0 </span></span>
-<span id="cb54-47"><a href="pytorch-and-numpy.html#cb54-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       35     5 </span></span>
-<span id="cb54-48"><a href="pytorch-and-numpy.html#cb54-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       36     6 </span></span>
-<span id="cb54-49"><a href="pytorch-and-numpy.html#cb54-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       37     0 </span></span>
-<span id="cb54-50"><a href="pytorch-and-numpy.html#cb54-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       38     7 </span></span>
-<span id="cb54-51"><a href="pytorch-and-numpy.html#cb54-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       39     6 </span></span>
-<span id="cb54-52"><a href="pytorch-and-numpy.html#cb54-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       40     1 </span></span>
-<span id="cb54-53"><a href="pytorch-and-numpy.html#cb54-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       41     8 </span></span>
-<span id="cb54-54"><a href="pytorch-and-numpy.html#cb54-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       42     7 </span></span>
-<span id="cb54-55"><a href="pytorch-and-numpy.html#cb54-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       43     9 </span></span>
-<span id="cb54-56"><a href="pytorch-and-numpy.html#cb54-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       44     3 </span></span>
-<span id="cb54-57"><a href="pytorch-and-numpy.html#cb54-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       45     9 </span></span>
-<span id="cb54-58"><a href="pytorch-and-numpy.html#cb54-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       46     8 </span></span>
-<span id="cb54-59"><a href="pytorch-and-numpy.html#cb54-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       47     5 </span></span>
-<span id="cb54-60"><a href="pytorch-and-numpy.html#cb54-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       48     9 </span></span>
-<span id="cb54-61"><a href="pytorch-and-numpy.html#cb54-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       49     3 </span></span>
-<span id="cb54-62"><a href="pytorch-and-numpy.html#cb54-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       50     3 </span></span>
-<span id="cb54-63"><a href="pytorch-and-numpy.html#cb54-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       51     0 </span></span>
-<span id="cb54-64"><a href="pytorch-and-numpy.html#cb54-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       52     7 </span></span>
-<span id="cb54-65"><a href="pytorch-and-numpy.html#cb54-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       53     4 </span></span>
-<span id="cb54-66"><a href="pytorch-and-numpy.html#cb54-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       54     9 </span></span>
-<span id="cb54-67"><a href="pytorch-and-numpy.html#cb54-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       55     8 </span></span>
-<span id="cb54-68"><a href="pytorch-and-numpy.html#cb54-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       56     0 </span></span>
-<span id="cb54-69"><a href="pytorch-and-numpy.html#cb54-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       57     9 </span></span>
-<span id="cb54-70"><a href="pytorch-and-numpy.html#cb54-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       58     4 </span></span>
-<span id="cb54-71"><a href="pytorch-and-numpy.html#cb54-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       59     1 </span></span>
-<span id="cb54-72"><a href="pytorch-and-numpy.html#cb54-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       60     4 </span></span>
-<span id="cb54-73"><a href="pytorch-and-numpy.html#cb54-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       61     4 </span></span>
-<span id="cb54-74"><a href="pytorch-and-numpy.html#cb54-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       62     6 </span></span>
-<span id="cb54-75"><a href="pytorch-and-numpy.html#cb54-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       63     0 </span></span>
-<span id="cb54-76"><a href="pytorch-and-numpy.html#cb54-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       64     4 </span></span>
-<span id="cb54-77"><a href="pytorch-and-numpy.html#cb54-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       65     5 </span></span>
-<span id="cb54-78"><a href="pytorch-and-numpy.html#cb54-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       66     6 </span></span>
-<span id="cb54-79"><a href="pytorch-and-numpy.html#cb54-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       67     1 </span></span>
-<span id="cb54-80"><a href="pytorch-and-numpy.html#cb54-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       68     0 </span></span>
-<span id="cb54-81"><a href="pytorch-and-numpy.html#cb54-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       69     0 </span></span>
-<span id="cb54-82"><a href="pytorch-and-numpy.html#cb54-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       70     1 </span></span>
-<span id="cb54-83"><a href="pytorch-and-numpy.html#cb54-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       71     7 </span></span>
-<span id="cb54-84"><a href="pytorch-and-numpy.html#cb54-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       72     1 </span></span>
-<span id="cb54-85"><a href="pytorch-and-numpy.html#cb54-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       73     6 </span></span>
-<span id="cb54-86"><a href="pytorch-and-numpy.html#cb54-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       74     3 </span></span>
-<span id="cb54-87"><a href="pytorch-and-numpy.html#cb54-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       75     0 </span></span>
-<span id="cb54-88"><a href="pytorch-and-numpy.html#cb54-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       76     2 </span></span>
-<span id="cb54-89"><a href="pytorch-and-numpy.html#cb54-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       77     1 </span></span>
-<span id="cb54-90"><a href="pytorch-and-numpy.html#cb54-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       78     1 </span></span>
-<span id="cb54-91"><a href="pytorch-and-numpy.html#cb54-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       79     7 </span></span>
-<span id="cb54-92"><a href="pytorch-and-numpy.html#cb54-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       80     9 </span></span>
-<span id="cb54-93"><a href="pytorch-and-numpy.html#cb54-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       81     0 </span></span>
-<span id="cb54-94"><a href="pytorch-and-numpy.html#cb54-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       82     2 </span></span>
-<span id="cb54-95"><a href="pytorch-and-numpy.html#cb54-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       83     6 </span></span>
-<span id="cb54-96"><a href="pytorch-and-numpy.html#cb54-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       84     7 </span></span>
-<span id="cb54-97"><a href="pytorch-and-numpy.html#cb54-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       85     8 </span></span>
-<span id="cb54-98"><a href="pytorch-and-numpy.html#cb54-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       86     3 </span></span>
-<span id="cb54-99"><a href="pytorch-and-numpy.html#cb54-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       87     9 </span></span>
-<span id="cb54-100"><a href="pytorch-and-numpy.html#cb54-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       88     0 </span></span>
-<span id="cb54-101"><a href="pytorch-and-numpy.html#cb54-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       89     4 </span></span>
-<span id="cb54-102"><a href="pytorch-and-numpy.html#cb54-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       90     6 </span></span>
-<span id="cb54-103"><a href="pytorch-and-numpy.html#cb54-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       91     7 </span></span>
-<span id="cb54-104"><a href="pytorch-and-numpy.html#cb54-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       92     4 </span></span>
-<span id="cb54-105"><a href="pytorch-and-numpy.html#cb54-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       93     6 </span></span>
-<span id="cb54-106"><a href="pytorch-and-numpy.html#cb54-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       94     8 </span></span>
-<span id="cb54-107"><a href="pytorch-and-numpy.html#cb54-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       95     0 </span></span>
-<span id="cb54-108"><a href="pytorch-and-numpy.html#cb54-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       96     7 </span></span>
-<span id="cb54-109"><a href="pytorch-and-numpy.html#cb54-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       97     8 </span></span>
-<span id="cb54-110"><a href="pytorch-and-numpy.html#cb54-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       98     3 </span></span>
-<span id="cb54-111"><a href="pytorch-and-numpy.html#cb54-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       99     1</span></span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="pytorch-and-numpy.html#cb54-1"></a><span class="co"># iterate through training dataset</span></span>
+<span id="cb54-2"><a href="pytorch-and-numpy.html#cb54-2"></a>enum_train_dataset &lt;-<span class="st"> </span>py_bi<span class="op">$</span><span class="kw">enumerate</span>(train_dataset)</span>
+<span id="cb54-3"><a href="pytorch-and-numpy.html#cb54-3"></a><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%8s %8s </span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;index&quot;</span>, <span class="st">&quot;label&quot;</span>))</span>
+<span id="cb54-4"><a href="pytorch-and-numpy.html#cb54-4"></a></span>
+<span id="cb54-5"><a href="pytorch-and-numpy.html#cb54-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>py_bi<span class="op">$</span><span class="kw">len</span>(train_dataset)) {</span>
+<span id="cb54-6"><a href="pytorch-and-numpy.html#cb54-6"></a>    obj &lt;-<span class="st"> </span>reticulate<span class="op">::</span><span class="kw">iter_next</span>(enum_train_dataset)</span>
+<span id="cb54-7"><a href="pytorch-and-numpy.html#cb54-7"></a>    idx   &lt;-<span class="st"> </span>obj[[<span class="dv">1</span>]]        <span class="co"># index number</span></span>
+<span id="cb54-8"><a href="pytorch-and-numpy.html#cb54-8"></a>    <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%8d %5d </span><span class="ch">\n</span><span class="st">&quot;</span>, idx, obj[[<span class="dv">2</span>]][[<span class="dv">2</span>]]))</span>
+<span id="cb54-9"><a href="pytorch-and-numpy.html#cb54-9"></a>    <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span>   <span class="co"># print only 100 labels</span></span>
+<span id="cb54-10"><a href="pytorch-and-numpy.html#cb54-10"></a>}</span>
+<span id="cb54-11"><a href="pytorch-and-numpy.html#cb54-11"></a><span class="co">#&gt;    index    label </span></span>
+<span id="cb54-12"><a href="pytorch-and-numpy.html#cb54-12"></a><span class="co">#&gt;        0     5 </span></span>
+<span id="cb54-13"><a href="pytorch-and-numpy.html#cb54-13"></a><span class="co">#&gt;        1     0 </span></span>
+<span id="cb54-14"><a href="pytorch-and-numpy.html#cb54-14"></a><span class="co">#&gt;        2     4 </span></span>
+<span id="cb54-15"><a href="pytorch-and-numpy.html#cb54-15"></a><span class="co">#&gt;        3     1 </span></span>
+<span id="cb54-16"><a href="pytorch-and-numpy.html#cb54-16"></a><span class="co">#&gt;        4     9 </span></span>
+<span id="cb54-17"><a href="pytorch-and-numpy.html#cb54-17"></a><span class="co">#&gt;        5     2 </span></span>
+<span id="cb54-18"><a href="pytorch-and-numpy.html#cb54-18"></a><span class="co">#&gt;        6     1 </span></span>
+<span id="cb54-19"><a href="pytorch-and-numpy.html#cb54-19"></a><span class="co">#&gt;        7     3 </span></span>
+<span id="cb54-20"><a href="pytorch-and-numpy.html#cb54-20"></a><span class="co">#&gt;        8     1 </span></span>
+<span id="cb54-21"><a href="pytorch-and-numpy.html#cb54-21"></a><span class="co">#&gt;        9     4 </span></span>
+<span id="cb54-22"><a href="pytorch-and-numpy.html#cb54-22"></a><span class="co">#&gt;       10     3 </span></span>
+<span id="cb54-23"><a href="pytorch-and-numpy.html#cb54-23"></a><span class="co">#&gt;       11     5 </span></span>
+<span id="cb54-24"><a href="pytorch-and-numpy.html#cb54-24"></a><span class="co">#&gt;       12     3 </span></span>
+<span id="cb54-25"><a href="pytorch-and-numpy.html#cb54-25"></a><span class="co">#&gt;       13     6 </span></span>
+<span id="cb54-26"><a href="pytorch-and-numpy.html#cb54-26"></a><span class="co">#&gt;       14     1 </span></span>
+<span id="cb54-27"><a href="pytorch-and-numpy.html#cb54-27"></a><span class="co">#&gt;       15     7 </span></span>
+<span id="cb54-28"><a href="pytorch-and-numpy.html#cb54-28"></a><span class="co">#&gt;       16     2 </span></span>
+<span id="cb54-29"><a href="pytorch-and-numpy.html#cb54-29"></a><span class="co">#&gt;       17     8 </span></span>
+<span id="cb54-30"><a href="pytorch-and-numpy.html#cb54-30"></a><span class="co">#&gt;       18     6 </span></span>
+<span id="cb54-31"><a href="pytorch-and-numpy.html#cb54-31"></a><span class="co">#&gt;       19     9 </span></span>
+<span id="cb54-32"><a href="pytorch-and-numpy.html#cb54-32"></a><span class="co">#&gt;       20     4 </span></span>
+<span id="cb54-33"><a href="pytorch-and-numpy.html#cb54-33"></a><span class="co">#&gt;       21     0 </span></span>
+<span id="cb54-34"><a href="pytorch-and-numpy.html#cb54-34"></a><span class="co">#&gt;       22     9 </span></span>
+<span id="cb54-35"><a href="pytorch-and-numpy.html#cb54-35"></a><span class="co">#&gt;       23     1 </span></span>
+<span id="cb54-36"><a href="pytorch-and-numpy.html#cb54-36"></a><span class="co">#&gt;       24     1 </span></span>
+<span id="cb54-37"><a href="pytorch-and-numpy.html#cb54-37"></a><span class="co">#&gt;       25     2 </span></span>
+<span id="cb54-38"><a href="pytorch-and-numpy.html#cb54-38"></a><span class="co">#&gt;       26     4 </span></span>
+<span id="cb54-39"><a href="pytorch-and-numpy.html#cb54-39"></a><span class="co">#&gt;       27     3 </span></span>
+<span id="cb54-40"><a href="pytorch-and-numpy.html#cb54-40"></a><span class="co">#&gt;       28     2 </span></span>
+<span id="cb54-41"><a href="pytorch-and-numpy.html#cb54-41"></a><span class="co">#&gt;       29     7 </span></span>
+<span id="cb54-42"><a href="pytorch-and-numpy.html#cb54-42"></a><span class="co">#&gt;       30     3 </span></span>
+<span id="cb54-43"><a href="pytorch-and-numpy.html#cb54-43"></a><span class="co">#&gt;       31     8 </span></span>
+<span id="cb54-44"><a href="pytorch-and-numpy.html#cb54-44"></a><span class="co">#&gt;       32     6 </span></span>
+<span id="cb54-45"><a href="pytorch-and-numpy.html#cb54-45"></a><span class="co">#&gt;       33     9 </span></span>
+<span id="cb54-46"><a href="pytorch-and-numpy.html#cb54-46"></a><span class="co">#&gt;       34     0 </span></span>
+<span id="cb54-47"><a href="pytorch-and-numpy.html#cb54-47"></a><span class="co">#&gt;       35     5 </span></span>
+<span id="cb54-48"><a href="pytorch-and-numpy.html#cb54-48"></a><span class="co">#&gt;       36     6 </span></span>
+<span id="cb54-49"><a href="pytorch-and-numpy.html#cb54-49"></a><span class="co">#&gt;       37     0 </span></span>
+<span id="cb54-50"><a href="pytorch-and-numpy.html#cb54-50"></a><span class="co">#&gt;       38     7 </span></span>
+<span id="cb54-51"><a href="pytorch-and-numpy.html#cb54-51"></a><span class="co">#&gt;       39     6 </span></span>
+<span id="cb54-52"><a href="pytorch-and-numpy.html#cb54-52"></a><span class="co">#&gt;       40     1 </span></span>
+<span id="cb54-53"><a href="pytorch-and-numpy.html#cb54-53"></a><span class="co">#&gt;       41     8 </span></span>
+<span id="cb54-54"><a href="pytorch-and-numpy.html#cb54-54"></a><span class="co">#&gt;       42     7 </span></span>
+<span id="cb54-55"><a href="pytorch-and-numpy.html#cb54-55"></a><span class="co">#&gt;       43     9 </span></span>
+<span id="cb54-56"><a href="pytorch-and-numpy.html#cb54-56"></a><span class="co">#&gt;       44     3 </span></span>
+<span id="cb54-57"><a href="pytorch-and-numpy.html#cb54-57"></a><span class="co">#&gt;       45     9 </span></span>
+<span id="cb54-58"><a href="pytorch-and-numpy.html#cb54-58"></a><span class="co">#&gt;       46     8 </span></span>
+<span id="cb54-59"><a href="pytorch-and-numpy.html#cb54-59"></a><span class="co">#&gt;       47     5 </span></span>
+<span id="cb54-60"><a href="pytorch-and-numpy.html#cb54-60"></a><span class="co">#&gt;       48     9 </span></span>
+<span id="cb54-61"><a href="pytorch-and-numpy.html#cb54-61"></a><span class="co">#&gt;       49     3 </span></span>
+<span id="cb54-62"><a href="pytorch-and-numpy.html#cb54-62"></a><span class="co">#&gt;       50     3 </span></span>
+<span id="cb54-63"><a href="pytorch-and-numpy.html#cb54-63"></a><span class="co">#&gt;       51     0 </span></span>
+<span id="cb54-64"><a href="pytorch-and-numpy.html#cb54-64"></a><span class="co">#&gt;       52     7 </span></span>
+<span id="cb54-65"><a href="pytorch-and-numpy.html#cb54-65"></a><span class="co">#&gt;       53     4 </span></span>
+<span id="cb54-66"><a href="pytorch-and-numpy.html#cb54-66"></a><span class="co">#&gt;       54     9 </span></span>
+<span id="cb54-67"><a href="pytorch-and-numpy.html#cb54-67"></a><span class="co">#&gt;       55     8 </span></span>
+<span id="cb54-68"><a href="pytorch-and-numpy.html#cb54-68"></a><span class="co">#&gt;       56     0 </span></span>
+<span id="cb54-69"><a href="pytorch-and-numpy.html#cb54-69"></a><span class="co">#&gt;       57     9 </span></span>
+<span id="cb54-70"><a href="pytorch-and-numpy.html#cb54-70"></a><span class="co">#&gt;       58     4 </span></span>
+<span id="cb54-71"><a href="pytorch-and-numpy.html#cb54-71"></a><span class="co">#&gt;       59     1 </span></span>
+<span id="cb54-72"><a href="pytorch-and-numpy.html#cb54-72"></a><span class="co">#&gt;       60     4 </span></span>
+<span id="cb54-73"><a href="pytorch-and-numpy.html#cb54-73"></a><span class="co">#&gt;       61     4 </span></span>
+<span id="cb54-74"><a href="pytorch-and-numpy.html#cb54-74"></a><span class="co">#&gt;       62     6 </span></span>
+<span id="cb54-75"><a href="pytorch-and-numpy.html#cb54-75"></a><span class="co">#&gt;       63     0 </span></span>
+<span id="cb54-76"><a href="pytorch-and-numpy.html#cb54-76"></a><span class="co">#&gt;       64     4 </span></span>
+<span id="cb54-77"><a href="pytorch-and-numpy.html#cb54-77"></a><span class="co">#&gt;       65     5 </span></span>
+<span id="cb54-78"><a href="pytorch-and-numpy.html#cb54-78"></a><span class="co">#&gt;       66     6 </span></span>
+<span id="cb54-79"><a href="pytorch-and-numpy.html#cb54-79"></a><span class="co">#&gt;       67     1 </span></span>
+<span id="cb54-80"><a href="pytorch-and-numpy.html#cb54-80"></a><span class="co">#&gt;       68     0 </span></span>
+<span id="cb54-81"><a href="pytorch-and-numpy.html#cb54-81"></a><span class="co">#&gt;       69     0 </span></span>
+<span id="cb54-82"><a href="pytorch-and-numpy.html#cb54-82"></a><span class="co">#&gt;       70     1 </span></span>
+<span id="cb54-83"><a href="pytorch-and-numpy.html#cb54-83"></a><span class="co">#&gt;       71     7 </span></span>
+<span id="cb54-84"><a href="pytorch-and-numpy.html#cb54-84"></a><span class="co">#&gt;       72     1 </span></span>
+<span id="cb54-85"><a href="pytorch-and-numpy.html#cb54-85"></a><span class="co">#&gt;       73     6 </span></span>
+<span id="cb54-86"><a href="pytorch-and-numpy.html#cb54-86"></a><span class="co">#&gt;       74     3 </span></span>
+<span id="cb54-87"><a href="pytorch-and-numpy.html#cb54-87"></a><span class="co">#&gt;       75     0 </span></span>
+<span id="cb54-88"><a href="pytorch-and-numpy.html#cb54-88"></a><span class="co">#&gt;       76     2 </span></span>
+<span id="cb54-89"><a href="pytorch-and-numpy.html#cb54-89"></a><span class="co">#&gt;       77     1 </span></span>
+<span id="cb54-90"><a href="pytorch-and-numpy.html#cb54-90"></a><span class="co">#&gt;       78     1 </span></span>
+<span id="cb54-91"><a href="pytorch-and-numpy.html#cb54-91"></a><span class="co">#&gt;       79     7 </span></span>
+<span id="cb54-92"><a href="pytorch-and-numpy.html#cb54-92"></a><span class="co">#&gt;       80     9 </span></span>
+<span id="cb54-93"><a href="pytorch-and-numpy.html#cb54-93"></a><span class="co">#&gt;       81     0 </span></span>
+<span id="cb54-94"><a href="pytorch-and-numpy.html#cb54-94"></a><span class="co">#&gt;       82     2 </span></span>
+<span id="cb54-95"><a href="pytorch-and-numpy.html#cb54-95"></a><span class="co">#&gt;       83     6 </span></span>
+<span id="cb54-96"><a href="pytorch-and-numpy.html#cb54-96"></a><span class="co">#&gt;       84     7 </span></span>
+<span id="cb54-97"><a href="pytorch-and-numpy.html#cb54-97"></a><span class="co">#&gt;       85     8 </span></span>
+<span id="cb54-98"><a href="pytorch-and-numpy.html#cb54-98"></a><span class="co">#&gt;       86     3 </span></span>
+<span id="cb54-99"><a href="pytorch-and-numpy.html#cb54-99"></a><span class="co">#&gt;       87     9 </span></span>
+<span id="cb54-100"><a href="pytorch-and-numpy.html#cb54-100"></a><span class="co">#&gt;       88     0 </span></span>
+<span id="cb54-101"><a href="pytorch-and-numpy.html#cb54-101"></a><span class="co">#&gt;       89     4 </span></span>
+<span id="cb54-102"><a href="pytorch-and-numpy.html#cb54-102"></a><span class="co">#&gt;       90     6 </span></span>
+<span id="cb54-103"><a href="pytorch-and-numpy.html#cb54-103"></a><span class="co">#&gt;       91     7 </span></span>
+<span id="cb54-104"><a href="pytorch-and-numpy.html#cb54-104"></a><span class="co">#&gt;       92     4 </span></span>
+<span id="cb54-105"><a href="pytorch-and-numpy.html#cb54-105"></a><span class="co">#&gt;       93     6 </span></span>
+<span id="cb54-106"><a href="pytorch-and-numpy.html#cb54-106"></a><span class="co">#&gt;       94     8 </span></span>
+<span id="cb54-107"><a href="pytorch-and-numpy.html#cb54-107"></a><span class="co">#&gt;       95     0 </span></span>
+<span id="cb54-108"><a href="pytorch-and-numpy.html#cb54-108"></a><span class="co">#&gt;       96     7 </span></span>
+<span id="cb54-109"><a href="pytorch-and-numpy.html#cb54-109"></a><span class="co">#&gt;       97     8 </span></span>
+<span id="cb54-110"><a href="pytorch-and-numpy.html#cb54-110"></a><span class="co">#&gt;       98     3 </span></span>
+<span id="cb54-111"><a href="pytorch-and-numpy.html#cb54-111"></a><span class="co">#&gt;       99     1</span></span></code></pre></div>
 </div>
 <div id="types-and-instances" class="section level4 unnumbered">
 <h4>Types and instances</h4>
 <p>Types, instances and classes are important to take decisions on how we will process data that is being read from the datasets. In this example, we want to know if an object is of certain instance:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="pytorch-and-numpy.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the class of the object</span></span>
-<span id="cb55-2"><a href="pytorch-and-numpy.html#cb55-2" aria-hidden="true" tabindex="-1"></a>py_bi<span class="sc">$</span><span class="fu">type</span>(train_dataset)</span>
-<span id="cb55-3"><a href="pytorch-and-numpy.html#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-4"><a href="pytorch-and-numpy.html#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co"># is train_dataset a torchvision dataset class</span></span>
-<span id="cb55-5"><a href="pytorch-and-numpy.html#cb55-5" aria-hidden="true" tabindex="-1"></a>py_bi<span class="sc">$</span><span class="fu">isinstance</span>(train_dataset, torchvision<span class="sc">$</span>datasets<span class="sc">$</span>mnist<span class="sc">$</span>MNIST)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="pytorch-and-numpy.html#cb55-1"></a><span class="co"># get the class of the object</span></span>
+<span id="cb55-2"><a href="pytorch-and-numpy.html#cb55-2"></a>py_bi<span class="op">$</span><span class="kw">type</span>(train_dataset)</span>
+<span id="cb55-3"><a href="pytorch-and-numpy.html#cb55-3"></a></span>
+<span id="cb55-4"><a href="pytorch-and-numpy.html#cb55-4"></a><span class="co"># is train_dataset a torchvision dataset class</span></span>
+<span id="cb55-5"><a href="pytorch-and-numpy.html#cb55-5"></a>py_bi<span class="op">$</span><span class="kw">isinstance</span>(train_dataset, torchvision<span class="op">$</span>datasets<span class="op">$</span>mnist<span class="op">$</span>MNIST)</span></code></pre></div>
 <pre><code>#&gt; &lt;class &#39;torchvision.datasets.mnist.MNIST&#39;&gt;
 #&gt; [1] TRUE</code></pre>
 
@@ -1647,7 +1620,7 @@ code span.wa { color: #bf0303; } /* Warning */
         </div>
       </div>
 <a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="rtorch-vs-pytorch-whats-different.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="rtorch-vs-pytorch.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -1663,7 +1636,7 @@ code span.wa { color: #bf0303; } /* Warning */
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": true,
+"github": false,
 "facebook": false,
 "twitter": true,
 "linkedin": false,
@@ -1691,7 +1664,7 @@ gitbook.start({
 },
 "download": null,
 "toc": {
-"collapse": "none"
+"collapse": "subsection"
 }
 });
 });

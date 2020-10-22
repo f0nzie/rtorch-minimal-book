@@ -32,7 +32,7 @@ plot(x, y)
 
 Before you start the training process, you need to convert the numpy array to Variables that supported by Torch and autograd.
 
-## Converting from numpy to tensor
+## `numpy` array to tensor
 Notice that before converting to a Torch tensor, we need first to convert the R numeric vector to a `numpy` array:
 
 ```{r numpy-to-tensor}

@@ -1,4 +1,4 @@
-# A step-by-step neural network in rTorch
+# A neural network step-by-step
 
 ## Introduction
 Source: https://github.com/jcjohnson/pytorch-examples#pytorch-nn
@@ -95,7 +95,10 @@ for (t in 1:500) {
 ```
 
 
-## Using R generics to simplify tensor operations
+## Using R generics
+
+### Simplify tensor operations
+
 The following two expressions are equivalent, with the first being the long version natural way of doing it in __PyTorch__. The second is using the generics in R for subtraction, multiplication and scalar conversion.
 
 ```{r eval=FALSE}
@@ -109,7 +112,7 @@ param$data <- param$data - param$grad * learning_rate
 ```
 
 
-## A more elegant way of writing the neural network
+## An elegant neural network
 
 ```{r nn-rtorch-elegant}
 invisible(torch$manual_seed(0))   # do not show the generator output
@@ -164,7 +167,7 @@ for (t in 1:500) {
 }  
 ```
 
-## Create a browseable dataframe
+## A browseable dataframe
 
 ```{r dt-loss-reduce}
 library(DT)

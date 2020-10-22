@@ -7,7 +7,7 @@ library(rTorch)
 library(ggplot2)
 ```
 
-## The Sigmoid function
+## Sigmoid
 
 Using the PyTorch `sigmoid()` function:
 
@@ -35,7 +35,7 @@ x <- seq(-5, 5, 0.01)
 plot(x, sigmoid(x), col = 'blue', cex = 0.5, main = "Sigmoid")
 ```
 
-## The ReLU function
+## ReLU
 
 Using the PyTorch `relu()` function:
 
@@ -52,7 +52,7 @@ ggplot(df, aes(x = x, y = sx)) +
 ```
 
 
-## The tanh function
+## tanh
 
 Using the PyTorch `tanh()` function:
 
@@ -69,7 +69,7 @@ ggplot(df, aes(x = x, y = sx)) +
 ```
 
 
-## The Softmax Activation function
+## Softmax
 
 Using the PyTorch `softmax()` function:
 
@@ -89,7 +89,7 @@ ggplot(df, aes(x = x, y = sx)) +
 
 
 
-## Coding your own activation functions in Python
+## Activation functions in Python
 
 ```{r}
 library(rTorch)
@@ -198,7 +198,7 @@ plt.show()
 ```
 
 
-## Softmax in Python
+## Softmax code in Python
 
 ```{python, results='hide'}
 # Source: https://dataaspirant.com/2017/03/07/difference-between-softmax-function-and-sigmoid-function/

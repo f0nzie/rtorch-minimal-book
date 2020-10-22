@@ -5,21 +5,20 @@ library(rTorch)
 ```
 
 
-## Transforming a tensor from `numpy` and viceversa
-* Explain how transform a tensor back and forth to `numpy`.
-* Why is this important?
-* In what cases in this necessary?
-
-
-### Convert a tensor to `numpy` object
+## Tensor to `numpy` array
 This is a frequent operation. I have found that this is necessary when:
 
 * a `numpy` function is not implemented in PyTorch
 * We need to convert a tensor to R
 * Perform a boolean operation that is not directly available in PyTorch
 
+## `numpy` array to tensor
+* Explain how transform a tensor back and forth to `numpy`.
+* Why is this important?
+* In what cases in this necessary?
 
-### Convert a `numpy` object to an `R` object
+
+### `numpy` array to `R`
 This is mainly required for these reasons:
 
 1. Create a data structure in R
@@ -28,5 +27,6 @@ This is mainly required for these reasons:
 4. Use R statistical functions that are not available in PyTorch
 
 
-## Transforming a tensor from PyTorch to R and viceversa
-TODO
+## R objects to `numpy` objects
+
+* TODO
