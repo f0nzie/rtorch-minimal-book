@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>A Statistical Background | A Minimal rTorch Book</title>
+  <title>Chapter 11 Linear Regression | A Minimal rTorch Book</title>
   <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="A Statistical Background | A Minimal rTorch Book" />
+  <meta property="og:title" content="Chapter 11 Linear Regression | A Minimal rTorch Book" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A Statistical Background | A Minimal rTorch Book" />
+  <meta name="twitter:title" content="Chapter 11 Linear Regression | A Minimal rTorch Book" />
   
   <meta name="twitter:description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="working-with-data-table.html"/>
-<link rel="next" href="appendixB.html"/>
+<link rel="prev" href="linear-regression.html"/>
+<link rel="next" href="neural-networks.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -1252,35 +1252,289 @@ code span.wa { color: #bf0303; } /* Warning */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="appendixA" class="section level1">
-<h1><span class="header-section-number">A</span> Statistical Background</h1>
-<div id="basic-statistical-terms" class="section level2">
-<h2><span class="header-section-number">A.1</span> Basic statistical terms</h2>
-<div id="five-number-summary" class="section level3">
-<h3><span class="header-section-number">A.1.1</span> Five-number summary</h3>
-<p>The <strong>five-number summary</strong> consists of five values: minimum, first quantile, second quantile, third quantile, and maximum. The quantiles are calculated as:</p>
+<div id="linear-regression-1" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> Linear Regression</h1>
+<div id="rainfall-prediction" class="section level2">
+<h2><span class="header-section-number">11.1</span> Rainfall prediction</h2>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="linear-regression-1.html#cb477-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
+<p>Select the device: CPU or GPU</p>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="linear-regression-1.html#cb478-1"></a><span class="kw">invisible</span>(torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">0</span>))</span>
+<span id="cb478-2"><a href="linear-regression-1.html#cb478-2"></a>device =<span class="st"> </span>torch<span class="op">$</span><span class="kw">device</span>(<span class="st">&#39;cpu&#39;</span>)</span></code></pre></div>
+</div>
+<div id="training-data" class="section level2">
+<h2><span class="header-section-number">11.2</span> Training data</h2>
+<p>The training data can be represented using 2 matrices (inputs and targets), each with one row per observation, and one column per variable.</p>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="linear-regression-1.html#cb479-1"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
+<span id="cb479-2"><a href="linear-regression-1.html#cb479-2"></a>inputs =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
+<span id="cb479-3"><a href="linear-regression-1.html#cb479-3"></a>                   <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>),</span>
+<span id="cb479-4"><a href="linear-regression-1.html#cb479-4"></a>                   <span class="kw">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
+<span id="cb479-5"><a href="linear-regression-1.html#cb479-5"></a>                   <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
+<span id="cb479-6"><a href="linear-regression-1.html#cb479-6"></a>                   <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb479-7"><a href="linear-regression-1.html#cb479-7"></a></span>
+<span id="cb479-8"><a href="linear-regression-1.html#cb479-8"></a><span class="co"># Targets (apples, oranges)</span></span>
+<span id="cb479-9"><a href="linear-regression-1.html#cb479-9"></a>targets =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">56</span>, <span class="dv">70</span>), </span>
+<span id="cb479-10"><a href="linear-regression-1.html#cb479-10"></a>                    <span class="kw">list</span>(<span class="dv">81</span>, <span class="dv">101</span>),</span>
+<span id="cb479-11"><a href="linear-regression-1.html#cb479-11"></a>                    <span class="kw">list</span>(<span class="dv">119</span>, <span class="dv">133</span>),</span>
+<span id="cb479-12"><a href="linear-regression-1.html#cb479-12"></a>                    <span class="kw">list</span>(<span class="dv">22</span>, <span class="dv">37</span>), </span>
+<span id="cb479-13"><a href="linear-regression-1.html#cb479-13"></a>                    <span class="kw">list</span>(<span class="dv">103</span>, <span class="dv">119</span>)), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span></code></pre></div>
+</div>
+<div id="convert-arrays-to-tensors-1" class="section level2">
+<h2><span class="header-section-number">11.3</span> Convert arrays to tensors</h2>
+<p>Before we build a model, we need to convert inputs and targets to PyTorch tensors.</p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="linear-regression-1.html#cb480-1"></a><span class="co"># Convert inputs and targets to tensors</span></span>
+<span id="cb480-2"><a href="linear-regression-1.html#cb480-2"></a>inputs =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(inputs)</span>
+<span id="cb480-3"><a href="linear-regression-1.html#cb480-3"></a>targets =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(targets)</span>
+<span id="cb480-4"><a href="linear-regression-1.html#cb480-4"></a></span>
+<span id="cb480-5"><a href="linear-regression-1.html#cb480-5"></a><span class="kw">print</span>(inputs)</span>
+<span id="cb480-6"><a href="linear-regression-1.html#cb480-6"></a><span class="kw">print</span>(targets)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 73.,  67.,  43.],
+#&gt;         [ 91.,  88.,  64.],
+#&gt;         [ 87., 134.,  58.],
+#&gt;         [102.,  43.,  37.],
+#&gt;         [ 69.,  96.,  70.]], dtype=torch.float64)
+#&gt; tensor([[ 56.,  70.],
+#&gt;         [ 81., 101.],
+#&gt;         [119., 133.],
+#&gt;         [ 22.,  37.],
+#&gt;         [103., 119.]], dtype=torch.float64)</code></pre>
+<p>The weights and biases can also be represented as matrices, initialized with random values. The first row of <span class="math inline">\(w\)</span> and the first element of <span class="math inline">\(b\)</span> are used to predict the first target variable, i.e. yield for apples, and, similarly, the second for oranges.</p>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="linear-regression-1.html#cb482-1"></a><span class="co"># random numbers for weights and biases. Then convert to double()</span></span>
+<span id="cb482-2"><a href="linear-regression-1.html#cb482-2"></a>torch<span class="op">$</span><span class="kw">set_default_dtype</span>(torch<span class="op">$</span>double)</span>
+<span id="cb482-3"><a href="linear-regression-1.html#cb482-3"></a></span>
+<span id="cb482-4"><a href="linear-regression-1.html#cb482-4"></a>w =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, 3L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>)  <span class="co">#$double()</span></span>
+<span id="cb482-5"><a href="linear-regression-1.html#cb482-5"></a>b =<span class="st"> </span>torch<span class="op">$</span><span class="kw">randn</span>(2L, <span class="dt">requires_grad=</span><span class="ot">TRUE</span>)      <span class="co">#$double()</span></span>
+<span id="cb482-6"><a href="linear-regression-1.html#cb482-6"></a></span>
+<span id="cb482-7"><a href="linear-regression-1.html#cb482-7"></a><span class="kw">print</span>(w)</span>
+<span id="cb482-8"><a href="linear-regression-1.html#cb482-8"></a><span class="kw">print</span>(b)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.5410, -0.2934, -2.1788],
+#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)
+#&gt; tensor([0.4033, 0.8380], requires_grad=True)</code></pre>
+</div>
+<div id="build-the-model" class="section level2">
+<h2><span class="header-section-number">11.4</span> Build the model</h2>
+<p>The model is simply a function that performs a matrix multiplication of the input <span class="math inline">\(x\)</span> and the weights <span class="math inline">\(w\)</span> (transposed), and adds the bias <span class="math inline">\(b\)</span> (replicated for each observation).</p>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="linear-regression-1.html#cb484-1"></a>model &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb484-2"><a href="linear-regression-1.html#cb484-2"></a>  wt &lt;-<span class="st"> </span>w<span class="op">$</span><span class="kw">t</span>()</span>
+<span id="cb484-3"><a href="linear-regression-1.html#cb484-3"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">add</span>(torch<span class="op">$</span><span class="kw">mm</span>(x, wt), b))</span>
+<span id="cb484-4"><a href="linear-regression-1.html#cb484-4"></a>}</span></code></pre></div>
+</div>
+<div id="generate-predictions" class="section level2">
+<h2><span class="header-section-number">11.5</span> Generate predictions</h2>
+<p>The matrix obtained by passing the input data to the model is a set of predictions for the target variables.</p>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="linear-regression-1.html#cb485-1"></a><span class="co"># Generate predictions</span></span>
+<span id="cb485-2"><a href="linear-regression-1.html#cb485-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb485-3"><a href="linear-regression-1.html#cb485-3"></a><span class="kw">print</span>(preds)</span></code></pre></div>
+<pre><code>#&gt; tensor([[  -0.4516,  -90.4691],
+#&gt;         [ -24.6303, -132.3828],
+#&gt;         [ -31.2192, -176.1530],
+#&gt;         [  64.3523,  -39.5645],
+#&gt;         [ -73.9524, -161.9560]], grad_fn=&lt;AddBackward0&gt;)</code></pre>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="linear-regression-1.html#cb487-1"></a><span class="co"># Compare with targets</span></span>
+<span id="cb487-2"><a href="linear-regression-1.html#cb487-2"></a><span class="kw">print</span>(targets)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 56.,  70.],
+#&gt;         [ 81., 101.],
+#&gt;         [119., 133.],
+#&gt;         [ 22.,  37.],
+#&gt;         [103., 119.]])</code></pre>
+<p>Because we’ve started with random weights and biases, the model does not a very good job of predicting the target variables.</p>
+</div>
+<div id="loss-function" class="section level2">
+<h2><span class="header-section-number">11.6</span> Loss Function</h2>
+<p>We can compare the predictions with the actual targets, using the following method:</p>
 <ul>
-<li>first quantile (<span class="math inline">\(Q_1\)</span>): the median of the first half of the sorted data</li>
-<li>third quantile (<span class="math inline">\(Q_3\)</span>): the median of the second half of the sorted data</li>
+<li>Calculate the difference between the two matrices (preds and targets).</li>
+<li>Square all elements of the difference matrix to remove negative values.</li>
+<li>Calculate the average of the elements in the resulting matrix.</li>
 </ul>
-<blockquote>
-<p>First quantile: 25<sup>th</sup> percentile.
-Second quantile: 50<sup>th</sup> percentile.
-Third quantile: 75<sup>th</sup> percentile.</p>
-</blockquote>
-<p>The <em>interquartile range</em> or <code>IQR</code> is defined as <span class="math inline">\(Q_3 - Q_1\)</span> and is a measure of how spread out the middle 50% of values is.</p>
+<p>The result is a single number, known as the mean squared error (MSE).</p>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="linear-regression-1.html#cb489-1"></a><span class="co"># MSE loss</span></span>
+<span id="cb489-2"><a href="linear-regression-1.html#cb489-2"></a>mse =<span class="st"> </span><span class="cf">function</span>(t1, t2) {</span>
+<span id="cb489-3"><a href="linear-regression-1.html#cb489-3"></a>  diff &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(t1, t2)</span>
+<span id="cb489-4"><a href="linear-regression-1.html#cb489-4"></a>  mul &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sum</span>(torch<span class="op">$</span><span class="kw">mul</span>(diff, diff))</span>
+<span id="cb489-5"><a href="linear-regression-1.html#cb489-5"></a>  <span class="kw">return</span>(torch<span class="op">$</span><span class="kw">div</span>(mul, diff<span class="op">$</span><span class="kw">numel</span>()))</span>
+<span id="cb489-6"><a href="linear-regression-1.html#cb489-6"></a>}</span>
+<span id="cb489-7"><a href="linear-regression-1.html#cb489-7"></a><span class="kw">print</span>(mse)</span></code></pre></div>
+<pre><code>#&gt; function(t1, t2) {
+#&gt;   diff &lt;- torch$sub(t1, t2)
+#&gt;   mul &lt;- torch$sum(torch$mul(diff, diff))
+#&gt;   return(torch$div(mul, diff$numel()))
+#&gt; }</code></pre>
+</div>
+<div id="step-by-step-process" class="section level2">
+<h2><span class="header-section-number">11.7</span> Step by step process</h2>
+<div id="compute-the-losses" class="section level3">
+<h3><span class="header-section-number">11.7.1</span> Compute the losses</h3>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="linear-regression-1.html#cb491-1"></a><span class="co"># Compute loss</span></span>
+<span id="cb491-2"><a href="linear-regression-1.html#cb491-2"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb491-3"><a href="linear-regression-1.html#cb491-3"></a><span class="kw">print</span>(loss)</span>
+<span id="cb491-4"><a href="linear-regression-1.html#cb491-4"></a><span class="co"># 46194</span></span>
+<span id="cb491-5"><a href="linear-regression-1.html#cb491-5"></a><span class="co"># 33060.8070</span></span></code></pre></div>
+<pre><code>#&gt; tensor(33060.8053, grad_fn=&lt;DivBackward0&gt;)</code></pre>
+<p>The resulting number is called the <strong>loss</strong>, because it indicates how bad the model is at predicting the target variables. Lower the loss, better the model.</p>
+</div>
+<div id="compute-gradients" class="section level3">
+<h3><span class="header-section-number">11.7.2</span> Compute Gradients</h3>
+<p>With PyTorch, we can automatically compute the gradient or derivative of the loss w.r.t. to the weights and biases, because they have <code>requires_grad</code> set to True.</p>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="linear-regression-1.html#cb493-1"></a><span class="co"># Compute gradients</span></span>
+<span id="cb493-2"><a href="linear-regression-1.html#cb493-2"></a>loss<span class="op">$</span><span class="kw">backward</span>()</span></code></pre></div>
+<p>The gradients are stored in the .grad property of the respective tensors.</p>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="linear-regression-1.html#cb494-1"></a><span class="co"># Gradients for weights</span></span>
+<span id="cb494-2"><a href="linear-regression-1.html#cb494-2"></a><span class="kw">print</span>(w)</span>
+<span id="cb494-3"><a href="linear-regression-1.html#cb494-3"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.5410, -0.2934, -2.1788],
+#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)
+#&gt; tensor([[ -6938.4351,  -9674.6757,  -5744.0206],
+#&gt;         [-17408.7861, -20595.9333, -12453.4702]])</code></pre>
+<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="linear-regression-1.html#cb496-1"></a><span class="co"># Gradients for bias</span></span>
+<span id="cb496-2"><a href="linear-regression-1.html#cb496-2"></a><span class="kw">print</span>(b)</span>
+<span id="cb496-3"><a href="linear-regression-1.html#cb496-3"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span></code></pre></div>
+<pre><code>#&gt; tensor([0.4033, 0.8380], requires_grad=True)
+#&gt; tensor([ -89.3802, -212.1051])</code></pre>
+<p>A key insight from calculus is that the gradient indicates the rate of change of the loss, or the slope of the loss function w.r.t. the weights and biases.</p>
+<ul>
+<li>If a gradient element is positive:
+<ul>
+<li>increasing the element’s value slightly will increase the loss.</li>
+<li>decreasing the element’s value slightly will decrease the loss.</li>
+</ul></li>
+<li>If a gradient element is negative,
+<ul>
+<li>increasing the element’s value slightly will decrease the loss.</li>
+<li>decreasing the element’s value slightly will increase the loss.</li>
+</ul></li>
+</ul>
+<p>The increase or decrease is proportional to the value of the gradient.</p>
+</div>
+<div id="reset-the-gradients" class="section level3">
+<h3><span class="header-section-number">11.7.3</span> Reset the gradients</h3>
+<p>Finally, we’ll reset the gradients to zero before moving forward, because PyTorch accumulates gradients.</p>
+<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="linear-regression-1.html#cb498-1"></a><span class="co"># Reset the gradients</span></span>
+<span id="cb498-2"><a href="linear-regression-1.html#cb498-2"></a>w<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb498-3"><a href="linear-regression-1.html#cb498-3"></a>b<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb498-4"><a href="linear-regression-1.html#cb498-4"></a></span>
+<span id="cb498-5"><a href="linear-regression-1.html#cb498-5"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span>
+<span id="cb498-6"><a href="linear-regression-1.html#cb498-6"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span></code></pre></div>
+<pre><code>#&gt; tensor([[0., 0., 0.],
+#&gt;         [0., 0., 0.]])
+#&gt; tensor([0., 0.])
+#&gt; tensor([[0., 0., 0.],
+#&gt;         [0., 0., 0.]])
+#&gt; tensor([0., 0.])</code></pre>
+<div id="adjust-weights-and-biases" class="section level4">
+<h4><span class="header-section-number">11.7.3.1</span> Adjust weights and biases</h4>
+<p>We’ll reduce the loss and improve our model using the gradient descent algorithm, which has the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Generate predictions</li>
+<li>Calculate the loss</li>
+<li>Compute gradients w.r.t the weights and biases</li>
+<li>Adjust the weights by subtracting a small quantity proportional to the gradient</li>
+<li>Reset the gradients to zero</li>
+</ol>
+<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="linear-regression-1.html#cb500-1"></a><span class="co"># Generate predictions</span></span>
+<span id="cb500-2"><a href="linear-regression-1.html#cb500-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb500-3"><a href="linear-regression-1.html#cb500-3"></a><span class="kw">print</span>(preds)</span></code></pre></div>
+<pre><code>#&gt; tensor([[  -0.4516,  -90.4691],
+#&gt;         [ -24.6303, -132.3828],
+#&gt;         [ -31.2192, -176.1530],
+#&gt;         [  64.3523,  -39.5645],
+#&gt;         [ -73.9524, -161.9560]], grad_fn=&lt;AddBackward0&gt;)</code></pre>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="linear-regression-1.html#cb502-1"></a><span class="co"># Calculate the loss</span></span>
+<span id="cb502-2"><a href="linear-regression-1.html#cb502-2"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb502-3"><a href="linear-regression-1.html#cb502-3"></a><span class="kw">print</span>(loss)</span></code></pre></div>
+<pre><code>#&gt; tensor(33060.8053, grad_fn=&lt;DivBackward0&gt;)</code></pre>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="linear-regression-1.html#cb504-1"></a><span class="co"># Compute gradients</span></span>
+<span id="cb504-2"><a href="linear-regression-1.html#cb504-2"></a>loss<span class="op">$</span><span class="kw">backward</span>()</span>
+<span id="cb504-3"><a href="linear-regression-1.html#cb504-3"></a></span>
+<span id="cb504-4"><a href="linear-regression-1.html#cb504-4"></a><span class="kw">print</span>(w<span class="op">$</span>grad)</span>
+<span id="cb504-5"><a href="linear-regression-1.html#cb504-5"></a><span class="kw">print</span>(b<span class="op">$</span>grad)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ -6938.4351,  -9674.6757,  -5744.0206],
+#&gt;         [-17408.7861, -20595.9333, -12453.4702]])
+#&gt; tensor([ -89.3802, -212.1051])</code></pre>
+<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="linear-regression-1.html#cb506-1"></a><span class="co"># Adjust weights and reset gradients</span></span>
+<span id="cb506-2"><a href="linear-regression-1.html#cb506-2"></a><span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
+<span id="cb506-3"><a href="linear-regression-1.html#cb506-3"></a>  <span class="kw">print</span>(w); <span class="kw">print</span>(b)    <span class="co"># requires_grad attribute remains</span></span>
+<span id="cb506-4"><a href="linear-regression-1.html#cb506-4"></a>  w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb506-5"><a href="linear-regression-1.html#cb506-5"></a>  b<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(b<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(b<span class="op">$</span>grad<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb506-6"><a href="linear-regression-1.html#cb506-6"></a></span>
+<span id="cb506-7"><a href="linear-regression-1.html#cb506-7"></a>  <span class="kw">print</span>(w<span class="op">$</span>grad<span class="op">$</span>data<span class="op">$</span><span class="kw">zero_</span>())</span>
+<span id="cb506-8"><a href="linear-regression-1.html#cb506-8"></a>  <span class="kw">print</span>(b<span class="op">$</span>grad<span class="op">$</span>data<span class="op">$</span><span class="kw">zero_</span>())</span>
+<span id="cb506-9"><a href="linear-regression-1.html#cb506-9"></a>})</span>
+<span id="cb506-10"><a href="linear-regression-1.html#cb506-10"></a></span>
+<span id="cb506-11"><a href="linear-regression-1.html#cb506-11"></a><span class="kw">print</span>(w)</span>
+<span id="cb506-12"><a href="linear-regression-1.html#cb506-12"></a><span class="kw">print</span>(b)</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 1.5410, -0.2934, -2.1788],
+#&gt;         [ 0.5684, -1.0845, -1.3986]], requires_grad=True)
+#&gt; tensor([0.4033, 0.8380], requires_grad=True)
+#&gt; tensor([[0., 0., 0.],
+#&gt;         [0., 0., 0.]])
+#&gt; tensor([0., 0.])
+#&gt; tensor([[ 1.6104, -0.1967, -2.1213],
+#&gt;         [ 0.7425, -0.8786, -1.2741]], requires_grad=True)
+#&gt; tensor([0.4042, 0.8401], requires_grad=True)</code></pre>
+<p>With the new weights and biases, the model should have a lower loss.</p>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="linear-regression-1.html#cb508-1"></a><span class="co"># Calculate loss</span></span>
+<span id="cb508-2"><a href="linear-regression-1.html#cb508-2"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb508-3"><a href="linear-regression-1.html#cb508-3"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb508-4"><a href="linear-regression-1.html#cb508-4"></a><span class="kw">print</span>(loss)</span></code></pre></div>
+<pre><code>#&gt; tensor(23432.4894, grad_fn=&lt;DivBackward0&gt;)</code></pre>
+</div>
+</div>
+</div>
+<div id="all-together" class="section level2">
+<h2><span class="header-section-number">11.8</span> All together</h2>
+<p>###T Training for multiple epochs
+To reduce the loss further, we repeat the process of adjusting the weights and biases using the gradients multiple times. Each iteration is called an <strong>epoch</strong>.</p>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="linear-regression-1.html#cb510-1"></a><span class="co"># Running all together</span></span>
+<span id="cb510-2"><a href="linear-regression-1.html#cb510-2"></a><span class="co"># Adjust weights and reset gradients</span></span>
+<span id="cb510-3"><a href="linear-regression-1.html#cb510-3"></a>num_epochs &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb510-4"><a href="linear-regression-1.html#cb510-4"></a></span>
+<span id="cb510-5"><a href="linear-regression-1.html#cb510-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>num_epochs) {</span>
+<span id="cb510-6"><a href="linear-regression-1.html#cb510-6"></a>  preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb510-7"><a href="linear-regression-1.html#cb510-7"></a>  loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb510-8"><a href="linear-regression-1.html#cb510-8"></a>  loss<span class="op">$</span><span class="kw">backward</span>()</span>
+<span id="cb510-9"><a href="linear-regression-1.html#cb510-9"></a>  <span class="kw">with</span>(torch<span class="op">$</span><span class="kw">no_grad</span>(), {</span>
+<span id="cb510-10"><a href="linear-regression-1.html#cb510-10"></a>    w<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(w<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(w<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb510-11"><a href="linear-regression-1.html#cb510-11"></a>    b<span class="op">$</span>data &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sub</span>(b<span class="op">$</span>data, torch<span class="op">$</span><span class="kw">mul</span>(b<span class="op">$</span>grad, torch<span class="op">$</span><span class="kw">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb510-12"><a href="linear-regression-1.html#cb510-12"></a>    </span>
+<span id="cb510-13"><a href="linear-regression-1.html#cb510-13"></a>    w<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb510-14"><a href="linear-regression-1.html#cb510-14"></a>    b<span class="op">$</span>grad<span class="op">$</span><span class="kw">zero_</span>()</span>
+<span id="cb510-15"><a href="linear-regression-1.html#cb510-15"></a>  })</span>
+<span id="cb510-16"><a href="linear-regression-1.html#cb510-16"></a>}</span>
+<span id="cb510-17"><a href="linear-regression-1.html#cb510-17"></a></span>
+<span id="cb510-18"><a href="linear-regression-1.html#cb510-18"></a><span class="co"># Calculate loss</span></span>
+<span id="cb510-19"><a href="linear-regression-1.html#cb510-19"></a>preds =<span class="st"> </span><span class="kw">model</span>(inputs)</span>
+<span id="cb510-20"><a href="linear-regression-1.html#cb510-20"></a>loss =<span class="st"> </span><span class="kw">mse</span>(preds, targets)</span>
+<span id="cb510-21"><a href="linear-regression-1.html#cb510-21"></a><span class="kw">print</span>(loss)</span>
+<span id="cb510-22"><a href="linear-regression-1.html#cb510-22"></a></span>
+<span id="cb510-23"><a href="linear-regression-1.html#cb510-23"></a><span class="co"># predictions</span></span>
+<span id="cb510-24"><a href="linear-regression-1.html#cb510-24"></a>preds</span>
+<span id="cb510-25"><a href="linear-regression-1.html#cb510-25"></a></span>
+<span id="cb510-26"><a href="linear-regression-1.html#cb510-26"></a><span class="co"># Targets</span></span>
+<span id="cb510-27"><a href="linear-regression-1.html#cb510-27"></a>targets</span></code></pre></div>
+<pre><code>#&gt; tensor(1258.0216, grad_fn=&lt;DivBackward0&gt;)
+#&gt; tensor([[ 69.2462,  80.2082],
+#&gt;         [ 73.7183,  97.2052],
+#&gt;         [118.5780, 124.9272],
+#&gt;         [ 89.2282,  92.7052],
+#&gt;         [ 47.4648,  80.7782]], grad_fn=&lt;AddBackward0&gt;)
+#&gt; tensor([[ 56.,  70.],
+#&gt;         [ 81., 101.],
+#&gt;         [119., 133.],
+#&gt;         [ 22.,  37.],
+#&gt;         [103., 119.]])</code></pre>
+
+</div>
+</div>
 
 
-</div>
-</div>
-</div>
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="working-with-data-table.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="appendixB.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="linear-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="neural-networks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -1311,7 +1565,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/f0nzie/rtorch-minimal-book/edit/main/9991-appendixA.Rmd",
+"link": "https://github.com/f0nzie/rtorch-minimal-book/edit/main/0402-linr-example-rainfall.Rmd",
 "text": "Edit"
 },
 "history": {
