@@ -1,5 +1,7 @@
 # Converting tensors
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0104-converting_tensors.Rmd", intern = TRUE)`_
+
 ```{r}
 library(rTorch)
 ```

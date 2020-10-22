@@ -1198,11 +1198,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
-<li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a><ul>
-<li class="chapter" data-level="14.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="14.2" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
-<li class="chapter" data-level="14.3" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
+<li class="chapter" data-level="14" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with a data.frame</a><ul>
+<li class="chapter" data-level="14.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="14.2" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
+<li class="chapter" data-level="14.3" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a><ul>
@@ -1254,6 +1254,7 @@ code span.wa { color: #bf0303; } /* Warning */
             <section class="normal" id="section-">
 <div id="linearalgebra" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Linear Algebra with Torch</h1>
+<p><em>Last update: Thu Oct 22 14:58:45 2020 -0500 (ea06f70ca)</em></p>
 <p>The following are basic operations of Linear Algebra using PyTorch.</p>
 <div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="linearalgebra.html#cb292-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
 <div id="scalars" class="section level2">
@@ -1411,34 +1412,34 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="linearalgebra.html#cb341-1"></a><span class="co"># RGB color image has three axes </span></span>
 <span id="cb341-2"><a href="linearalgebra.html#cb341-2"></a>(img &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(3L, 28L, 28L))</span>
 <span id="cb341-3"><a href="linearalgebra.html#cb341-3"></a>img<span class="op">$</span>shape</span></code></pre></div>
-<pre><code>#&gt; tensor([[[0.4279, 0.2397, 0.4602,  ..., 0.5869, 0.0298, 0.1236],
-#&gt;          [0.9956, 0.7680, 0.5501,  ..., 0.7526, 0.6035, 0.9876],
-#&gt;          [0.0618, 0.0415, 0.0866,  ..., 0.0633, 0.2184, 0.0685],
+<pre><code>#&gt; tensor([[[0.9931, 0.8572, 0.8364,  ..., 0.5709, 0.5265, 0.1887],
+#&gt;          [0.9456, 0.4911, 0.0454,  ..., 0.5247, 0.5648, 0.3444],
+#&gt;          [0.4556, 0.9521, 0.2559,  ..., 0.2024, 0.1795, 0.5266],
 #&gt;          ...,
-#&gt;          [0.9897, 0.2182, 0.2061,  ..., 0.7337, 0.5266, 0.2266],
-#&gt;          [0.5921, 0.9244, 0.8642,  ..., 0.2552, 0.0118, 0.1090],
-#&gt;          [0.5215, 0.1160, 0.4613,  ..., 0.3138, 0.4866, 0.9631]],
+#&gt;          [0.1511, 0.8588, 0.4588,  ..., 0.2033, 0.4733, 0.4273],
+#&gt;          [0.7413, 0.0576, 0.9338,  ..., 0.0180, 0.0870, 0.1433],
+#&gt;          [0.8592, 0.9768, 0.0900,  ..., 0.0873, 0.5285, 0.1355]],
 #&gt; 
-#&gt;         [[0.5321, 0.8412, 0.6463,  ..., 0.3001, 0.6935, 0.6744],
-#&gt;          [0.1991, 0.0468, 0.9368,  ..., 0.2856, 0.5132, 0.8533],
-#&gt;          [0.1356, 0.6591, 0.0660,  ..., 0.0105, 0.3618, 0.4733],
+#&gt;         [[0.8490, 0.6883, 0.6579,  ..., 0.9555, 0.6820, 0.0457],
+#&gt;          [0.7751, 0.9757, 0.9433,  ..., 0.5223, 0.2082, 0.8678],
+#&gt;          [0.1215, 0.9744, 0.7170,  ..., 0.8434, 0.3271, 0.6822],
 #&gt;          ...,
-#&gt;          [0.5372, 0.9655, 0.7031,  ..., 0.6760, 0.0463, 0.1612],
-#&gt;          [0.0686, 0.2672, 0.0148,  ..., 0.3876, 0.3694, 0.6878],
-#&gt;          [0.4377, 0.5381, 0.6275,  ..., 0.9831, 0.4965, 0.8081]],
+#&gt;          [0.9186, 0.5333, 0.7080,  ..., 0.2612, 0.3390, 0.5857],
+#&gt;          [0.5717, 0.8510, 0.8335,  ..., 0.2068, 0.2296, 0.8040],
+#&gt;          [0.8461, 0.1956, 0.3073,  ..., 0.6355, 0.1852, 0.1167]],
 #&gt; 
-#&gt;         [[0.8581, 0.7577, 0.3360,  ..., 0.4041, 0.4984, 0.1987],
-#&gt;          [0.9682, 0.4795, 0.4672,  ..., 0.2452, 0.5413, 0.3020],
-#&gt;          [0.8307, 0.4642, 0.3711,  ..., 0.3430, 0.8882, 0.0537],
+#&gt;         [[0.5994, 0.9141, 0.6820,  ..., 0.3196, 0.1789, 0.9212],
+#&gt;          [0.7511, 0.8479, 0.5840,  ..., 0.5071, 0.6616, 0.3759],
+#&gt;          [0.4839, 0.7732, 0.0238,  ..., 0.4768, 0.8364, 0.0102],
 #&gt;          ...,
-#&gt;          [0.1959, 0.9925, 0.0734,  ..., 0.3508, 0.1420, 0.2423],
-#&gt;          [0.5770, 0.6690, 0.8890,  ..., 0.0875, 0.4545, 0.6447],
-#&gt;          [0.9393, 0.2246, 0.8341,  ..., 0.8242, 0.9354, 0.8268]]])
+#&gt;          [0.0956, 0.0112, 0.7326,  ..., 0.2931, 0.9551, 0.6319],
+#&gt;          [0.8422, 0.9179, 0.6193,  ..., 0.4831, 0.3877, 0.3611],
+#&gt;          [0.1677, 0.6474, 0.0429,  ..., 0.3438, 0.0651, 0.0932]]])
 #&gt; torch.Size([3, 28, 28])</code></pre>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="linearalgebra.html#cb343-1"></a>img[<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
 <span id="cb343-2"><a href="linearalgebra.html#cb343-2"></a>img[<span class="dv">3</span>, <span class="dv">28</span>, <span class="dv">28</span>]</span></code></pre></div>
-<pre><code>#&gt; tensor(0.4279)
-#&gt; tensor(0.8268)</code></pre>
+<pre><code>#&gt; tensor(0.9931)
+#&gt; tensor(0.0932)</code></pre>
 </div>
 <div id="transpose-of-a-matrix" class="section level2">
 <h2><span class="header-section-number">6.5</span> Transpose of a matrix</h2>
@@ -1731,28 +1732,28 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb433-4"><a href="linearalgebra.html#cb433-4"></a></span>
 <span id="cb433-5"><a href="linearalgebra.html#cb433-5"></a>a<span class="op">$</span><span class="kw">mm</span>(b)</span>
 <span id="cb433-6"><a href="linearalgebra.html#cb433-6"></a>a<span class="op">$</span><span class="kw">matmul</span>(b)</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 0.4256,  0.2609, -0.1801, -0.9255],
-#&gt;         [ 0.9145,  0.6622, -0.3215,  0.1726]])
-#&gt; tensor([[ 0.4256,  0.2609, -0.1801, -0.9255],
-#&gt;         [ 0.9145,  0.6622, -0.3215,  0.1726]])</code></pre>
+<pre><code>#&gt; tensor([[-1.5885, -0.0257,  0.0967, -0.0129],
+#&gt;         [ 3.7737,  2.1584, -3.5602, -0.4851]])
+#&gt; tensor([[-1.5885, -0.0257,  0.0967, -0.0129],
+#&gt;         [ 3.7737,  2.1584, -3.5602, -0.4851]])</code></pre>
 <p>Here is a good explanation: <a href="https://stackoverflow.com/a/44525687/5270873" class="uri">https://stackoverflow.com/a/44525687/5270873</a></p>
 <p>Let’s now prove the associative property of tensors:</p>
 <p><span class="math display">\[(A B)^T = B^T A^T\]</span></p>
 <div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="linearalgebra.html#cb435-1"></a>abt &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">mm</span>(a, b)<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
 <span id="cb435-2"><a href="linearalgebra.html#cb435-2"></a>abt</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 0.4256,  0.9145],
-#&gt;         [ 0.2609,  0.6622],
-#&gt;         [-0.1801, -0.3215],
-#&gt;         [-0.9255,  0.1726]])</code></pre>
+<pre><code>#&gt; tensor([[-1.5885,  3.7737],
+#&gt;         [-0.0257,  2.1584],
+#&gt;         [ 0.0967, -3.5602],
+#&gt;         [-0.0129, -0.4851]])</code></pre>
 <div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="linearalgebra.html#cb437-1"></a>at &lt;-<span class="st"> </span>a<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
 <span id="cb437-2"><a href="linearalgebra.html#cb437-2"></a>bt &lt;-<span class="st"> </span>b<span class="op">$</span><span class="kw">transpose</span>(<span class="dt">dim0=</span>0L, <span class="dt">dim1=</span>1L)</span>
 <span id="cb437-3"><a href="linearalgebra.html#cb437-3"></a></span>
 <span id="cb437-4"><a href="linearalgebra.html#cb437-4"></a>btat &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">matmul</span>(bt, at)</span>
 <span id="cb437-5"><a href="linearalgebra.html#cb437-5"></a>btat</span></code></pre></div>
-<pre><code>#&gt; tensor([[ 0.4256,  0.9145],
-#&gt;         [ 0.2609,  0.6622],
-#&gt;         [-0.1801, -0.3215],
-#&gt;         [-0.9255,  0.1726]])</code></pre>
+<pre><code>#&gt; tensor([[-1.5885,  3.7737],
+#&gt;         [-0.0257,  2.1584],
+#&gt;         [ 0.0967, -3.5602],
+#&gt;         [-0.0129, -0.4851]])</code></pre>
 <p>And we could unit test if the results are nearly the same with <code>allclose()</code>:</p>
 <div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="linearalgebra.html#cb439-1"></a><span class="co"># tolerance</span></span>
 <span id="cb439-2"><a href="linearalgebra.html#cb439-2"></a>torch<span class="op">$</span><span class="kw">allclose</span>(abt, btat, <span class="dt">rtol=</span><span class="fl">0.0001</span>)</span></code></pre></div>

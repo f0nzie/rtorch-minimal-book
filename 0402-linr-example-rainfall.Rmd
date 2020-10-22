@@ -1,5 +1,7 @@
 # Linear Regression
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0402-linr-example-rainfall.Rmd", intern = TRUE)`_
+
 ## Rainfall prediction
 
 ```{r rainfall-load-rtorch}

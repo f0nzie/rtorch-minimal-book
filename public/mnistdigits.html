@@ -1198,11 +1198,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
-<li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a><ul>
-<li class="chapter" data-level="14.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="14.2" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
-<li class="chapter" data-level="14.3" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
+<li class="chapter" data-level="14" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with a data.frame</a><ul>
+<li class="chapter" data-level="14.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="14.2" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
+<li class="chapter" data-level="14.3" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a><ul>
@@ -1254,6 +1254,7 @@ code span.wa { color: #bf0303; } /* Warning */
             <section class="normal" id="section-">
 <div id="mnistdigits" class="section level1">
 <h1><span class="header-section-number">Chapter 9</span> Example 2: MNIST handwritten digits</h1>
+<p><em>Last update: Sun Oct 18 09:43:48 2020 -0500 (ce85fe5a5)</em></p>
 <div id="code-in-r" class="section level2">
 <h2><span class="header-section-number">9.1</span> Code in R</h2>
 <p>Source: <a href="https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/01-basics/logistic_regression/main.py" class="uri">https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/01-basics/logistic_regression/main.py</a></p>
@@ -1345,36 +1346,36 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb461-26"><a href="mnistdigits.html#cb461-26"></a>        i &lt;-<span class="st">  </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
 <span id="cb461-27"><a href="mnistdigits.html#cb461-27"></a>    }</span>
 <span id="cb461-28"><a href="mnistdigits.html#cb461-28"></a>}  </span></code></pre></div>
-<pre><code>#&gt; Epoch [2/5], Step [100/600], Loss: 2.191505 
-#&gt; Epoch [2/5], Step [200/600], Loss: 2.073987 
-#&gt; Epoch [2/5], Step [300/600], Loss: 2.040192 
-#&gt; Epoch [2/5], Step [400/600], Loss: 1.915149 
-#&gt; Epoch [2/5], Step [500/600], Loss: 1.859771 
-#&gt; Epoch [2/5], Step [600/600], Loss: 1.761442 
-#&gt; Epoch [3/5], Step [100/600], Loss: 1.702892 
-#&gt; Epoch [3/5], Step [200/600], Loss: 1.606553 
-#&gt; Epoch [3/5], Step [300/600], Loss: 1.619291 
-#&gt; Epoch [3/5], Step [400/600], Loss: 1.538512 
-#&gt; Epoch [3/5], Step [500/600], Loss: 1.505904 
-#&gt; Epoch [3/5], Step [600/600], Loss: 1.424947 
-#&gt; Epoch [4/5], Step [100/600], Loss: 1.403444 
-#&gt; Epoch [4/5], Step [200/600], Loss: 1.318241 
-#&gt; Epoch [4/5], Step [300/600], Loss: 1.341995 
-#&gt; Epoch [4/5], Step [400/600], Loss: 1.291922 
-#&gt; Epoch [4/5], Step [500/600], Loss: 1.275313 
-#&gt; Epoch [4/5], Step [600/600], Loss: 1.210697 
-#&gt; Epoch [5/5], Step [100/600], Loss: 1.206437 
-#&gt; Epoch [5/5], Step [200/600], Loss: 1.130649 
-#&gt; Epoch [5/5], Step [300/600], Loss: 1.155305 
-#&gt; Epoch [5/5], Step [400/600], Loss: 1.124817 
-#&gt; Epoch [5/5], Step [500/600], Loss: 1.118878 
-#&gt; Epoch [5/5], Step [600/600], Loss: 1.065833 
-#&gt; Epoch [6/5], Step [100/600], Loss: 1.070135 
-#&gt; Epoch [6/5], Step [200/600], Loss: 1.001499 
-#&gt; Epoch [6/5], Step [300/600], Loss: 1.024661 
-#&gt; Epoch [6/5], Step [400/600], Loss: 1.005929 
-#&gt; Epoch [6/5], Step [500/600], Loss: 1.007327 
-#&gt; Epoch [6/5], Step [600/600], Loss: 0.962013</code></pre>
+<pre><code>#&gt; Epoch [2/5], Step [100/600], Loss: 2.250591 
+#&gt; Epoch [2/5], Step [200/600], Loss: 2.106215 
+#&gt; Epoch [2/5], Step [300/600], Loss: 2.014162 
+#&gt; Epoch [2/5], Step [400/600], Loss: 1.982605 
+#&gt; Epoch [2/5], Step [500/600], Loss: 1.850524 
+#&gt; Epoch [2/5], Step [600/600], Loss: 1.823527 
+#&gt; Epoch [3/5], Step [100/600], Loss: 1.721996 
+#&gt; Epoch [3/5], Step [200/600], Loss: 1.655474 
+#&gt; Epoch [3/5], Step [300/600], Loss: 1.616694 
+#&gt; Epoch [3/5], Step [400/600], Loss: 1.603305 
+#&gt; Epoch [3/5], Step [500/600], Loss: 1.480535 
+#&gt; Epoch [3/5], Step [600/600], Loss: 1.494809 
+#&gt; Epoch [4/5], Step [100/600], Loss: 1.393837 
+#&gt; Epoch [4/5], Step [200/600], Loss: 1.360058 
+#&gt; Epoch [4/5], Step [300/600], Loss: 1.368521 
+#&gt; Epoch [4/5], Step [400/600], Loss: 1.348005 
+#&gt; Epoch [4/5], Step [500/600], Loss: 1.247759 
+#&gt; Epoch [4/5], Step [600/600], Loss: 1.279864 
+#&gt; Epoch [5/5], Step [100/600], Loss: 1.185819 
+#&gt; Epoch [5/5], Step [200/600], Loss: 1.162508 
+#&gt; Epoch [5/5], Step [300/600], Loss: 1.207247 
+#&gt; Epoch [5/5], Step [400/600], Loss: 1.171815 
+#&gt; Epoch [5/5], Step [500/600], Loss: 1.094040 
+#&gt; Epoch [5/5], Step [600/600], Loss: 1.134095 
+#&gt; Epoch [6/5], Step [100/600], Loss: 1.046812 
+#&gt; Epoch [6/5], Step [200/600], Loss: 1.024299 
+#&gt; Epoch [6/5], Step [300/600], Loss: 1.096966 
+#&gt; Epoch [6/5], Step [400/600], Loss: 1.045229 
+#&gt; Epoch [6/5], Step [500/600], Loss: 0.986860 
+#&gt; Epoch [6/5], Step [600/600], Loss: 1.030448</code></pre>
 </div>
 <div id="prediction" class="section level3">
 <h3><span class="header-section-number">9.1.5</span> Prediction</h3>
@@ -1398,7 +1399,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb463-18"><a href="mnistdigits.html#cb463-18"></a>    <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&#39;Accuracy of the model on the 10000 test images: %f %%&#39;</span>, (<span class="dv">100</span> <span class="op">*</span><span class="st"> </span>correct <span class="op">/</span><span class="st"> </span>total)))</span>
 <span id="cb463-19"><a href="mnistdigits.html#cb463-19"></a>  </span>
 <span id="cb463-20"><a href="mnistdigits.html#cb463-20"></a>})</span></code></pre></div>
-<pre><code>#&gt; Accuracy of the model on the 10000 test images: 82.910000 %</code></pre>
+<pre><code>#&gt; Accuracy of the model on the 10000 test images: 83.400000 %</code></pre>
 </div>
 <div id="save-the-model" class="section level3">
 <h3><span class="header-section-number">9.1.6</span> Save the model</h3>

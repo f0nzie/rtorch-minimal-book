@@ -4,6 +4,8 @@
 
 # Statistical Background {#appendixA}
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 9991-appendixA.Rmd", intern = TRUE)`_
+
 ## Basic statistical terms
 
 

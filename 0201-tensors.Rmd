@@ -2,6 +2,8 @@
 
 # Tensors
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0201-tensors.Rmd", intern = TRUE)`_
+
 We describe the most important PyTorch methods in this chapter.
 
 ```{r tensors-load-rtorch}

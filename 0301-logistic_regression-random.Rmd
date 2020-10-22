@@ -2,6 +2,8 @@
 
 # Example 1: A classification problem
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0301-logistic_regression-random.Rmd", intern = TRUE)`_
+
 ## Code in Python
 
 I will combine here R and Python code just to show how easy is integrating R and Python. First thing we have to do is loading the package `rTorch`. We do that in a chunk:

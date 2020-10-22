@@ -2,6 +2,8 @@
 
 # Neural Networks
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0501-neural_networks.Rmd", intern = TRUE)`_
+
 ## rTorch and PyTorch
 
 We will compare three neural networks:

@@ -165,7 +165,7 @@ simplify-tensor-operations
 an-elegant-neural-network
 a-browseable-dataframe
 plot-the-loss-at-each-iteration
-working-with-data.frame
+working-with-a-data.frame
 load-pytorch-libraries
 load-dataset
 summary-statistics-for-tensors

@@ -2,6 +2,8 @@
 
 # Introduction {#intro}
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0101-intro.Rmd", intern = TRUE)`_
+
 ```{r output-lines, echo=FALSE}
 library(knitr)
 hook_output <- knit_hooks$get("output")

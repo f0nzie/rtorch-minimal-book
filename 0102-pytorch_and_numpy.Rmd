@@ -1,5 +1,7 @@
 # PyTorch and NumPy
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0102-pytorch_and_numpy.Rmd", intern = TRUE)`_
+
 ## PyTorch modules in `rTorch`
 
 ### torchvision

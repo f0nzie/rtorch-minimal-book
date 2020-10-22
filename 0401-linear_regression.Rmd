@@ -2,6 +2,8 @@
 
 # Linear Regression
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0401-linear_regression.Rmd", intern = TRUE)`_
+
 ## Introduction
 Source: https://www.guru99.com/pytorch-tutorial.html
 

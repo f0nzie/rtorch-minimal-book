@@ -1,5 +1,7 @@
 # Linear Algebra with Torch {#linearalgebra}
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0202-linear_algebra.Rmd", intern = TRUE)`_
+
 The following are basic operations of Linear Algebra using PyTorch.
 
 

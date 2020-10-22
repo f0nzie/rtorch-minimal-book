@@ -2,6 +2,8 @@
 
 # Activation Functions {#appendixB}
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 9992-appendixB.Rmd", intern = TRUE)`_
+
 ```{r}
 library(rTorch)
 library(ggplot2)
