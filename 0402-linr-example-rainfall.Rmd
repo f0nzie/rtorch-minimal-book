@@ -1,4 +1,6 @@
-# Rainfall prediction with Linear Regression
+# Linear Regression
+
+## Rainfall prediction
 
 ```{r rainfall-load-rtorch}
 library(rTorch)
@@ -168,7 +170,7 @@ print(b$grad)
 ```
 
 
-#### Adjust weights and biases using gradient descent
+#### Adjust weights and biases
 
 We'll reduce the loss and improve our model using the gradient descent algorithm, which has the following steps:
 
@@ -226,7 +228,9 @@ print(loss)
 ```
 
 
-## All together: train for multiple epochs
+## All together
+
+###T Training for multiple epochs
 To reduce the loss further, we repeat the process of adjusting the weights and biases using the gradients multiple times. Each iteration is called an **epoch**.
 
 

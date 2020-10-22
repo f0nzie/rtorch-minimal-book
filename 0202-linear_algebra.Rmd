@@ -29,7 +29,7 @@ v <- c(0, 1, 2, 3, 4, 5)
 torch$as_tensor(v)
 ```
 
-### Vector to matrix, matrix to tensor
+### Vector to matrix
 
 ```{r torch-as-tensor-shape}
 # row-vector
@@ -40,6 +40,8 @@ torch$as_tensor(mr)
 message("shape_of_tensor")
 torch$as_tensor(mr)$shape
 ```
+
+### Matrix to tensor
 
 ```{r column-vector}
 # column-vector
@@ -220,7 +222,7 @@ $$dot(a,b)_{i,j,k,a,b,c} = \sum_m a_{i,j,k,m}b_{a,b,m,c}$$
 torch$dot(torch$tensor(c(2, 3)), torch$tensor(c(2, 1)))
 ```
 
-### Dot product of 2D array using Python
+### 2D array using Python
 
 ```{python, engine = "python3"}
 import numpy as np
@@ -233,7 +235,7 @@ print(b)
 np.dot(a, b)
 ```
 
-### Dot product of 2D array using R
+### 2D array using R
 
 ```{r numpy-dot}
 a <- np$array(list(list(1, 2), list(3, 4)))
@@ -308,7 +310,7 @@ r = torch$dot(torch$Tensor(list(4L, 2L, 4L)), torch$Tensor(list(3L, 4L, 1L)))
 r
 ```
 
-### Dot product with `mm` and `matmul` functions
+### `mm` and `matmul` functions
 So, if we cannor perform 2D tensor operations with the `dot` product, how do we manage then?
 
 ```{r tensor-matmul}

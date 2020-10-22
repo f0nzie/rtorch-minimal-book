@@ -1,6 +1,6 @@
 # (PART) Logistic Regression {-}
 
-# Example 1: A classification problem with Logistic Regression
+# Example 1: A classification problem
 
 ## Code in Python
 

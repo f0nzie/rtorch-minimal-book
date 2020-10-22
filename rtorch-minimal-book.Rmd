@@ -1,0 +1,4368 @@
+--- 
+title: "A Minimal rTorch Book"
+author: "Alfonso R. Reyes"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This is a minimal tutorial about using the `rTorch` package to have fun while doing machine learning. This book was written with [bookdown]()."
+---
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+
+```{r echo=FALSE}
+reticulate::use_condaenv("r-torch", required = TRUE)
+```
+
+# Prerequisites {-}
+
+You need couple of things to get `rTorch` working:
+
+1. Install Python [Anaconda](https://www.anaconda.com/products/individual). Preferrably, for 64-bits, and above Python 3.6+. I have successfully tested Anaconda under four different operating systems: Windows (Win10 and Windows Server 2008); macOS (Sierra, Mojave and Catalina); Linux (Debian, Fedora and Ubuntu); and lastly, Solaris 10. ASll these tests are required by CRAN.
+
+2. Install [R](), [Rtools]() and [RStudio]().
+
+3. Install the R package [reticulate](https://github.com/rstudio/reticulate), which is the one that provides the connection between R and Python.
+
+4. Install the stable version `rTorch` from CRAN, or the latest version under develoipment via GitHub.
+
+> Note. While it is not mandatory to have a previously created `Python` environment with `Anaconda`, where `PyTorch` and `TorchVision` have already been installed, it is another option if for some reason `reticulate` refuses to communicate with the conda environment. Keep in mind that you could also get the `rTorch` _conda_ environment installed directly from the `R` console, in very similar fashion as in [R-TensorFlow]() using the function `install_pytorch()`.
+
+
+## Installation {-}
+
+The **rTorch** package can be installed from CRAN or Github.
+
+From CRAN:
+
+```{r rtorch-install-cran, eval=FALSE}
+install.packages("rTorch")
+```
+
+
+From GitHub, install `rTorch` with: 
+
+```{r rtorch-install-github, eval=FALSE}
+devtools::install_github("f0nzie/rTorch")
+```
+
+which will install rTorch from the `main` or `master` branch. To install it from the `develop` branch, you type this:
+
+```{r install-github-develop, eval=FALSE}
+devtools::install_github("f0nzie/rTorch", ref="develop")
+```
+
+or clone with Git with:
+
+```{bash github-clone, eval=FALSE}
+git clone https://github.com/f0nzie/rTorch.git
+```
+
+This will allow you to build `rTorch` from source.
+
+
+## Python Anaconda {-}
+If your preference is installing an Anaconda environment first, these are the steps:
+
+### Example {-}
+
+1. Create a `conda` environment from the terminal with 
+```{bash, create-conda-env, eval=FALSE}
+conda create -n r-torch python=3.7
+```
+
+2. Activate the new environment with 
+```{bash, activate-conda-env, eval=FALSE}
+conda activate r-torch
+```
+
+3. Install the `PyTorch` related packages with:  
+```{bash, install-conda-packages, eval=FALSE}
+conda install python=3.6.6 pytorch torchvision cpuonly matplotlib pandas -c pytorch
+```
+
+The last part `-c pytorch` specifies the __stable__ _conda_ channel to download the PyTorch packages. Your _conda_ installation may not work if you don't indicate the channel.
+
+
+Now, you can load `rTorch` in R or RStudio with:
+
+```{r index-load-rtorch, eval=FALSE}
+library(rTorch)
+```
+
+
+### Automatic installation {-}
+I used the idea for automatic installation in the `tensorflow` package for R, to create the function `rTorch::install_pytorch()`. This function will allow you to install a `conda` environment complete with all `PyTorch` requirements plus the packages you specify. Example:
+
+```{r, eval=FALSE}
+rTorch:::install_conda(package="pytorch=1.4", envname="r-torch", 
+                       conda="auto", conda_python_version = "3.6", pip=FALSE, 
+                       channel="pytorch", 
+                       extra_packages=c("torchvision", 
+                                        "cpuonly", 
+                                        "matplotlib", 
+                                        "pandas"))
+```
+
+This is explained in more detailed in the [rTorch package manual](https://f0nzie.github.io/rTorch/articles/installation.html).
+
+
+>**Note.** `matplotlib` and `pandas` are not really necessary for `rTorch` to work, but I was asked if `matplotlib` or `pandas` could work with `PyTorch`. So,  I decided to install them for testing and experimentation. They both work.
+
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'rTorch','bookdown', 'knitr', 'rmarkdown'), 
+  'packages.bib')
+```
+
+<!--chapter:end:index.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# (PART) Getting Started {.unnumbered}
+
+# Introduction {#intro}
+
+```{r output-lines, echo=FALSE}
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+```
+
+## Motivation
+
+*Why do we want a package of something that is already working well, such as PyTorch?*
+
+There are several reasons, but the main one is to bring another machine learning framework to R. Probably it is just me but I feel *PyTorch* very comfortable to work with. Feels pretty much like everything else in Python. Very Pythonic. I have tried other frameworks in R. The closest that matches a natural language like PyTorch, is [MXnet](https://mxnet.apache.org/versions/1.7.0/get_started?). Unfortunately, *MXnet* it is the hardest to install and maintain after updates.
+
+Yes. I could have worked directly with *PyTorch* in a native Python environment, such as *Jupyter* or *PyCharm* or [vscode](https://code.visualstudio.com/docs/python/jupyter-support) notebooks but it very hard to quit **RMarkdown** once you get used to it. It is the real thing in regards to [literate programming](https://en.wikipedia.org/wiki/Literate_programming)and **reproducibility**. It does not only contribute to improving the quality of the code but establishes a workflow for a better understanding of a subject by your intended readers [@knuth1983], in what is been called the *literate programming paradigm* [@cordes1991].
+
+This has the additional benefit of giving the ability to write combination of *Python* and *R* code together in the same document. There will times when it is better to create a class in *Python*; and other times where *R* will be more convenient to handle a data structure. I show some examples using `data.frame` and `data.table` along with *PyTorch* tensors.
+
+## Start using `rTorch`
+
+Start using `rTorch` is very simple. After installing the minimum system requirements -such as *conda*- you just call it with:
+
+```{r call-rtorch, class.source="badCode"}
+library(rTorch)
+```
+
+There are several way of testing if `rTorch` is up and running. Let's see some of them:
+
+### Get the PyTorch version
+
+```{r}
+rTorch::torch_version()
+```
+
+### PyTorch configuration
+
+This will show the PyTorch version and the current version of Python installed, as well as the paths to folders where they reside.
+
+```{r}
+rTorch::torch_config()
+```
+
+------------------------------------------------------------------------
+
+## What can you do with `rTorch`
+
+Practically, you can do everything you could with **PyTorch** within the **R** ecosystem. Additionally to the `rTorch` module, from where you can extract methods, functions and classes, there are available two more modules: `torchvision` and `np`, which is short for `numpy`. We could use the modules with:
+
+```{r}
+rTorch::torchvision
+rTorch::np
+rTorch::torch
+```
+
+## Getting help
+
+We get a glimpse of the first lines of the `help("torch")` via a Python chunk:
+
+```{python, help-python, engine="python3", output.lines=c(3:10)}
+help("torch")
+```
+
+```{python, engine="python3", output.lines=c(1:20)}
+help("torch.tensor")
+```
+
+```{python, engine="python3", output.lines=c(1:20)}
+help("torch.cat")
+```
+
+```{python, engine="python3", output.lines=c(1:25)}
+help("numpy.arange")
+```
+
+Finally, these are the classes for the module `torchvision.datasets`. We are using Python to list them using the `help` function.
+
+```{python, engine="python3", output.lines=c(1:35)}
+help("torchvision.datasets")
+```
+
+In other words, all the functions, modules, classes in PyTorch are available to rTorch.
+
+<!--chapter:end:0101-intro.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# PyTorch and NumPy
+
+## PyTorch modules in `rTorch`
+
+### torchvision
+
+This is an example of using the `torchvision` module. With `torchvision` we could download any of the datasets made available by PyTorch. In this example, we will be downloading the training dataset of the **MNIST** handwritten digits. There are 60,000 images in the training set and 10,000 images in the test set. The images will download on the folder `./datasets`.
+
+```{r download-mnist-train}
+library(rTorch)
+
+transforms  <- torchvision$transforms
+
+# this is the folder where the datasets will be downloaded
+local_folder <- './datasets/mnist_digits'
+
+train_dataset = torchvision$datasets$MNIST(root = local_folder, 
+                                           train = TRUE, 
+                                           transform = transforms$ToTensor(),
+                                           download = TRUE)
+
+train_dataset
+```
+
+You can do similarly for the `test` dataset if you set the flag `train = FALSE`. The `test` dataset has only 10,000 images.
+
+```{r download-mnist-test}
+test_dataset = torchvision$datasets$MNIST(root = local_folder, 
+                                          train = FALSE, 
+                                          transform = transforms$ToTensor())
+test_dataset
+```
+
+### numpy
+
+`numpy` is automaticaly installed when `PyTorch` is. There is some interdependence between both. Anytime that we need to do some transformation that is not available in `PyTorch`, we will use `numpy`. Just keep in mind that `numpy` does not have support for *GPUs*.
+
+
+## Common array operations
+
+There are several operations that we could perform with `numpy` such creating arrays:
+
+### Create an array {.unnumbered}
+Create an array:
+
+```{r}
+# do some array manipulations with NumPy
+a <- np$array(c(1:4))
+a
+```
+
+Create an array of a desired shape:
+
+```{r}
+np$reshape(np$arange(0, 9), c(3L, 3L))
+```
+
+Create an array by spelling out its components and `type`:
+
+```{r}
+np$array(list(
+             list(73, 67, 43),
+             list(87, 134, 58),
+             list(102, 43, 37),
+             list(73, 67, 43), 
+             list(91, 88, 64), 
+             list(102, 43, 37), 
+             list(69, 96, 70), 
+             list(91, 88, 64), 
+             list(102, 43, 37), 
+             list(69, 96, 70)
+           ), dtype='float32')
+```
+
+We will use the `train` and `test` datasets that we loaded with `torchvision`.
+
+### Reshape an array {.unnumbered}
+
+For the same `test` dataset that we loaded above from `MNIST` digits, we will show the image of the handwritten digit and its label or class. Before plotting the image, we need to:
+
+1.  Extract the image and label from the dataset
+2.  Convert the tensor to a numpy array
+3.  Reshape the tensor as a 2D array
+4.  Plot the digit and its label
+
+
+```{r fig.asp=1}
+rotate <- function(x) t(apply(x, 2, rev))   # function to rotate the matrix
+
+# label for the image
+label <- test_dataset[0][[2]]
+label    
+
+# convert tensor to numpy array
+.show_img <- test_dataset[0][[1]]$numpy()
+dim(.show_img) 
+
+# reshape 3D array to 2D 
+show_img <- np$reshape(.show_img, c(28L, 28L))
+dim(show_img)
+```
+
+```{r fig.asp=1}
+# show in gray shades and rotate
+image(rotate(show_img), col = gray.colors(64))
+title(label)
+```
+
+### Generate a random array in NumPy {.unnumbered}
+
+```{r}
+# set the seed
+np$random$seed(123L)
+# generate a random array
+x = np$random$rand(100L)
+x
+# calculate the y array
+y = np$sin(x) * np$power(x, 3L) + 3L * x + np$random$rand(100L) * 0.8
+class(x)
+class(y)
+```
+
+From the classes, we can tell that the `numpy` arrays are automatically converted to `R` arrays.
+
+```{r, fig.asp=1}
+plot(x, y)
+```
+
+## Common tensor operations
+
+### Generate random tensors {.unnumbered}
+
+The same operation can be performed with pure `torch` tensors:
+
+```{r, fig.asp=1, results="hold"}
+library(rTorch)
+
+invisible(torch$manual_seed(123L))
+x <- torch$rand(100L)     # use torch$randn(100L): positive and negative numbers
+y <- torch$sin(x) * torch$pow(x, 3L) + 3L * x + torch$rand(100L) * 0.8
+class(x)
+class(y)
+```
+
+Since the clasess are `torch` tensors, to plot them in R, they need to be converted to numpy, and then R:
+
+```{r, fig.asp=1}
+plot(x$numpy(), y$numpy())
+```
+
+### `numpy` array to PyTorch tensor {.unnumbered}
+
+Converting a `numpy` array to a PyTorch tensor is a very common operation that I have seen in examples using PyTorch. Creating first the array in `numpy`. and then convert it to a `torch` tensor.
+
+```{r}
+# input array
+x = np$array(rbind(
+            c(0,0,1),
+            c(0,1,1),
+            c(1,0,1),
+            c(1,1,1)))
+
+# the numpy array
+x
+```
+
+This is another common operation that will find in the PyTorch tutorials: converting a `numpy` array from a certain type to a tensor of the same type:
+
+```{r}
+# convert the numpy array to a float type
+Xn <- np$float32(x)
+# convert the numpy array to a float tensor
+Xt <- torch$FloatTensor(Xn)
+Xt
+```
+
+
+## Python built-in functions
+
+To access the Python built-in functions we make use of the package `reticulate` and the function `import_builtins()`.
+
+Here are part of the built-in functions and operators offered by `reticulate`:
+
+```{r}
+py_bi <- import_builtins()
+grep("Error|Warning|Exit", names(py_bi), value = TRUE, invert = TRUE, perl = TRUE)
+
+```
+
+#### Length of a dataset {.unnumbered}
+
+Sometimes, we will need the Python `len` function to find out the length of an object:
+
+```{r}
+py_bi$len(train_dataset)
+py_bi$len(test_dataset)
+```
+
+#### Iterators {.unnumbered}
+
+Iterators are used a lot in dataset operations when running a neural network. In this example we will iterate through only 100 elements of the 60,000 of the `train` dataset. The goal is printing the "label" or "class" for the digits we are reading. The digits are not show here; they are stored in tensors.
+
+<!-- we use results="hold" to wait for the header of the table -->
+
+```{r, collapse=TRUE, results="hold"}
+# iterate through training dataset
+enum_train_dataset <- py_bi$enumerate(train_dataset)
+cat(sprintf("%8s %8s \n", "index", "label"))
+
+for (i in 1:py_bi$len(train_dataset)) {
+    obj <- reticulate::iter_next(enum_train_dataset)
+    idx   <- obj[[1]]        # index number
+    cat(sprintf("%8d %5d \n", idx, obj[[2]][[2]]))
+    if (i >= 100) break   # print only 100 labels
+}
+```
+
+#### Types and instances {.unnumbered}
+
+Types, instances and classes are important to take decisions on how we will process data that is being read from the datasets. In this example, we want to know if an object is of certain instance:
+
+```{r}
+# get the class of the object
+py_bi$type(train_dataset)
+
+# is train_dataset a torchvision dataset class
+py_bi$isinstance(train_dataset, torchvision$datasets$mnist$MNIST)
+```
+
+<!--chapter:end:0102-pytorch_and_numpy.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# rTorch vs PyTorch
+
+## What's different
+
+This chapter will explain the main differences between `PyTorch` and `rTorch`. Most of the things work directly in `PyTorch` but we need to be aware of some minor differences when working with rTorch. Here is a review of existing methods.
+
+Let's start by loading `rTorch`:
+
+```{r}
+library(rTorch)
+```
+
+## Calling objects from PyTorch
+
+We use the dollar sign or `$` to call a class, function or method from the `rTorch` modules. In this case, from the `torch` module:
+
+```{r}
+torch$tensor(c(1, 2, 3))
+```
+
+In Python, what we do is using the dot to separate the sub-members of an object:
+
+```{python, engine="python3"}
+import torch
+torch.tensor([1, 2, 3])
+```
+
+## Call functions from `torch`
+
+```{r import-pytorch-modules}
+library(rTorch)
+# these are the equivalents of the Python import module
+nn          <- torch$nn
+transforms  <- torchvision$transforms
+dsets       <- torchvision$datasets
+
+torch$tensor(c(1, 2, 3))
+```
+
+The code above is equivalent to writing this code in Python:
+
+```{python}
+import torch
+import torch.nn as nn
+import torchvision.transforms as transforms
+import torchvision.datasets as dsets
+
+torch.tensor([1, 2, 3])
+```
+
+
+Then we can proceed to extract classes, methods and functions from the `nn`, `transforms`, and `dsets` objects. In this example we use the module `torchvision$datasets` and the function `transforms$ToTensor()`
+
+
+```{r mnist-digits-train-dataset}
+local_folder <- './datasets/mnist_digits'
+train_dataset = torchvision$datasets$MNIST(root = local_folder, 
+                                           train = TRUE, 
+                                           transform = transforms$ToTensor(),
+                                           download = TRUE)
+train_dataset
+```
+
+## Show (methods) of PyTorch objects
+
+Sometimes we are interested in knowing the internal components of a class. In that case, we use the reticulate function `py_list_attributes()`.
+
+In this example, we want to show the attributes of `train_dataset`:
+
+```{r list-attributes}
+reticulate::py_list_attributes(train_dataset)
+```
+
+Knowing the internal methods of a class could be useful when we want to refer to a specific property of such class. For example, from the list above, we know that the object `train_dataset` has an attribute `__len__`. We can call it like this:
+
+```{r len-dataset}
+train_dataset$`__len__`()
+```
+
+## How to iterate through datasets
+
+### Enumeration
+
+Given the following training dataset `x_train`, we want to find the number of elements of the tensor. We start by entering a `numpy` array, which then will convert to a tensor with the PyTorch function `from_numpy()`:
+
+```{r create-r-array}
+x_train_r <- array(c(3.3, 4.4, 5.5, 6.71, 6.93, 4.168, 
+                  9.779, 6.182, 7.59, 2.167, 7.042,
+                  10.791, 5.313, 7.997, 3.1), dim = c(15,1))
+
+x_train_np <- r_to_py(x_train_r)
+x_train_   <- torch$from_numpy(x_train_np)          # convert to tensor
+x_train    <- x_train_$type(torch$FloatTensor)      # make it a a FloatTensor
+print(x_train$dtype)
+print(x_train)
+```
+
+`length` is similar to `nelement` for number of elements:
+
+```{r number-of-elements}
+length(x_train)
+x_train$nelement()    # number of elements in the tensor
+```
+
+### Using `enumerate` and `iterate`
+
+```{r import-builtins}
+py = import_builtins()
+
+enum_x_train = py$enumerate(x_train)
+enum_x_train
+
+py$len(x_train)
+```
+
+If we directly use `iterate` over the `enum_x_train` object, we get an R list with the index and the value of the `1D` tensor:
+
+```{r iterate-train}
+xit = iterate(enum_x_train, simplify = TRUE)
+xit
+```
+
+### Using a `for-loop` to iterate
+
+Another way of iterating through a dataset that you will see a lot in the PyTorch tutorials is a `loop` through the length of the dataset. In this case, `x_train`. We are using `cat()` for the index (an integer), and `print()` for the tensor, since `cat` doesn't know how to deal with tensors:
+
+```{r loop-iterator}
+# reset the iterator
+enum_x_train = py$enumerate(x_train)
+
+for (i in 1:py$len(x_train)) {
+    obj <- iter_next(enum_x_train)    # next item
+    cat(obj[[1]], "\t")     # 1st part or index
+    print(obj[[2]])         # 2nd part or tensor
+}
+```
+
+Similarly, if we want the scalar values but not as tensor, then we will need to use `item()`.
+
+```{r}
+# reset the iterator
+enum_x_train = py$enumerate(x_train)
+
+for (i in 1:py$len(x_train)) {
+    obj <- iter_next(enum_x_train)    # next item
+    cat(obj[[1]], "\t")               # 1st part or index
+    print(obj[[2]]$item())            # 2nd part or tensor
+}
+```
+
+
+> We will find very frequently this kind of iterators when we read a dataset read by `torchvision`. There are several different ways to iterate through these objects as you will find.
+
+## Zero gradient
+
+The zero gradient was one of the most difficult to implement in R if we don't pay attention to the content of the objects carrying the **weights** and **biases**. This happens when the algorithm written in **PyTorch** is not immediately translatable to **rTorch**. This can be appreciated in this example.
+
+> We are using the same seed in the PyTorch and rTorch versions, so, we could compare the results.
+
+### Code version in Python
+
+```{python, python-rainfall-code}
+import numpy as np
+import torch
+
+torch.manual_seed(0)  # reproducible
+
+# Input (temp, rainfall, humidity)
+inputs = np.array([[73, 67, 43],
+                   [91, 88, 64],
+                   [87, 134, 58],
+                   [102, 43, 37],
+                   [69, 96, 70]], dtype='float32')
+
+# Targets (apples, oranges)
+targets = np.array([[56, 70],
+                    [81, 101],
+                    [119, 133],
+                    [22, 37],
+                    [103, 119]], dtype='float32')
+                    
+
+# Convert inputs and targets to tensors
+inputs  = torch.from_numpy(inputs)
+targets = torch.from_numpy(targets)
+
+# random weights and biases
+w = torch.randn(2, 3, requires_grad=True)
+b = torch.randn(2, requires_grad=True)
+
+# function for the model
+def model(x):
+  wt = w.t()
+  mm = x @ w.t()
+  return x @ w.t() + b       # @ represents matrix multiplication in PyTorch
+
+# MSE loss function
+def mse(t1, t2):
+  diff = t1 - t2
+  return torch.sum(diff * diff) / diff.numel()
+
+# Running all together
+# Train for 100 epochs
+for i in range(100):
+  preds = model(inputs)
+  loss = mse(preds, targets)
+  loss.backward()
+  with torch.no_grad():
+    w -= w.grad * 0.00001
+    b -= b.grad * 0.00001
+    w_gz = w.grad.zero_()
+    b_gz = b.grad.zero_()
+    
+# Calculate loss
+preds = model(inputs)
+loss = mse(preds, targets)
+print("Loss: ", loss)    
+
+# predictions
+print("\nPredictions:")
+preds
+
+# Targets
+print("\nTargets:")
+targets
+```
+
+### Code version in R
+
+```{r rtorch-rainfall-code}
+library(rTorch)
+
+torch$manual_seed(0)
+
+device = torch$device('cpu')
+# Input (temp, rainfall, humidity)
+inputs = np$array(list(list(73, 67, 43),
+                   list(91, 88, 64),
+                   list(87, 134, 58),
+                   list(102, 43, 37),
+                   list(69, 96, 70)), dtype='float32')
+
+# Targets (apples, oranges)
+targets = np$array(list(list(56, 70), 
+                    list(81, 101),
+                    list(119, 133),
+                    list(22, 37), 
+                    list(103, 119)), dtype='float32')
+
+
+# Convert inputs and targets to tensors
+inputs = torch$from_numpy(inputs)
+targets = torch$from_numpy(targets)
+
+# random numbers for weights and biases. Then convert to double()
+torch$set_default_dtype(torch$float64)
+
+w = torch$randn(2L, 3L, requires_grad=TRUE) #$double()
+b = torch$randn(2L, requires_grad=TRUE) #$double()
+
+model <- function(x) {
+  wt <- w$t()
+  return(torch$add(torch$mm(x, wt), b))
+}
+
+# MSE loss
+mse = function(t1, t2) {
+  diff <- torch$sub(t1, t2)
+  mul <- torch$sum(torch$mul(diff, diff))
+  return(torch$div(mul, diff$numel()))
+}
+
+# Running all together
+# Adjust weights and reset gradients
+for (i in 1:100) {
+  preds = model(inputs)
+  loss = mse(preds, targets)
+  loss$backward()
+  with(torch$no_grad(), {
+    w$data <- torch$sub(w$data, torch$mul(w$grad, torch$scalar_tensor(1e-5)))
+    b$data <- torch$sub(b$data, torch$mul(b$grad, torch$scalar_tensor(1e-5)))
+    
+    w$grad$zero_()
+    b$grad$zero_()
+  })
+}
+
+# Calculate loss
+preds = model(inputs)
+loss = mse(preds, targets)
+cat("Loss: "); print(loss)
+
+# predictions
+cat("\nPredictions:\n")
+preds
+
+# Targets
+cat("\nTargets:\n")
+targets
+```
+
+Notice that while we are in Python, the tensor operation, gradient ($\nabla$) of the weights $w$ times the **Learning Rate** $\alpha$, is:
+
+$$w = -w + \nabla w \; \alpha$$
+
+In Python, it is a very straight forwward and clean code:
+
+```{python py-calc-gradient, eval=FALSE}
+w -= w.grad * 1e-5
+```
+
+In R, without generics, it shows a little bit more convoluted:
+
+```{r r-calc-gradient1, eval=FALSE}
+w$data <- torch$sub(w$data, torch$mul(w$grad, torch$scalar_tensor(1e-5)))
+```
+
+## R generics for PyTorch functions
+
+Which why we simplified these common operations using the R generic function. When we use the generic methods from **rTorch** the operation looks much neater.
+
+```{r r-calc-gradient2, eval=FALSE}
+w$data <- w$data - w$grad * 1e-5
+```
+
+The following two expressions are equivalent, with the first being the long version natural way of doing it in **PyTorch**. The second is using the generics in R for subtraction, multiplication and scalar conversion.
+
+```{r eval=FALSE}
+param$data <- torch$sub(param$data,
+                        torch$mul(param$grad$float(),
+                          torch$scalar_tensor(learning_rate)))
+}
+```
+
+```{r eval=FALSE}
+param$data <- param$data - param$grad * learning_rate
+```
+
+<!--chapter:end:0103-rtorch_pytorch_whats_different.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# Converting tensors
+
+```{r}
+library(rTorch)
+```
+
+
+## Tensor to `numpy` array
+This is a frequent operation. I have found that this is necessary when:
+
+* a `numpy` function is not implemented in PyTorch
+* We need to convert a tensor to R
+* Perform a boolean operation that is not directly available in PyTorch
+
+## `numpy` array to tensor
+* Explain how transform a tensor back and forth to `numpy`.
+* Why is this important?
+* In what cases in this necessary?
+
+
+### `numpy` array to `R`
+This is mainly required for these reasons:
+
+1. Create a data structure in R
+2. Plot using `r-base` or `ggplot2`
+3. Perform an analysis on parts of a tensor
+4. Use R statistical functions that are not available in PyTorch
+
+
+## R objects to `numpy` objects
+
+* TODO
+
+<!--chapter:end:0104-converting_tensors.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# (PART) Basic Tensor Operations {.unnumbered}
+
+# Tensors
+
+We describe the most important PyTorch methods in this chapter.
+
+```{r tensors-load-rtorch}
+library(rTorch)
+
+```
+
+## Tensor data types
+
+```{r default-tensor}
+# Default data type
+torch$tensor(list(1.2, 3))$dtype  # default for floating point is torch.float32
+```
+
+```{r tensor-float64}
+# change default data type to float64
+torch$set_default_dtype(torch$float64)
+torch$tensor(list(1.2, 3))$dtype         # a new floating point tensor
+```
+
+### Major tensor types
+
+There are five major type of tensors in PyTorch:
+
+```{r all-tensor-types}
+library(rTorch)
+
+byte    <- torch$ByteTensor(3L, 3L)
+float   <- torch$FloatTensor(3L, 3L)
+double  <- torch$DoubleTensor(3L, 3L)
+long    <- torch$LongTensor(3L, 3L)
+boolean <- torch$BoolTensor(5L, 5L)
+```
+
+```{r byte-tensor, collapse=TRUE}
+message("byte tensor")
+byte
+```
+
+```{r float-tensor, collapse=TRUE}
+message("float tensor")
+float
+```
+
+```{r double-tensor, collapse=TRUE}
+message("double")
+double
+```
+
+```{r long-tensor, collapse=TRUE}
+message("long")
+long
+```
+
+```{r bool-tensor, collapse=TRUE}
+message("boolean")
+boolean
+```
+
+### Example: Basic attributes of a 4D tensor
+
+A 4D tensor like in MNIST hand-written digits recognition dataset:
+
+```{r mnist-4d}
+mnist_4d <- torch$FloatTensor(60000L, 3L, 28L, 28L)
+```
+
+```{r mnist-4d-basic-attr, collapse=TRUE, results="markup"}
+message("size")
+mnist_4d$size()
+
+message("length")
+length(mnist_4d)
+
+message("shape, like in numpy")
+mnist_4d$shape
+
+message("number of elements")
+mnist_4d$numel()
+```
+
+### Example: Attributes of a 3D tensor
+
+Given a 3D tensor:
+
+```{r 3d-tensor}
+ft3d <- torch$FloatTensor(4L, 3L, 2L)
+ft3d
+```
+
+```{r 3d-tensor-basic-attr, collapse=TRUE, results="markup"}
+ft3d$size()
+length(ft3d)
+ft3d$shape
+ft3d$numel
+```
+
+## Arithmetic of tensors
+
+### Add tensors
+
+```{r add-tensor-3x5}
+# add a scalar to a tensor
+# 3x5 matrix uniformly distributed between 0 and 1
+mat0 <- torch$FloatTensor(3L, 5L)$uniform_(0L, 1L)
+mat0 + 0.1
+```
+
+### Add an element of a tensor to another tensor
+
+```{r add-tensor-element, collapse=TRUE, results="markup"}
+# fill a 3x5 matrix with 0.1
+mat1 <- torch$FloatTensor(3L, 5L)$uniform_(0.1, 0.1)
+print(mat1)
+
+# a vector with all ones
+mat2 <- torch$FloatTensor(5L)$uniform_(1, 1)
+print(mat2)
+
+# add element (1,1) to another tensor
+mat1[1, 1] + mat2
+```
+
+Add two tensors using the function `add()`:
+
+```{r add-tensors-with-add}
+# PyTorch add two tensors
+x = torch$rand(5L, 4L)
+y = torch$rand(5L, 4L)
+
+print(x$add(y))
+```
+
+Add two tensors using the generic `+`:
+
+```{r}
+print(x + y)
+```
+
+### Multiply a tensor by a scalar
+
+```{r}
+# Multiply tensor by scalar
+tensor = torch$ones(4L, dtype=torch$float64)
+scalar = np$float64(4.321)
+print(scalar)
+print(torch$scalar_tensor(scalar))
+```
+
+Multiply two tensors using the function `mul`:
+
+```{r}
+(prod = torch$mul(tensor, torch$scalar_tensor(scalar)))
+```
+
+Short version using generics
+
+```{r}
+(prod = tensor * scalar)
+```
+
+## NumPy and PyTorch
+
+`numpy` has been made available as a module in `rTorch`. We can call functions from `numpy` refrerring to it as `np$_a_function`. Examples:
+
+```{r}
+# a 2D numpy array  
+syn0 <- np$random$rand(3L, 5L)
+print(syn0)
+```
+
+```{r}
+# numpy arrays of zeros
+syn1 <- np$zeros(c(5L, 10L))
+print(syn1)
+```
+
+```{r}
+# add a scalar to a numpy array
+syn1 = syn1 + 0.1
+print(syn1)
+```
+
+And the dot product of both:
+
+```{r}
+np$dot(syn0, syn1)
+```
+
+### In Python we use Tuples, in R we use vectors
+
+In `numpy` a multidimensional array needs to be defined with a `tuple`. in R we do it with a `vector`.
+
+In Python, we use a tuple, `(5, 5)` to indicate the shape of the array:
+
+```{python}
+import numpy as np
+print(np.ones((5, 5)))
+```
+
+In R, we use a vector `c(5L, 5L)`. The `L` indicates an integer.
+
+```{r}
+l1 <- np$ones(c(5L, 5L))
+print(l1)
+```
+
+### Build a numpy array from three R vectors
+
+```{r}
+X <- np$array(rbind(c(1,2,3), c(4,5,6), c(7,8,9)))
+print(X)
+```
+
+And we could transpose the array using `numpy` as well:
+
+```{r}
+np$transpose(X)
+```
+
+### Convert a numpy array to a tensor with `as_tensor()`
+
+```{r}
+a = np$array(list(1, 2, 3))   # a numpy array
+t = torch$as_tensor(a)        # convert it to tensor
+print(t)
+```
+
+### Create and fill a tensor
+
+We can create the tensor directly from R using `tensor()`:
+
+```{r}
+torch$tensor(list( 1,  2,  3))   # create a tensor
+t[1L]$fill_(-1)                  # fill element with -1
+print(a)
+```
+
+### Tensor to array, and viceversa
+
+This is a very common operation in machine learning:
+
+```{r}
+# convert tensor to a numpy array
+a = torch$rand(5L, 4L)
+b = a$numpy()
+print(b)
+```
+
+```{r}
+# convert a numpy array to a tensor
+np_a = np$array(c(c(3, 4), c(3, 6)))
+t_a = torch$from_numpy(np_a)
+print(t_a)
+```
+
+## Create tensors
+
+A random 1D tensor:
+
+```{r}
+ft1 <- torch$FloatTensor(np$random$rand(5L))
+print(ft1)
+```
+
+Force a tensor as a `float` of 64-bits:
+
+```{r}
+ft2 <- torch$as_tensor(np$random$rand(5L), dtype= torch$float64)
+print(ft2)
+```
+
+Convert the tensor to a `float` of 16-bits:
+
+```{r}
+ft2_dbl <- torch$as_tensor(ft2, dtype = torch$float16)
+ft2_dbl
+```
+
+Create a tensor of size (5 x 7) with uninitialized memory:
+
+```{r}
+a <- torch$FloatTensor(5L, 7L)
+print(a)
+```
+
+Using arange to create a tensor. `arange` starts at 0.
+
+```{r}
+v = torch$arange(9L)
+print(v)
+```
+
+```{r}
+# reshape
+(v = v$view(3L, 3L))
+```
+
+### Tensor fill
+
+On this tensor:
+
+```{r}
+(v = torch$ones(3L, 3L))
+```
+
+Fill row 1 with 2s:
+
+```{r}
+invisible(v[1L, ]$fill_(2L))
+print(v)
+```
+
+Fill row 2 with 3s:
+
+```{r}
+invisible(v[2L, ]$fill_(3L))
+print(v)
+```
+
+Fill column 3 with fours (4):
+
+```{r}
+invisible(v[, 3]$fill_(4L))
+print(v)
+```
+
+### Initialize Tensor with a range of values
+
+```{r}
+# Initialize Tensor with a range of value
+v = torch$arange(10L)             # similar to range(5) but creating a Tensor
+(v = torch$arange(0L, 10L, step = 1L))  # Size 5. Similar to range(0, 5, 1)
+```
+
+### Initialize a linear or log scale Tensor
+
+Create a tensor with 10 linear points for (1, 10) inclusive:
+
+```{r}
+(v = torch$linspace(1L, 10L, steps = 10L)) 
+```
+
+Create a tensor with 10 logarithmic points for (1, 10) inclusive:
+
+```{r}
+(v = torch$logspace(start=-10L, end = 10L, steps = 5L)) 
+```
+
+### Fill a tensor In-place / Out-of-place
+
+On this uninitialized tensor:
+
+```{r}
+(a <- torch$FloatTensor(5L, 7L))
+```
+
+Fill the tensor with the value 3.5:
+
+```{r}
+a$fill_(3.5)
+```
+
+Add a scalar to the tensor:
+
+```{r}
+b <- a$add(4.0)
+```
+
+The tensor `a` is still filled with 3.5. A new tensor `b` is returned with values 3.5 + 4.0 = 7.5
+
+```{r}
+print(a)
+print(b)
+```
+
+## Tensor resizing
+
+```{r collapse=TRUE, results="markup"}
+x = torch$randn(2L, 3L)            # Size 2x3
+print(x)
+
+y = x$view(6L)                     # Resize x to size 6
+print(y)
+
+z = x$view(-1L, 2L)                # Size 3x2
+print(z)
+print(z$shape)
+```
+
+### Exercise
+
+Reproduce this tensor:
+
+     0 1 2
+     3 4 5
+     6 7 8
+
+```{r}
+# create a vector with the number of elements
+v = torch$arange(9L)
+
+# resize to a 3x3 tensor
+(v = v$view(3L, 3L))
+```
+
+## Concatenate tensors
+
+```{r}
+x = torch$randn(2L, 3L)
+print(x)
+print(x$shape)
+```
+
+### Concatenate tensors by `dim=0` (rows)
+
+```{r}
+(x0 <- torch$cat(list(x, x, x), 0L))
+print(x0$shape)
+```
+
+### Concatenate tensors by `dim=1` (columns)
+
+```{r}
+(x1 <- torch$cat(list(x, x, x), 1L))
+print(x1$shape)
+```
+
+## Reshape tensors
+
+### With `chunk()`:
+
+Let's say this is an image tensor with the 3-channels and 28x28 pixels
+
+```{r}
+# ----- Reshape tensors -----
+img <- torch$ones(3L, 28L, 28L)  # Create the tensor of ones
+print(img$size())
+```
+
+On the first dimension `dim = 0L`, reshape the tensor:
+
+```{r}
+img_chunks <- torch$chunk(img, chunks = 3L, dim = 0L)
+print(length(img_chunks))
+print(class(img_chunks))
+```
+
+`img_chunks` is a `list` of three members.
+
+The first chunk member:
+
+```{r}
+# 1st chunk member
+img_chunk <- img_chunks[[1]]
+print(img_chunk$size())
+print(img_chunk$sum())      # if the tensor had all ones, what is the sum?
+```
+
+The second chunk member:
+
+```{r}
+# 2nd chunk member
+img_chunk <- img_chunks[[2]]
+print(img_chunk$size())
+print(img_chunk$sum())        # if the tensor had all ones, what is the sum?
+```
+
+```{r}
+# 3rd chunk member
+img_chunk <- img_chunks[[3]]
+print(img_chunk$size())
+print(img_chunk$sum())        # if the tensor had all ones, what is the sum?
+```
+
+#### Exercise
+
+1.  Create a tensor of shape 3x28x28 filled with values 0.25 on the first channel
+2.  The second channel with 0.5
+3.  The third chanel with 0.75
+4.  Find the sum for ecah separate channel
+5.  Find the sum of all channels
+
+### With `index_select()`:
+
+```{r}
+img <- torch$ones(3L, 28L, 28L)  # Create the tensor of ones
+img$size()
+```
+
+This is the layer 1:
+
+```{r}
+# index_select. get layer 1
+indices = torch$tensor(c(0L))
+img_layer_1 <- torch$index_select(img, dim = 0L, index = indices)
+```
+
+The size of the layer:
+
+```{r}
+print(img_layer_1$size())
+```
+
+The sum of all elements in that layer:
+
+```{r}
+print(img_layer_1$sum())
+```
+
+This is the layer 2:
+
+```{r}
+# index_select. get layer 2
+indices = torch$tensor(c(1L))
+img_layer_2 <- torch$index_select(img, dim = 0L, index = indices)
+print(img_layer_2$size())
+print(img_layer_2$sum())
+```
+
+This is the layer 3:
+
+```{r}
+# index_select. get layer 3
+indices = torch$tensor(c(2L))
+img_layer_3 <- torch$index_select(img, dim = 0L, index = indices)
+print(img_layer_3$size())
+print(img_layer_3$sum())
+```
+
+## Special tensors
+
+### Identity matrix
+
+```{r}
+# identity matrix
+eye = torch$eye(3L)              # Create an identity 3x3 tensor
+print(eye)
+```
+
+```{r}
+# a 5x5 identity or unit matrix
+torch$eye(5L)
+```
+
+### Ones
+
+```{r}
+(v = torch$ones(10L))               # A tensor of size 10 containing all ones
+
+# reshape
+(v = torch$ones(2L, 1L, 2L, 1L))     # Size 2x1x2x1, a 4D tensor
+```
+
+The *matrix of ones* is also called \``unitary matrix`. This is a `4x4` unitary matrix.
+
+```{r}
+torch$ones(c(4L, 4L))
+```
+
+```{r}
+# eye tensor
+eye = torch$eye(3L)
+print(eye)
+# like eye tensor
+v = torch$ones_like(eye)     # A tensor with same shape as eye. Fill it with 1.
+v
+```
+
+### Zeros
+
+```{r}
+(z = torch$zeros(10L))             # A tensor of size 10 containing all zeros
+```
+
+```{r}
+# matrix of zeros
+torch$zeros(c(4L, 4L))
+```
+
+```{r}
+# a 3D tensor of zeros
+torch$zeros(c(3L, 4L, 2L))
+```
+
+### Diagonal operations
+
+Given the 1D tensor
+
+```{r}
+a <- torch$tensor(c(1L, 2L, 3L))
+a
+```
+
+#### Diagonal matrix
+
+We want to fill the main diagonal with the vector:
+
+```{r}
+torch$diag(a)
+```
+
+What about filling the diagonal above the main:
+
+```{r}
+torch$diag(a, 1L)
+```
+
+Or the diagonal below the main:
+
+```{r}
+torch$diag(a, -1L)
+```
+
+## Access to tensor elements
+
+```{r}
+# replace an element at position 0, 0
+(new_tensor = torch$Tensor(list(list(1, 2), list(3, 4))))
+```
+
+Print element at position `1,1`:
+
+```{r}
+print(new_tensor[1L, 1L])
+```
+
+Fill element at position `1,1` with 5:
+
+```{r}
+new_tensor[1L, 1L]$fill_(5)
+```
+
+Show the modified tensor:
+
+```{r}
+print(new_tensor)   # tensor([[ 5.,  2.],[ 3.,  4.]])
+```
+
+Access an element at position `1, 0`:
+
+```{r}
+print(new_tensor[2L, 1L])           # tensor([ 3.])
+print(new_tensor[2L, 1L]$item())    # 3.
+```
+
+### Using indices to access elements
+
+On this tensor:
+
+```{r}
+x = torch$randn(3L, 4L)
+print(x)
+```
+
+Select indices, `dim=0`:
+
+```{r}
+indices = torch$tensor(list(0L, 2L))
+torch$index_select(x, 0L, indices)
+```
+
+Select indices, `dim=1`:
+
+```{r}
+torch$index_select(x, 1L, indices)
+```
+
+### Using the `take` function
+
+```{r}
+# Take by indices
+src = torch$tensor(list(list(4, 3, 5),
+                        list(6, 7, 8)) )
+print(src)
+print( torch$take(src, torch$tensor(list(0L, 2L, 5L))) )
+```
+
+## Other tensor operations
+
+### Cross product
+
+```{r}
+m1 = torch$ones(3L, 5L)
+m2 = torch$ones(3L, 5L)
+v1 = torch$ones(3L)
+# Cross product
+# Size 3x5
+(r = torch$cross(m1, m2))
+```
+
+### Dot product
+
+```{r collapse=TRUE, results="markup"}
+# Dot product of 2 tensors
+# Dot product of 2 tensors
+
+p <- torch$Tensor(list(4L, 2L))
+q <- torch$Tensor(list(3L, 1L))                   
+
+(r = torch$dot(p, q))  # 14
+(r <- p %.*% q)        # 14
+```
+
+## Logical operations
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    results = "markup"
+)
+```
+
+```{r}
+m0 = torch$zeros(3L, 5L)
+m1 = torch$ones(3L, 5L)
+m2 = torch$eye(3L, 5L)
+
+print(m1 == m0)
+```
+
+```{r}
+print(m1 != m1)
+```
+
+```{r}
+print(m2 == m2)
+```
+
+```{r}
+# AND
+m1 & m1
+```
+
+```{r}
+# OR
+m0 | m2
+```
+
+```{r}
+# OR
+m1 | m2
+```
+
+### Using a function to extract a unique logical result
+
+With `all`:
+
+```{r}
+# tensor is less than
+A <- torch$ones(60000L, 1L, 28L, 28L)
+C <- A * 0.5
+
+# is C < A
+all(torch$lt(C, A))
+all(C < A)
+# is A < C
+all(A < C)
+```
+
+With function `all_boolean`:
+
+```{r}
+all_boolean <- function(x) {
+  # convert tensor of 1s and 0s to a unique boolean
+  as.logical(torch$all(x)$numpy())
+}
+
+# is C < A
+all_boolean(torch$lt(C, A))
+all_boolean(C < A)
+
+# is A < C
+all_boolean(A < C)
+```
+
+### Greater than (`gt`)
+
+```{r}
+# tensor is greater than
+A <- torch$ones(60000L, 1L, 28L, 28L)
+D <- A * 2.0
+all(torch$gt(D, A))
+all(torch$gt(A, D))
+```
+
+### Less than or equal (`le`)
+
+```{r}
+# tensor is less than or equal
+A1 <- torch$ones(60000L, 1L, 28L, 28L)
+all(torch$le(A1, A1))
+all(A1 <= A1)
+
+# tensor is greater than or equal
+A0 <- torch$zeros(60000L, 1L, 28L, 28L)
+all(torch$ge(A0, A0))
+all(A0 >= A0)
+
+all(A1 >= A0)
+all(A1 <= A0)
+```
+
+### Logical NOT (`!`)
+
+```{r}
+all_true <- torch$BoolTensor(list(TRUE, TRUE, TRUE, TRUE))
+all_true
+
+# logical NOT
+not_all_true <- !all_true
+not_all_true
+```
+
+```{r}
+diag <- torch$eye(5L)
+diag
+
+# logical NOT
+not_diag <- !diag
+
+# convert to integer
+not_diag$to(dtype=torch$uint8)
+```
+
+## Distributions
+
+Initialize a tensor randomized with a normal distribution with `mean=0`, `var=1`:
+
+```{r}
+n <- torch$randn(3500L)
+n
+plot(n$numpy())
+hist(n$numpy())
+```
+
+```{r}
+a  <- torch$randn(8L, 5L, 6L)
+# print(a)
+print(a$size())
+
+plot(a$flatten()$numpy())
+hist(a$flatten()$numpy())
+```
+
+### Uniform matrix
+
+```{r}
+library(rTorch)
+
+# 3x5 matrix uniformly distributed between 0 and 1
+mat0 <- torch$FloatTensor(13L, 15L)$uniform_(0L, 1L)
+plot(mat0$flatten()$numpy())
+hist(mat0$flatten()$numpy())
+
+```
+
+```{r}
+# fill a 3x5 matrix with 0.1
+mat1 <- torch$FloatTensor(30L, 50L)$uniform_(0.1, 0.2)
+plot(mat1$flatten()$numpy())
+hist(mat1$flatten()$numpy())
+```
+
+```{r}
+# a vector with all ones
+mat2 <- torch$FloatTensor(500L)$uniform_(1, 2)
+plot(mat2$flatten()$numpy())
+hist(mat2$flatten()$numpy())
+```
+
+### Binomial distribution
+
+```{r}
+Binomial <- torch$distributions$binomial$Binomial
+
+m = Binomial(100, torch$tensor(list(0 , .2, .8, 1)))
+(x = m$sample())
+```
+
+```{r}
+m = Binomial(torch$tensor(list(list(5.), list(10.))), 
+             torch$tensor(list(0.5, 0.8)))
+(x = m$sample())
+```
+
+```{r}
+binom <- Binomial(100, torch$FloatTensor(5L, 10L))
+print(binom)
+```
+
+```{r}
+print(binom$sample_n(100L)$shape)
+plot(binom$sample_n(100L)$flatten()$numpy())
+hist(binom$sample_n(100L)$flatten()$numpy())
+```
+
+### Exponential distribution
+
+```{r}
+Exponential <- torch$distributions$exponential$Exponential
+
+m = Exponential(torch$tensor(list(1.0)))
+m
+m$sample()  # Exponential distributed with rate=1
+```
+
+```{r}
+expo <- Exponential(rate=0.25)
+expo_sample <- expo$sample_n(250L)   # generate 250 samples
+print(expo_sample$shape)
+plot(expo_sample$flatten()$numpy())
+hist(expo_sample$flatten()$numpy())
+```
+
+### Weibull distribution
+
+```{r}
+Weibull <- torch$distributions$weibull$Weibull
+
+m = Weibull(torch$tensor(list(1.0)), torch$tensor(list(1.0)))
+m$sample()  # sample from a Weibull distribution with scale=1, concentration=1
+
+```
+
+#### Weibull at constant `scale`
+
+```{r}
+# constant scale
+for (k in 1:10) {
+    wei <- Weibull(scale=100, concentration=k)
+    wei_sample <- wei$sample_n(500L)
+    # plot(wei_sample$flatten()$numpy())
+    hist(main=paste0("Scale=100; Concentration=", k),
+        wei_sample$flatten()$numpy())
+}
+```
+
+#### Weibull at constant `concentration`
+
+```{r}
+# constant concentration
+for (s in seq(100, 1000, 100)) {
+    wei <- Weibull(scale=s, concentration=1)
+    wei_sample <- wei$sample_n(500L)
+    # plot(wei_sample$flatten()$numpy())
+    hist(main=paste0("Concentration=1; Scale=", s),
+        wei_sample$flatten()$numpy())
+}
+```
+
+<!--chapter:end:0201-tensors.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# Linear Algebra with Torch {#linearalgebra}
+
+The following are basic operations of Linear Algebra using PyTorch.
+
+
+```{r}
+library(rTorch)
+```
+
+
+## Scalars
+
+```{r torch-scalars}
+torch$scalar_tensor(2.78654)
+
+torch$scalar_tensor(0L)
+
+torch$scalar_tensor(1L)
+
+torch$scalar_tensor(TRUE)
+
+torch$scalar_tensor(FALSE)
+```
+
+## Vectors
+
+```{r torch-as-tensor}
+v <- c(0, 1, 2, 3, 4, 5)
+torch$as_tensor(v)
+```
+
+### Vector to matrix, matrix to tensor
+
+```{r torch-as-tensor-shape}
+# row-vector
+message("R matrix")
+(mr <- matrix(1:10, nrow=1))
+message("as_tensor")
+torch$as_tensor(mr)
+message("shape_of_tensor")
+torch$as_tensor(mr)$shape
+```
+
+```{r column-vector}
+# column-vector
+message("R matrix, one column")
+(mc <- matrix(1:10, ncol=1))
+message("as_tensor")
+torch$as_tensor(mc)
+message("size of tensor")
+torch$as_tensor(mc)$shape
+```
+
+## Matrices
+
+```{r matrix-to-tensor-ex1}
+message("R matrix")
+(m1 <- matrix(1:24, nrow = 3, byrow = TRUE))
+message("as_tensor")
+(t1 <- torch$as_tensor(m1))
+message("shape")
+torch$as_tensor(m1)$shape
+message("size")
+torch$as_tensor(m1)$size()
+message("dim")
+dim(torch$as_tensor(m1))
+message("length")
+length(torch$as_tensor(m1))
+```
+
+```{r matrix-to-tensor-ex2}
+message("R matrix")
+(m2 <- matrix(0:99, ncol = 10))
+message("as_tensor")
+(t2 <- torch$as_tensor(m2))
+message("shape")
+t2$shape
+message("dim")
+dim(torch$as_tensor(m2))
+```
+
+```{r r-select-by-index-1}
+m1[1, 1]
+m2[1, 1]
+```
+
+```{r tensor-select-by-index-2}
+t1[1, 1]
+t2[1, 1]
+```
+
+## 3D+ tensors
+
+```{r tensor-rgb}
+# RGB color image has three axes 
+(img <- torch$rand(3L, 28L, 28L))
+img$shape
+```
+
+```{r rgb-select-index}
+img[1, 1, 1]
+img[3, 28, 28]
+```
+
+
+## Transpose of a matrix
+
+```{r r-matrix-transpose}
+(m3 <- matrix(1:25, ncol = 5))
+
+# transpose
+message("transpose")
+tm3 <- t(m3)
+tm3
+```
+
+```{r tensor-transpose}
+message("as_tensor")
+(t3 <- torch$as_tensor(m3))
+message("transpose")
+tt3 <- t3$transpose(dim0 = 0L, dim1 = 1L)
+tt3
+```
+
+```{r is_it_equal}
+tm3 == tt3$numpy()   # convert first the tensor to numpy
+```
+
+## Vectors, special case of a matrix
+
+```{r matrix-select-column-then-row}
+message("R matrix")
+m2 <- matrix(0:99, ncol = 10)
+message("as_tensor")
+(t2 <- torch$as_tensor(m2))
+
+# in R
+message("select column of matrix")
+(v1 <- m2[, 1])
+message("select row of matrix")
+(v2 <- m2[10, ])
+```
+
+```{r tensor-select-column-then-row}
+# PyTorch
+message()
+t2c <- t2[, 1]
+t2r <- t2[10, ]
+
+t2c
+t2r
+```
+
+In vectors, the vector and its transpose are equal.
+
+```{r vector-transpose-equal}
+tt2r <- t2r$transpose(dim0 = 0L, dim1 = 0L)
+tt2r
+```
+
+```{r is_vector_equal_to_tranpose}
+# a tensor of booleans. is vector equal to its transposed?
+t2r == tt2r
+```
+
+## Tensor arithmetic
+
+```{r torch-ones}
+message("x")
+(x = torch$ones(5L, 4L))
+message("y")
+(y = torch$ones(5L, 4L))
+message("x+y")
+x + y
+```
+
+$$A + B = B + A$$
+
+```{r}
+x + y == y + x
+```
+
+## Add a scalar to a tensor
+
+```{r tensor-add-scalar}
+s <- 0.5    # scalar
+x + s
+```
+
+```{r tensor_times_two_tensors}
+# scalar multiplying two tensors
+s * (x + y)
+```
+
+## Multiplying tensors
+
+$$A * B = B * A$$
+
+```{r multiply-tensors}
+message("x")
+(x = torch$ones(5L, 4L))
+message("y")
+(y = torch$ones(5L, 4L))
+message("2x+4y")
+(z = 2 * x + 4 * y)
+```
+
+
+```{r tensor-mul-equal}
+x * y == y * x
+```
+
+
+
+## Dot product
+
+$$dot(a,b)_{i,j,k,a,b,c} = \sum_m a_{i,j,k,m}b_{a,b,m,c}$$
+
+```{r tensor-dot}
+torch$dot(torch$tensor(c(2, 3)), torch$tensor(c(2, 1)))
+```
+
+### Dot product of 2D array using Python
+
+```{python, engine = "python3"}
+import numpy as np
+
+a = np.array([[1, 2], [3, 4]])
+b = np.array([[1, 2], [3, 4]])
+print(a)
+print(b)
+
+np.dot(a, b)
+```
+
+### Dot product of 2D array using R
+
+```{r numpy-dot}
+a <- np$array(list(list(1, 2), list(3, 4)))
+a
+b <- np$array(list(list(1, 2), list(3, 4)))
+b
+
+np$dot(a, b)
+```
+
+`torch.dot()` treats both $a$ and $b$ as __1D__ vectors (irrespective of their original shape) and computes their inner product. 
+
+```{r dot-error, error=TRUE}
+at <- torch$as_tensor(a)
+bt <- torch$as_tensor(b)
+
+# torch$dot(at, bt)  <- RuntimeError: dot: Expected 1-D argument self, but got 2-D
+# at %.*% bt
+```
+
+If we perform the same dot product operation in Python, we get the same error:
+
+```{python, error=TRUE}
+import torch
+import numpy as np
+
+a = np.array([[1, 2], [3, 4]])
+a
+b = np.array([[1, 2], [3, 4]])
+b
+
+np.dot(a, b)
+
+at = torch.as_tensor(a)
+bt = torch.as_tensor(b)
+
+at
+bt
+
+torch.dot(at, bt)
+```
+
+
+```{r, error=TRUE}
+a <- torch$Tensor(list(list(1, 2), list(3, 4)))
+b <- torch$Tensor(c(c(1, 2), c(3, 4)))
+c <- torch$Tensor(list(list(11, 12), list(13, 14)))
+
+a
+b
+torch$dot(a, b)
+
+# this is another way of performing dot product in PyTorch
+# a$dot(a)
+```
+
+```{r, error=TRUE}
+o1 <- torch$ones(2L, 2L)
+o2 <- torch$ones(2L, 2L)
+
+o1
+o2
+
+torch$dot(o1, o2)
+o1$dot(o2)
+```
+
+
+```{r }
+# 1D tensors work fine
+r = torch$dot(torch$Tensor(list(4L, 2L, 4L)), torch$Tensor(list(3L, 4L, 1L)))
+r
+```
+
+### Dot product with `mm` and `matmul` functions
+So, if we cannor perform 2D tensor operations with the `dot` product, how do we manage then?
+
+```{r tensor-matmul}
+## mm and matmul seem to address the dot product we are looking for in tensors
+a = torch$randn(2L, 3L)
+b = torch$randn(3L, 4L)
+
+a$mm(b)
+a$matmul(b)
+```
+
+Here is a good explanation: https://stackoverflow.com/a/44525687/5270873
+
+Let's now prove the associative property of tensors:
+
+$$(A B)^T = B^T A^T$$
+
+```{r tensor-mm}
+abt <- torch$mm(a, b)$transpose(dim0=0L, dim1=1L)
+abt
+```
+
+```{r tensor-transpose-matmul}
+at <- a$transpose(dim0=0L, dim1=1L)
+bt <- b$transpose(dim0=0L, dim1=1L)
+
+btat <- torch$matmul(bt, at)
+btat
+```
+
+And we could unit test if the results are nearly the same with `allclose()`:
+
+```{r tensor-operation-tolerance}
+# tolerance
+torch$allclose(abt, btat, rtol=0.0001)
+```
+
+
+<!--chapter:end:0202-linear_algebra.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# Creating PyTorch classes
+
+
+## Build a PyTorch model class
+PyTorch classes cannot not directly be instantiated from `R`. Yet. We need an intermediate step to create a class. For this, we use `reticulate` functions like `py_run_string()` that will read the class implementation in `Python` code, and then assign it to an R object.
+
+### Example 1: a neural network with one layer
+
+```{r class-linreg, eval=FALSE}
+py_run_string("import torch")
+main = py_run_string(
+"
+import torch.nn as nn
+
+class Net(nn.Module):
+   def __init__(self):
+       super(Net, self).__init__()
+       self.layer = torch.nn.Linear(1, 1)
+
+   def forward(self, x):
+       x = self.layer(x)      
+       return x
+")
+
+
+# build a Linear Rgression model
+net <- main$Net()
+```
+
+The R object `net` now contains all the object in the PyTorch class `Net`.
+
+
+### Example 2: Logistic Regression
+
+```{r class-logreg, eval=FALSE}
+main <- py_run_string(
+"
+import torch.nn as nn
+
+class LogisticRegressionModel(nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(LogisticRegressionModel, self).__init__()
+        self.linear = nn.Linear(input_dim, output_dim)
+
+    def forward(self, x):
+        out = self.linear(x)
+        return out
+")
+
+# build a Logistic Rgression model
+LogisticRegressionModel <- main$LogisticRegressionModel
+```
+
+The R object `LogisticRegressionModel` now contains all the objects in the PyTorch class `LogisticRegressionModel`.
+
+
+
+<!--chapter:end:0203-creating_pytorch_classes.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# (PART) Logistic Regression {-}
+
+# Example 1: A classification problem with Logistic Regression
+
+## Code in Python
+
+I will combine here R and Python code just to show how easy is integrating R and Python. First thing we have to do is loading the package `rTorch`. We do that in a chunk:
+
+```{r}
+library(rTorch)
+```
+
+Then, we proceed to copy the standard Python code but in their own `Python` chunks. This is a very nice example that I found in the web. It explains the classic challenge of classification.
+
+When `rTorch` is loaded, a number of Python libraries are also loaded, which enable us the immediate use of numpy, torch and matplotlib.
+
+
+```{python}
+# Logistic Regression
+# https://m-alcu.github.io/blog/2018/02/10/logit-pytorch/
+import numpy as np
+import torch
+import torch.nn.functional as F
+from torch.autograd import Variable
+import matplotlib.pyplot as plt
+```
+
+The next thing we do is setting a seed to make the example repeatable, in my machine and yours.
+
+```{python}
+np.random.seed(2048)
+```
+
+Then we generate some random samples.
+```{python}
+N = 100
+D = 2
+X = np.random.randn(N, D) * 2
+ctr = int(N/2)
+# center the first N/2 points at (-2,-2)
+X[:ctr,:] = X[:ctr,:] - 2 * np.ones((ctr, D))
+# center the last N/2 points at (2, 2)
+X[ctr:,:] = X[ctr:,:] + 2 * np.ones((ctr, D))
+
+# labels: first N/2 are 0, last N/2 are 1
+# mark the first half with 0 and the sceond half with 1
+T = np.array([0] * ctr + [1] * ctr).reshape(100, 1)
+```
+
+And plot the original data for reference.
+```{python}
+# plot the data. color the dots using T
+plt.scatter(X[:,0], X[:,1], c=T.reshape(N), s=100, alpha=0.5)
+plt.xlabel('X(1)')
+plt.ylabel('X(2)')
+```
+
+What follows is the definition of the model using a neural network and train the model. We set up the model:
+
+```{python}
+class Model(torch.nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.linear = torch.nn.Linear(2, 1) # 2 in and 1 out
+        
+    def forward(self, x):
+        y_pred = torch.sigmoid(self.linear(x))
+        return y_pred
+    
+# Our model    
+model = Model()
+
+criterion = torch.nn.BCELoss(reduction='mean')
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+```
+
+Train the model:
+
+```{python}
+x_data = Variable(torch.Tensor(X))
+y_data = Variable(torch.Tensor(T))
+
+# Training loop
+for epoch in range(1000):
+    # Forward pass: Compute predicted y by passing x to the model
+    y_pred = model(x_data)
+    
+    # Compute and print loss
+    loss = criterion(y_pred, y_data)
+    # print(epoch, loss.data[0])
+    
+    # Zero gradients, perform a backward pass, and update the weights.
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    
+w = list(model.parameters())
+w0 = w[0].data.numpy()
+w1 = w[1].data.numpy()    
+```
+
+
+Finally, we plot the results, by tracing the line that separates two classes, 0 and 1, which are both colored in the plot.
+
+```{python}
+print("Final gradient descend:", w)
+# plot the data and separating line
+plt.scatter(X[:,0], X[:,1], c=T.reshape(N), s=100, alpha=0.5)
+x_axis = np.linspace(-6, 6, 100)
+y_axis = -(w1[0] + x_axis * w0[0][0]) / w0[0][1]
+line_up, = plt.plot(x_axis, y_axis,'r--', label='gradient descent')
+plt.legend(handles=[line_up])
+plt.xlabel('X(1)')
+plt.ylabel('X(2)')
+plt.show()
+```
+
+
+<!--chapter:end:0301-logistic_regression-random.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# Example 2: MNIST handwritten digits {#mnistdigits}
+
+## Code in R
+
+Source: https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/01-basics/logistic_regression/main.py
+
+
+```{r load-torch-modules}
+library(rTorch)
+
+nn          <- torch$nn
+transforms  <- torchvision$transforms
+
+torch$set_default_dtype(torch$float)
+```
+
+
+### Hyperparameters
+```{r hyperparameters}
+# Hyper-parameters 
+input_size    <- 784L
+num_classes   <- 10L
+num_epochs    <- 5L
+batch_size    <- 100L
+learning_rate <- 0.001
+```
+
+### Read datasets
+
+```{r read-datasets}
+# MNIST dataset (images and labels)
+# IDX format
+local_folder <- './datasets/raw_data'
+train_dataset = torchvision$datasets$MNIST(root=local_folder, 
+                                           train=TRUE, 
+                                           transform=transforms$ToTensor(),
+                                           download=TRUE)
+
+test_dataset = torchvision$datasets$MNIST(root=local_folder, 
+                                          train=FALSE, 
+                                          transform=transforms$ToTensor())
+
+# Data loader (input pipeline). Make the datasets iteratble
+train_loader = torch$utils$data$DataLoader(dataset=train_dataset, 
+                                           batch_size=batch_size, 
+                                           shuffle=TRUE)
+
+test_loader = torch$utils$data$DataLoader(dataset=test_dataset, 
+                                          batch_size=batch_size, 
+                                          shuffle=FALSE)
+```
+
+```{r class-len}
+class(train_loader)
+length(train_loader)
+```
+
+### Define the model
+
+```{r set-print-model}
+# Logistic regression model
+model = nn$Linear(input_size, num_classes)
+
+# Loss and optimizer
+# nn.CrossEntropyLoss() computes softmax internally
+criterion = nn$CrossEntropyLoss()  
+optimizer = torch$optim$SGD(model$parameters(), lr=learning_rate)  
+print(model)
+```
+
+
+### Training
+
+```{r load-iterator}
+# Train the model
+iter_train_loader <- iterate(train_loader)
+total_step <-length(iter_train_loader)
+```
+
+```{r, r_train_model}
+for (epoch in 1:num_epochs) {
+    i <-  0
+    for (obj in iter_train_loader) {
+        
+        images <- obj[[1]]   # tensor torch.Size([64, 3, 28, 28])
+        labels <- obj[[2]]   # tensor torch.Size([64]), labels from 0 to 9
+        # cat(i, "\t"); print(images$shape)
+
+        # Reshape images to (batch_size, input_size)
+        images <- images$reshape(-1L, 28L*28L)
+        # images <- torch$as_tensor(images$reshape(-1L, 28L*28L), dtype=torch$double)
+
+        # Forward pass
+        outputs <- model(images)
+        loss <- criterion(outputs, labels)
+
+        # Backward and optimize
+        optimizer$zero_grad()
+        loss$backward()
+        optimizer$step()
+
+        if ((i+1) %% 100 == 0) {
+            cat(sprintf('Epoch [%d/%d], Step [%d/%d], Loss: %f \n',
+                epoch+1, num_epochs, i+1, total_step, loss$item()))
+        }
+        i <-  i + 1
+    }
+}  
+```
+
+
+### Prediction
+
+```{r prediction}
+# Adjust weights and reset gradients
+iter_test_loader <- iterate(test_loader)
+
+with(torch$no_grad(), {
+    correct <-  0
+    total <-  0
+    for (obj in iter_test_loader) {
+        images <- obj[[1]]   # tensor torch.Size([64, 3, 28, 28])
+        labels <- obj[[2]]   # tensor torch.Size([64]), labels from 0 to 9
+        images = images$reshape(-1L, 28L*28L)
+        # images <- torch$as_tensor(images$reshape(-1L, 28L*28L), dtype=torch$double)
+        outputs = model(images)
+        .predicted = torch$max(outputs$data, 1L)
+        predicted <- .predicted[1L]
+        total = total + labels$size(0L)
+        correct = correct + sum((predicted$numpy() == labels$numpy()))
+    }
+    cat(sprintf('Accuracy of the model on the 10000 test images: %f %%', (100 * correct / total)))
+  
+})
+```
+
+### Save the model
+
+```{r, r_save_model}
+# Save the model checkpoint
+torch$save(model$state_dict(), 'model.ckpt')
+```
+
+
+## Code in Python
+
+```{python}
+import torch
+import torchvision
+
+import torch.nn as nn
+import torchvision.transforms as transforms
+
+
+# Hyper-parameters
+input_size    = 784
+num_classes   = 10
+num_epochs    = 5
+batch_size    = 100
+learning_rate = 0.001
+
+
+# MNIST dataset (images and labels)
+# IDX format
+local_folder = './datasets/raw_data'
+train_dataset = torchvision.datasets.MNIST(root=local_folder,
+                                           train=True,
+                                           transform=transforms.ToTensor(),
+                                           download=True)
+
+test_dataset = torchvision.datasets.MNIST(root=local_folder,
+                                          train=False,
+                                          transform=transforms.ToTensor())
+
+# Data loader (input pipeline). Make the datasets iteratble
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
+                                           batch_size=batch_size,
+                                           shuffle=True)
+
+test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
+                                          batch_size=batch_size,
+                                          shuffle=False)
+
+```
+
+
+<!--chapter:end:0302-logistics_regression-mnist.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# (PART) Linear Regression {-}
+
+# Linear Regression
+
+## Introduction
+Source: https://www.guru99.com/pytorch-tutorial.html
+
+```{r setup}
+library(rTorch)
+
+nn       <- torch$nn
+Variable <- torch$autograd$Variable
+
+invisible(torch$manual_seed(123))
+```
+
+
+## Generate the dataset
+
+Before you start the training process, you need to know our data. You make a random function to test our model. $Y = x3 sin(x)+ 3x+0.8 rand(100)$
+
+```{r datasets-lr, fig.width=5.5, fig.height=5.5}
+np$random$seed(123L)
+
+x = np$random$rand(100L)
+y = np$sin(x) * np$power(x, 3L) + 3L * x + np$random$rand(100L) * 0.8
+
+plot(x, y)
+```
+
+## Convert arrays to tensors
+
+Before you start the training process, you need to convert the numpy array to Variables that supported by Torch and autograd.
+
+## Converting from numpy to tensor
+Notice that before converting to a Torch tensor, we need first to convert the R numeric vector to a `numpy` array:
+
+```{r numpy-to-tensor}
+# convert numpy array to tensor in shape of input size
+x <- r_to_py(x)
+y <- r_to_py(y)
+x = torch$from_numpy(x$reshape(-1L, 1L))$float()
+y = torch$from_numpy(y$reshape(-1L, 1L))$float()
+print(x, y)
+```
+
+## Creating the network model
+
+Our network model is a simple Linear layer with an input and an output shape of one.
+
+And the network output should be like this
+
+```
+Net(
+  (hidden): Linear(in_features=1, out_features=1, bias=True)
+)
+```
+
+
+```{r setup-nn}
+py_run_string("import torch")
+main = py_run_string(
+"
+import torch.nn as nn
+
+class Net(nn.Module):
+   def __init__(self):
+       super(Net, self).__init__()
+       self.layer = torch.nn.Linear(1, 1)
+
+   def forward(self, x):
+       x = self.layer(x)      
+       return x
+")
+
+
+# build a Linear Rgression model
+net <- main$Net()
+
+print(net)
+```
+
+## Optimizer and Loss
+Next, you should define the Optimizer and the Loss Function for our training process.
+
+```{r define-optimizer}
+# Define Optimizer and Loss Function
+optimizer <- torch$optim$SGD(net$parameters(), lr=0.2)
+loss_func <- torch$nn$MSELoss()
+print(optimizer)
+print(loss_func)
+```
+
+## Training
+
+Now let's start our training process. With an epoch of 250, you will iterate our data to find the best value for our hyperparameters.
+
+```{r plot-xy, fig.width=5.5, fig.height=5.5}
+# x = x$type(torch$float)   # make it a a FloatTensor
+# y = y$type(torch$float)
+
+# x <- torch$as_tensor(x, dtype = torch$float)
+# y <- torch$as_tensor(y, dtype = torch$float)
+
+inputs  = Variable(x)
+outputs = Variable(y)
+
+# base plot
+plot(x$data$numpy(), y$data$numpy(), col = "blue")
+for (i in 1:250) {
+   prediction = net(inputs)
+   loss = loss_func(prediction, outputs)
+   optimizer$zero_grad()
+   loss$backward()
+   optimizer$step()
+   
+   if (i > 1) break
+
+   if (i %% 10 == 0) {
+       # plot and show learning process
+      # points(x$data$numpy(), y$data$numpy())
+      points(x$data$numpy(), prediction$data$numpy(), col="red")
+       # cat(i, loss$data$numpy(), "\n")
+   }
+}
+```
+
+
+## Results
+As you can see, you successfully performed regression with a neural network. Actually, on every iteration, the red line in the plot will update and change its position to fit the data. But in this picture, you only show you the final result.
+
+
+
+
+
+
+<!--chapter:end:0401-linear_regression.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# Rainfall prediction with Linear Regression
+
+```{r rainfall-load-rtorch}
+library(rTorch)
+```
+
+
+Select the device: CPU or GPU
+
+```{r seed-device}
+invisible(torch$manual_seed(0))
+device = torch$device('cpu')
+```
+
+## Training data
+The training data can be represented using 2 matrices (inputs and targets), each with one row per observation, and one column per variable.
+
+```{r inputs-and targets}
+# Input (temp, rainfall, humidity)
+inputs = np$array(list(list(73, 67, 43),
+                   list(91, 88, 64),
+                   list(87, 134, 58),
+                   list(102, 43, 37),
+                   list(69, 96, 70)), dtype='float32')
+
+# Targets (apples, oranges)
+targets = np$array(list(list(56, 70), 
+                    list(81, 101),
+                    list(119, 133),
+                    list(22, 37), 
+                    list(103, 119)), dtype='float32')
+```
+
+
+## Convert arrays to tensors
+Before we build a model, we need to convert inputs and targets to PyTorch tensors.
+
+```{r convert-to-tensors}
+# Convert inputs and targets to tensors
+inputs = torch$from_numpy(inputs)
+targets = torch$from_numpy(targets)
+
+print(inputs)
+print(targets)
+```
+
+
+The weights and biases can also be represented as matrices, initialized with random values. The first row of $w$ and the first element of $b$ are used to predict the first target variable, i.e. yield for apples, and, similarly, the second for oranges.
+
+```{r to-double}
+# random numbers for weights and biases. Then convert to double()
+torch$set_default_dtype(torch$double)
+
+w = torch$randn(2L, 3L, requires_grad=TRUE)  #$double()
+b = torch$randn(2L, requires_grad=TRUE)      #$double()
+
+print(w)
+print(b)
+```
+
+
+## Build the model
+The model is simply a function that performs a matrix multiplication of the input $x$ and the weights $w$ (transposed), and adds the bias $b$ (replicated for each observation).
+
+```{r build-model}
+model <- function(x) {
+  wt <- w$t()
+  return(torch$add(torch$mm(x, wt), b))
+}
+```
+
+## Generate predictions
+The matrix obtained by passing the input data to the model is a set of predictions for the target variables.
+
+```{r predictions}
+# Generate predictions
+preds = model(inputs)
+print(preds)
+```
+
+```{r targets}
+# Compare with targets
+print(targets)
+```
+
+Because we've started with random weights and biases, the model does not a very good job of predicting the target variables.
+
+## Loss Function
+
+We can compare the predictions with the actual targets, using the following method:
+
+* Calculate the difference between the two matrices (preds and targets).
+* Square all elements of the difference matrix to remove negative values.
+* Calculate the average of the elements in the resulting matrix.
+
+The result is a single number, known as the mean squared error (MSE).
+
+```{r mse-loss}
+# MSE loss
+mse = function(t1, t2) {
+  diff <- torch$sub(t1, t2)
+  mul <- torch$sum(torch$mul(diff, diff))
+  return(torch$div(mul, diff$numel()))
+}
+print(mse)
+```
+
+## Step by step process
+
+### Compute the losses
+
+```{r compute-loss}
+# Compute loss
+loss = mse(preds, targets)
+print(loss)
+# 46194
+# 33060.8070
+```
+
+The resulting number is called the **loss**, because it indicates how bad the model is at predicting the target variables. Lower the loss, better the model.
+
+### Compute Gradients
+
+With PyTorch, we can automatically compute the gradient or derivative of the loss w.r.t. to the weights and biases, because they have `requires_grad` set to True.
+
+```{r compute-gradients}
+# Compute gradients
+loss$backward()
+```
+
+The gradients are stored in the .grad property of the respective tensors.
+
+```{r print-weights-gradients}
+# Gradients for weights
+print(w)
+print(w$grad)
+```
+
+```{r print-bias}
+# Gradients for bias
+print(b)
+print(b$grad)
+```
+
+A key insight from calculus is that the gradient indicates the rate of change of the loss, or the slope of the loss function w.r.t. the weights and biases.
+
+* If a gradient element is positive:
+  * increasing the element's value slightly will increase the loss.
+  * decreasing the element's value slightly will decrease the loss.
+
+* If a gradient element is negative,
+  * increasing the element's value slightly will decrease the loss.
+  * decreasing the element's value slightly will increase the loss.
+
+The increase or decrease is proportional to the value of the gradient.
+
+
+### Reset the gradients
+Finally, we'll reset the gradients to zero before moving forward, because PyTorch accumulates gradients.
+
+```{r reset-gradients}
+# Reset the gradients
+w$grad$zero_()
+b$grad$zero_()
+
+print(w$grad)
+print(b$grad)
+```
+
+
+#### Adjust weights and biases using gradient descent
+
+We'll reduce the loss and improve our model using the gradient descent algorithm, which has the following steps:
+
+1. Generate predictions
+2. Calculate the loss
+3. Compute gradients w.r.t the weights and biases
+4. Adjust the weights by subtracting a small quantity proportional to the gradient
+5. Reset the gradients to zero
+
+```{r gen-predictions}
+# Generate predictions
+preds = model(inputs)
+print(preds)
+```
+
+```{r calc-loss}
+# Calculate the loss
+loss = mse(preds, targets)
+print(loss)
+```
+
+
+```{r cal-gradients}
+# Compute gradients
+loss$backward()
+
+print(w$grad)
+print(b$grad)
+```
+
+
+```{r adjust-weights-reset-gradients}
+# Adjust weights and reset gradients
+with(torch$no_grad(), {
+  print(w); print(b)    # requires_grad attribute remains
+  w$data <- torch$sub(w$data, torch$mul(w$grad$data, torch$scalar_tensor(1e-5)))
+  b$data <- torch$sub(b$data, torch$mul(b$grad$data, torch$scalar_tensor(1e-5)))
+
+  print(w$grad$data$zero_())
+  print(b$grad$data$zero_())
+})
+
+print(w)
+print(b)
+```
+
+
+With the new weights and biases, the model should have a lower loss.
+
+```{r calculate-loss}
+# Calculate loss
+preds = model(inputs)
+loss = mse(preds, targets)
+print(loss)
+```
+
+
+## All together: train for multiple epochs
+To reduce the loss further, we repeat the process of adjusting the weights and biases using the gradients multiple times. Each iteration is called an **epoch**.
+
+
+```{r all-together-now}
+# Running all together
+# Adjust weights and reset gradients
+num_epochs <- 100
+
+for (i in 1:num_epochs) {
+  preds = model(inputs)
+  loss = mse(preds, targets)
+  loss$backward()
+  with(torch$no_grad(), {
+    w$data <- torch$sub(w$data, torch$mul(w$grad, torch$scalar_tensor(1e-5)))
+    b$data <- torch$sub(b$data, torch$mul(b$grad, torch$scalar_tensor(1e-5)))
+    
+    w$grad$zero_()
+    b$grad$zero_()
+  })
+}
+
+# Calculate loss
+preds = model(inputs)
+loss = mse(preds, targets)
+print(loss)
+
+# predictions
+preds
+
+# Targets
+targets
+```
+
+
+<!--chapter:end:0402-linr-example-rainfall.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# (PART) Neural Networks {.unnumbered}
+
+# Neural Networks using NumPy, r-base, rTorch and PyTorch
+
+We will compare three neural networks:
+
+-   a neural network written in `numpy`
+
+-   a neural network written in `r-base`
+
+-   a neural network written in `PyTorch`
+
+-   a neural network written in `rTorch`
+
+
+## A neural network with `numpy`
+
+We start the neural network by simply using `numpy`:
+
+```{python, nn-numpy, engine="python3"}
+# A simple neural network using NumPy
+# Code in file tensor/two_layer_net_numpy.py
+import time
+import numpy as np
+
+tic = time.process_time()
+
+np.random.seed(123)   # set a seed for reproducibility
+# N is batch size; D_in is input dimension;
+# H is hidden dimension; D_out is output dimension.
+N, D_in, H, D_out = 64, 1000, 100, 10
+
+# Create random input and output data
+x = np.random.randn(N, D_in)
+y = np.random.randn(N, D_out)
+# print(x.shape)
+# print(y.shape)
+
+w1 = np.random.randn(D_in, H)
+w2 = np.random.randn(H, D_out)
+# print(w1.shape)
+# print(w2.shape)
+
+learning_rate = 1e-6
+for t in range(500):
+  # Forward pass: compute predicted y
+  h = x.dot(w1)
+  # print(t, h.max())
+  h_relu = np.maximum(h, 0)
+  y_pred = h_relu.dot(w2)
+  
+  # Compute and print loss
+  sq = np.square(y_pred - y)
+  loss = sq.sum()
+  print(t, loss)
+  
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred = 2.0 * (y_pred - y)
+  grad_w2 = h_relu.T.dot(grad_y_pred)
+  grad_h_relu = grad_y_pred.dot(w2.T)
+  grad_h = grad_h_relu.copy()
+  grad_h[h < 0] = 0
+  grad_w1 = x.T.dot(grad_h)
+ 
+  # Update weights
+  w1 -= learning_rate * grad_w1
+  w2 -= learning_rate * grad_w2
+# processing time  
+toc = time.process_time()
+print(toc - tic, "seconds")
+```
+
+## A neural network with `r-base`
+
+It is the same algorithm above in `numpy` but written in R base.
+
+```{r nn-rbase}
+library(tictoc)
+
+tic()
+set.seed(123)
+N <- 64; D_in <- 1000; H <- 100; D_out <- 10;
+# Create random input and output data
+x <- array(rnorm(N * D_in),  dim = c(N, D_in))
+y <- array(rnorm(N * D_out), dim = c(N, D_out))
+# Randomly initialize weights
+w1 <- array(rnorm(D_in * H),  dim = c(D_in, H))
+w2 <- array(rnorm(H * D_out),  dim = c(H, D_out))
+learning_rate <-  1e-6
+
+for (t in seq(1, 500)) {
+  # Forward pass: compute predicted y
+  h = x %*% w1
+  h_relu = pmax(h, 0)
+  y_pred = h_relu %*% w2
+
+  # Compute and print loss
+  sq <- (y_pred - y)^2
+  loss = sum(sq)
+  cat(t, loss, "\n")
+  
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred = 2.0 * (y_pred - y)
+  grad_w2 = t(h_relu) %*% grad_y_pred
+  grad_h_relu = grad_y_pred %*% t(w2)
+  # grad_h <- sapply(grad_h_relu, function(i) i, simplify = FALSE )   # grad_h = grad_h_relu.copy()
+  grad_h <- rlang::duplicate(grad_h_relu)
+  grad_h[h < 0] <-  0
+  grad_w1 = t(x) %*% grad_h
+  
+  # Update weights
+  w1 = w1 - learning_rate * grad_w1
+  w2 = w2 - learning_rate * grad_w2
+}
+toc()
+```
+
+##  The neural network written in `PyTorch`
+
+Here is the same example we have used above but written in PyTorch. Notice the following differences with the `numpy` code:
+
+-   we select the computation device which could be `cpu` or `gpu`
+
+-   when building or creating the tensors, we specify which device we want to use
+
+-   the tensors have `torch` methods and properties. Example: `mm()`, `clamp()`, `sum()`, `clone()`, and `t()`,
+
+-   also notice the use some `torch` functions: `device()`, `randn()`
+
+```{r}
+reticulate::use_condaenv("r-torch")
+```
+
+
+```{python, nn-pytorch, engine="python3"}
+# Code in file tensor/two_layer_net_tensor.py
+import torch
+import time
+
+ms = torch.manual_seed(0)
+tic = time.process_time()
+device = torch.device('cpu')
+# device = torch.device('cuda')  # Uncomment this to run on GPU
+
+# N is batch size; D_in is input dimension;
+# H is hidden dimension; D_out is output dimension.
+N, D_in, H, D_out = 64, 1000, 100, 10
+
+# Create random input and output data
+x = torch.randn(N, D_in, device=device)
+y = torch.randn(N, D_out, device=device)
+
+# Randomly initialize weights
+w1 = torch.randn(D_in, H, device=device)
+w2 = torch.randn(H, D_out, device=device)
+
+learning_rate = 1e-6
+for t in range(500):
+  # Forward pass: compute predicted y
+  h = x.mm(w1)
+  h_relu = h.clamp(min=0)
+  y_pred = h_relu.mm(w2)
+
+  # Compute and print loss; loss is a scalar, and is stored in a PyTorch Tensor
+  # of shape (); we can get its value as a Python number with loss.item().
+  loss = (y_pred - y).pow(2).sum()
+  print(t, loss.item())
+
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred = 2.0 * (y_pred - y)
+  grad_w2 = h_relu.t().mm(grad_y_pred)
+  grad_h_relu = grad_y_pred.mm(w2.t())
+  grad_h = grad_h_relu.clone()
+  grad_h[h < 0] = 0
+  grad_w1 = x.t().mm(grad_h)
+
+  # Update weights using gradient descent
+  w1 -= learning_rate * grad_w1
+  w2 -= learning_rate * grad_w2
+
+toc = time.process_time()
+print(toc - tic, "seconds")
+```
+
+## A neural network written in `rTorch`
+
+The example shows the long and manual way of calculating the forward and backward passes but using `rTorch`. The objective is getting familiarized with the rTorch tensor operations.
+
+The following example was converted from **PyTorch** to **rTorch** to show differences and similarities of both approaches. The original source can be found here: [Source](https://github.com/jcjohnson/pytorch-examples#pytorch-tensors){.uri}.
+
+### Load the libraries
+
+```{r rtorch-device-cpu}
+library(rTorch)
+library(ggplot2)
+
+device = torch$device('cpu')
+# device = torch.device('cuda')  # Uncomment this to run on GPU
+invisible(torch$manual_seed(0))
+```
+
+
+-   `N` is batch size;
+-   `D_in` is input dimension;
+-   `H` is hidden dimension;
+-   `D_out` is output dimension.
+
+
+### Dataset
+
+We will create a random dataset for a **two layer neural network**.
+
+```{r create-random-tensors}
+N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
+
+# Create random Tensors to hold inputs and outputs
+x <- torch$randn(N, D_in, device=device)
+y <- torch$randn(N, D_out, device=device)
+# dimensions of both tensors
+dim(x)
+dim(y)
+```
+
+### Initialize the weights
+
+```{r random-init-weights}
+# Randomly initialize weights
+w1 <- torch$randn(D_in, H, device=device)   # layer 1
+w2 <- torch$randn(H, D_out, device=device)  # layer 2
+dim(w1)
+dim(w2)
+```
+
+### Iterate through the dataset
+
+Now, we are going to train our neural network on the `training` dataset. The equestion is: *"how many times do we have to expose the training data to the algorithm?".* By looking at the graph of the loss we may get an idea when we should stop.
+
+#### Iterate 50 times
+
+Let's say that for the sake of time we select to run only 50 iterations of the loop doing the training.
+
+```{r run-model, fig.asp=1}
+learning_rate = 1e-6
+
+# loop
+for (t in 1:50) {
+  # Forward pass: compute predicted y, y_pred
+  h <- x$mm(w1)              # matrix multiplication, x*w1
+  h_relu <- h$clamp(min=0)   # make elements greater than zero
+  y_pred <- h_relu$mm(w2)    # matrix multiplication, h_relu*w2
+
+  # Compute and print loss; loss is a scalar, and is stored in a PyTorch Tensor
+  # of shape (); we can get its value as a Python number with loss.item().
+  loss <- (torch$sub(y_pred, y))$pow(2)$sum()   # sum((y_pred-y)^2)
+  # cat(t, "\t")
+  # cat(loss$item(), "\n")
+
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
+  grad_w2 <- h_relu$t()$mm(grad_y_pred)        # compute gradient of w2
+  grad_h_relu <- grad_y_pred$mm(w2$t())
+  grad_h <- grad_h_relu$clone()
+  mask <- grad_h$lt(0)                         # filter values lower than zero 
+  torch$masked_select(grad_h, mask)$fill_(0.0) # make them equal to zero
+  grad_w1 <- x$t()$mm(grad_h)                  # compute gradient of w1
+   
+  # Update weights using gradient descent
+  w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
+  w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
+}
+# y vs predicted y
+df_50 <- data.frame(y = y$flatten()$numpy(), 
+                    y_pred = y_pred$flatten()$numpy(), iter = 50)
+
+ggplot(df_50, aes(x = y, y = y_pred)) +
+    geom_point()
+```
+
+We see a lot of dispersion between the predicted values, $y_{pred}$ and the real values, $y$. We are far from our goal.
+
+Let's take a look at the dataframe:
+
+```{r dt-50-iters}
+library('DT')
+datatable(df_50, options = list(pageLength = 10))
+```
+
+#### A function to train the neural network
+
+Now, we convert the script above to a function, so we could reuse it several times. We want to study the effect of the iteration on the performance of the algorithm.
+
+This time we create a function `train` to input the number of iterations that we want to run:
+
+```{r train-function, fig.asp=1}
+train <- function(iterations) {
+    # Randomly initialize weights
+    w1 <- torch$randn(D_in, H, device=device)   # layer 1
+    w2 <- torch$randn(H, D_out, device=device)  # layer 2
+    
+    learning_rate = 1e-6
+    # loop
+    for (t in 1:iterations) {
+      # Forward pass: compute predicted y
+      h <- x$mm(w1)
+      h_relu <- h$clamp(min=0)
+      y_pred <- h_relu$mm(w2)
+    
+      # Compute and print loss; loss is a scalar stored in a PyTorch Tensor
+      # of shape (); we can get its value as a Python number with loss.item().
+      loss <- (torch$sub(y_pred, y))$pow(2)$sum()
+      # cat(t, "\t"); cat(loss$item(), "\n")
+    
+      # Backprop to compute gradients of w1 and w2 with respect to loss
+      grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
+      grad_w2 <- h_relu$t()$mm(grad_y_pred)
+      grad_h_relu <- grad_y_pred$mm(w2$t())
+      grad_h <- grad_h_relu$clone()
+      mask <- grad_h$lt(0)
+      torch$masked_select(grad_h, mask)$fill_(0.0)
+      grad_w1 <- x$t()$mm(grad_h)
+       
+      # Update weights using gradient descent
+      w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
+      w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
+    }
+    data.frame(y = y$flatten()$numpy(), 
+                        y_pred = y_pred$flatten()$numpy(), iter = iterations)
+}
+```
+
+#### Run it at 100 iterations
+
+```{r dt-100-iters}
+# retrieve the results and store them in a dataframe
+df_100 <- train(iterations = 100)
+datatable(df_100, options = list(pageLength = 10))
+# plot
+ggplot(df_100, aes(x = y_pred, y = y)) +
+    geom_point()
+```
+
+#### 250 iterations
+
+Still there are differences between the value and the prediction. Let's try with more iterations, like **250**:
+
+```{r dt-250-iters, fig.asp=1}
+df_250 <- train(iterations = 200)
+datatable(df_250, options = list(pageLength = 25))
+# plot
+ggplot(df_250, aes(x = y_pred, y = y)) +
+    geom_point()
+```
+
+We see the formation of a line between the values and prediction, which means we are getting closer at finding the right algorithm, in this particular case, weights and bias.
+
+#### 500 iterations
+
+Let's try one more time with 500 iterations:
+
+```{r dt-500-iters, fig.asp=1}
+df_500 <- train(iterations = 500)
+datatable(df_500, options = list(pageLength = 25))
+ggplot(df_500, aes(x = y_pred, y = y)) +
+    geom_point()
+```
+
+## Complete code for neural network in rTorch
+
+```{r rotch-complete, fig.asp=1}
+library(rTorch)
+library(ggplot2)
+library(tictoc)
+
+tic()
+device = torch$device('cpu')
+# device = torch.device('cuda')  # Uncomment this to run on GPU
+invisible(torch$manual_seed(0))
+
+# Properties of tensors and neural network
+N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
+
+# Create random Tensors to hold inputs and outputs
+x <- torch$randn(N, D_in, device=device)
+y <- torch$randn(N, D_out, device=device)
+# dimensions of both tensors
+
+# initialize the weights
+w1 <- torch$randn(D_in, H, device=device)   # layer 1
+w2 <- torch$randn(H, D_out, device=device)  # layer 2
+
+learning_rate = 1e-6
+# loop
+for (t in 1:500) {
+  # Forward pass: compute predicted y, y_pred
+  h <- x$mm(w1)              # matrix multiplication, x*w1
+  h_relu <- h$clamp(min=0)   # make elements greater than zero
+  y_pred <- h_relu$mm(w2)    # matrix multiplication, h_relu*w2
+
+  # Compute and print loss; loss is a scalar, and is stored in a PyTorch Tensor
+  # of shape (); we can get its value as a Python number with loss.item().
+  loss <- (torch$sub(y_pred, y))$pow(2)$sum()   # sum((y_pred-y)^2)
+  # cat(t, "\t")
+  # cat(loss$item(), "\n")
+
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
+  grad_w2 <- h_relu$t()$mm(grad_y_pred)        # compute gradient of w2
+  grad_h_relu <- grad_y_pred$mm(w2$t())
+  grad_h <- grad_h_relu$clone()
+  mask <- grad_h$lt(0)                         # filter values lower than zero 
+  torch$masked_select(grad_h, mask)$fill_(0.0) # make them equal to zero
+  grad_w1 <- x$t()$mm(grad_h)                  # compute gradient of w1
+   
+  # Update weights using gradient descent
+  w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
+  w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
+}
+# y vs predicted y
+df<- data.frame(y = y$flatten()$numpy(), 
+                    y_pred = y_pred$flatten()$numpy(), iter = 500)
+datatable(df, options = list(pageLength = 25))
+ggplot(df, aes(x = y_pred, y = y)) +
+    geom_point()
+
+toc()
+```
+
+
+
+## Exercise
+
+1.  Rewrite the code in `rTorch` but including and plotting the loss at each iteration
+
+2.  On the neural network written in `PyTorch`, code, instead of printing a long table, print the table by pages that we could navigate using vertical and horizontal bars. Tip: read the PyThon data structure from R and plot it with `ggplot2`
+
+<!--chapter:end:0501-neural_networks.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# A step-by-step neural network in rTorch
+
+## Introduction
+Source: https://github.com/jcjohnson/pytorch-examples#pytorch-nn
+
+In this example we use the torch `nn` package to implement our two-layer network:
+
+## Select device
+
+```{r select-device-cpu}
+library(rTorch)
+
+device = torch$device('cpu')
+# device = torch.device('cuda') # Uncomment this to run on GPU
+```
+
+* `N` is batch size; 
+* `D_in` is input dimension;
+* `H` is hidden dimension; 
+* `D_out` is output dimension.
+
+
+## Create the dataset
+
+```{r datasets-64x1000x10}
+invisible(torch$manual_seed(0))   # do not show the generator output
+N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
+
+# Create random Tensors to hold inputs and outputs
+x = torch$randn(N, D_in, device=device)
+y = torch$randn(N, D_out, device=device)
+```
+
+
+## Define the model
+We use the `nn` package to define our model as a sequence of layers. `nn.Sequential` applies these leayers in sequence to produce an output. Each _Linear Module_ computes the output by using a linear function, and holds also tensors for its weights and biases. After constructing the model we use the `.to()` method to move it to the desired device, which could be `CPU` or `GPU`. Remember that we selected `CPU` with `torch$device('cpu')`.
+
+```{r model-layers}
+model <- torch$nn$Sequential(
+  torch$nn$Linear(D_in, H),              # first layer
+  torch$nn$ReLU(),
+  torch$nn$Linear(H, D_out))$to(device)  # output layer
+
+print(model)
+```
+
+
+## The Loss function
+The `nn` package also contains definitions of several loss functions; in this case we will use __Mean Squared Error__ ($MSE$) as our loss function. Setting `reduction='sum'` means that we are computing the *sum* of squared errors rather than the __mean__; this is for consistency with the examples above where we manually compute the loss, but in practice it is more common to use the mean squared error as a loss by setting `reduction='elementwise_mean'`.
+
+```{r loss-function}
+loss_fn = torch$nn$MSELoss(reduction = 'sum')
+```
+
+
+## Iterate through the dataset
+
+```{r iterate}
+learning_rate = 1e-4
+
+for (t in 1:500) {
+  # Forward pass: compute predicted y by passing x to the model. Module objects
+  # override the __call__ operator so you can call them like functions. When
+  # doing so you pass a Tensor of input data to the Module and it produces
+  # a Tensor of output data.
+  y_pred = model(x)
+
+  # Compute and print loss. We pass Tensors containing the predicted and true
+  # values of y, and the loss function returns a Tensor containing the loss.
+  loss = loss_fn(y_pred, y)
+  cat(t, "\t")
+  cat(loss$item(), "\n")
+  
+  # Zero the gradients before running the backward pass.
+  model$zero_grad()
+
+  # Backward pass: compute gradient of the loss with respect to all the learnable
+  # parameters of the model. Internally, the parameters of each Module are stored
+  # in Tensors with requires_grad=True, so this call will compute gradients for
+  # all learnable parameters in the model.
+  loss$backward()
+
+  # Update the weights using gradient descent. Each parameter is a Tensor, so
+  # we can access its data and gradients like we did before.
+  with(torch$no_grad(), {
+      for (param in iterate(model$parameters())) {
+        # in Python this code is much simpler. In R we have to do some conversions
+        # param$data <- torch$sub(param$data,
+        #                         torch$mul(param$grad$float(),
+        #                           torch$scalar_tensor(learning_rate)))
+        param$data <- param$data - param$grad * learning_rate
+      }
+   })
+}  
+```
+
+
+## Using R generics to simplify tensor operations
+The following two expressions are equivalent, with the first being the long version natural way of doing it in __PyTorch__. The second is using the generics in R for subtraction, multiplication and scalar conversion.
+
+```{r eval=FALSE}
+param$data <- torch$sub(param$data,
+                        torch$mul(param$grad$float(),
+                          torch$scalar_tensor(learning_rate)))
+```
+
+```{r eval=FALSE}
+param$data <- param$data - param$grad * learning_rate
+```
+
+
+## A more elegant way of writing the neural network
+
+```{r nn-rtorch-elegant}
+invisible(torch$manual_seed(0))   # do not show the generator output
+# layer properties
+N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
+
+# Create random Tensors to hold inputs and outputs
+x = torch$randn(N, D_in, device=device)
+y = torch$randn(N, D_out, device=device)
+
+# set up the neural network
+model <- torch$nn$Sequential(
+  torch$nn$Linear(D_in, H),              # first layer
+  torch$nn$ReLU(),                       # activation
+  torch$nn$Linear(H, D_out))$to(device)  # output layer
+
+# specify how we will be computing the loss
+loss_fn = torch$nn$MSELoss(reduction = 'sum')
+
+learning_rate = 1e-4
+loss_row <- list(vector())     # collect a list for the final dataframe
+
+for (t in 1:500) {
+  # Forward pass: compute predicted y by passing x to the model. Module objects
+  # override the __call__ operator so you can call them like functions. When
+  # doing so you pass a Tensor of input data to the Module and it produces
+  # a Tensor of output data.
+  y_pred = model(x)
+
+  # Compute and print loss. We pass Tensors containing the predicted and true
+  # values of y, and the loss function returns a Tensor containing the loss.
+  loss = loss_fn(y_pred, y)  # (y_pred - y) is a tensor; loss_fn output is a scalar
+  loss_row[[t]] <- c(t, loss$item())
+  
+  # Zero the gradients before running the backward pass.
+  model$zero_grad()
+
+  # Backward pass: compute gradient of the loss with respect to all the learnable
+  # parameters of the model. Internally, the parameters of each module are stored
+  # in tensors with `requires_grad=True`, so this call will compute gradients for
+  # all learnable parameters in the model.
+  loss$backward()
+
+  # Update the weights using gradient descent. Each parameter is a tensor, so
+  # we can access its data and gradients like we did before.
+  with(torch$no_grad(), {
+      for (param in iterate(model$parameters())) {
+        # using R generics
+        param$data <- param$data - param$grad * learning_rate
+      }
+   })
+}  
+```
+
+## Create a browseable dataframe
+
+```{r dt-loss-reduce}
+library(DT)
+loss_df <- data.frame(Reduce(rbind, loss_row), row.names = NULL)
+names(loss_df)[1] <- "iter"
+names(loss_df)[2] <- "loss"
+DT::datatable(loss_df)
+```
+
+## Plot the loss at each iteration
+
+```{r plot-loss}
+library(ggplot2)
+# plot
+ggplot(loss_df, aes(x = iter, y = loss)) +
+    geom_point()
+```
+
+
+<!--chapter:end:0502-neural_networks-steps.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# (PART) PyTorch and R data structures {-}
+
+
+# Working with data.frame
+
+## Load PyTorch libraries
+
+```{r imports}
+library(rTorch)
+
+torch       <- import("torch")
+torchvision <- import("torchvision")
+nn          <- import("torch.nn")
+transforms  <- import("torchvision.transforms")
+dsets       <- import("torchvision.datasets")
+builtins    <- import_builtins()
+np          <- import("numpy")
+```
+
+## Load dataset
+
+```{r path-to-mnist-digits}
+# folders where the images are located
+train_data_path = './mnist_png_full/training/'
+test_data_path  = './mnist_png_full/testing/'
+```
+
+
+```{r read-dataset}
+# read the datasets without normalization
+train_dataset = torchvision$datasets$ImageFolder(root = train_data_path, 
+    transform = torchvision$transforms$ToTensor()
+)
+
+print(train_dataset)
+```
+
+
+## Summary statistics for tensors
+
+### using `data.frame`
+
+```{r use-dataframe-599}
+library(tictoc)
+tic()
+
+fun_list <- list(
+    size  = c("size"),
+    numel = c("numel"),
+    sum   = c("sum",    "item"),
+    mean  = c("mean",   "item"),
+    std   = c("std",    "item"),
+    med   = c("median", "item"),
+    max   = c("max",    "item"),
+    min   = c("min",    "item")
+    )
+
+idx <- seq(0L, 599L)    # how many samples
+
+fun_get_tensor <- function(x) py_get_item(train_dataset, x)[[0]]
+
+stat_fun <- function(x, str_fun) {
+  fun_var <- paste0("fun_get_tensor(x)", "$", str_fun, "()")
+  sapply(idx, function(x) 
+    ifelse(is.numeric(eval(parse(text = fun_var))),  # size return chracater
+           eval(parse(text = fun_var)),              # all else are numeric
+           as.character(eval(parse(text = fun_var)))))
+}  
+
+df <- data.frame(ridx = idx+1,      # index number for the sample
+  do.call(data.frame, 
+          lapply(
+              sapply(fun_list, function(x) paste(x, collapse = "()$")), 
+              function(y) stat_fun(1, y)
+          )
+  )
+)
+```
+
+Summary statistics:
+```{r}
+head(df, 20)
+```
+
+Elapsed time per size of sample:
+```{r}
+toc()
+#    60   1.663s
+#   600  13.5s
+#  6000  54.321 sec;
+# 60000 553.489 sec elapsed
+```
+
+
+
+
+<!--chapter:end:0712-r_data_structures-dataframe.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+# Working with data.table
+
+## Load PyTorch libraries
+
+```{r}
+library(rTorch)
+
+torch       <- import("torch")
+torchvision <- import("torchvision")
+nn          <- import("torch.nn")
+transforms  <- import("torchvision.transforms")
+dsets       <- import("torchvision.datasets")
+builtins    <- import_builtins()
+np          <- import("numpy")
+```
+
+## Load dataset
+
+```{r}
+## Dataset iteration batch settings
+# folders where the images are located
+train_data_path = './mnist_png_full/training/'
+test_data_path  = './mnist_png_full/testing/'
+```
+
+## Read the datasets without normalization
+
+```{r}
+train_dataset = torchvision$datasets$ImageFolder(root = train_data_path, 
+    transform = torchvision$transforms$ToTensor()
+)
+
+print(train_dataset)
+```
+
+
+## Using `data.table`
+
+
+
+```{r datatable-5999}
+library(data.table)
+library(tictoc)
+
+
+tic()
+
+fun_list <- list(
+    numel = c("numel"),
+    sum   = c("sum",    "item"),
+    mean  = c("mean",   "item"),
+    std   = c("std",    "item"),
+    med   = c("median", "item"),
+    max   = c("max",    "item"),
+    min   = c("min",    "item")
+    )
+
+idx <- seq(0L, 599L)
+
+fun_get_tensor <- function(x) py_get_item(train_dataset, x)[[0]]
+
+stat_fun <- function(x, str_fun) {
+  fun_var <- paste0("fun_get_tensor(x)", "$", str_fun, "()")
+  sapply(idx, function(x) 
+    ifelse(is.numeric(eval(parse(text = fun_var))),  # size return character
+           eval(parse(text = fun_var)),              # all else are numeric
+           as.character(eval(parse(text = fun_var)))))
+}  
+
+
+dt <- data.table(ridx = idx+1,
+  do.call(data.table, 
+          lapply(
+            sapply(fun_list, function(x) paste(x, collapse = "()$")), 
+            function(y) stat_fun(1, y)
+          )
+  )
+)
+```
+
+
+
+Summary statistics:
+```{r}
+head(dt)
+```
+
+Elapsed time per size of sample:
+```{r}
+toc()
+
+#    60    1.266 sec elapsed
+#   600   11.798 sec elapsed;
+#  6000  119.256 sec elapsed;
+# 60000 1117.619 sec elapsed
+```
+
+
+<!--chapter:end:0713-r_data_structures-datatable.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+\cleardoublepage
+
+# (APPENDIX) Appendix {-}
+
+# Statistical Background {#appendixA}
+
+## Basic statistical terms
+
+
+### Five-number summary
+
+The **five-number summary** consists of five values:  minimum, first quantile, second quantile, third quantile, and maximum.  The quantiles are calculated as:
+
+- first quantile ($Q_1$): the median of the first half of the sorted data
+- third quantile ($Q_3$): the median of the second half of the sorted data
+
+> First quantile: 25^th^ percentile.
+Second quantile: 50^th^ percentile.
+Third quantile: 75^th^ percentile.
+
+The _interquartile range_ or `IQR` is defined as $Q_3 - Q_1$ and is a measure of how spread out the middle 50% of values is. 
+
+
+
+<!--chapter:end:9991-appendixA.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+\cleardoublepage
+
+# Activation Functions {#appendixB}
+
+```{r}
+library(rTorch)
+library(ggplot2)
+```
+
+## The Sigmoid function
+
+Using the PyTorch `sigmoid()` function:
+
+```{r sigmoid, fig.asp=1}
+x <- torch$range(-5., 5., 0.1)
+y <- torch$sigmoid(x)
+
+df <- data.frame(x = x$numpy(), sx = y$numpy())
+df
+
+ggplot(df, aes(x = x, y = sx)) + 
+    geom_point() +
+    ggtitle("Sigmoid")
+```
+
+
+Plot the sigmoid function using an R custom-made function:
+
+```{r, fig.asp=1}
+sigmoid = function(x) {
+   1 / (1 + exp(-x))
+}
+
+x <- seq(-5, 5, 0.01)
+plot(x, sigmoid(x), col = 'blue', cex = 0.5, main = "Sigmoid")
+```
+
+## The ReLU function
+
+Using the PyTorch `relu()` function:
+
+```{r relu, fig.asp=1, results='hide'}
+x <- torch$range(-5., 5., 0.1)
+y <- torch$relu(x)
+
+df <- data.frame(x = x$numpy(), sx = y$numpy())
+df
+
+ggplot(df, aes(x = x, y = sx)) + 
+    geom_point() +
+    ggtitle("ReLU")
+```
+
+
+## The tanh function
+
+Using the PyTorch `tanh()` function:
+
+```{r tanh, fig.asp=1, results='hide'}
+x <- torch$range(-5., 5., 0.1)
+y <- torch$tanh(x)
+
+df <- data.frame(x = x$numpy(), sx = y$numpy())
+df
+
+ggplot(df, aes(x = x, y = sx)) + 
+    geom_point() +
+    ggtitle("tanh")
+```
+
+
+## The Softmax Activation function
+
+Using the PyTorch `softmax()` function:
+
+```{r softmax, fig.asp=1, results='hide'}
+x <- torch$range(-5.0, 5.0, 0.1)
+y <- torch$softmax(x, dim=0L)
+
+df <- data.frame(x = x$numpy(), sx = y$numpy())
+
+ggplot(df, aes(x = x, y = sx)) + 
+    geom_point() +
+    ggtitle("Softmax")
+
+```
+
+
+
+
+
+## Coding your own activation functions in Python
+
+```{r}
+library(rTorch)
+```
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+np.random.seed(42)
+```
+
+### Linear activation {-}
+
+```{python}
+def Linear(x, derivative=False):
+    """
+    Computes the Linear activation function for array x
+    inputs:
+    x: array
+    derivative: if True, return the derivative else the forward pass
+    """
+    
+    if derivative:              # Return derivative of the function at x
+        return np.ones_like(x)
+    else:                       # Return forward pass of the function at x
+        return x
+```
+
+### Sigmoid activation {-}
+
+```{python}
+def Sigmoid(x, derivative=False):
+    """
+    Computes the Sigmoid activation function for array x
+    inputs:
+    x: array 
+    derivative: if True, return the derivative else the forward pass
+    """
+    f = 1/(1+np.exp(-x))
+    
+    if derivative:              # Return derivative of the function at x
+        return f*(1-f)
+    else:                       # Return forward pass of the function at x
+        return f
+```
+
+
+### Hyperbolic Tangent activation {-}
+
+```{python}
+def Tanh(x, derivative=False):
+    """
+    Computes the Hyperbolic Tangent activation function for array x
+    inputs:
+    x: array 
+    derivative: if True, return the derivative else the forward pass
+    """
+    f = (np.exp(x)-np.exp(-x))/(np.exp(x)+np.exp(-x))
+    
+    if derivative:              # Return  derivative of the function at x
+        return 1-f**2
+    else:                       # Return the forward pass of the function at x
+        return f
+```
+
+
+### Rectifier linear unit (ReLU) {-}
+
+```{python}
+def ReLU(x, derivative=False):
+    """
+    Computes the Rectifier Linear Unit activation function for array x
+    inputs:
+    x: array
+    derivative: if True, return the derivative else the forward pass
+    """
+    
+    if derivative:              # Return derivative of the function at x
+        return (x>0).astype(int)
+    else:                       # Return forward pass of the function at x
+        return np.maximum(x, 0)
+```
+
+
+### Visualization with `matplotlib` {-}
+Plotting using `matplotlib`:
+
+```{python, results='hide'}
+x = np.linspace(-6, 6, 100)
+units = {
+    "Linear": lambda x: Linear(x),
+    "Sigmoid": lambda x: Sigmoid(x),
+    "ReLU": lambda x: ReLU(x),
+    "tanh": lambda x: Tanh(x)
+}
+
+plt.figure(figsize=(5, 5))
+[plt.plot(x, unit(x), label=unit_name, lw=2) 
+    for unit_name, unit in units.items()]
+plt.legend(loc=2, fontsize=16)
+plt.title('Activation functions', fontsize=20)
+plt.ylim([-2, 5])
+plt.xlim([-6, 6])
+plt.show()
+
+```
+
+
+## Softmax in Python
+
+```{python, results='hide'}
+# Source: https://dataaspirant.com/2017/03/07/difference-between-softmax-function-and-sigmoid-function/
+import numpy as np
+import matplotlib.pyplot as plt
+ 
+ 
+def softmax(inputs):
+    """
+    Calculate the softmax for the give inputs (array)
+    :param inputs:
+    :return:
+    """
+    return np.exp(inputs) / float(sum(np.exp(inputs)))
+ 
+ 
+def line_graph(x, y, x_title, y_title):
+    """
+    Draw line graph with x and y values
+    :param x:
+    :param y:
+    :param x_title:
+    :param y_title:
+    :return:
+    """
+    plt.plot(x, y)
+    plt.xlabel(x_title)
+    plt.ylabel(y_title)
+    plt.show()
+ 
+ 
+graph_x = np.linspace(-6, 6, 100)
+graph_y = softmax(graph_x)
+ 
+print("Graph X readings: {}".format(graph_x))
+print("Graph Y readings: {}".format(graph_y))
+ 
+line_graph(graph_x, graph_y, "Inputs", "Softmax Scores")
+```
+
+
+<!--chapter:end:9992-appendixB.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+set.seed(1234)
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    comment = "#>",       # characters to show in the output box
+    collapse = FALSE,     # output will not be shown; figures will show
+    # collapse = TRUE,    # output will not be shown; figures will show
+    results = "hold",     # wait for last operation before printing
+    cache = FALSE,
+    out.width = "70%",
+    fig.align = 'center',
+    fig.width = 6,
+    fig.asp = 0.618,  # 1 / phi
+    fig.show = "hold"
+)
+
+# options(dplyr.print_min = 6, dplyr.print_max = 6)
+```
+`r if(knitr:::is_html_output()) '# References {-}'`
+
+<!--chapter:end:9999-references.Rmd-->
+

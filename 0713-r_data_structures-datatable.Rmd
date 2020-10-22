@@ -23,7 +23,7 @@ train_data_path = './mnist_png_full/training/'
 test_data_path  = './mnist_png_full/testing/'
 ```
 
-## Read the datasets without normalization
+## Datasets without normalization
 
 ```{r}
 train_dataset = torchvision$datasets$ImageFolder(root = train_data_path, 

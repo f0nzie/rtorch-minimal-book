@@ -61,7 +61,7 @@ message("boolean")
 boolean
 ```
 
-### Example: Basic attributes of a 4D tensor
+### Example: A 4D tensor
 
 A 4D tensor like in MNIST hand-written digits recognition dataset:
 
@@ -83,7 +83,7 @@ message("number of elements")
 mnist_4d$numel()
 ```
 
-### Example: Attributes of a 3D tensor
+### Example: A 3D tensor
 
 Given a 3D tensor:
 
@@ -110,7 +110,7 @@ mat0 <- torch$FloatTensor(3L, 5L)$uniform_(0L, 1L)
 mat0 + 0.1
 ```
 
-### Add an element of a tensor to another tensor
+### Add tensor elements
 
 ```{r add-tensor-element, collapse=TRUE, results="markup"}
 # fill a 3x5 matrix with 0.1
@@ -191,7 +191,7 @@ And the dot product of both:
 np$dot(syn0, syn1)
 ```
 
-### In Python we use Tuples, in R we use vectors
+### Python Tuples and R vectors
 
 In `numpy` a multidimensional array needs to be defined with a `tuple`. in R we do it with a `vector`.
 
@@ -209,7 +209,7 @@ l1 <- np$ones(c(5L, 5L))
 print(l1)
 ```
 
-### Build a numpy array from three R vectors
+### A numpy array from R vectors
 
 ```{r}
 X <- np$array(rbind(c(1,2,3), c(4,5,6), c(7,8,9)))
@@ -222,7 +222,7 @@ And we could transpose the array using `numpy` as well:
 np$transpose(X)
 ```
 
-### Convert a numpy array to a tensor with `as_tensor()`
+### numpy arrays to tensors
 
 ```{r}
 a = np$array(list(1, 2, 3))   # a numpy array
@@ -329,7 +329,7 @@ invisible(v[, 3]$fill_(4L))
 print(v)
 ```
 
-### Initialize Tensor with a range of values
+### Tensor with a range of values
 
 ```{r}
 # Initialize Tensor with a range of value
@@ -337,7 +337,7 @@ v = torch$arange(10L)             # similar to range(5) but creating a Tensor
 (v = torch$arange(0L, 10L, step = 1L))  # Size 5. Similar to range(0, 5, 1)
 ```
 
-### Initialize a linear or log scale Tensor
+### Linear or log scale Tensor
 
 Create a tensor with 10 linear points for (1, 10) inclusive:
 
@@ -351,7 +351,7 @@ Create a tensor with 10 logarithmic points for (1, 10) inclusive:
 (v = torch$logspace(start=-10L, end = 10L, steps = 5L)) 
 ```
 
-### Fill a tensor In-place / Out-of-place
+### In-place / Out-of-place fill
 
 On this uninitialized tensor:
 
@@ -416,14 +416,14 @@ print(x)
 print(x$shape)
 ```
 
-### Concatenate tensors by `dim=0` (rows)
+### Concatenate by rows
 
 ```{r}
 (x0 <- torch$cat(list(x, x, x), 0L))
 print(x0$shape)
 ```
 
-### Concatenate tensors by `dim=1` (columns)
+### Concatenate by columns
 
 ```{r}
 (x1 <- torch$cat(list(x, x, x), 1L))
@@ -648,7 +648,7 @@ print(new_tensor[2L, 1L])           # tensor([ 3.])
 print(new_tensor[2L, 1L]$item())    # 3.
 ```
 
-### Using indices to access elements
+### Indices to tensor elements
 
 On this tensor:
 
@@ -746,7 +746,7 @@ m0 | m2
 m1 | m2
 ```
 
-### Using a function to extract a unique logical result
+### Extract a unique logical result
 
 With `all`:
 
@@ -927,7 +927,7 @@ m$sample()  # sample from a Weibull distribution with scale=1, concentration=1
 
 ```
 
-#### Weibull at constant `scale`
+#### Constant `scale`
 
 ```{r}
 # constant scale
@@ -940,7 +940,7 @@ for (k in 1:10) {
 }
 ```
 
-#### Weibull at constant `concentration`
+#### Constant `concentration`
 
 ```{r}
 # constant concentration

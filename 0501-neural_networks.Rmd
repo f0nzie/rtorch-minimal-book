@@ -1,6 +1,8 @@
 # (PART) Neural Networks {.unnumbered}
 
-# Neural Networks using NumPy, r-base, rTorch and PyTorch
+# Neural Networks
+
+## rTorch and PyTorch
 
 We will compare three neural networks:
 
@@ -16,6 +18,11 @@ We will compare three neural networks:
 ## A neural network with `numpy`
 
 We start the neural network by simply using `numpy`:
+
+```{r}
+library(rTorch)
+```
+
 
 ```{python, nn-numpy, engine="python3"}
 # A simple neural network using NumPy
@@ -115,7 +122,7 @@ for (t in seq(1, 500)) {
 toc()
 ```
 
-##  The neural network written in `PyTorch`
+##  A `PyTorch` neural network
 
 Here is the same example we have used above but written in PyTorch. Notice the following differences with the `numpy` code:
 
@@ -182,7 +189,7 @@ toc = time.process_time()
 print(toc - tic, "seconds")
 ```
 
-## A neural network written in `rTorch`
+## A neural network in `rTorch`
 
 The example shows the long and manual way of calculating the forward and backward passes but using `rTorch`. The objective is getting familiarized with the rTorch tensor operations.
 
@@ -285,7 +292,7 @@ library('DT')
 datatable(df_50, options = list(pageLength = 10))
 ```
 
-#### A function to train the neural network
+#### A training function
 
 Now, we convert the script above to a function, so we could reuse it several times. We want to study the effect of the iteration on the performance of the algorithm.
 
@@ -364,7 +371,7 @@ ggplot(df_500, aes(x = y_pred, y = y)) +
     geom_point()
 ```
 
-## Complete code for neural network in rTorch
+## Full Neural Network in rTorch
 
 ```{r rotch-complete, fig.asp=1}
 library(rTorch)

@@ -1,6 +1,5 @@
 # (PART) PyTorch and R data structures {-}
 
-
 # Working with data.frame
 
 ## Load PyTorch libraries
@@ -38,7 +37,7 @@ print(train_dataset)
 
 ## Summary statistics for tensors
 
-### using `data.frame`
+### Using `data.frame`
 
 ```{r use-dataframe-599}
 library(tictoc)
