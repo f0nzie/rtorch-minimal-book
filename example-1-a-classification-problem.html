@@ -1254,7 +1254,7 @@ code span.wa { color: #bf0303; } /* Warning */
             <section class="normal" id="section-">
 <div id="example-1-a-classification-problem" class="section level1">
 <h1><span class="header-section-number">Chapter 8</span> Example 1: A classification problem</h1>
-<p><em>Last update: Thu Oct 22 14:58:45 2020 -0500 (ea06f70ca)</em></p>
+<p><em>Last update: Thu Oct 22 16:46:28 2020 -0500 (54a46ea04)</em></p>
 <div id="code-in-python" class="section level2">
 <h2><span class="header-section-number">8.1</span> Code in Python</h2>
 <p>I will combine here R and Python code just to show how easy is integrating R and Python. First thing we have to do is loading the package <code>rTorch</code>. We do that in a chunk:</p>
@@ -1329,8 +1329,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb450"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb450-1"><a href="example-1-a-classification-problem.html#cb450-1"></a><span class="bu">print</span>(<span class="st">&quot;Final gradient descend:&quot;</span>, w)</span>
 <span id="cb450-2"><a href="example-1-a-classification-problem.html#cb450-2"></a><span class="co"># plot the data and separating line</span></span></code></pre></div>
 <pre><code>#&gt; Final gradient descend: [Parameter containing:
-#&gt; tensor([[1.1123, 1.1031]], requires_grad=True), Parameter containing:
-#&gt; tensor([-0.0836], requires_grad=True)]</code></pre>
+#&gt; tensor([[1.1156, 1.1402]], requires_grad=True), Parameter containing:
+#&gt; tensor([0.0894], requires_grad=True)]</code></pre>
 <div class="sourceCode" id="cb452"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb452-1"><a href="example-1-a-classification-problem.html#cb452-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb452-2"><a href="example-1-a-classification-problem.html#cb452-2"></a>x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">100</span>)</span>
 <span id="cb452-3"><a href="example-1-a-classification-problem.html#cb452-3"></a>y_axis <span class="op">=</span> <span class="op">-</span>(w1[<span class="dv">0</span>] <span class="op">+</span> x_axis <span class="op">*</span> w0[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">/</span> w0[<span class="dv">0</span>][<span class="dv">1</span>]</span>
