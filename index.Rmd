@@ -16,6 +16,9 @@ reticulate::use_condaenv("r-torch", required = TRUE)
 
 # Prerequisites {-}
 
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- index.Rmd", intern = TRUE)`_
+
+
 You need couple of things to get `rTorch` working:
 
 1. Install Python [Anaconda](https://www.anaconda.com/products/individual). Preferrably, for 64-bits, and above Python 3.6+. I have successfully tested Anaconda under four different operating systems: Windows (Win10 and Windows Server 2008); macOS (Sierra, Mojave and Catalina); Linux (Debian, Fedora and Ubuntu); and lastly, Solaris 10. ASll these tests are required by CRAN.
