@@ -10,10 +10,12 @@ bookdown::gitbook:
       before: |
         <li><a href="./">The rTorch Minimal Book</a></li>
       after: |
+        <li><a href="https://github.com/f0nzie/rtorch-minimal-book" target="blank">Book source code</a></li>
         <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
     download: no
     edit: https://github.com/f0nzie/rtorch-minimal-book/edit/main/%s
     sharing:
       facebook: no
-      all: no
+      twitter: no
+      
       

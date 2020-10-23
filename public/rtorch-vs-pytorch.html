@@ -1233,6 +1233,7 @@ code span.wa { color: #bf0303; } /* Warning */
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
+<li><a href="https://github.com/f0nzie/rtorch-minimal-book" target="blank">Book source code</a></li>
 <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
 
 </ul>
@@ -1567,7 +1568,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb84-4"><a href="rtorch-vs-pytorch.html#cb84-4"></a>torch.manual_seed(<span class="dv">0</span>)  <span class="co"># reproducible</span></span>
 <span id="cb84-5"><a href="rtorch-vs-pytorch.html#cb84-5"></a></span>
 <span id="cb84-6"><a href="rtorch-vs-pytorch.html#cb84-6"></a><span class="co"># Input (temp, rainfall, humidity)</span></span></code></pre></div>
-<pre><code>#&gt; &lt;torch._C.Generator object at 0x7fe5c05a73f0&gt;</code></pre>
+<pre><code>#&gt; &lt;torch._C.Generator object at 0x7fe10a7aa3f0&gt;</code></pre>
 <div class="sourceCode" id="cb86"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a href="rtorch-vs-pytorch.html#cb86-1"></a>inputs <span class="op">=</span> np.array([[<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>],</span>
 <span id="cb86-2"><a href="rtorch-vs-pytorch.html#cb86-2"></a>                   [<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>],</span>
 <span id="cb86-3"><a href="rtorch-vs-pytorch.html#cb86-3"></a>                   [<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>],</span>
@@ -1773,12 +1774,12 @@ gitbook.start({
 "sharing": {
 "github": false,
 "facebook": false,
-"twitter": true,
+"twitter": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": false
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

@@ -1233,6 +1233,7 @@ code span.wa { color: #bf0303; } /* Warning */
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
+<li><a href="https://github.com/f0nzie/rtorch-minimal-book" target="blank">Book source code</a></li>
 <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
 
 </ul>
@@ -1329,8 +1330,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb450"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb450-1"><a href="example-1-a-classification-problem.html#cb450-1"></a><span class="bu">print</span>(<span class="st">&quot;Final gradient descend:&quot;</span>, w)</span>
 <span id="cb450-2"><a href="example-1-a-classification-problem.html#cb450-2"></a><span class="co"># plot the data and separating line</span></span></code></pre></div>
 <pre><code>#&gt; Final gradient descend: [Parameter containing:
-#&gt; tensor([[1.1156, 1.1402]], requires_grad=True), Parameter containing:
-#&gt; tensor([0.0894], requires_grad=True)]</code></pre>
+#&gt; tensor([[1.1150, 1.1100]], requires_grad=True), Parameter containing:
+#&gt; tensor([0.0695], requires_grad=True)]</code></pre>
 <div class="sourceCode" id="cb452"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb452-1"><a href="example-1-a-classification-problem.html#cb452-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c<span class="op">=</span>T.reshape(N), s<span class="op">=</span><span class="dv">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb452-2"><a href="example-1-a-classification-problem.html#cb452-2"></a>x_axis <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">100</span>)</span>
 <span id="cb452-3"><a href="example-1-a-classification-problem.html#cb452-3"></a>y_axis <span class="op">=</span> <span class="op">-</span>(w1[<span class="dv">0</span>] <span class="op">+</span> x_axis <span class="op">*</span> w0[<span class="dv">0</span>][<span class="dv">0</span>]) <span class="op">/</span> w0[<span class="dv">0</span>][<span class="dv">1</span>]</span>
@@ -1367,12 +1368,12 @@ gitbook.start({
 "sharing": {
 "github": false,
 "facebook": false,
-"twitter": true,
+"twitter": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": false
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
