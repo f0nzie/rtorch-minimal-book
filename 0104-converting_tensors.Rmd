@@ -1,0 +1,34 @@
+# Converting tensors
+
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0104-converting_tensors.Rmd", intern = TRUE)`_
+
+```{r}
+library(rTorch)
+```
+
+
+## Tensor to `numpy` array
+This is a frequent operation. I have found that this is necessary when:
+
+* a `numpy` function is not implemented in PyTorch
+* We need to convert a tensor to R
+* Perform a boolean operation that is not directly available in PyTorch
+
+## `numpy` array to tensor
+* Explain how transform a tensor back and forth to `numpy`.
+* Why is this important?
+* In what cases in this necessary?
+
+
+### `numpy` array to `R`
+This is mainly required for these reasons:
+
+1. Create a data structure in R
+2. Plot using `r-base` or `ggplot2`
+3. Perform an analysis on parts of a tensor
+4. Use R statistical functions that are not available in PyTorch
+
+
+## R objects to `numpy` objects
+
+* TODO

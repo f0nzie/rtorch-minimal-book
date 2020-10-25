@@ -1,0 +1,57 @@
+# Creating PyTorch classes
+
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0203-creating_pytorch_classes.Rmd", intern = TRUE)`_
+
+## Build a PyTorch model class
+PyTorch classes cannot not directly be instantiated from `R`. Yet. We need an intermediate step to create a class. For this, we use `reticulate` functions like `py_run_string()` that will read the class implementation in `Python` code, and then assign it to an R object.
+
+### Example 1: One layer NN
+
+```{r class-linreg, eval=FALSE}
+py_run_string("import torch")
+main = py_run_string(
+"
+import torch.nn as nn
+
+class Net(nn.Module):
+   def __init__(self):
+       super(Net, self).__init__()
+       self.layer = torch.nn.Linear(1, 1)
+
+   def forward(self, x):
+       x = self.layer(x)      
+       return x
+")
+
+
+# build a Linear Rgression model
+net <- main$Net()
+```
+
+The R object `net` now contains all the object in the PyTorch class `Net`.
+
+
+### Example 2: Logistic Regression
+
+```{r class-logreg, eval=FALSE}
+main <- py_run_string(
+"
+import torch.nn as nn
+
+class LogisticRegressionModel(nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(LogisticRegressionModel, self).__init__()
+        self.linear = nn.Linear(input_dim, output_dim)
+
+    def forward(self, x):
+        out = self.linear(x)
+        return out
+")
+
+# build a Logistic Rgression model
+LogisticRegressionModel <- main$LogisticRegressionModel
+```
+
+The R object `LogisticRegressionModel` now contains all the objects in the PyTorch class `LogisticRegressionModel`.
+
+

@@ -1,171 +1,155 @@
-# (PART) Neural Networks {-}
+# (PART) Neural Networks {.unnumbered}
+
+# Neural Networks
+
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0501-neural_networks.Rmd", intern = TRUE)`_
+
+## rTorch and PyTorch
+
+We will compare three neural networks:
+
+-   a neural network written in `numpy`
+
+-   a neural network written in `r-base`
+
+-   a neural network written in `PyTorch`
+
+-   a neural network written in `rTorch`
 
 
-# A two-layer neural network
-The following example was converted from PyTorch to rTorch to show differences and similarities of both approaches. The original source can be found here:
+## A neural network with `numpy`
 
-Source: https://github.com/jcjohnson/pytorch-examples#pytorch-tensors
+We start the neural network by simply using `numpy`:
 
-
-## Load the libraries
-
-```{r example-device-cpu}
+```{r}
 library(rTorch)
-library(ggplot2)
-
-device = torch$device('cpu')
-# device = torch.device('cuda') # Uncomment this to run on GPU
-
-torch$manual_seed(0)
 ```
 
 
-* `N` is batch size; 
-* `D_in` is input dimension;
-* `H` is hidden dimension; 
-* `D_out` is output dimension.
- 
-## Dataset
-We will create a random dataset for a **two layer neural network**.
+```{python, nn-numpy, engine="python3"}
+# A simple neural network using NumPy
+# Code in file tensor/two_layer_net_numpy.py
+import time
+import numpy as np
 
-```{r create-random-tensors}
-N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
+tic = time.process_time()
 
-# Create random Tensors to hold inputs and outputs
-x <- torch$randn(N, D_in, device=device)
-y <- torch$randn(N, D_out, device=device)
+np.random.seed(123)   # set a seed for reproducibility
+# N is batch size; D_in is input dimension;
+# H is hidden dimension; D_out is output dimension.
+N, D_in, H, D_out = 64, 1000, 100, 10
 
-dim(x)
-dim(y)
-```
+# Create random input and output data
+x = np.random.randn(N, D_in)
+y = np.random.randn(N, D_out)
+# print(x.shape)
+# print(y.shape)
 
+w1 = np.random.randn(D_in, H)
+w2 = np.random.randn(H, D_out)
+# print(w1.shape)
+# print(w2.shape)
 
-## Run the model for 50 iterations
-Let's say that for the sake of time we select to run only 50 iterations of the loop doing the training.
-
-```{r random-init-weights}
-# Randomly initialize weights
-w1 <- torch$randn(D_in, H, device=device)   # layer 1
-w2 <- torch$randn(H, D_out, device=device)  # layer 2
-```
-
-```{r run-model, fig.asp=1}
 learning_rate = 1e-6
-
-# loop
-for (t in 1:50) {
-  # Forward pass: compute predicted y, y_pred
-  h <- x$mm(w1)              # matrix multiplication, x*w1
-  h_relu <- h$clamp(min=0)   # make elements greater than zero
-  y_pred <- h_relu$mm(w2)    # matrix multiplication, h_relu*w2
-
-  # Compute and print loss; loss is a scalar, and is stored in a PyTorch Tensor
-  # of shape (); we can get its value as a Python number with loss.item().
-  loss <- (torch$sub(y_pred, y))$pow(2)$sum()   # sum((y_pred-y)^2)
-  # cat(t, "\t")
-  # cat(loss$item(), "\n")
-
+for t in range(500):
+  # Forward pass: compute predicted y
+  h = x.dot(w1)
+  # print(t, h.max())
+  h_relu = np.maximum(h, 0)
+  y_pred = h_relu.dot(w2)
+  
+  # Compute and print loss
+  sq = np.square(y_pred - y)
+  loss = sq.sum()
+  print(t, loss)
+  
   # Backprop to compute gradients of w1 and w2 with respect to loss
-  grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
-  grad_w2 <- h_relu$t()$mm(grad_y_pred)        # compute gradient of w2
-  grad_h_relu <- grad_y_pred$mm(w2$t())
-  grad_h <- grad_h_relu$clone()
-  mask <- grad_h$lt(0)                         # filter values lower than zero 
-  torch$masked_select(grad_h, mask)$fill_(0.0) # make them equal to zero
-  grad_w1 <- x$t()$mm(grad_h)                  # compute gradient of w1
-   
-  # Update weights using gradient descent
-  w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
-  w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
+  grad_y_pred = 2.0 * (y_pred - y)
+  grad_w2 = h_relu.T.dot(grad_y_pred)
+  grad_h_relu = grad_y_pred.dot(w2.T)
+  grad_h = grad_h_relu.copy()
+  grad_h[h < 0] = 0
+  grad_w1 = x.T.dot(grad_h)
+ 
+  # Update weights
+  w1 -= learning_rate * grad_w1
+  w2 -= learning_rate * grad_w2
+# processing time  
+toc = time.process_time()
+print(toc - tic, "seconds")
+```
+
+## A neural network with `r-base`
+
+It is the same algorithm above in `numpy` but written in R base.
+
+```{r nn-rbase}
+library(tictoc)
+
+tic()
+set.seed(123)
+N <- 64; D_in <- 1000; H <- 100; D_out <- 10;
+# Create random input and output data
+x <- array(rnorm(N * D_in),  dim = c(N, D_in))
+y <- array(rnorm(N * D_out), dim = c(N, D_out))
+# Randomly initialize weights
+w1 <- array(rnorm(D_in * H),  dim = c(D_in, H))
+w2 <- array(rnorm(H * D_out),  dim = c(H, D_out))
+learning_rate <-  1e-6
+
+for (t in seq(1, 500)) {
+  # Forward pass: compute predicted y
+  h = x %*% w1
+  h_relu = pmax(h, 0)
+  y_pred = h_relu %*% w2
+
+  # Compute and print loss
+  sq <- (y_pred - y)^2
+  loss = sum(sq)
+  cat(t, loss, "\n")
+  
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred = 2.0 * (y_pred - y)
+  grad_w2 = t(h_relu) %*% grad_y_pred
+  grad_h_relu = grad_y_pred %*% t(w2)
+  # grad_h <- sapply(grad_h_relu, function(i) i, simplify = FALSE )   # grad_h = grad_h_relu.copy()
+  grad_h <- rlang::duplicate(grad_h_relu)
+  grad_h[h < 0] <-  0
+  grad_w1 = t(x) %*% grad_h
+  
+  # Update weights
+  w1 = w1 - learning_rate * grad_w1
+  w2 = w2 - learning_rate * grad_w2
 }
-
-df_50 <- data.frame(y = y$flatten()$numpy(), 
-                    y_pred = y_pred$flatten()$numpy(), iter = 50)
-
-ggplot(df_50, aes(x = y, y = y_pred)) +
-    geom_point()
-```
-We see a lot of dispersion between the predicted values, $y_{pred}$ and the real values, $y$. We are far from our goal.
-
-## Run it at 100 iterations
-Now, we convert the script above to a function, so we could reuse it several times. We want to study the effect of the iteration on the performance of rthe algorithm.
-
-```{r run-model-100, fig.asp=1}
-train <- function(iterations) {
-
-    # Randomly initialize weights
-    w1 <- torch$randn(D_in, H, device=device)   # layer 1
-    w2 <- torch$randn(H, D_out, device=device)  # layer 2
-    
-    learning_rate = 1e-6
-    
-    # loop
-    for (t in 1:iterations) {
-      # Forward pass: compute predicted y
-      h <- x$mm(w1)
-      h_relu <- h$clamp(min=0)
-      y_pred <- h_relu$mm(w2)
-    
-      # Compute and print loss; loss is a scalar stored in a PyTorch Tensor
-      # of shape (); we can get its value as a Python number with loss.item().
-      loss <- (torch$sub(y_pred, y))$pow(2)$sum()
-      # cat(t, "\t"); cat(loss$item(), "\n")
-    
-      # Backprop to compute gradients of w1 and w2 with respect to loss
-      grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
-      grad_w2 <- h_relu$t()$mm(grad_y_pred)
-      grad_h_relu <- grad_y_pred$mm(w2$t())
-      grad_h <- grad_h_relu$clone()
-      mask <- grad_h$lt(0)
-      torch$masked_select(grad_h, mask)$fill_(0.0)
-      grad_w1 <- x$t()$mm(grad_h)
-       
-      # Update weights using gradient descent
-      w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
-      w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
-    }
-    
-    data.frame(y = y$flatten()$numpy(), 
-                        y_pred = y_pred$flatten()$numpy(), iter = iterations)
-
-}
-
-df_100 <- train(iterations = 100)
-ggplot(df_100, aes(x = y_pred, y = y)) +
-    geom_point()
+toc()
 ```
 
-Still there are differences between the value and the prediction. Let's try with more iterations, like 250:
+##  A `PyTorch` neural network
 
-```{r, fig.asp=1}
-df_250 <- train(iterations = 200)
+Here is the same example we have used above but written in PyTorch. Notice the following differences with the `numpy` code:
 
-ggplot(df_250, aes(x = y_pred, y = y)) +
-    geom_point()
-```
+-   we select the computation device which could be `cpu` or `gpu`
 
-We see the formation of a line between the values and prediction, which means we are getting closer at finding the right algorithm, in this particular case, weights and bias.
+-   when building or creating the tensors, we specify which device we want to use
 
-Let's try one more time with 500 iterations:
+-   the tensors have `torch` methods and properties. Example: `mm()`, `clamp()`, `sum()`, `clone()`, and `t()`,
 
-```{r, fig.asp=1}
-df_500 <- train(iterations = 500)
+-   also notice the use some `torch` functions: `device()`, `randn()`
 
-ggplot(df_500, aes(x = y_pred, y = y)) +
-    geom_point()
+```{r}
+reticulate::use_condaenv("r-torch")
 ```
 
 
-## Original PyTorch code
-This code will not execute. It is shown here for reference. The running code will be written in **rTorch**.
-
-
-```{python, eval=FALSE}
+```{python, nn-pytorch, engine="python3"}
 # Code in file tensor/two_layer_net_tensor.py
 import torch
+import time
 
+ms = torch.manual_seed(0)
+tic = time.process_time()
 device = torch.device('cpu')
-# device = torch.device('cuda') # Uncomment this to run on GPU
+# device = torch.device('cuda')  # Uncomment this to run on GPU
 
 # N is batch size; D_in is input dimension;
 # H is hidden dimension; D_out is output dimension.
@@ -201,5 +185,259 @@ for t in range(500):
 
   # Update weights using gradient descent
   w1 -= learning_rate * grad_w1
-  w2 -= learning_rate * grad_w2____
+  w2 -= learning_rate * grad_w2
+
+toc = time.process_time()
+print(toc - tic, "seconds")
 ```
+
+## A neural network in `rTorch`
+
+The example shows the long and manual way of calculating the forward and backward passes but using `rTorch`. The objective is getting familiarized with the rTorch tensor operations.
+
+The following example was converted from **PyTorch** to **rTorch** to show differences and similarities of both approaches. The original source can be found here: [Source](https://github.com/jcjohnson/pytorch-examples#pytorch-tensors){.uri}.
+
+### Load the libraries
+
+```{r rtorch-device-cpu}
+library(rTorch)
+library(ggplot2)
+
+device = torch$device('cpu')
+# device = torch.device('cuda')  # Uncomment this to run on GPU
+invisible(torch$manual_seed(0))
+```
+
+
+-   `N` is batch size;
+-   `D_in` is input dimension;
+-   `H` is hidden dimension;
+-   `D_out` is output dimension.
+
+
+### Dataset
+
+We will create a random dataset for a **two layer neural network**.
+
+```{r create-random-tensors}
+N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
+
+# Create random Tensors to hold inputs and outputs
+x <- torch$randn(N, D_in, device=device)
+y <- torch$randn(N, D_out, device=device)
+# dimensions of both tensors
+dim(x)
+dim(y)
+```
+
+### Initialize the weights
+
+```{r random-init-weights}
+# Randomly initialize weights
+w1 <- torch$randn(D_in, H, device=device)   # layer 1
+w2 <- torch$randn(H, D_out, device=device)  # layer 2
+dim(w1)
+dim(w2)
+```
+
+### Iterate through the dataset
+
+Now, we are going to train our neural network on the `training` dataset. The equestion is: *"how many times do we have to expose the training data to the algorithm?".* By looking at the graph of the loss we may get an idea when we should stop.
+
+#### Iterate 50 times
+
+Let's say that for the sake of time we select to run only 50 iterations of the loop doing the training.
+
+```{r run-model, fig.asp=1}
+learning_rate = 1e-6
+
+# loop
+for (t in 1:50) {
+  # Forward pass: compute predicted y, y_pred
+  h <- x$mm(w1)              # matrix multiplication, x*w1
+  h_relu <- h$clamp(min=0)   # make elements greater than zero
+  y_pred <- h_relu$mm(w2)    # matrix multiplication, h_relu*w2
+
+  # Compute and print loss; loss is a scalar, and is stored in a PyTorch Tensor
+  # of shape (); we can get its value as a Python number with loss.item().
+  loss <- (torch$sub(y_pred, y))$pow(2)$sum()   # sum((y_pred-y)^2)
+  # cat(t, "\t")
+  # cat(loss$item(), "\n")
+
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
+  grad_w2 <- h_relu$t()$mm(grad_y_pred)        # compute gradient of w2
+  grad_h_relu <- grad_y_pred$mm(w2$t())
+  grad_h <- grad_h_relu$clone()
+  mask <- grad_h$lt(0)                         # filter values lower than zero 
+  torch$masked_select(grad_h, mask)$fill_(0.0) # make them equal to zero
+  grad_w1 <- x$t()$mm(grad_h)                  # compute gradient of w1
+   
+  # Update weights using gradient descent
+  w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
+  w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
+}
+# y vs predicted y
+df_50 <- data.frame(y = y$flatten()$numpy(), 
+                    y_pred = y_pred$flatten()$numpy(), iter = 50)
+
+ggplot(df_50, aes(x = y, y = y_pred)) +
+    geom_point()
+```
+
+We see a lot of dispersion between the predicted values, $y_{pred}$ and the real values, $y$. We are far from our goal.
+
+Let's take a look at the dataframe:
+
+```{r dt-50-iters}
+library('DT')
+datatable(df_50, options = list(pageLength = 10))
+```
+
+#### A training function
+
+Now, we convert the script above to a function, so we could reuse it several times. We want to study the effect of the iteration on the performance of the algorithm.
+
+This time we create a function `train` to input the number of iterations that we want to run:
+
+```{r train-function, fig.asp=1}
+train <- function(iterations) {
+    # Randomly initialize weights
+    w1 <- torch$randn(D_in, H, device=device)   # layer 1
+    w2 <- torch$randn(H, D_out, device=device)  # layer 2
+    
+    learning_rate = 1e-6
+    # loop
+    for (t in 1:iterations) {
+      # Forward pass: compute predicted y
+      h <- x$mm(w1)
+      h_relu <- h$clamp(min=0)
+      y_pred <- h_relu$mm(w2)
+    
+      # Compute and print loss; loss is a scalar stored in a PyTorch Tensor
+      # of shape (); we can get its value as a Python number with loss.item().
+      loss <- (torch$sub(y_pred, y))$pow(2)$sum()
+      # cat(t, "\t"); cat(loss$item(), "\n")
+    
+      # Backprop to compute gradients of w1 and w2 with respect to loss
+      grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
+      grad_w2 <- h_relu$t()$mm(grad_y_pred)
+      grad_h_relu <- grad_y_pred$mm(w2$t())
+      grad_h <- grad_h_relu$clone()
+      mask <- grad_h$lt(0)
+      torch$masked_select(grad_h, mask)$fill_(0.0)
+      grad_w1 <- x$t()$mm(grad_h)
+       
+      # Update weights using gradient descent
+      w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
+      w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
+    }
+    data.frame(y = y$flatten()$numpy(), 
+                        y_pred = y_pred$flatten()$numpy(), iter = iterations)
+}
+```
+
+#### Run it at 100 iterations
+
+```{r dt-100-iters}
+# retrieve the results and store them in a dataframe
+df_100 <- train(iterations = 100)
+datatable(df_100, options = list(pageLength = 10))
+# plot
+ggplot(df_100, aes(x = y_pred, y = y)) +
+    geom_point()
+```
+
+#### 250 iterations
+
+Still there are differences between the value and the prediction. Let's try with more iterations, like **250**:
+
+```{r dt-250-iters, fig.asp=1}
+df_250 <- train(iterations = 200)
+datatable(df_250, options = list(pageLength = 25))
+# plot
+ggplot(df_250, aes(x = y_pred, y = y)) +
+    geom_point()
+```
+
+We see the formation of a line between the values and prediction, which means we are getting closer at finding the right algorithm, in this particular case, weights and bias.
+
+#### 500 iterations
+
+Let's try one more time with 500 iterations:
+
+```{r dt-500-iters, fig.asp=1}
+df_500 <- train(iterations = 500)
+datatable(df_500, options = list(pageLength = 25))
+ggplot(df_500, aes(x = y_pred, y = y)) +
+    geom_point()
+```
+
+## Full Neural Network in rTorch
+
+```{r rotch-complete, fig.asp=1}
+library(rTorch)
+library(ggplot2)
+library(tictoc)
+
+tic()
+device = torch$device('cpu')
+# device = torch.device('cuda')  # Uncomment this to run on GPU
+invisible(torch$manual_seed(0))
+
+# Properties of tensors and neural network
+N <- 64L; D_in <- 1000L; H <- 100L; D_out <- 10L
+
+# Create random Tensors to hold inputs and outputs
+x <- torch$randn(N, D_in, device=device)
+y <- torch$randn(N, D_out, device=device)
+# dimensions of both tensors
+
+# initialize the weights
+w1 <- torch$randn(D_in, H, device=device)   # layer 1
+w2 <- torch$randn(H, D_out, device=device)  # layer 2
+
+learning_rate = 1e-6
+# loop
+for (t in 1:500) {
+  # Forward pass: compute predicted y, y_pred
+  h <- x$mm(w1)              # matrix multiplication, x*w1
+  h_relu <- h$clamp(min=0)   # make elements greater than zero
+  y_pred <- h_relu$mm(w2)    # matrix multiplication, h_relu*w2
+
+  # Compute and print loss; loss is a scalar, and is stored in a PyTorch Tensor
+  # of shape (); we can get its value as a Python number with loss.item().
+  loss <- (torch$sub(y_pred, y))$pow(2)$sum()   # sum((y_pred-y)^2)
+  # cat(t, "\t")
+  # cat(loss$item(), "\n")
+
+  # Backprop to compute gradients of w1 and w2 with respect to loss
+  grad_y_pred <- torch$mul(torch$scalar_tensor(2.0), torch$sub(y_pred, y))
+  grad_w2 <- h_relu$t()$mm(grad_y_pred)        # compute gradient of w2
+  grad_h_relu <- grad_y_pred$mm(w2$t())
+  grad_h <- grad_h_relu$clone()
+  mask <- grad_h$lt(0)                         # filter values lower than zero 
+  torch$masked_select(grad_h, mask)$fill_(0.0) # make them equal to zero
+  grad_w1 <- x$t()$mm(grad_h)                  # compute gradient of w1
+   
+  # Update weights using gradient descent
+  w1 <- torch$sub(w1, torch$mul(learning_rate, grad_w1))
+  w2 <- torch$sub(w2, torch$mul(learning_rate, grad_w2))
+}
+# y vs predicted y
+df<- data.frame(y = y$flatten()$numpy(), 
+                    y_pred = y_pred$flatten()$numpy(), iter = 500)
+datatable(df, options = list(pageLength = 25))
+ggplot(df, aes(x = y_pred, y = y)) +
+    geom_point()
+
+toc()
+```
+
+
+
+## Exercise
+
+1.  Rewrite the code in `rTorch` but including and plotting the loss at each iteration
+
+2.  On the neural network written in `PyTorch`, code, instead of printing a long table, print the table by pages that we could navigate using vertical and horizontal bars. Tip: read the PyThon data structure from R and plot it with `ggplot2`

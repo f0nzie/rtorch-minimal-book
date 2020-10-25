@@ -1,7 +1,8 @@
 # (PART) PyTorch and R data structures {-}
 
+# Working with a data.frame
 
-# Working with data.frame
+_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0712-r_data_structures-dataframe.Rmd", intern = TRUE)`_
 
 ## Load PyTorch libraries
 
@@ -38,7 +39,7 @@ print(train_dataset)
 
 ## Summary statistics for tensors
 
-### using `data.frame`
+### Using `data.frame`
 
 ```{r use-dataframe-599}
 library(tictoc)

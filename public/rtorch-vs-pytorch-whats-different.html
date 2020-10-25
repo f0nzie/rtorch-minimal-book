@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 rTorch vs PyTorch: What’s different | A Minimal rTorch Book</title>
+  <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 rTorch vs PyTorch: What’s different | A Minimal rTorch Book" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 rTorch vs PyTorch: What’s different | A Minimal rTorch Book" />
+  
+  <meta name="twitter:description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
+  
+
+<meta name="author" content="Alfonso R. Reyes" />
+
+
+<meta name="date" content="2020-10-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="pytorch-and-numpy.html"/>
+<link rel="next" href="converting-tensors.html"/>
+<script src="libs/header-attrs-2.4.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.15/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+
+<script>
+/* ========================================================================
+ * Bootstrap: transition.js v3.3.7
+ * http://getbootstrap.com/javascript/#transitions
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+  // ============================================================
+
+  function transitionEnd() {
+    var el = document.createElement('bootstrap')
+
+    var transEndEventNames = {
+      WebkitTransition : 'webkitTransitionEnd',
+      MozTransition    : 'transitionend',
+      OTransition      : 'oTransitionEnd otransitionend',
+      transition       : 'transitionend'
+    }
+
+    for (var name in transEndEventNames) {
+      if (el.style[name] !== undefined) {
+        return { end: transEndEventNames[name] }
+      }
+    }
+
+    return false // explicit for ie8 (  ._.)
+  }
+
+  // http://blog.alexmaccaw.com/css-transitions
+  $.fn.emulateTransitionEnd = function (duration) {
+    var called = false
+    var $el = this
+    $(this).one('bsTransitionEnd', function () { called = true })
+    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+    setTimeout(callback, duration)
+    return this
+  }
+
+  $(function () {
+    $.support.transition = transitionEnd()
+
+    if (!$.support.transition) return
+
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
+      handle: function (e) {
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
+    }
+  })
+
+}(jQuery);
+</script>
+<script>
+/* ========================================================================
+ * Bootstrap: collapse.js v3.3.7
+ * http://getbootstrap.com/javascript/#collapse
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+/* jshint latedef: false */
+
++function ($) {
+  'use strict';
+
+  // COLLAPSE PUBLIC CLASS DEFINITION
+  // ================================
+
+  var Collapse = function (element, options) {
+    this.$element      = $(element)
+    this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.$trigger      = $('[data-toggle="collapse"][href="#' + element.id + '"],' +
+                           '[data-toggle="collapse"][data-target="#' + element.id + '"]')
+    this.transitioning = null
+
+    if (this.options.parent) {
+      this.$parent = this.getParent()
+    } else {
+      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
+    }
+
+    if (this.options.toggle) this.toggle()
+  }
+
+  Collapse.VERSION  = '3.3.7'
+
+  Collapse.TRANSITION_DURATION = 350
+
+  Collapse.DEFAULTS = {
+    toggle: true
+  }
+
+  Collapse.prototype.dimension = function () {
+    var hasWidth = this.$element.hasClass('width')
+    return hasWidth ? 'width' : 'height'
+  }
+
+  Collapse.prototype.show = function () {
+    if (this.transitioning || this.$element.hasClass('in')) return
+
+    var activesData
+    var actives = this.$parent && this.$parent.children('.panel').children('.in, .collapsing')
+
+    if (actives && actives.length) {
+      activesData = actives.data('bs.collapse')
+      if (activesData && activesData.transitioning) return
+    }
+
+    var startEvent = $.Event('show.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    if (actives && actives.length) {
+      Plugin.call(actives, 'hide')
+      activesData || actives.data('bs.collapse', null)
+    }
+
+    var dimension = this.dimension()
+
+    this.$element
+      .removeClass('collapse')
+      .addClass('collapsing')[dimension](0)
+      .attr('aria-expanded', true)
+
+    this.$trigger
+      .removeClass('collapsed')
+      .attr('aria-expanded', true)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse in')[dimension]('')
+      this.transitioning = 0
+      this.$element
+        .trigger('shown.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+
+    this.$element
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
+  }
+
+  Collapse.prototype.hide = function () {
+    if (this.transitioning || !this.$element.hasClass('in')) return
+
+    var startEvent = $.Event('hide.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    var dimension = this.dimension()
+
+    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
+
+    this.$element
+      .addClass('collapsing')
+      .removeClass('collapse in')
+      .attr('aria-expanded', false)
+
+    this.$trigger
+      .addClass('collapsed')
+      .attr('aria-expanded', false)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.transitioning = 0
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse')
+        .trigger('hidden.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    this.$element
+      [dimension](0)
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
+  }
+
+  Collapse.prototype.toggle = function () {
+    this[this.$element.hasClass('in') ? 'hide' : 'show']()
+  }
+
+  Collapse.prototype.getParent = function () {
+    return $(this.options.parent)
+      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
+      .each($.proxy(function (i, element) {
+        var $element = $(element)
+        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
+      }, this))
+      .end()
+  }
+
+  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
+    var isOpen = $element.hasClass('in')
+
+    $element.attr('aria-expanded', isOpen)
+    $trigger
+      .toggleClass('collapsed', !isOpen)
+      .attr('aria-expanded', isOpen)
+  }
+
+  function getTargetFromTrigger($trigger) {
+    var href
+    var target = $trigger.attr('data-target')
+      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
+
+    return $(target)
+  }
+
+
+  // COLLAPSE PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.collapse')
+      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
+      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.collapse
+
+  $.fn.collapse             = Plugin
+  $.fn.collapse.Constructor = Collapse
+
+
+  // COLLAPSE NO CONFLICT
+  // ====================
+
+  $.fn.collapse.noConflict = function () {
+    $.fn.collapse = old
+    return this
+  }
+
+
+  // COLLAPSE DATA-API
+  // =================
+
+  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
+    var $this   = $(this)
+
+    if (!$this.attr('data-target')) e.preventDefault()
+
+    var $target = getTargetFromTrigger($this)
+    var data    = $target.data('bs.collapse')
+    var option  = data ? 'toggle' : $this.data()
+
+    Plugin.call($target, option)
+  })
+
+}(jQuery);
+</script>
+<script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    // close the dropdown menu when an option is clicked
+    $("#allCodeButton").dropdown("toggle");
+      // R show code
+      $('div.r-code-collapse').each(function() {
+        $(this).collapse('show');
+      });
+      // Python show code
+      $('div.py-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      // Bash show code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('show');
+      }); 
+      
+  });
+  $("#rmd-hide-all-code").click(function() {
+      // close the dropdown menu when an option is clicked
+      $("#allCodeButton").dropdown("toggle");
+      // Hide R code
+      $('div.r-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
+      // Hide Python code
+      $('div.py-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
+      // Hide Bash code
+      $('div.sh-code-collapse').each(function() {
+        $(this).collapse('hide');
+      });
+  });
+
+
+  // index for unique code element ids
+  var r_currentIndex  = 1;   // for R code
+  var py_currentIndex = 1;   // for Python code
+  var sh_currentIndex  = 1;   // for shell code
+
+  // select Python chunks
+  var pyCodeBlocks = $('pre.python');
+  pyCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse py-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'pycode-643E0F36' + py_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#ebfaeb');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Python code' : 'Python code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#009900');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Python code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Python code');
+    });  
+   });
+  
+  
+
+  // select Bash shell chunks
+  var shCodeBlocks = $('pre.bash');
+  shCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse sh-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'shcode-643E0F36' + sh_currentIndex++;
+    div.attr('id', id);
+    // "this" refers the code chunk
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#A0A0A0');  // change color of chunk background
+    
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide Bash code' : 'Bash code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);    
+        
+    // change the background color of the button
+    showCodeButton.css('background-color','#cc7a00');
+        
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);    
+    
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Bash code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide Bash code');
+    });  
+   });  
+
+
+  // select all R code blocks
+  // var rCodeBlocks = $('pre.sourceCode, pre.r, pre.bash, pre.sql, pre.cpp, pre.stan');
+  // adding pre.sourceCode confuses the Python button
+  var rCodeBlocks = $('pre.r, pre.sql, pre.cpp, pre.stan');
+  rCodeBlocks.each(function() {
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    if (show)
+      div.addClass('in');
+    var id = 'rcode-643E0F36' + r_currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+    $(this).css('background-color','#e6faff'); // change color of chunk background
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide R code' : 'R code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);
+    
+    // change the background color of the button        
+    showCodeButton.css('background-color','#0000ff');
+    
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+    div.before(buttonRow);
+
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('R code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide R code');
+    });
+  });
+
+}
+</script>
+<script>
+/* ========================================================================
+ * Bootstrap: dropdown.js v3.3.7
+ * http://getbootstrap.com/javascript/#dropdowns
+ * ========================================================================
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // DROPDOWN CLASS DEFINITION
+  // =========================
+
+  var backdrop = '.dropdown-backdrop'
+  var toggle   = '[data-toggle="dropdown"]'
+  var Dropdown = function (element) {
+    $(element).on('click.bs.dropdown', this.toggle)
+  }
+
+  Dropdown.VERSION = '3.3.7'
+
+  function getParent($this) {
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = selector && $(selector)
+
+    return $parent && $parent.length ? $parent : $this.parent()
+  }
+
+  function clearMenus(e) {
+    if (e && e.which === 3) return
+    $(backdrop).remove()
+    $(toggle).each(function () {
+      var $this         = $(this)
+      var $parent       = getParent($this)
+      var relatedTarget = { relatedTarget: this }
+
+      if (!$parent.hasClass('open')) return
+
+      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this.attr('aria-expanded', 'false')
+      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
+    })
+  }
+
+  Dropdown.prototype.toggle = function (e) {
+    var $this = $(this)
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    clearMenus()
+
+    if (!isActive) {
+      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+        // if mobile we use a backdrop because click events don't delegate
+        $(document.createElement('div'))
+          .addClass('dropdown-backdrop')
+          .insertAfter($(this))
+          .on('click', clearMenus)
+      }
+
+      var relatedTarget = { relatedTarget: this }
+      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this
+        .trigger('focus')
+        .attr('aria-expanded', 'true')
+
+      $parent
+        .toggleClass('open')
+        .trigger($.Event('shown.bs.dropdown', relatedTarget))
+    }
+
+    return false
+  }
+
+  Dropdown.prototype.keydown = function (e) {
+    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+    var $this = $(this)
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    if (!isActive && e.which != 27 || isActive && e.which == 27) {
+      if (e.which == 27) $parent.find(toggle).trigger('focus')
+      return $this.trigger('click')
+    }
+
+    var desc = ' li:not(.disabled):visible a'
+    var $items = $parent.find('.dropdown-menu' + desc)
+
+    if (!$items.length) return
+
+    var index = $items.index(e.target)
+
+    if (e.which == 38 && index > 0)                 index--         // up
+    if (e.which == 40 && index < $items.length - 1) index++         // down
+    if (!~index)                                    index = 0
+
+    $items.eq(index).trigger('focus')
+  }
+
+
+  // DROPDOWN PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.dropdown')
+
+      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  var old = $.fn.dropdown
+
+  $.fn.dropdown             = Plugin
+  $.fn.dropdown.Constructor = Dropdown
+
+
+  // DROPDOWN NO CONFLICT
+  // ====================
+
+  $.fn.dropdown.noConflict = function () {
+    $.fn.dropdown = old
+    return this
+  }
+
+
+  // APPLY TO STANDARD DROPDOWN ELEMENTS
+  // ===================================
+
+  $(document)
+    .on('click.bs.dropdown.data-api', clearMenus)
+    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+
+}(jQuery);
+</script>
+<style type="text/css">
+.code-folding-btn {
+  margin-bottom: 4px;
+}
+
+.row { display: flex; }
+.collapse { display: none; }
+.in { display:block }
+.pull-right > .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.open > .dropdown-menu {
+    display: block;
+    color: #ffffff;
+    background-color: #ffffff;
+    background-image: none;
+    border-color: #92897e;
+}
+
+.dropdown-menu > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #e95420;
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #e95420;
+  outline: 0;
+}
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  color: #aea79f;
+}
+
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+.btn {
+  display: inline-block;
+  margin-bottom: 1;
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus,
+.btn.focus {
+  color: #ffffff;
+  text-decoration: none;
+}
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  opacity: 0.65;
+  box-shadow: none;
+}
+a.btn.disabled,
+fieldset[disabled] a.btn {
+  pointer-events: none;
+}
+.btn-default {
+  color: #ffffff;
+  background-color: #aea79f; #important
+  border-color: #aea79f;
+}
+
+.btn-default:focus,
+.btn-default.focus {
+  color: #ffffff;
+  background-color: #978e83;
+  border-color: #6f675e;
+}
+
+.btn-default:hover {
+  color: #ffffff;
+  background-color: #978e83;
+  border-color: #92897e;
+}
+.btn-default:active,
+.btn-default.active,
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0;
+}
+.btn-group > .btn:first-child {
+  margin-left: 0;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn:last-child:not(:first-child),
+.btn-group > .dropdown-toggle:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-group > .btn-group {
+  float: left;
+}
+.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
+  border-radius: 0;
+}
+.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
+.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-group .dropdown-toggle:active,
+.btn-group.open .dropdown-toggle {
+  outline: 0;
+}
+.btn-group > .btn + .dropdown-toggle {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.btn-group > .btn-lg + .dropdown-toggle {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+.btn-group.open .dropdown-toggle {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.btn-group.open .dropdown-toggle.btn-link {
+  box-shadow: none;
+}
+
+</style>
+<script>
+var str = '<div class="btn-group pull-right" style="position: fixed; right: 50px; top: 10px; z-index: 200"><button type="button" class="btn btn-default btn-xs dropdown-toggle" id="allCodeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-_extension-text-contrast=""><span>Code</span> <span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>';
+document.write(str);
+</script>
+<script>
+$(document).ready(function () {
+  // show code by default. Use "show" === "hide" to hide
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The rTorch Minimal Book</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#example"><i class="fa fa-check"></i>Example</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#automatic-installation"><i class="fa fa-check"></i>Automatic installation</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>I Getting Started</b></span></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#how-do-we-start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> How do we start using <code>rTorch</code></a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#getting-the-pytorch-version"><i class="fa fa-check"></i><b>1.2.1</b> Getting the PyTorch version</a></li>
+<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#pytorch-configuration"><i class="fa fa-check"></i><b>1.2.2</b> PyTorch configuration</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#what-can-you-do-with-rtorch"><i class="fa fa-check"></i><b>1.3</b> What can you do with <code>rTorch</code></a></li>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#getting-help"><i class="fa fa-check"></i><b>1.4</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#callable-pytorch-modules-from-rtorch"><i class="fa fa-check"></i><b>2.1</b> Callable PyTorch modules from rTorch</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-torchvision-module"><i class="fa fa-check"></i><b>2.1.1</b> The <code>torchvision</code> module</a></li>
+<li class="chapter" data-level="2.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#the-numpy-module"><i class="fa fa-check"></i><b>2.1.2</b> The <code>numpy</code> module</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-and-tensor-operations-in-numpy-and-pytorch"><i class="fa fa-check"></i><b>2.2</b> Common array and tensor operations in NumPy and PyTorch</a></li>
+<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions"><i class="fa fa-check"></i><b>2.3</b> Python built-in functions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch: What’s different</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#calling-objects-from-pytorch"><i class="fa fa-check"></i><b>3.1</b> Calling objects from PyTorch</a></li>
+<li class="chapter" data-level="3.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#call-modules-and-functions-from-torch"><i class="fa fa-check"></i><b>3.2</b> Call modules and functions from <code>torch</code></a></li>
+<li class="chapter" data-level="3.3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#show-the-attributes-methods-of-a-class-or-pytorch-object"><i class="fa fa-check"></i><b>3.3</b> Show the attributes (methods) of a class or PyTorch object</a></li>
+<li class="chapter" data-level="3.4" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#how-to-iterate-through-datasets"><i class="fa fa-check"></i><b>3.4</b> How to iterate through datasets</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#enumeration"><i class="fa fa-check"></i><b>3.4.1</b> Enumeration</a></li>
+<li class="chapter" data-level="3.4.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#using-enumerate-and-iterate"><i class="fa fa-check"></i><b>3.4.2</b> Using <code>enumerate</code> and <code>iterate</code></a></li>
+<li class="chapter" data-level="3.4.3" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#using-a-for-loop-to-iterate"><i class="fa fa-check"></i><b>3.4.3</b> Using a <code>for-loop</code> to iterate</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#zero-gradient"><i class="fa fa-check"></i><b>3.5</b> Zero gradient</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#version-in-python"><i class="fa fa-check"></i><b>3.5.1</b> Version in Python</a></li>
+<li class="chapter" data-level="3.5.2" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#version-in-r"><i class="fa fa-check"></i><b>3.5.2</b> Version in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="rtorch-vs-pytorch-whats-different.html"><a href="rtorch-vs-pytorch-whats-different.html#r-generics-for-pytorch-functions"><i class="fa fa-check"></i><b>3.6</b> R generics for PyTorch functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-numpy-and-viceversa"><i class="fa fa-check"></i><b>4.1</b> Transforming a tensor from <code>numpy</code> and viceversa</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="converting-tensors.html"><a href="converting-tensors.html#convert-a-tensor-to-numpy-object"><i class="fa fa-check"></i><b>4.1.1</b> Convert a tensor to <code>numpy</code> object</a></li>
+<li class="chapter" data-level="4.1.2" data-path="converting-tensors.html"><a href="converting-tensors.html#convert-a-numpy-object-to-an-r-object"><i class="fa fa-check"></i><b>4.1.2</b> Convert a <code>numpy</code> object to an <code>R</code> object</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#transforming-a-tensor-from-pytorch-to-r-and-viceversa"><i class="fa fa-check"></i><b>4.2</b> Transforming a tensor from PyTorch to R and viceversa</a></li>
+</ul></li>
+<li class="part"><span><b>II Basic Tensor Operations</b></span></li>
+<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="tensors.html"><a href="tensors.html#major-tensor-types"><i class="fa fa-check"></i><b>5.1.1</b> Major tensor types</a></li>
+<li class="chapter" data-level="5.1.2" data-path="tensors.html"><a href="tensors.html#example-basic-attributes-of-a-4d-tensor"><i class="fa fa-check"></i><b>5.1.2</b> Example: Basic attributes of a 4D tensor</a></li>
+<li class="chapter" data-level="5.1.3" data-path="tensors.html"><a href="tensors.html#example-attributes-of-a-3d-tensor"><i class="fa fa-check"></i><b>5.1.3</b> Example: Attributes of a 3D tensor</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="tensors.html"><a href="tensors.html#add-tensors"><i class="fa fa-check"></i><b>5.2.1</b> Add tensors</a></li>
+<li class="chapter" data-level="5.2.2" data-path="tensors.html"><a href="tensors.html#add-an-element-of-a-tensor-to-another-tensor"><i class="fa fa-check"></i><b>5.2.2</b> Add an element of a tensor to another tensor</a></li>
+<li class="chapter" data-level="5.2.3" data-path="tensors.html"><a href="tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>5.2.3</b> Multiply a tensor by a scalar</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#in-python-we-use-tuples-in-r-we-use-vectors"><i class="fa fa-check"></i><b>5.3.1</b> In Python we use Tuples, in R we use vectors</a></li>
+<li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#build-a-numpy-array-from-three-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> Build a numpy array from three R vectors</a></li>
+<li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#convert-a-numpy-array-to-a-tensor-with-as_tensor"><i class="fa fa-check"></i><b>5.3.3</b> Convert a numpy array to a tensor with <code>as_tensor()</code></a></li>
+<li class="chapter" data-level="5.3.4" data-path="tensors.html"><a href="tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>5.3.4</b> Create and fill a tensor</a></li>
+<li class="chapter" data-level="5.3.5" data-path="tensors.html"><a href="tensors.html#tensor-to-array-and-viceversa"><i class="fa fa-check"></i><b>5.3.5</b> Tensor to array, and viceversa</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="tensors.html"><a href="tensors.html#tensor-fill"><i class="fa fa-check"></i><b>5.4.1</b> Tensor fill</a></li>
+<li class="chapter" data-level="5.4.2" data-path="tensors.html"><a href="tensors.html#initialize-tensor-with-a-range-of-values"><i class="fa fa-check"></i><b>5.4.2</b> Initialize Tensor with a range of values</a></li>
+<li class="chapter" data-level="5.4.3" data-path="tensors.html"><a href="tensors.html#initialize-a-linear-or-log-scale-tensor"><i class="fa fa-check"></i><b>5.4.3</b> Initialize a linear or log scale Tensor</a></li>
+<li class="chapter" data-level="5.4.4" data-path="tensors.html"><a href="tensors.html#fill-a-tensor-in-place-out-of-place"><i class="fa fa-check"></i><b>5.4.4</b> Fill a tensor In-place / Out-of-place</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="tensors.html"><a href="tensors.html#exercise"><i class="fa fa-check"></i><b>5.5.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="tensors.html"><a href="tensors.html#concatenate-tensors-by-dim0-rows"><i class="fa fa-check"></i><b>5.6.1</b> Concatenate tensors by <code>dim=0</code> (rows)</a></li>
+<li class="chapter" data-level="5.6.2" data-path="tensors.html"><a href="tensors.html#concatenate-tensors-by-dim1-columns"><i class="fa fa-check"></i><b>5.6.2</b> Concatenate tensors by <code>dim=1</code> (columns)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="tensors.html"><a href="tensors.html#with-chunk"><i class="fa fa-check"></i><b>5.7.1</b> With <code>chunk()</code>:</a></li>
+<li class="chapter" data-level="5.7.2" data-path="tensors.html"><a href="tensors.html#with-index_select"><i class="fa fa-check"></i><b>5.7.2</b> With <code>index_select()</code>:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a>
+<ul>
+<li class="chapter" data-level="5.8.1" data-path="tensors.html"><a href="tensors.html#identity-matrix"><i class="fa fa-check"></i><b>5.8.1</b> Identity matrix</a></li>
+<li class="chapter" data-level="5.8.2" data-path="tensors.html"><a href="tensors.html#ones"><i class="fa fa-check"></i><b>5.8.2</b> Ones</a></li>
+<li class="chapter" data-level="5.8.3" data-path="tensors.html"><a href="tensors.html#zeros"><i class="fa fa-check"></i><b>5.8.3</b> Zeros</a></li>
+<li class="chapter" data-level="5.8.4" data-path="tensors.html"><a href="tensors.html#diagonal-operations"><i class="fa fa-check"></i><b>5.8.4</b> Diagonal operations</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a>
+<ul>
+<li class="chapter" data-level="5.9.1" data-path="tensors.html"><a href="tensors.html#using-indices-to-access-elements"><i class="fa fa-check"></i><b>5.9.1</b> Using indices to access elements</a></li>
+<li class="chapter" data-level="5.9.2" data-path="tensors.html"><a href="tensors.html#using-the-take-function"><i class="fa fa-check"></i><b>5.9.2</b> Using the <code>take</code> function</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a>
+<ul>
+<li class="chapter" data-level="5.10.1" data-path="tensors.html"><a href="tensors.html#cross-product"><i class="fa fa-check"></i><b>5.10.1</b> Cross product</a></li>
+<li class="chapter" data-level="5.10.2" data-path="tensors.html"><a href="tensors.html#dot-product"><i class="fa fa-check"></i><b>5.10.2</b> Dot product</a></li>
+</ul></li>
+<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a>
+<ul>
+<li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#using-a-function-to-extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Using a function to extract a unique logical result</a></li>
+<li class="chapter" data-level="5.11.2" data-path="tensors.html"><a href="tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>5.11.2</b> Greater than (<code>gt</code>)</a></li>
+<li class="chapter" data-level="5.11.3" data-path="tensors.html"><a href="tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>5.11.3</b> Less than or equal (<code>le</code>)</a></li>
+<li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (<code>!</code>)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a>
+<ul>
+<li class="chapter" data-level="5.12.1" data-path="tensors.html"><a href="tensors.html#uniform-matrix"><i class="fa fa-check"></i><b>5.12.1</b> Uniform matrix</a></li>
+<li class="chapter" data-level="5.12.2" data-path="tensors.html"><a href="tensors.html#binomial-distribution"><i class="fa fa-check"></i><b>5.12.2</b> Binomial distribution</a></li>
+<li class="chapter" data-level="5.12.3" data-path="tensors.html"><a href="tensors.html#exponential-distribution"><i class="fa fa-check"></i><b>5.12.3</b> Exponential distribution</a></li>
+<li class="chapter" data-level="5.12.4" data-path="tensors.html"><a href="tensors.html#weibull-distribution"><i class="fa fa-check"></i><b>5.12.4</b> Weibull distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="linearalgebra.html"><a href="linearalgebra.html#scalars"><i class="fa fa-check"></i><b>6.1</b> Scalars</a></li>
+<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="linearalgebra.html"><a href="linearalgebra.html#vector-to-matrix-matrix-to-tensor"><i class="fa fa-check"></i><b>6.2.1</b> Vector to matrix, matrix to tensor</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="linearalgebra.html"><a href="linearalgebra.html#matrices"><i class="fa fa-check"></i><b>6.3</b> Matrices</a></li>
+<li class="chapter" data-level="6.4" data-path="linearalgebra.html"><a href="linearalgebra.html#d-tensors"><i class="fa fa-check"></i><b>6.4</b> 3D+ tensors</a></li>
+<li class="chapter" data-level="6.5" data-path="linearalgebra.html"><a href="linearalgebra.html#transpose-of-a-matrix"><i class="fa fa-check"></i><b>6.5</b> Transpose of a matrix</a></li>
+<li class="chapter" data-level="6.6" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors-special-case-of-a-matrix"><i class="fa fa-check"></i><b>6.6</b> Vectors, special case of a matrix</a></li>
+<li class="chapter" data-level="6.7" data-path="linearalgebra.html"><a href="linearalgebra.html#tensor-arithmetic"><i class="fa fa-check"></i><b>6.7</b> Tensor arithmetic</a></li>
+<li class="chapter" data-level="6.8" data-path="linearalgebra.html"><a href="linearalgebra.html#add-a-scalar-to-a-tensor"><i class="fa fa-check"></i><b>6.8</b> Add a scalar to a tensor</a></li>
+<li class="chapter" data-level="6.9" data-path="linearalgebra.html"><a href="linearalgebra.html#multiplying-tensors"><i class="fa fa-check"></i><b>6.9</b> Multiplying tensors</a></li>
+<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-of-2d-array-using-python"><i class="fa fa-check"></i><b>6.10.1</b> Dot product of 2D array using Python</a></li>
+<li class="chapter" data-level="6.10.2" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-of-2d-array-using-r"><i class="fa fa-check"></i><b>6.10.2</b> Dot product of 2D array using R</a></li>
+<li class="chapter" data-level="6.10.3" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-with-mm-and-matmul-functions"><i class="fa fa-check"></i><b>6.10.3</b> Dot product with <code>mm</code> and <code>matmul</code> functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-1-a-neural-network-with-one-layer"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: a neural network with one layer</a></li>
+<li class="chapter" data-level="7.1.2" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-2-logistic-regression"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: Logistic Regression</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>III Logistic Regression</b></span></li>
+<li class="chapter" data-level="8" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem with Logistic Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="example-1-a-classification-problem-with-logistic-regression.html"><a href="example-1-a-classification-problem-with-logistic-regression.html#code-in-python"><i class="fa fa-check"></i><b>8.1</b> Code in Python</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="mnistdigits.html"><a href="mnistdigits.html#hyperparameters"><i class="fa fa-check"></i><b>9.1.1</b> Hyperparameters</a></li>
+<li class="chapter" data-level="9.1.2" data-path="mnistdigits.html"><a href="mnistdigits.html#read-datasets"><i class="fa fa-check"></i><b>9.1.2</b> Read datasets</a></li>
+<li class="chapter" data-level="9.1.3" data-path="mnistdigits.html"><a href="mnistdigits.html#define-the-model"><i class="fa fa-check"></i><b>9.1.3</b> Define the model</a></li>
+<li class="chapter" data-level="9.1.4" data-path="mnistdigits.html"><a href="mnistdigits.html#training"><i class="fa fa-check"></i><b>9.1.4</b> Training</a></li>
+<li class="chapter" data-level="9.1.5" data-path="mnistdigits.html"><a href="mnistdigits.html#prediction"><i class="fa fa-check"></i><b>9.1.5</b> Prediction</a></li>
+<li class="chapter" data-level="9.1.6" data-path="mnistdigits.html"><a href="mnistdigits.html#save-the-model"><i class="fa fa-check"></i><b>9.1.6</b> Save the model</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-python-1"><i class="fa fa-check"></i><b>9.2</b> Code in Python</a></li>
+</ul></li>
+<li class="part"><span><b>IV Linear Regression</b></span></li>
+<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="linear-regression.html"><a href="linear-regression.html#generate-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Generate the dataset</a></li>
+<li class="chapter" data-level="10.3" data-path="linear-regression.html"><a href="linear-regression.html#convert-arrays-to-tensors"><i class="fa fa-check"></i><b>10.3</b> Convert arrays to tensors</a></li>
+<li class="chapter" data-level="10.4" data-path="linear-regression.html"><a href="linear-regression.html#converting-from-numpy-to-tensor"><i class="fa fa-check"></i><b>10.4</b> Converting from numpy to tensor</a></li>
+<li class="chapter" data-level="10.5" data-path="linear-regression.html"><a href="linear-regression.html#creating-the-network-model"><i class="fa fa-check"></i><b>10.5</b> Creating the network model</a></li>
+<li class="chapter" data-level="10.6" data-path="linear-regression.html"><a href="linear-regression.html#optimizer-and-loss"><i class="fa fa-check"></i><b>10.6</b> Optimizer and Loss</a></li>
+<li class="chapter" data-level="10.7" data-path="linear-regression.html"><a href="linear-regression.html#training-1"><i class="fa fa-check"></i><b>10.7</b> Training</a></li>
+<li class="chapter" data-level="10.8" data-path="linear-regression.html"><a href="linear-regression.html#results"><i class="fa fa-check"></i><b>10.8</b> Results</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html"><i class="fa fa-check"></i><b>11</b> Rainfall prediction with Linear Regression</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#training-data"><i class="fa fa-check"></i><b>11.1</b> Training data</a></li>
+<li class="chapter" data-level="11.2" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#convert-arrays-to-tensors-1"><i class="fa fa-check"></i><b>11.2</b> Convert arrays to tensors</a></li>
+<li class="chapter" data-level="11.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#build-the-model"><i class="fa fa-check"></i><b>11.3</b> Build the model</a></li>
+<li class="chapter" data-level="11.4" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#generate-predictions"><i class="fa fa-check"></i><b>11.4</b> Generate predictions</a></li>
+<li class="chapter" data-level="11.5" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#loss-function"><i class="fa fa-check"></i><b>11.5</b> Loss Function</a></li>
+<li class="chapter" data-level="11.6" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#step-by-step-process"><i class="fa fa-check"></i><b>11.6</b> Step by step process</a>
+<ul>
+<li class="chapter" data-level="11.6.1" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#compute-the-losses"><i class="fa fa-check"></i><b>11.6.1</b> Compute the losses</a></li>
+<li class="chapter" data-level="11.6.2" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#compute-gradients"><i class="fa fa-check"></i><b>11.6.2</b> Compute Gradients</a></li>
+<li class="chapter" data-level="11.6.3" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#reset-the-gradients"><i class="fa fa-check"></i><b>11.6.3</b> Reset the gradients</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="rainfall-prediction-with-linear-regression.html"><a href="rainfall-prediction-with-linear-regression.html#all-together-train-for-multiple-epochs"><i class="fa fa-check"></i><b>11.7</b> All together: train for multiple epochs</a></li>
+</ul></li>
+<li class="part"><span><b>V Neural Networks</b></span></li>
+<li class="chapter" data-level="12" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><i class="fa fa-check"></i><b>12</b> Neural Networks using NumPy, r-base, rTorch and PyTorch</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-with-numpy"><i class="fa fa-check"></i><b>12.1</b> A neural network with <code>numpy</code></a></li>
+<li class="chapter" data-level="12.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-with-r-base"><i class="fa fa-check"></i><b>12.2</b> A neural network with <code>r-base</code></a></li>
+<li class="chapter" data-level="12.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#the-neural-network-written-in-pytorch"><i class="fa fa-check"></i><b>12.3</b> The neural network written in <code>PyTorch</code></a></li>
+<li class="chapter" data-level="12.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#a-neural-network-written-in-rtorch"><i class="fa fa-check"></i><b>12.4</b> A neural network written in <code>rTorch</code></a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#load-the-libraries"><i class="fa fa-check"></i><b>12.4.1</b> Load the libraries</a></li>
+<li class="chapter" data-level="12.4.2" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#dataset"><i class="fa fa-check"></i><b>12.4.2</b> Dataset</a></li>
+<li class="chapter" data-level="12.4.3" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#initialize-the-weights"><i class="fa fa-check"></i><b>12.4.3</b> Initialize the weights</a></li>
+<li class="chapter" data-level="12.4.4" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#iterate-through-the-dataset"><i class="fa fa-check"></i><b>12.4.4</b> Iterate through the dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#complete-code-for-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> Complete code for neural network in rTorch</a></li>
+<li class="chapter" data-level="12.6" data-path="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html"><a href="neural-networks-using-numpy-r-base-rtorch-and-pytorch.html#exercise-2"><i class="fa fa-check"></i><b>12.6</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html"><i class="fa fa-check"></i><b>13</b> A step-by-step neural network in rTorch</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#introduction-1"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
+<li class="chapter" data-level="13.2" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#select-device"><i class="fa fa-check"></i><b>13.2</b> Select device</a></li>
+<li class="chapter" data-level="13.3" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
+<li class="chapter" data-level="13.4" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
+<li class="chapter" data-level="13.5" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
+<li class="chapter" data-level="13.6" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
+<li class="chapter" data-level="13.7" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#using-r-generics-to-simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7</b> Using R generics to simplify tensor operations</a></li>
+<li class="chapter" data-level="13.8" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#a-more-elegant-way-of-writing-the-neural-network"><i class="fa fa-check"></i><b>13.8</b> A more elegant way of writing the neural network</a></li>
+<li class="chapter" data-level="13.9" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#create-a-browseable-dataframe"><i class="fa fa-check"></i><b>13.9</b> Create a browseable dataframe</a></li>
+<li class="chapter" data-level="13.10" data-path="a-step-by-step-neural-network-in-rtorch.html"><a href="a-step-by-step-neural-network-in-rtorch.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
+</ul></li>
+<li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
+<li class="chapter" data-level="14" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with data.frame</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="14.2" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
+<li class="chapter" data-level="14.3" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="working-with-data-frame.html"><a href="working-with-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> using <code>data.frame</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="15.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
+<li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#read-the-datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Read the datasets without normalization</a></li>
+<li class="chapter" data-level="15.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="appendixA.html"><a href="appendixA.html#five-number-summary"><i class="fa fa-check"></i><b>A.1.1</b> Five-number summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="appendixB.html"><a href="appendixB.html#the-sigmoid-function"><i class="fa fa-check"></i><b>B.1</b> The Sigmoid function</a></li>
+<li class="chapter" data-level="B.2" data-path="appendixB.html"><a href="appendixB.html#the-relu-function"><i class="fa fa-check"></i><b>B.2</b> The ReLU function</a></li>
+<li class="chapter" data-level="B.3" data-path="appendixB.html"><a href="appendixB.html#the-tanh-function"><i class="fa fa-check"></i><b>B.3</b> The tanh function</a></li>
+<li class="chapter" data-level="B.4" data-path="appendixB.html"><a href="appendixB.html#the-softmax-activation-function"><i class="fa fa-check"></i><b>B.4</b> The Softmax Activation function</a></li>
+<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#coding-your-own-activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Coding your own activation functions in Python</a>
+<ul>
+<li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#linear-activation"><i class="fa fa-check"></i>Linear activation</a></li>
+<li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#sigmoid-activation"><i class="fa fa-check"></i>Sigmoid activation</a></li>
+<li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#hyperbolic-tangent-activation"><i class="fa fa-check"></i>Hyperbolic Tangent activation</a></li>
+<li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#rectifier-linear-unit-relu"><i class="fa fa-check"></i>Rectifier linear unit (ReLU)</a></li>
+<li><a href="appendixB.html#visualization-with-matplotlib">Visualization with <code>matplotlib</code></a></li>
+</ul></li>
+<li class="chapter" data-level="B.6" data-path="appendixB.html"><a href="appendixB.html#softmax-in-python"><i class="fa fa-check"></i><b>B.6</b> Softmax in Python</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal rTorch Book</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="rtorch-vs-pytorch-whats-different" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> rTorch vs PyTorch: What’s different</h1>
+<p>This chapter will explain the main differences between <code>PyTorch</code> and <code>rTorch</code>. Most of the things work directly in <code>PyTorch</code> but we need to be aware of some minor differences when working with rTorch. Here is a review of existing methods.</p>
+<p>Let’s start by loading <code>rTorch</code>:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="rtorch-vs-pytorch-whats-different.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span></code></pre></div>
+<div id="calling-objects-from-pytorch" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Calling objects from PyTorch</h2>
+<p>We use the dollar sign or <code>$</code> to call a class, function or method from the <code>rTorch</code> modules. In this case, from the <code>torch</code> module:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="rtorch-vs-pytorch-whats-different.html#cb58-1" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">tensor</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<pre><code>#&gt; tensor([1., 2., 3.])</code></pre>
+<p>In Python, what we do is using the dot to separate the sub-members of an object:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="rtorch-vs-pytorch-whats-different.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb60-2"><a href="rtorch-vs-pytorch-whats-different.html#cb60-2" aria-hidden="true" tabindex="-1"></a>torch.tensor([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span></code></pre></div>
+<pre><code>#&gt; tensor([1, 2, 3])</code></pre>
+</div>
+<div id="call-modules-and-functions-from-torch" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Call modules and functions from <code>torch</code></h2>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="rtorch-vs-pytorch-whats-different.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span>
+<span id="cb62-2"><a href="rtorch-vs-pytorch-whats-different.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># these are the equivalents of the Python import module</span></span>
+<span id="cb62-3"><a href="rtorch-vs-pytorch-whats-different.html#cb62-3" aria-hidden="true" tabindex="-1"></a>nn          <span class="ot">&lt;-</span> torch<span class="sc">$</span>nn</span>
+<span id="cb62-4"><a href="rtorch-vs-pytorch-whats-different.html#cb62-4" aria-hidden="true" tabindex="-1"></a>transforms  <span class="ot">&lt;-</span> torchvision<span class="sc">$</span>transforms</span>
+<span id="cb62-5"><a href="rtorch-vs-pytorch-whats-different.html#cb62-5" aria-hidden="true" tabindex="-1"></a>dsets       <span class="ot">&lt;-</span> torchvision<span class="sc">$</span>datasets</span>
+<span id="cb62-6"><a href="rtorch-vs-pytorch-whats-different.html#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="rtorch-vs-pytorch-whats-different.html#cb62-7" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">tensor</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<pre><code>#&gt; tensor([1., 2., 3.])</code></pre>
+<p>The code above is equivalent to writing this code in Python:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="rtorch-vs-pytorch-whats-different.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb64-2"><a href="rtorch-vs-pytorch-whats-different.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb64-3"><a href="rtorch-vs-pytorch-whats-different.html#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision.transforms <span class="im">as</span> transforms</span>
+<span id="cb64-4"><a href="rtorch-vs-pytorch-whats-different.html#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision.datasets <span class="im">as</span> dsets</span>
+<span id="cb64-5"><a href="rtorch-vs-pytorch-whats-different.html#cb64-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-6"><a href="rtorch-vs-pytorch-whats-different.html#cb64-6" aria-hidden="true" tabindex="-1"></a>torch.tensor([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span></code></pre></div>
+<pre><code>#&gt; tensor([1, 2, 3])</code></pre>
+<p>Then we can proceed to extract classes, methods and functions from the <code>nn</code>, <code>transforms</code>, and <code>dsets</code> objects. In this example we use the module <code>torchvision$datasets</code> and the function <code>transforms$ToTensor()</code></p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="rtorch-vs-pytorch-whats-different.html#cb66-1" aria-hidden="true" tabindex="-1"></a>local_folder <span class="ot">&lt;-</span> <span class="st">&#39;./datasets/mnist_digits&#39;</span></span>
+<span id="cb66-2"><a href="rtorch-vs-pytorch-whats-different.html#cb66-2" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="ot">=</span> torchvision<span class="sc">$</span>datasets<span class="sc">$</span><span class="fu">MNIST</span>(<span class="at">root =</span> local_folder, </span>
+<span id="cb66-3"><a href="rtorch-vs-pytorch-whats-different.html#cb66-3" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">train =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb66-4"><a href="rtorch-vs-pytorch-whats-different.html#cb66-4" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">transform =</span> transforms<span class="sc">$</span><span class="fu">ToTensor</span>(),</span>
+<span id="cb66-5"><a href="rtorch-vs-pytorch-whats-different.html#cb66-5" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">download =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb66-6"><a href="rtorch-vs-pytorch-whats-different.html#cb66-6" aria-hidden="true" tabindex="-1"></a>train_dataset</span></code></pre></div>
+<pre><code>#&gt; Dataset MNIST
+#&gt;     Number of datapoints: 60000
+#&gt;     Root location: ./datasets/mnist_digits
+#&gt;     Split: Train
+#&gt;     StandardTransform
+#&gt; Transform: ToTensor()</code></pre>
+</div>
+<div id="show-the-attributes-methods-of-a-class-or-pytorch-object" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Show the attributes (methods) of a class or PyTorch object</h2>
+<p>Sometimes we are interested in knowing the internal components of a class. In that case, we use the reticulate function <code>py_list_attributes()</code>.</p>
+<p>In this example, we want to show the attributes of <code>train_dataset</code>:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="rtorch-vs-pytorch-whats-different.html#cb68-1" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">py_list_attributes</span>(train_dataset)</span></code></pre></div>
+<pre><code>#&gt;  [1] &quot;__add__&quot;                &quot;__class__&quot;              &quot;__delattr__&quot;           
+#&gt;  [4] &quot;__dict__&quot;               &quot;__dir__&quot;                &quot;__doc__&quot;               
+#&gt;  [7] &quot;__eq__&quot;                 &quot;__format__&quot;             &quot;__ge__&quot;                
+#&gt; [10] &quot;__getattribute__&quot;       &quot;__getitem__&quot;            &quot;__gt__&quot;                
+#&gt; [13] &quot;__hash__&quot;               &quot;__init__&quot;               &quot;__init_subclass__&quot;     
+#&gt; [16] &quot;__le__&quot;                 &quot;__len__&quot;                &quot;__lt__&quot;                
+#&gt; [19] &quot;__module__&quot;             &quot;__ne__&quot;                 &quot;__new__&quot;               
+#&gt; [22] &quot;__reduce__&quot;             &quot;__reduce_ex__&quot;          &quot;__repr__&quot;              
+#&gt; [25] &quot;__setattr__&quot;            &quot;__sizeof__&quot;             &quot;__str__&quot;               
+#&gt; [28] &quot;__subclasshook__&quot;       &quot;__weakref__&quot;            &quot;_check_exists&quot;         
+#&gt; [31] &quot;_format_transform_repr&quot; &quot;_repr_indent&quot;           &quot;class_to_idx&quot;          
+#&gt; [34] &quot;classes&quot;                &quot;data&quot;                   &quot;download&quot;              
+#&gt; [37] &quot;extra_repr&quot;             &quot;processed_folder&quot;       &quot;raw_folder&quot;            
+#&gt; [40] &quot;resources&quot;              &quot;root&quot;                   &quot;target_transform&quot;      
+#&gt; [43] &quot;targets&quot;                &quot;test_data&quot;              &quot;test_file&quot;             
+#&gt; [46] &quot;test_labels&quot;            &quot;train&quot;                  &quot;train_data&quot;            
+#&gt; [49] &quot;train_labels&quot;           &quot;training_file&quot;          &quot;transform&quot;             
+#&gt; [52] &quot;transforms&quot;</code></pre>
+<p>Knowing the internal methods of a class could be useful when we want to refer to a specific property of such class. For example, from the list above, we know that the object <code>train_dataset</code> has an attribute <code>__len__</code>. We can call it like this:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="rtorch-vs-pytorch-whats-different.html#cb70-1" aria-hidden="true" tabindex="-1"></a>train_dataset<span class="sc">$</span><span class="st">`</span><span class="at">__len__</span><span class="st">`</span>()</span></code></pre></div>
+<pre><code>#&gt; [1] 60000</code></pre>
+</div>
+<div id="how-to-iterate-through-datasets" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> How to iterate through datasets</h2>
+<div id="enumeration" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Enumeration</h3>
+<p>Given the following training dataset <code>x_train</code>, we want to find the number of elements of the tensor. We start by entering a <code>numpy</code> array, which then will convert to a tensor with the PyTorch function <code>from_numpy()</code>:</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="rtorch-vs-pytorch-whats-different.html#cb72-1" aria-hidden="true" tabindex="-1"></a>x_train_r <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(<span class="fl">3.3</span>, <span class="fl">4.4</span>, <span class="fl">5.5</span>, <span class="fl">6.71</span>, <span class="fl">6.93</span>, <span class="fl">4.168</span>, </span>
+<span id="cb72-2"><a href="rtorch-vs-pytorch-whats-different.html#cb72-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">9.779</span>, <span class="fl">6.182</span>, <span class="fl">7.59</span>, <span class="fl">2.167</span>, <span class="fl">7.042</span>,</span>
+<span id="cb72-3"><a href="rtorch-vs-pytorch-whats-different.html#cb72-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">10.791</span>, <span class="fl">5.313</span>, <span class="fl">7.997</span>, <span class="fl">3.1</span>), <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">1</span>))</span>
+<span id="cb72-4"><a href="rtorch-vs-pytorch-whats-different.html#cb72-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-5"><a href="rtorch-vs-pytorch-whats-different.html#cb72-5" aria-hidden="true" tabindex="-1"></a>x_train_np <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(x_train_r)</span>
+<span id="cb72-6"><a href="rtorch-vs-pytorch-whats-different.html#cb72-6" aria-hidden="true" tabindex="-1"></a>x_train_   <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">from_numpy</span>(x_train_np)          <span class="co"># convert to tensor</span></span>
+<span id="cb72-7"><a href="rtorch-vs-pytorch-whats-different.html#cb72-7" aria-hidden="true" tabindex="-1"></a>x_train    <span class="ot">&lt;-</span> x_train_<span class="sc">$</span><span class="fu">type</span>(torch<span class="sc">$</span>FloatTensor)      <span class="co"># make it a a FloatTensor</span></span>
+<span id="cb72-8"><a href="rtorch-vs-pytorch-whats-different.html#cb72-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x_train<span class="sc">$</span>dtype)</span>
+<span id="cb72-9"><a href="rtorch-vs-pytorch-whats-different.html#cb72-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x_train)</span></code></pre></div>
+<pre><code>#&gt; torch.float32
+#&gt; tensor([[ 3.3000],
+#&gt;         [ 4.4000],
+#&gt;         [ 5.5000],
+#&gt;         [ 6.7100],
+#&gt;         [ 6.9300],
+#&gt;         [ 4.1680],
+#&gt;         [ 9.7790],
+#&gt;         [ 6.1820],
+#&gt;         [ 7.5900],
+#&gt;         [ 2.1670],
+#&gt;         [ 7.0420],
+#&gt;         [10.7910],
+#&gt;         [ 5.3130],
+#&gt;         [ 7.9970],
+#&gt;         [ 3.1000]])</code></pre>
+<p><code>length</code> is similar to <code>nelement</code> for number of elements:</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="rtorch-vs-pytorch-whats-different.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x_train)</span>
+<span id="cb74-2"><a href="rtorch-vs-pytorch-whats-different.html#cb74-2" aria-hidden="true" tabindex="-1"></a>x_train<span class="sc">$</span><span class="fu">nelement</span>()    <span class="co"># number of elements in the tensor</span></span></code></pre></div>
+<pre><code>#&gt; [1] 15
+#&gt; [1] 15</code></pre>
+</div>
+<div id="using-enumerate-and-iterate" class="section level3" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Using <code>enumerate</code> and <code>iterate</code></h3>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="rtorch-vs-pytorch-whats-different.html#cb76-1" aria-hidden="true" tabindex="-1"></a>py <span class="ot">=</span> <span class="fu">import_builtins</span>()</span>
+<span id="cb76-2"><a href="rtorch-vs-pytorch-whats-different.html#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="rtorch-vs-pytorch-whats-different.html#cb76-3" aria-hidden="true" tabindex="-1"></a>enum_x_train <span class="ot">=</span> py<span class="sc">$</span><span class="fu">enumerate</span>(x_train)</span>
+<span id="cb76-4"><a href="rtorch-vs-pytorch-whats-different.html#cb76-4" aria-hidden="true" tabindex="-1"></a>enum_x_train</span>
+<span id="cb76-5"><a href="rtorch-vs-pytorch-whats-different.html#cb76-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-6"><a href="rtorch-vs-pytorch-whats-different.html#cb76-6" aria-hidden="true" tabindex="-1"></a>py<span class="sc">$</span><span class="fu">len</span>(x_train)</span></code></pre></div>
+<pre><code>#&gt; &lt;enumerate&gt;
+#&gt; [1] 15</code></pre>
+<p>If we directly use <code>iterate</code> over the <code>enum_x_train</code> object, we get an R list with the index and the value of the <code>1D</code> tensor:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="rtorch-vs-pytorch-whats-different.html#cb78-1" aria-hidden="true" tabindex="-1"></a>xit <span class="ot">=</span> <span class="fu">iterate</span>(enum_x_train, <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb78-2"><a href="rtorch-vs-pytorch-whats-different.html#cb78-2" aria-hidden="true" tabindex="-1"></a>xit</span></code></pre></div>
+<pre><code>#&gt; [[1]]
+#&gt; [[1]][[1]]
+#&gt; [1] 0
+#&gt; 
+#&gt; [[1]][[2]]
+#&gt; tensor([3.3000])
+#&gt; 
+#&gt; 
+#&gt; [[2]]
+#&gt; [[2]][[1]]
+#&gt; [1] 1
+#&gt; 
+#&gt; [[2]][[2]]
+#&gt; tensor([4.4000])
+#&gt; 
+#&gt; 
+#&gt; [[3]]
+#&gt; [[3]][[1]]
+#&gt; [1] 2
+#&gt; 
+#&gt; [[3]][[2]]
+#&gt; tensor([5.5000])
+#&gt; 
+#&gt; 
+#&gt; [[4]]
+#&gt; [[4]][[1]]
+#&gt; [1] 3
+#&gt; 
+#&gt; [[4]][[2]]
+#&gt; tensor([6.7100])
+#&gt; 
+#&gt; 
+#&gt; [[5]]
+#&gt; [[5]][[1]]
+#&gt; [1] 4
+#&gt; 
+#&gt; [[5]][[2]]
+#&gt; tensor([6.9300])
+#&gt; 
+#&gt; 
+#&gt; [[6]]
+#&gt; [[6]][[1]]
+#&gt; [1] 5
+#&gt; 
+#&gt; [[6]][[2]]
+#&gt; tensor([4.1680])
+#&gt; 
+#&gt; 
+#&gt; [[7]]
+#&gt; [[7]][[1]]
+#&gt; [1] 6
+#&gt; 
+#&gt; [[7]][[2]]
+#&gt; tensor([9.7790])
+#&gt; 
+#&gt; 
+#&gt; [[8]]
+#&gt; [[8]][[1]]
+#&gt; [1] 7
+#&gt; 
+#&gt; [[8]][[2]]
+#&gt; tensor([6.1820])
+#&gt; 
+#&gt; 
+#&gt; [[9]]
+#&gt; [[9]][[1]]
+#&gt; [1] 8
+#&gt; 
+#&gt; [[9]][[2]]
+#&gt; tensor([7.5900])
+#&gt; 
+#&gt; 
+#&gt; [[10]]
+#&gt; [[10]][[1]]
+#&gt; [1] 9
+#&gt; 
+#&gt; [[10]][[2]]
+#&gt; tensor([2.1670])
+#&gt; 
+#&gt; 
+#&gt; [[11]]
+#&gt; [[11]][[1]]
+#&gt; [1] 10
+#&gt; 
+#&gt; [[11]][[2]]
+#&gt; tensor([7.0420])
+#&gt; 
+#&gt; 
+#&gt; [[12]]
+#&gt; [[12]][[1]]
+#&gt; [1] 11
+#&gt; 
+#&gt; [[12]][[2]]
+#&gt; tensor([10.7910])
+#&gt; 
+#&gt; 
+#&gt; [[13]]
+#&gt; [[13]][[1]]
+#&gt; [1] 12
+#&gt; 
+#&gt; [[13]][[2]]
+#&gt; tensor([5.3130])
+#&gt; 
+#&gt; 
+#&gt; [[14]]
+#&gt; [[14]][[1]]
+#&gt; [1] 13
+#&gt; 
+#&gt; [[14]][[2]]
+#&gt; tensor([7.9970])
+#&gt; 
+#&gt; 
+#&gt; [[15]]
+#&gt; [[15]][[1]]
+#&gt; [1] 14
+#&gt; 
+#&gt; [[15]][[2]]
+#&gt; tensor([3.1000])</code></pre>
+</div>
+<div id="using-a-for-loop-to-iterate" class="section level3" number="3.4.3">
+<h3><span class="header-section-number">3.4.3</span> Using a <code>for-loop</code> to iterate</h3>
+<p>Another way of iterating through a dataset that you will see a lot in the PyTorch tutorials is a <code>loop</code> through the length of the dataset. In this case, <code>x_train</code>. We are using <code>cat()</code> for the index (an integer), and <code>print()</code> for the tensor, since <code>cat</code> doesn’t know how to deal with tensors:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="rtorch-vs-pytorch-whats-different.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reset the iterator</span></span>
+<span id="cb80-2"><a href="rtorch-vs-pytorch-whats-different.html#cb80-2" aria-hidden="true" tabindex="-1"></a>enum_x_train <span class="ot">=</span> py<span class="sc">$</span><span class="fu">enumerate</span>(x_train)</span>
+<span id="cb80-3"><a href="rtorch-vs-pytorch-whats-different.html#cb80-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-4"><a href="rtorch-vs-pytorch-whats-different.html#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>py<span class="sc">$</span><span class="fu">len</span>(x_train)) {</span>
+<span id="cb80-5"><a href="rtorch-vs-pytorch-whats-different.html#cb80-5" aria-hidden="true" tabindex="-1"></a>    obj <span class="ot">&lt;-</span> <span class="fu">iter_next</span>(enum_x_train)    <span class="co"># next item</span></span>
+<span id="cb80-6"><a href="rtorch-vs-pytorch-whats-different.html#cb80-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(obj[[<span class="dv">1</span>]], <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)     <span class="co"># 1st part or index</span></span>
+<span id="cb80-7"><a href="rtorch-vs-pytorch-whats-different.html#cb80-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(obj[[<span class="dv">2</span>]])         <span class="co"># 2nd part or tensor</span></span>
+<span id="cb80-8"><a href="rtorch-vs-pytorch-whats-different.html#cb80-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>#&gt; 0    tensor([3.3000])
+#&gt; 1    tensor([4.4000])
+#&gt; 2    tensor([5.5000])
+#&gt; 3    tensor([6.7100])
+#&gt; 4    tensor([6.9300])
+#&gt; 5    tensor([4.1680])
+#&gt; 6    tensor([9.7790])
+#&gt; 7    tensor([6.1820])
+#&gt; 8    tensor([7.5900])
+#&gt; 9    tensor([2.1670])
+#&gt; 10   tensor([7.0420])
+#&gt; 11   tensor([10.7910])
+#&gt; 12   tensor([5.3130])
+#&gt; 13   tensor([7.9970])
+#&gt; 14   tensor([3.1000])</code></pre>
+<p>Similarly, if we want the scalar values but not as tensor, then we will need to use <code>item()</code>.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="rtorch-vs-pytorch-whats-different.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reset the iterator</span></span>
+<span id="cb82-2"><a href="rtorch-vs-pytorch-whats-different.html#cb82-2" aria-hidden="true" tabindex="-1"></a>enum_x_train <span class="ot">=</span> py<span class="sc">$</span><span class="fu">enumerate</span>(x_train)</span>
+<span id="cb82-3"><a href="rtorch-vs-pytorch-whats-different.html#cb82-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-4"><a href="rtorch-vs-pytorch-whats-different.html#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>py<span class="sc">$</span><span class="fu">len</span>(x_train)) {</span>
+<span id="cb82-5"><a href="rtorch-vs-pytorch-whats-different.html#cb82-5" aria-hidden="true" tabindex="-1"></a>    obj <span class="ot">&lt;-</span> <span class="fu">iter_next</span>(enum_x_train)    <span class="co"># next item</span></span>
+<span id="cb82-6"><a href="rtorch-vs-pytorch-whats-different.html#cb82-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(obj[[<span class="dv">1</span>]], <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)               <span class="co"># 1st part or index</span></span>
+<span id="cb82-7"><a href="rtorch-vs-pytorch-whats-different.html#cb82-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(obj[[<span class="dv">2</span>]]<span class="sc">$</span><span class="fu">item</span>())            <span class="co"># 2nd part or tensor</span></span>
+<span id="cb82-8"><a href="rtorch-vs-pytorch-whats-different.html#cb82-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>#&gt; 0    [1] 3.3
+#&gt; 1    [1] 4.4
+#&gt; 2    [1] 5.5
+#&gt; 3    [1] 6.71
+#&gt; 4    [1] 6.93
+#&gt; 5    [1] 4.17
+#&gt; 6    [1] 9.78
+#&gt; 7    [1] 6.18
+#&gt; 8    [1] 7.59
+#&gt; 9    [1] 2.17
+#&gt; 10   [1] 7.04
+#&gt; 11   [1] 10.8
+#&gt; 12   [1] 5.31
+#&gt; 13   [1] 8
+#&gt; 14   [1] 3.1</code></pre>
+<blockquote>
+<p>We will find very frequently this kind of iterators when we read a dataset read by <code>torchvision</code>. There are several different ways to iterate through these objects as you will find.</p>
+</blockquote>
+</div>
+</div>
+<div id="zero-gradient" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Zero gradient</h2>
+<p>The zero gradient was one of the most difficult to implement in R if we don’t pay attention to the content of the objects carrying the <strong>weights</strong> and <strong>biases</strong>. This happens when the algorithm written in <strong>PyTorch</strong> is not immediately translatable to <strong>rTorch</strong>. This can be appreciated in this example.</p>
+<blockquote>
+<p>We are using the same seed in the PyTorch and rTorch versions, so, we could compare the results.</p>
+</blockquote>
+<div id="version-in-python" class="section level3" number="3.5.1">
+<h3><span class="header-section-number">3.5.1</span> Version in Python</h3>
+<div class="sourceCode" id="cb84"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb84-1"><a href="rtorch-vs-pytorch-whats-different.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb84-2"><a href="rtorch-vs-pytorch-whats-different.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb84-3"><a href="rtorch-vs-pytorch-whats-different.html#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-4"><a href="rtorch-vs-pytorch-whats-different.html#cb84-4" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">0</span>)  <span class="co"># reproducible</span></span>
+<span id="cb84-5"><a href="rtorch-vs-pytorch-whats-different.html#cb84-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-6"><a href="rtorch-vs-pytorch-whats-different.html#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Input (temp, rainfall, humidity)</span></span></code></pre></div>
+<pre><code>#&gt; &lt;torch._C.Generator object at 0x7f52463973d0&gt;</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a href="rtorch-vs-pytorch-whats-different.html#cb86-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> np.array([[<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>],</span>
+<span id="cb86-2"><a href="rtorch-vs-pytorch-whats-different.html#cb86-2" aria-hidden="true" tabindex="-1"></a>                   [<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>],</span>
+<span id="cb86-3"><a href="rtorch-vs-pytorch-whats-different.html#cb86-3" aria-hidden="true" tabindex="-1"></a>                   [<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>],</span>
+<span id="cb86-4"><a href="rtorch-vs-pytorch-whats-different.html#cb86-4" aria-hidden="true" tabindex="-1"></a>                   [<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>],</span>
+<span id="cb86-5"><a href="rtorch-vs-pytorch-whats-different.html#cb86-5" aria-hidden="true" tabindex="-1"></a>                   [<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>]], dtype<span class="op">=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb86-6"><a href="rtorch-vs-pytorch-whats-different.html#cb86-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-7"><a href="rtorch-vs-pytorch-whats-different.html#cb86-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Targets (apples, oranges)</span></span>
+<span id="cb86-8"><a href="rtorch-vs-pytorch-whats-different.html#cb86-8" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> np.array([[<span class="dv">56</span>, <span class="dv">70</span>],</span>
+<span id="cb86-9"><a href="rtorch-vs-pytorch-whats-different.html#cb86-9" aria-hidden="true" tabindex="-1"></a>                    [<span class="dv">81</span>, <span class="dv">101</span>],</span>
+<span id="cb86-10"><a href="rtorch-vs-pytorch-whats-different.html#cb86-10" aria-hidden="true" tabindex="-1"></a>                    [<span class="dv">119</span>, <span class="dv">133</span>],</span>
+<span id="cb86-11"><a href="rtorch-vs-pytorch-whats-different.html#cb86-11" aria-hidden="true" tabindex="-1"></a>                    [<span class="dv">22</span>, <span class="dv">37</span>],</span>
+<span id="cb86-12"><a href="rtorch-vs-pytorch-whats-different.html#cb86-12" aria-hidden="true" tabindex="-1"></a>                    [<span class="dv">103</span>, <span class="dv">119</span>]], dtype<span class="op">=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb86-13"><a href="rtorch-vs-pytorch-whats-different.html#cb86-13" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb86-14"><a href="rtorch-vs-pytorch-whats-different.html#cb86-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-15"><a href="rtorch-vs-pytorch-whats-different.html#cb86-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert inputs and targets to tensors</span></span>
+<span id="cb86-16"><a href="rtorch-vs-pytorch-whats-different.html#cb86-16" aria-hidden="true" tabindex="-1"></a>inputs  <span class="op">=</span> torch.from_numpy(inputs)</span>
+<span id="cb86-17"><a href="rtorch-vs-pytorch-whats-different.html#cb86-17" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> torch.from_numpy(targets)</span>
+<span id="cb86-18"><a href="rtorch-vs-pytorch-whats-different.html#cb86-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-19"><a href="rtorch-vs-pytorch-whats-different.html#cb86-19" aria-hidden="true" tabindex="-1"></a><span class="co"># random weights and biases</span></span>
+<span id="cb86-20"><a href="rtorch-vs-pytorch-whats-different.html#cb86-20" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> torch.randn(<span class="dv">2</span>, <span class="dv">3</span>, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb86-21"><a href="rtorch-vs-pytorch-whats-different.html#cb86-21" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> torch.randn(<span class="dv">2</span>, requires_grad<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb86-22"><a href="rtorch-vs-pytorch-whats-different.html#cb86-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-23"><a href="rtorch-vs-pytorch-whats-different.html#cb86-23" aria-hidden="true" tabindex="-1"></a><span class="co"># function for the model</span></span>
+<span id="cb86-24"><a href="rtorch-vs-pytorch-whats-different.html#cb86-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model(x):</span>
+<span id="cb86-25"><a href="rtorch-vs-pytorch-whats-different.html#cb86-25" aria-hidden="true" tabindex="-1"></a>  wt <span class="op">=</span> w.t()</span>
+<span id="cb86-26"><a href="rtorch-vs-pytorch-whats-different.html#cb86-26" aria-hidden="true" tabindex="-1"></a>  mm <span class="op">=</span> x <span class="op">@</span> w.t()</span>
+<span id="cb86-27"><a href="rtorch-vs-pytorch-whats-different.html#cb86-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">@</span> w.t() <span class="op">+</span> b       <span class="co"># @ represents matrix multiplication in PyTorch</span></span>
+<span id="cb86-28"><a href="rtorch-vs-pytorch-whats-different.html#cb86-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-29"><a href="rtorch-vs-pytorch-whats-different.html#cb86-29" aria-hidden="true" tabindex="-1"></a><span class="co"># MSE loss function</span></span>
+<span id="cb86-30"><a href="rtorch-vs-pytorch-whats-different.html#cb86-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mse(t1, t2):</span>
+<span id="cb86-31"><a href="rtorch-vs-pytorch-whats-different.html#cb86-31" aria-hidden="true" tabindex="-1"></a>  diff <span class="op">=</span> t1 <span class="op">-</span> t2</span>
+<span id="cb86-32"><a href="rtorch-vs-pytorch-whats-different.html#cb86-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> torch.<span class="bu">sum</span>(diff <span class="op">*</span> diff) <span class="op">/</span> diff.numel()</span>
+<span id="cb86-33"><a href="rtorch-vs-pytorch-whats-different.html#cb86-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-34"><a href="rtorch-vs-pytorch-whats-different.html#cb86-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Running all together</span></span>
+<span id="cb86-35"><a href="rtorch-vs-pytorch-whats-different.html#cb86-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Train for 100 epochs</span></span>
+<span id="cb86-36"><a href="rtorch-vs-pytorch-whats-different.html#cb86-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb86-37"><a href="rtorch-vs-pytorch-whats-different.html#cb86-37" aria-hidden="true" tabindex="-1"></a>  preds <span class="op">=</span> model(inputs)</span>
+<span id="cb86-38"><a href="rtorch-vs-pytorch-whats-different.html#cb86-38" aria-hidden="true" tabindex="-1"></a>  loss <span class="op">=</span> mse(preds, targets)</span>
+<span id="cb86-39"><a href="rtorch-vs-pytorch-whats-different.html#cb86-39" aria-hidden="true" tabindex="-1"></a>  loss.backward()</span>
+<span id="cb86-40"><a href="rtorch-vs-pytorch-whats-different.html#cb86-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb86-41"><a href="rtorch-vs-pytorch-whats-different.html#cb86-41" aria-hidden="true" tabindex="-1"></a>    w <span class="op">-=</span> w.grad <span class="op">*</span> <span class="fl">0.00001</span></span>
+<span id="cb86-42"><a href="rtorch-vs-pytorch-whats-different.html#cb86-42" aria-hidden="true" tabindex="-1"></a>    b <span class="op">-=</span> b.grad <span class="op">*</span> <span class="fl">0.00001</span></span>
+<span id="cb86-43"><a href="rtorch-vs-pytorch-whats-different.html#cb86-43" aria-hidden="true" tabindex="-1"></a>    w_gz <span class="op">=</span> w.grad.zero_()</span>
+<span id="cb86-44"><a href="rtorch-vs-pytorch-whats-different.html#cb86-44" aria-hidden="true" tabindex="-1"></a>    b_gz <span class="op">=</span> b.grad.zero_()</span>
+<span id="cb86-45"><a href="rtorch-vs-pytorch-whats-different.html#cb86-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb86-46"><a href="rtorch-vs-pytorch-whats-different.html#cb86-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate loss</span></span>
+<span id="cb86-47"><a href="rtorch-vs-pytorch-whats-different.html#cb86-47" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> model(inputs)</span>
+<span id="cb86-48"><a href="rtorch-vs-pytorch-whats-different.html#cb86-48" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> mse(preds, targets)</span>
+<span id="cb86-49"><a href="rtorch-vs-pytorch-whats-different.html#cb86-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Loss: &quot;</span>, loss)    </span>
+<span id="cb86-50"><a href="rtorch-vs-pytorch-whats-different.html#cb86-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-51"><a href="rtorch-vs-pytorch-whats-different.html#cb86-51" aria-hidden="true" tabindex="-1"></a><span class="co"># predictions</span></span></code></pre></div>
+<pre><code>#&gt; Loss:  tensor(1270.1233, grad_fn=&lt;DivBackward0&gt;)</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb88-1"><a href="rtorch-vs-pytorch-whats-different.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Predictions:&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt; Predictions:</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb90-1"><a href="rtorch-vs-pytorch-whats-different.html#cb90-1" aria-hidden="true" tabindex="-1"></a>preds</span>
+<span id="cb90-2"><a href="rtorch-vs-pytorch-whats-different.html#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-3"><a href="rtorch-vs-pytorch-whats-different.html#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Targets</span></span></code></pre></div>
+<pre><code>#&gt; tensor([[ 69.3122,  80.2639],
+#&gt;         [ 73.7528,  97.2381],
+#&gt;         [118.3933, 124.7628],
+#&gt;         [ 89.6111,  93.0286],
+#&gt;         [ 47.3014,  80.6467]], grad_fn=&lt;AddBackward0&gt;)</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb92-1"><a href="rtorch-vs-pytorch-whats-different.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Targets:&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt; Targets:</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb94-1"><a href="rtorch-vs-pytorch-whats-different.html#cb94-1" aria-hidden="true" tabindex="-1"></a>targets</span></code></pre></div>
+<pre><code>#&gt; tensor([[ 56.,  70.],
+#&gt;         [ 81., 101.],
+#&gt;         [119., 133.],
+#&gt;         [ 22.,  37.],
+#&gt;         [103., 119.]])</code></pre>
+</div>
+<div id="version-in-r" class="section level3" number="3.5.2">
+<h3><span class="header-section-number">3.5.2</span> Version in R</h3>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="rtorch-vs-pytorch-whats-different.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span>
+<span id="cb96-2"><a href="rtorch-vs-pytorch-whats-different.html#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="rtorch-vs-pytorch-whats-different.html#cb96-3" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">manual_seed</span>(<span class="dv">0</span>)</span>
+<span id="cb96-4"><a href="rtorch-vs-pytorch-whats-different.html#cb96-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-5"><a href="rtorch-vs-pytorch-whats-different.html#cb96-5" aria-hidden="true" tabindex="-1"></a>device <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">device</span>(<span class="st">&#39;cpu&#39;</span>)</span>
+<span id="cb96-6"><a href="rtorch-vs-pytorch-whats-different.html#cb96-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Input (temp, rainfall, humidity)</span></span>
+<span id="cb96-7"><a href="rtorch-vs-pytorch-whats-different.html#cb96-7" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">=</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">list</span>(<span class="fu">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
+<span id="cb96-8"><a href="rtorch-vs-pytorch-whats-different.html#cb96-8" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>),</span>
+<span id="cb96-9"><a href="rtorch-vs-pytorch-whats-different.html#cb96-9" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
+<span id="cb96-10"><a href="rtorch-vs-pytorch-whats-different.html#cb96-10" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
+<span id="cb96-11"><a href="rtorch-vs-pytorch-whats-different.html#cb96-11" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)), <span class="at">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb96-12"><a href="rtorch-vs-pytorch-whats-different.html#cb96-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-13"><a href="rtorch-vs-pytorch-whats-different.html#cb96-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Targets (apples, oranges)</span></span>
+<span id="cb96-14"><a href="rtorch-vs-pytorch-whats-different.html#cb96-14" aria-hidden="true" tabindex="-1"></a>targets <span class="ot">=</span> np<span class="sc">$</span><span class="fu">array</span>(<span class="fu">list</span>(<span class="fu">list</span>(<span class="dv">56</span>, <span class="dv">70</span>), </span>
+<span id="cb96-15"><a href="rtorch-vs-pytorch-whats-different.html#cb96-15" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">list</span>(<span class="dv">81</span>, <span class="dv">101</span>),</span>
+<span id="cb96-16"><a href="rtorch-vs-pytorch-whats-different.html#cb96-16" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">list</span>(<span class="dv">119</span>, <span class="dv">133</span>),</span>
+<span id="cb96-17"><a href="rtorch-vs-pytorch-whats-different.html#cb96-17" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">list</span>(<span class="dv">22</span>, <span class="dv">37</span>), </span>
+<span id="cb96-18"><a href="rtorch-vs-pytorch-whats-different.html#cb96-18" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">list</span>(<span class="dv">103</span>, <span class="dv">119</span>)), <span class="at">dtype=</span><span class="st">&#39;float32&#39;</span>)</span>
+<span id="cb96-19"><a href="rtorch-vs-pytorch-whats-different.html#cb96-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-20"><a href="rtorch-vs-pytorch-whats-different.html#cb96-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-21"><a href="rtorch-vs-pytorch-whats-different.html#cb96-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert inputs and targets to tensors</span></span>
+<span id="cb96-22"><a href="rtorch-vs-pytorch-whats-different.html#cb96-22" aria-hidden="true" tabindex="-1"></a>inputs <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">from_numpy</span>(inputs)</span>
+<span id="cb96-23"><a href="rtorch-vs-pytorch-whats-different.html#cb96-23" aria-hidden="true" tabindex="-1"></a>targets <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">from_numpy</span>(targets)</span>
+<span id="cb96-24"><a href="rtorch-vs-pytorch-whats-different.html#cb96-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-25"><a href="rtorch-vs-pytorch-whats-different.html#cb96-25" aria-hidden="true" tabindex="-1"></a><span class="co"># random numbers for weights and biases. Then convert to double()</span></span>
+<span id="cb96-26"><a href="rtorch-vs-pytorch-whats-different.html#cb96-26" aria-hidden="true" tabindex="-1"></a>torch<span class="sc">$</span><span class="fu">set_default_dtype</span>(torch<span class="sc">$</span>float64)</span>
+<span id="cb96-27"><a href="rtorch-vs-pytorch-whats-different.html#cb96-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-28"><a href="rtorch-vs-pytorch-whats-different.html#cb96-28" aria-hidden="true" tabindex="-1"></a>w <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">randn</span>(2L, 3L, <span class="at">requires_grad=</span><span class="cn">TRUE</span>) <span class="co">#$double()</span></span>
+<span id="cb96-29"><a href="rtorch-vs-pytorch-whats-different.html#cb96-29" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">randn</span>(2L, <span class="at">requires_grad=</span><span class="cn">TRUE</span>) <span class="co">#$double()</span></span>
+<span id="cb96-30"><a href="rtorch-vs-pytorch-whats-different.html#cb96-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-31"><a href="rtorch-vs-pytorch-whats-different.html#cb96-31" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb96-32"><a href="rtorch-vs-pytorch-whats-different.html#cb96-32" aria-hidden="true" tabindex="-1"></a>  wt <span class="ot">&lt;-</span> w<span class="sc">$</span><span class="fu">t</span>()</span>
+<span id="cb96-33"><a href="rtorch-vs-pytorch-whats-different.html#cb96-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(torch<span class="sc">$</span><span class="fu">add</span>(torch<span class="sc">$</span><span class="fu">mm</span>(x, wt), b))</span>
+<span id="cb96-34"><a href="rtorch-vs-pytorch-whats-different.html#cb96-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb96-35"><a href="rtorch-vs-pytorch-whats-different.html#cb96-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-36"><a href="rtorch-vs-pytorch-whats-different.html#cb96-36" aria-hidden="true" tabindex="-1"></a><span class="co"># MSE loss</span></span>
+<span id="cb96-37"><a href="rtorch-vs-pytorch-whats-different.html#cb96-37" aria-hidden="true" tabindex="-1"></a>mse <span class="ot">=</span> <span class="cf">function</span>(t1, t2) {</span>
+<span id="cb96-38"><a href="rtorch-vs-pytorch-whats-different.html#cb96-38" aria-hidden="true" tabindex="-1"></a>  diff <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">sub</span>(t1, t2)</span>
+<span id="cb96-39"><a href="rtorch-vs-pytorch-whats-different.html#cb96-39" aria-hidden="true" tabindex="-1"></a>  mul <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">sum</span>(torch<span class="sc">$</span><span class="fu">mul</span>(diff, diff))</span>
+<span id="cb96-40"><a href="rtorch-vs-pytorch-whats-different.html#cb96-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(torch<span class="sc">$</span><span class="fu">div</span>(mul, diff<span class="sc">$</span><span class="fu">numel</span>()))</span>
+<span id="cb96-41"><a href="rtorch-vs-pytorch-whats-different.html#cb96-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb96-42"><a href="rtorch-vs-pytorch-whats-different.html#cb96-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-43"><a href="rtorch-vs-pytorch-whats-different.html#cb96-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Running all together</span></span>
+<span id="cb96-44"><a href="rtorch-vs-pytorch-whats-different.html#cb96-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust weights and reset gradients</span></span>
+<span id="cb96-45"><a href="rtorch-vs-pytorch-whats-different.html#cb96-45" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) {</span>
+<span id="cb96-46"><a href="rtorch-vs-pytorch-whats-different.html#cb96-46" aria-hidden="true" tabindex="-1"></a>  preds <span class="ot">=</span> <span class="fu">model</span>(inputs)</span>
+<span id="cb96-47"><a href="rtorch-vs-pytorch-whats-different.html#cb96-47" aria-hidden="true" tabindex="-1"></a>  loss <span class="ot">=</span> <span class="fu">mse</span>(preds, targets)</span>
+<span id="cb96-48"><a href="rtorch-vs-pytorch-whats-different.html#cb96-48" aria-hidden="true" tabindex="-1"></a>  loss<span class="sc">$</span><span class="fu">backward</span>()</span>
+<span id="cb96-49"><a href="rtorch-vs-pytorch-whats-different.html#cb96-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">with</span>(torch<span class="sc">$</span><span class="fu">no_grad</span>(), {</span>
+<span id="cb96-50"><a href="rtorch-vs-pytorch-whats-different.html#cb96-50" aria-hidden="true" tabindex="-1"></a>    w<span class="sc">$</span>data <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">sub</span>(w<span class="sc">$</span>data, torch<span class="sc">$</span><span class="fu">mul</span>(w<span class="sc">$</span>grad, torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb96-51"><a href="rtorch-vs-pytorch-whats-different.html#cb96-51" aria-hidden="true" tabindex="-1"></a>    b<span class="sc">$</span>data <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">sub</span>(b<span class="sc">$</span>data, torch<span class="sc">$</span><span class="fu">mul</span>(b<span class="sc">$</span>grad, torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span>
+<span id="cb96-52"><a href="rtorch-vs-pytorch-whats-different.html#cb96-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb96-53"><a href="rtorch-vs-pytorch-whats-different.html#cb96-53" aria-hidden="true" tabindex="-1"></a>    w<span class="sc">$</span>grad<span class="sc">$</span><span class="fu">zero_</span>()</span>
+<span id="cb96-54"><a href="rtorch-vs-pytorch-whats-different.html#cb96-54" aria-hidden="true" tabindex="-1"></a>    b<span class="sc">$</span>grad<span class="sc">$</span><span class="fu">zero_</span>()</span>
+<span id="cb96-55"><a href="rtorch-vs-pytorch-whats-different.html#cb96-55" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb96-56"><a href="rtorch-vs-pytorch-whats-different.html#cb96-56" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb96-57"><a href="rtorch-vs-pytorch-whats-different.html#cb96-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-58"><a href="rtorch-vs-pytorch-whats-different.html#cb96-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate loss</span></span>
+<span id="cb96-59"><a href="rtorch-vs-pytorch-whats-different.html#cb96-59" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">=</span> <span class="fu">model</span>(inputs)</span>
+<span id="cb96-60"><a href="rtorch-vs-pytorch-whats-different.html#cb96-60" aria-hidden="true" tabindex="-1"></a>loss <span class="ot">=</span> <span class="fu">mse</span>(preds, targets)</span>
+<span id="cb96-61"><a href="rtorch-vs-pytorch-whats-different.html#cb96-61" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Loss: &quot;</span>); <span class="fu">print</span>(loss)</span>
+<span id="cb96-62"><a href="rtorch-vs-pytorch-whats-different.html#cb96-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-63"><a href="rtorch-vs-pytorch-whats-different.html#cb96-63" aria-hidden="true" tabindex="-1"></a><span class="co"># predictions</span></span>
+<span id="cb96-64"><a href="rtorch-vs-pytorch-whats-different.html#cb96-64" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Predictions:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb96-65"><a href="rtorch-vs-pytorch-whats-different.html#cb96-65" aria-hidden="true" tabindex="-1"></a>preds</span>
+<span id="cb96-66"><a href="rtorch-vs-pytorch-whats-different.html#cb96-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-67"><a href="rtorch-vs-pytorch-whats-different.html#cb96-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Targets</span></span>
+<span id="cb96-68"><a href="rtorch-vs-pytorch-whats-different.html#cb96-68" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Targets:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb96-69"><a href="rtorch-vs-pytorch-whats-different.html#cb96-69" aria-hidden="true" tabindex="-1"></a>targets</span></code></pre></div>
+<pre><code>#&gt; &lt;torch._C.Generator&gt;
+#&gt; Loss: tensor(1270.1237, grad_fn=&lt;DivBackward0&gt;)
+#&gt; 
+#&gt; Predictions:
+#&gt; tensor([[ 69.3122,  80.2639],
+#&gt;         [ 73.7528,  97.2381],
+#&gt;         [118.3933, 124.7628],
+#&gt;         [ 89.6111,  93.0286],
+#&gt;         [ 47.3013,  80.6467]], grad_fn=&lt;AddBackward0&gt;)
+#&gt; 
+#&gt; Targets:
+#&gt; tensor([[ 56.,  70.],
+#&gt;         [ 81., 101.],
+#&gt;         [119., 133.],
+#&gt;         [ 22.,  37.],
+#&gt;         [103., 119.]])</code></pre>
+<p>Notice that while we are in Python, the tensor operation, gradient (<span class="math inline">\(\nabla\)</span>) of the weights <span class="math inline">\(w\)</span> times the <strong>Learning Rate</strong> <span class="math inline">\(\alpha\)</span>, is:</p>
+<p><span class="math display">\[w = -w + \nabla w \; \alpha\]</span></p>
+<p>In Python, it is a very straight forwward and clean code:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb98-1"><a href="rtorch-vs-pytorch-whats-different.html#cb98-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">-=</span> w.grad <span class="op">*</span> <span class="fl">1e-5</span></span></code></pre></div>
+<p>In R, without generics, it shows a little bit more convoluted:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="rtorch-vs-pytorch-whats-different.html#cb99-1" aria-hidden="true" tabindex="-1"></a>w<span class="sc">$</span>data <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">sub</span>(w<span class="sc">$</span>data, torch<span class="sc">$</span><span class="fu">mul</span>(w<span class="sc">$</span>grad, torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(<span class="fl">1e-5</span>)))</span></code></pre></div>
+</div>
+</div>
+<div id="r-generics-for-pytorch-functions" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> R generics for PyTorch functions</h2>
+<p>Which why we simplified these common operations using the R generic function. When we use the generic methods from <strong>rTorch</strong> the operation looks much neater.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="rtorch-vs-pytorch-whats-different.html#cb100-1" aria-hidden="true" tabindex="-1"></a>w<span class="sc">$</span>data <span class="ot">&lt;-</span> w<span class="sc">$</span>data <span class="sc">-</span> w<span class="sc">$</span>grad <span class="sc">*</span> <span class="fl">1e-5</span></span></code></pre></div>
+<p>The following two expressions are equivalent, with the first being the long version natural way of doing it in <strong>PyTorch</strong>. The second is using the generics in R for subtraction, multiplication and scalar conversion.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="rtorch-vs-pytorch-whats-different.html#cb101-1" aria-hidden="true" tabindex="-1"></a>param<span class="sc">$</span>data <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">sub</span>(param<span class="sc">$</span>data,</span>
+<span id="cb101-2"><a href="rtorch-vs-pytorch-whats-different.html#cb101-2" aria-hidden="true" tabindex="-1"></a>                        torch<span class="sc">$</span><span class="fu">mul</span>(param<span class="sc">$</span>grad<span class="sc">$</span><span class="fu">float</span>(),</span>
+<span id="cb101-3"><a href="rtorch-vs-pytorch-whats-different.html#cb101-3" aria-hidden="true" tabindex="-1"></a>                          torch<span class="sc">$</span><span class="fu">scalar_tensor</span>(learning_rate)))</span>
+<span id="cb101-4"><a href="rtorch-vs-pytorch-whats-different.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="rtorch-vs-pytorch-whats-different.html#cb102-1" aria-hidden="true" tabindex="-1"></a>param<span class="sc">$</span>data <span class="ot">&lt;-</span> param<span class="sc">$</span>data <span class="sc">-</span> param<span class="sc">$</span>grad <span class="sc">*</span> learning_rate</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="pytorch-and-numpy.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="converting-tensors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/f0nzie/rtorch-minimal-book/edit/main/0103-rtorch_pytorch_whats_different.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,20 +1,21 @@
 bookdown::gitbook:
-  css: css/style.css
-  config:
-    sharing:
-        github: yes
-        facebook: no
-        twitter: no
-    toc:
-      before: |
-        <li><a href="./">A Minimal rTorch Book</a></li>
-      after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-    download: ["pdf"]
-    
-bookdown::pdf_book:
   includes:
-    in_header: preamble.tex
-  latex_engine: xelatex
-  citation_package: natbib
-  keep_tex: yes
+    in_header: hide_code.html
+  split_bib: false
+  # highlight options: tango, kate, pygments, textmate
+  highlight: kate
+  config:
+    toc:
+      # collapse: none
+      before: |
+        <li><a href="./">The rTorch Minimal Book</a></li>
+      after: |
+        <li><a href="https://github.com/f0nzie/rtorch-minimal-book" target="blank">Book source code</a></li>
+        <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+    download: no
+    edit: https://github.com/f0nzie/rtorch-minimal-book/edit/main/%s
+    sharing:
+      facebook: no
+      twitter: no
+      
+      
