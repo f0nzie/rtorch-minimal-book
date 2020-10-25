@@ -14,10 +14,37 @@ This is a frequent operation. I have found that this is necessary when:
 * We need to convert a tensor to R
 * Perform a boolean operation that is not directly available in PyTorch
 
+```{r}
+x <- torch$arange(1, 10)
+y <- x^2
+```
+
+If we attempt to plot these two tensors we get an error:
+
+```{r, error=TRUE}
+plot(x, y)
+```
+They need to be converted to `numpy`, and then to R (which happens in the background):
+
+```{r}
+plot(x$numpy(), y$numpy())
+```
+
 ## `numpy` array to tensor
 * Explain how transform a tensor back and forth to `numpy`.
 * Why is this important?
 * In what cases in this necessary?
+
+```{r}
+p <- np$arange(1, 10)
+class(p)
+```
+```{r}
+(pt <- torch$as_tensor(p))
+```
+```{r}
+class(pt)
+```
 
 
 ### `numpy` array to `R`
@@ -31,4 +58,23 @@ This is mainly required for these reasons:
 
 ## R objects to `numpy` objects
 
-* TODO
+Given the R matrix $m$:
+
+```{r}
+m <- matrix(seq(1,10), nrow = 2)
+m
+```
+We explicitly convert it to a `numpy` object with the function `r_to_py()`:
+
+```{r}
+(mp <- r_to_py(m))
+```
+
+```{r}
+class(mp)
+```
+
+```{r}
+class(mp)
+```
+
