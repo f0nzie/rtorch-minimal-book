@@ -1,12 +1,12 @@
 # PyTorch and NumPy
 
-_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0102-pytorch_and_numpy.Rmd", intern = TRUE)`_
+*Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0102-pytorch_and_numpy.Rmd", intern = TRUE)`*
 
 ## PyTorch modules in `rTorch`
 
 ### torchvision
 
-This is an example of using the `torchvision` module. With `torchvision` we could download any of the datasets made available by PyTorch. In this example, we will be downloading the training dataset of the **MNIST** handwritten digits. There are 60,000 images in the training set and 10,000 images in the test set. The images will download on the folder `./datasets`.
+This is an example of using the `torchvision` module. With `torchvision` we could download any of the datasets made available by PyTorch. In this example, we will be downloading the training dataset of the **MNIST** handwritten digits. There are 60,000 images in the training set and 10,000 images in the test set. The images will download on the folder `./datasets` which can be set with the parameter `root`.
 
 ```{r download-mnist-train}
 library(rTorch)
@@ -35,14 +35,14 @@ test_dataset
 
 ### numpy
 
-`numpy` is automaticaly installed when `PyTorch` is. There is some interdependence between both. Anytime that we need to do some transformation that is not available in `PyTorch`, we will use `numpy`. Just keep in mind that `numpy` does not have support for *GPUs*.
-
+`numpy` is automatically installed when `PyTorch` is. There is some interdependence between both. Anytime that we need to do some transformation that is not available in `PyTorch`, we will use `numpy`. Just keep in mind that `numpy` does not have support for *GPUs*.
 
 ## Common array operations
 
 There are several operations that we could perform with `numpy` such creating arrays:
 
 ### Create an array {.unnumbered}
+
 Create an array:
 
 ```{r}
@@ -61,16 +61,16 @@ Create an array by spelling out its components and `type`:
 
 ```{r}
 np$array(list(
-             list(73, 67, 43),
-             list(87, 134, 58),
-             list(102, 43, 37),
-             list(73, 67, 43), 
-             list(91, 88, 64), 
-             list(102, 43, 37), 
-             list(69, 96, 70), 
-             list(91, 88, 64), 
-             list(102, 43, 37), 
-             list(69, 96, 70)
+             list( 73,  67,  43),
+             list( 87, 134,  58),
+             list(102,  43,  37),
+             list( 73,  67,  43), 
+             list( 91,  88,  64), 
+             list(102,  43,  37), 
+             list( 69,  96,  70), 
+             list( 91,  88,  64), 
+             list(102,  43,  37), 
+             list( 69,  96,  70)
            ), dtype='float32')
 ```
 
@@ -84,7 +84,6 @@ For the same `test` dataset that we loaded above from `MNIST` digits, we will sh
 2.  Convert the tensor to a numpy array
 3.  Reshape the tensor as a 2D array
 4.  Plot the digit and its label
-
 
 ```{r fig.asp=1}
 rotate <- function(x) t(apply(x, 2, rev))   # function to rotate the matrix
@@ -102,6 +101,8 @@ show_img <- np$reshape(.show_img, c(28L, 28L))
 dim(show_img)
 ```
 
+We are simply using the `r-base` `image` function:
+
 ```{r fig.asp=1}
 # show in gray shades and rotate
 image(rotate(show_img), col = gray.colors(64))
@@ -115,14 +116,13 @@ title(label)
 np$random$seed(123L)
 # generate a random array
 x = np$random$rand(100L)
-x
+dim(x)
 # calculate the y array
 y = np$sin(x) * np$power(x, 3L) + 3L * x + np$random$rand(100L) * 0.8
-class(x)
 class(y)
 ```
 
-From the classes, we can tell that the `numpy` arrays are automatically converted to `R` arrays.
+From the classes, we can tell that the `numpy` arrays are automatically converted to `R` arrays. Let's plot `x` vs `y`:
 
 ```{r, fig.asp=1}
 plot(x, y)
@@ -132,7 +132,7 @@ plot(x, y)
 
 ### Generate random tensors {.unnumbered}
 
-The same operation can be performed with pure `torch` tensors:
+The same operation can be performed with pure torch tensors:. This is very similar to the example above. The only difference is that this time we are using tensors and not `numpy` arrays.
 
 ```{r, fig.asp=1, results="hold"}
 library(rTorch)
@@ -144,7 +144,7 @@ class(x)
 class(y)
 ```
 
-Since the clasess are `torch` tensors, to plot them in R, they need to be converted to numpy, and then R:
+Since the classes are `torch` tensors, to plot them in R, they first need to be converted to numpy, and then to R:
 
 ```{r, fig.asp=1}
 plot(x$numpy(), y$numpy())
@@ -176,16 +176,16 @@ Xt <- torch$FloatTensor(Xn)
 Xt
 ```
 
-
 ## Python built-in functions
 
 To access the Python built-in functions we make use of the package `reticulate` and the function `import_builtins()`.
 
-Here are part of the built-in functions and operators offered by `reticulate`:
+Here are part of the built-in functions and operators offered by the R package `reticulate`. I am using the R function `grep()` to discard those which carry the keywords `Error`, or `Warning`, or `Exit`.
 
 ```{r}
 py_bi <- import_builtins()
-grep("Error|Warning|Exit", names(py_bi), value = TRUE, invert = TRUE, perl = TRUE)
+grep("Error|Warning|Exit", names(py_bi), value = TRUE, invert = TRUE, 
+     perl = TRUE)
 
 ```
 
@@ -200,7 +200,7 @@ py_bi$len(test_dataset)
 
 #### Iterators {.unnumbered}
 
-Iterators are used a lot in dataset operations when running a neural network. In this example we will iterate through only 100 elements of the 60,000 of the `train` dataset. The goal is printing the "label" or "class" for the digits we are reading. The digits are not show here; they are stored in tensors.
+Iterators are used a lot in dataset operations when running a neural network. In this example we will iterate through only 100 elements of the 60,000 of the MNIST `train` dataset. The goal is printing the "label" or "class" for the digits we are reading. The digits are not show here; they are stored in tensors.
 
 <!-- we use results="hold" to wait for the header of the table -->
 
