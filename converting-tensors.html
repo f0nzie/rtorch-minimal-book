@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Converting tensors | A Minimal rTorch Book</title>
+  <title>Chapter 3 Converting tensors | A Minimal rTorch Book</title>
   <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Converting tensors | A Minimal rTorch Book" />
+  <meta property="og:title" content="Chapter 3 Converting tensors | A Minimal rTorch Book" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Converting tensors | A Minimal rTorch Book" />
+  <meta name="twitter:title" content="Chapter 3 Converting tensors | A Minimal rTorch Book" />
   
   <meta name="twitter:description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
   
@@ -32,7 +32,8 @@
   
   
 <link rel="prev" href="rtorch-vs-pytorch.html"/>
-<link rel="next" href="tensors.html"/>
+<link rel="next" href="linearalgebra.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,7 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
@@ -902,18 +902,17 @@ $(document).ready(function () {
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -934,9 +933,9 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-le
 div.sourceCode
   { color: #1f1c1b; background-color: #ffffff; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span. { color: #1f1c1b; } /* Normal */
+code span { color: #1f1c1b; } /* Normal */
 code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
 code span.an { color: #ca60ca; } /* Annotation */
 code span.at { color: #0057ae; } /* Attribute */
@@ -984,245 +983,290 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="./">The rTorch Minimal Book</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#example"><i class="fa fa-check"></i>Example</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#automatic-installation"><i class="fa fa-check"></i>Automatic installation</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>I Getting Started</b></span></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
-<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> Start using <code>rTorch</code></a><ul>
-<li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#get-the-pytorch-version"><i class="fa fa-check"></i><b>1.2.1</b> Get the PyTorch version</a></li>
-<li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#pytorch-configuration"><i class="fa fa-check"></i><b>1.2.2</b> PyTorch configuration</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#part-getting-started"><i class="fa fa-check"></i>(PART) Getting Started</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#motivation"><i class="fa fa-check"></i><b>0.1</b> Motivation</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#start-using-rtorch"><i class="fa fa-check"></i><b>0.2</b> Start using <code>rTorch</code></a>
+<ul>
+<li class="chapter" data-level="0.2.1" data-path="index.html"><a href="index.html#get-the-pytorch-version"><i class="fa fa-check"></i><b>0.2.1</b> Get the PyTorch version</a></li>
+<li class="chapter" data-level="0.2.2" data-path="index.html"><a href="index.html#pytorch-configuration"><i class="fa fa-check"></i><b>0.2.2</b> PyTorch configuration</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#what-can-you-do-with-rtorch"><i class="fa fa-check"></i><b>1.3</b> What can you do with <code>rTorch</code></a></li>
-<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#getting-help"><i class="fa fa-check"></i><b>1.4</b> Getting help</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#what-can-you-do-with-rtorch"><i class="fa fa-check"></i><b>0.3</b> What can you do with <code>rTorch</code></a></li>
+<li class="chapter" data-level="0.4" data-path="index.html"><a href="index.html#getting-help"><i class="fa fa-check"></i><b>0.4</b> Getting help</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a><ul>
-<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#pytorch-modules-in-rtorch"><i class="fa fa-check"></i><b>2.1</b> PyTorch modules in <code>rTorch</code></a><ul>
-<li class="chapter" data-level="2.1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#torchvision"><i class="fa fa-check"></i><b>2.1.1</b> torchvision</a></li>
-<li class="chapter" data-level="2.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#numpy"><i class="fa fa-check"></i><b>2.1.2</b> numpy</a></li>
+<li class="chapter" data-level="1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>1</b> PyTorch and NumPy</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#pytorch-modules-in-rtorch"><i class="fa fa-check"></i><b>1.1</b> PyTorch modules in <code>rTorch</code></a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#torchvision"><i class="fa fa-check"></i><b>1.1.1</b> torchvision</a></li>
+<li class="chapter" data-level="1.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#numpy"><i class="fa fa-check"></i><b>1.1.2</b> numpy</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-operations"><i class="fa fa-check"></i><b>2.2</b> Common array operations</a><ul>
+<li class="chapter" data-level="1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-operations"><i class="fa fa-check"></i><b>1.2</b> Common array operations</a>
+<ul>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#create-an-array"><i class="fa fa-check"></i>Create an array</a></li>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#reshape-an-array"><i class="fa fa-check"></i>Reshape an array</a></li>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-a-random-array-in-numpy"><i class="fa fa-check"></i>Generate a random array in NumPy</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-tensor-operations"><i class="fa fa-check"></i><b>2.3</b> Common tensor operations</a><ul>
+<li class="chapter" data-level="1.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-tensor-operations"><i class="fa fa-check"></i><b>1.3</b> Common tensor operations</a>
+<ul>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-random-tensors"><i class="fa fa-check"></i>Generate random tensors</a></li>
 <li><a href="pytorch-and-numpy.html#numpy-array-to-pytorch-tensor"><code>numpy</code> array to PyTorch tensor</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions"><i class="fa fa-check"></i><b>2.4</b> Python built-in functions</a></li>
+<li class="chapter" data-level="1.4" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions"><i class="fa fa-check"></i><b>1.4</b> Python built-in functions</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch</a><ul>
-<li class="chapter" data-level="3.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#whats-different"><i class="fa fa-check"></i><b>3.1</b> What’s different</a></li>
-<li class="chapter" data-level="3.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#calling-objects-from-pytorch"><i class="fa fa-check"></i><b>3.2</b> Calling objects from PyTorch</a></li>
-<li class="chapter" data-level="3.3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#call-functions-from-torch"><i class="fa fa-check"></i><b>3.3</b> Call functions from <code>torch</code></a></li>
-<li class="chapter" data-level="3.4" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#python-objects"><i class="fa fa-check"></i><b>3.4</b> Python objects</a></li>
-<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#iterating-through-datasets"><i class="fa fa-check"></i><b>3.5</b> Iterating through datasets</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#enumeration"><i class="fa fa-check"></i><b>3.5.1</b> Enumeration</a></li>
-<li class="chapter" data-level="3.5.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#enumerate-and-iterate"><i class="fa fa-check"></i><b>3.5.2</b> <code>enumerate</code> and <code>iterate</code></a></li>
-<li class="chapter" data-level="3.5.3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#for-loop-for-iteration"><i class="fa fa-check"></i><b>3.5.3</b> <code>for-loop</code> for iteration</a></li>
+<li class="chapter" data-level="2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html"><i class="fa fa-check"></i><b>2</b> rTorch vs PyTorch</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#whats-different"><i class="fa fa-check"></i><b>2.1</b> What’s different</a></li>
+<li class="chapter" data-level="2.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#calling-objects-from-pytorch"><i class="fa fa-check"></i><b>2.2</b> Calling objects from PyTorch</a></li>
+<li class="chapter" data-level="2.3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#call-functions-from-torch"><i class="fa fa-check"></i><b>2.3</b> Call functions from <code>torch</code></a></li>
+<li class="chapter" data-level="2.4" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#python-objects"><i class="fa fa-check"></i><b>2.4</b> Python objects</a></li>
+<li class="chapter" data-level="2.5" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#iterating-through-datasets"><i class="fa fa-check"></i><b>2.5</b> Iterating through datasets</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#enumeration"><i class="fa fa-check"></i><b>2.5.1</b> Enumeration</a></li>
+<li class="chapter" data-level="2.5.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#enumerate-and-iterate"><i class="fa fa-check"></i><b>2.5.2</b> <code>enumerate</code> and <code>iterate</code></a></li>
+<li class="chapter" data-level="2.5.3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#for-loop-for-iteration"><i class="fa fa-check"></i><b>2.5.3</b> <code>for-loop</code> for iteration</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#zero-gradient"><i class="fa fa-check"></i><b>3.6</b> Zero gradient</a><ul>
-<li class="chapter" data-level="3.6.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#code-version-in-python"><i class="fa fa-check"></i><b>3.6.1</b> Code version in Python</a></li>
-<li class="chapter" data-level="3.6.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#code-version-in-r"><i class="fa fa-check"></i><b>3.6.2</b> Code version in R</a></li>
+<li class="chapter" data-level="2.6" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#zero-gradient"><i class="fa fa-check"></i><b>2.6</b> Zero gradient</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#code-version-in-python"><i class="fa fa-check"></i><b>2.6.1</b> Code version in Python</a></li>
+<li class="chapter" data-level="2.6.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#code-version-in-r"><i class="fa fa-check"></i><b>2.6.2</b> Code version in R</a></li>
 </ul></li>
-<li class="chapter" data-level="3.7" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#r-generic-functions"><i class="fa fa-check"></i><b>3.7</b> R generic functions</a></li>
+<li class="chapter" data-level="2.7" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#r-generic-functions"><i class="fa fa-check"></i><b>2.7</b> R generic functions</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a><ul>
-<li class="chapter" data-level="4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-to-numpy-array"><i class="fa fa-check"></i><b>4.1</b> Tensor to <code>numpy</code> array</a></li>
-<li class="chapter" data-level="4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-tensor"><i class="fa fa-check"></i><b>4.2</b> <code>numpy</code> array to tensor</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-r"><i class="fa fa-check"></i><b>4.2.1</b> <code>numpy</code> array to <code>R</code></a></li>
+<li class="chapter" data-level="3" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>3</b> Converting tensors</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-to-numpy-array"><i class="fa fa-check"></i><b>3.1</b> Tensor to <code>numpy</code> array</a></li>
+<li class="chapter" data-level="3.2" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-tensor"><i class="fa fa-check"></i><b>3.2</b> <code>numpy</code> array to tensor</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-r"><i class="fa fa-check"></i><b>3.2.1</b> <code>numpy</code> array to <code>R</code></a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="converting-tensors.html"><a href="converting-tensors.html#r-objects-to-numpy-objects"><i class="fa fa-check"></i><b>4.3</b> R objects to <code>numpy</code> objects</a></li>
+<li class="chapter" data-level="3.3" data-path="converting-tensors.html"><a href="converting-tensors.html#r-objects-to-numpy-objects"><i class="fa fa-check"></i><b>3.3</b> R objects to <code>numpy</code> objects</a></li>
 </ul></li>
-<li class="part"><span><b>II Basic Tensor Operations</b></span></li>
-<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a><ul>
-<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="tensors.html"><a href="tensors.html#major-tensor-types"><i class="fa fa-check"></i><b>5.1.1</b> Major tensor types</a></li>
-<li class="chapter" data-level="5.1.2" data-path="tensors.html"><a href="tensors.html#example-a-4d-tensor"><i class="fa fa-check"></i><b>5.1.2</b> Example: A 4D tensor</a></li>
-<li class="chapter" data-level="5.1.3" data-path="tensors.html"><a href="tensors.html#example-a-3d-tensor"><i class="fa fa-check"></i><b>5.1.3</b> Example: A 3D tensor</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#part-basic-tensor-operations"><i class="fa fa-check"></i>(PART) Basic Tensor Operations</a>
+<ul>
+<li class="chapter" data-level="3.4" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>3.4</b> Tensor data types</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#major-tensor-types"><i class="fa fa-check"></i><b>3.4.1</b> Major tensor types</a></li>
+<li class="chapter" data-level="3.4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#example-a-4d-tensor"><i class="fa fa-check"></i><b>3.4.2</b> Example: A 4D tensor</a></li>
+<li class="chapter" data-level="3.4.3" data-path="converting-tensors.html"><a href="converting-tensors.html#example-a-3d-tensor"><i class="fa fa-check"></i><b>3.4.3</b> Example: A 3D tensor</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="tensors.html"><a href="tensors.html#add-tensors"><i class="fa fa-check"></i><b>5.2.1</b> Add tensors</a></li>
-<li class="chapter" data-level="5.2.2" data-path="tensors.html"><a href="tensors.html#add-tensor-elements"><i class="fa fa-check"></i><b>5.2.2</b> Add tensor elements</a></li>
-<li class="chapter" data-level="5.2.3" data-path="tensors.html"><a href="tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>5.2.3</b> Multiply a tensor by a scalar</a></li>
+<li class="chapter" data-level="3.5" data-path="converting-tensors.html"><a href="converting-tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>3.5</b> Arithmetic of tensors</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="converting-tensors.html"><a href="converting-tensors.html#add-tensors"><i class="fa fa-check"></i><b>3.5.1</b> Add tensors</a></li>
+<li class="chapter" data-level="3.5.2" data-path="converting-tensors.html"><a href="converting-tensors.html#add-tensor-elements"><i class="fa fa-check"></i><b>3.5.2</b> Add tensor elements</a></li>
+<li class="chapter" data-level="3.5.3" data-path="converting-tensors.html"><a href="converting-tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>3.5.3</b> Multiply a tensor by a scalar</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#python-tuples-and-r-vectors"><i class="fa fa-check"></i><b>5.3.1</b> Python Tuples and R vectors</a></li>
-<li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#a-numpy-array-from-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> A numpy array from R vectors</a></li>
-<li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#numpy-arrays-to-tensors"><i class="fa fa-check"></i><b>5.3.3</b> numpy arrays to tensors</a></li>
-<li class="chapter" data-level="5.3.4" data-path="tensors.html"><a href="tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>5.3.4</b> Create and fill a tensor</a></li>
-<li class="chapter" data-level="5.3.5" data-path="tensors.html"><a href="tensors.html#tensor-to-array-and-viceversa"><i class="fa fa-check"></i><b>5.3.5</b> Tensor to array, and viceversa</a></li>
+<li class="chapter" data-level="3.6" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>3.6</b> NumPy and PyTorch</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="converting-tensors.html"><a href="converting-tensors.html#python-tuples-and-r-vectors"><i class="fa fa-check"></i><b>3.6.1</b> Python Tuples and R vectors</a></li>
+<li class="chapter" data-level="3.6.2" data-path="converting-tensors.html"><a href="converting-tensors.html#a-numpy-array-from-r-vectors"><i class="fa fa-check"></i><b>3.6.2</b> A numpy array from R vectors</a></li>
+<li class="chapter" data-level="3.6.3" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-arrays-to-tensors"><i class="fa fa-check"></i><b>3.6.3</b> numpy arrays to tensors</a></li>
+<li class="chapter" data-level="3.6.4" data-path="converting-tensors.html"><a href="converting-tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>3.6.4</b> Create and fill a tensor</a></li>
+<li class="chapter" data-level="3.6.5" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-to-array-and-viceversa"><i class="fa fa-check"></i><b>3.6.5</b> Tensor to array, and viceversa</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a><ul>
-<li class="chapter" data-level="5.4.1" data-path="tensors.html"><a href="tensors.html#tensor-fill"><i class="fa fa-check"></i><b>5.4.1</b> Tensor fill</a></li>
-<li class="chapter" data-level="5.4.2" data-path="tensors.html"><a href="tensors.html#tensor-with-a-range-of-values"><i class="fa fa-check"></i><b>5.4.2</b> Tensor with a range of values</a></li>
-<li class="chapter" data-level="5.4.3" data-path="tensors.html"><a href="tensors.html#linear-or-log-scale-tensor"><i class="fa fa-check"></i><b>5.4.3</b> Linear or log scale Tensor</a></li>
-<li class="chapter" data-level="5.4.4" data-path="tensors.html"><a href="tensors.html#in-place-out-of-place-fill"><i class="fa fa-check"></i><b>5.4.4</b> In-place / Out-of-place fill</a></li>
+<li class="chapter" data-level="3.7" data-path="converting-tensors.html"><a href="converting-tensors.html#create-tensors"><i class="fa fa-check"></i><b>3.7</b> Create tensors</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-fill"><i class="fa fa-check"></i><b>3.7.1</b> Tensor fill</a></li>
+<li class="chapter" data-level="3.7.2" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-with-a-range-of-values"><i class="fa fa-check"></i><b>3.7.2</b> Tensor with a range of values</a></li>
+<li class="chapter" data-level="3.7.3" data-path="converting-tensors.html"><a href="converting-tensors.html#linear-or-log-scale-tensor"><i class="fa fa-check"></i><b>3.7.3</b> Linear or log scale Tensor</a></li>
+<li class="chapter" data-level="3.7.4" data-path="converting-tensors.html"><a href="converting-tensors.html#in-place-out-of-place-fill"><i class="fa fa-check"></i><b>3.7.4</b> In-place / Out-of-place fill</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="tensors.html"><a href="tensors.html#exercise"><i class="fa fa-check"></i><b>5.5.1</b> Exercise</a></li>
+<li class="chapter" data-level="3.8" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>3.8</b> Tensor resizing</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="converting-tensors.html"><a href="converting-tensors.html#exercise"><i class="fa fa-check"></i><b>3.8.1</b> Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a><ul>
-<li class="chapter" data-level="5.6.1" data-path="tensors.html"><a href="tensors.html#concatenate-by-rows"><i class="fa fa-check"></i><b>5.6.1</b> Concatenate by rows</a></li>
-<li class="chapter" data-level="5.6.2" data-path="tensors.html"><a href="tensors.html#concatenate-by-columns"><i class="fa fa-check"></i><b>5.6.2</b> Concatenate by columns</a></li>
+<li class="chapter" data-level="3.9" data-path="converting-tensors.html"><a href="converting-tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>3.9</b> Concatenate tensors</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="converting-tensors.html"><a href="converting-tensors.html#concatenate-by-rows"><i class="fa fa-check"></i><b>3.9.1</b> Concatenate by rows</a></li>
+<li class="chapter" data-level="3.9.2" data-path="converting-tensors.html"><a href="converting-tensors.html#concatenate-by-columns"><i class="fa fa-check"></i><b>3.9.2</b> Concatenate by columns</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a><ul>
-<li class="chapter" data-level="5.7.1" data-path="tensors.html"><a href="tensors.html#with-chunk"><i class="fa fa-check"></i><b>5.7.1</b> With <code>chunk()</code>:</a></li>
-<li class="chapter" data-level="5.7.2" data-path="tensors.html"><a href="tensors.html#with-index_select"><i class="fa fa-check"></i><b>5.7.2</b> With <code>index_select()</code>:</a></li>
+<li class="chapter" data-level="3.10" data-path="converting-tensors.html"><a href="converting-tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>3.10</b> Reshape tensors</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="converting-tensors.html"><a href="converting-tensors.html#with-chunk"><i class="fa fa-check"></i><b>3.10.1</b> With <code>chunk()</code>:</a></li>
+<li class="chapter" data-level="3.10.2" data-path="converting-tensors.html"><a href="converting-tensors.html#with-index_select"><i class="fa fa-check"></i><b>3.10.2</b> With <code>index_select()</code>:</a></li>
 </ul></li>
-<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a><ul>
-<li class="chapter" data-level="5.8.1" data-path="tensors.html"><a href="tensors.html#identity-matrix"><i class="fa fa-check"></i><b>5.8.1</b> Identity matrix</a></li>
-<li class="chapter" data-level="5.8.2" data-path="tensors.html"><a href="tensors.html#ones"><i class="fa fa-check"></i><b>5.8.2</b> Ones</a></li>
-<li class="chapter" data-level="5.8.3" data-path="tensors.html"><a href="tensors.html#zeros"><i class="fa fa-check"></i><b>5.8.3</b> Zeros</a></li>
-<li class="chapter" data-level="5.8.4" data-path="tensors.html"><a href="tensors.html#diagonal-operations"><i class="fa fa-check"></i><b>5.8.4</b> Diagonal operations</a></li>
+<li class="chapter" data-level="3.11" data-path="converting-tensors.html"><a href="converting-tensors.html#special-tensors"><i class="fa fa-check"></i><b>3.11</b> Special tensors</a>
+<ul>
+<li class="chapter" data-level="3.11.1" data-path="converting-tensors.html"><a href="converting-tensors.html#identity-matrix"><i class="fa fa-check"></i><b>3.11.1</b> Identity matrix</a></li>
+<li class="chapter" data-level="3.11.2" data-path="converting-tensors.html"><a href="converting-tensors.html#ones"><i class="fa fa-check"></i><b>3.11.2</b> Ones</a></li>
+<li class="chapter" data-level="3.11.3" data-path="converting-tensors.html"><a href="converting-tensors.html#zeros"><i class="fa fa-check"></i><b>3.11.3</b> Zeros</a></li>
+<li class="chapter" data-level="3.11.4" data-path="converting-tensors.html"><a href="converting-tensors.html#diagonal-operations"><i class="fa fa-check"></i><b>3.11.4</b> Diagonal operations</a></li>
 </ul></li>
-<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a><ul>
-<li class="chapter" data-level="5.9.1" data-path="tensors.html"><a href="tensors.html#indices-to-tensor-elements"><i class="fa fa-check"></i><b>5.9.1</b> Indices to tensor elements</a></li>
-<li class="chapter" data-level="5.9.2" data-path="tensors.html"><a href="tensors.html#using-the-take-function"><i class="fa fa-check"></i><b>5.9.2</b> Using the <code>take</code> function</a></li>
+<li class="chapter" data-level="3.12" data-path="converting-tensors.html"><a href="converting-tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>3.12</b> Access to tensor elements</a>
+<ul>
+<li class="chapter" data-level="3.12.1" data-path="converting-tensors.html"><a href="converting-tensors.html#indices-to-tensor-elements"><i class="fa fa-check"></i><b>3.12.1</b> Indices to tensor elements</a></li>
+<li class="chapter" data-level="3.12.2" data-path="converting-tensors.html"><a href="converting-tensors.html#using-the-take-function"><i class="fa fa-check"></i><b>3.12.2</b> Using the <code>take</code> function</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a><ul>
-<li class="chapter" data-level="5.10.1" data-path="tensors.html"><a href="tensors.html#cross-product"><i class="fa fa-check"></i><b>5.10.1</b> Cross product</a></li>
-<li class="chapter" data-level="5.10.2" data-path="tensors.html"><a href="tensors.html#dot-product"><i class="fa fa-check"></i><b>5.10.2</b> Dot product</a></li>
+<li class="chapter" data-level="3.13" data-path="converting-tensors.html"><a href="converting-tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>3.13</b> Other tensor operations</a>
+<ul>
+<li class="chapter" data-level="3.13.1" data-path="converting-tensors.html"><a href="converting-tensors.html#cross-product"><i class="fa fa-check"></i><b>3.13.1</b> Cross product</a></li>
+<li class="chapter" data-level="3.13.2" data-path="converting-tensors.html"><a href="converting-tensors.html#dot-product"><i class="fa fa-check"></i><b>3.13.2</b> Dot product</a></li>
 </ul></li>
-<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a><ul>
-<li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Extract a unique logical result</a></li>
-<li class="chapter" data-level="5.11.2" data-path="tensors.html"><a href="tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>5.11.2</b> Greater than (<code>gt</code>)</a></li>
-<li class="chapter" data-level="5.11.3" data-path="tensors.html"><a href="tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>5.11.3</b> Less than or equal (<code>le</code>)</a></li>
-<li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (<code>!</code>)</a></li>
+<li class="chapter" data-level="3.14" data-path="converting-tensors.html"><a href="converting-tensors.html#logical-operations"><i class="fa fa-check"></i><b>3.14</b> Logical operations</a>
+<ul>
+<li class="chapter" data-level="3.14.1" data-path="converting-tensors.html"><a href="converting-tensors.html#extract-a-unique-logical-result"><i class="fa fa-check"></i><b>3.14.1</b> Extract a unique logical result</a></li>
+<li class="chapter" data-level="3.14.2" data-path="converting-tensors.html"><a href="converting-tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>3.14.2</b> Greater than (<code>gt</code>)</a></li>
+<li class="chapter" data-level="3.14.3" data-path="converting-tensors.html"><a href="converting-tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>3.14.3</b> Less than or equal (<code>le</code>)</a></li>
+<li class="chapter" data-level="3.14.4" data-path="converting-tensors.html"><a href="converting-tensors.html#logical-not"><i class="fa fa-check"></i><b>3.14.4</b> Logical NOT (<code>!</code>)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a><ul>
-<li class="chapter" data-level="5.12.1" data-path="tensors.html"><a href="tensors.html#uniform-matrix"><i class="fa fa-check"></i><b>5.12.1</b> Uniform matrix</a></li>
-<li class="chapter" data-level="5.12.2" data-path="tensors.html"><a href="tensors.html#binomial-distribution"><i class="fa fa-check"></i><b>5.12.2</b> Binomial distribution</a></li>
-<li class="chapter" data-level="5.12.3" data-path="tensors.html"><a href="tensors.html#exponential-distribution"><i class="fa fa-check"></i><b>5.12.3</b> Exponential distribution</a></li>
-<li class="chapter" data-level="5.12.4" data-path="tensors.html"><a href="tensors.html#weibull-distribution"><i class="fa fa-check"></i><b>5.12.4</b> Weibull distribution</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a><ul>
-<li class="chapter" data-level="6.1" data-path="linearalgebra.html"><a href="linearalgebra.html#scalars"><i class="fa fa-check"></i><b>6.1</b> Scalars</a></li>
-<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="linearalgebra.html"><a href="linearalgebra.html#vector-to-matrix"><i class="fa fa-check"></i><b>6.2.1</b> Vector to matrix</a></li>
-<li class="chapter" data-level="6.2.2" data-path="linearalgebra.html"><a href="linearalgebra.html#matrix-to-tensor"><i class="fa fa-check"></i><b>6.2.2</b> Matrix to tensor</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="linearalgebra.html"><a href="linearalgebra.html#matrices"><i class="fa fa-check"></i><b>6.3</b> Matrices</a></li>
-<li class="chapter" data-level="6.4" data-path="linearalgebra.html"><a href="linearalgebra.html#d-tensors"><i class="fa fa-check"></i><b>6.4</b> 3D+ tensors</a></li>
-<li class="chapter" data-level="6.5" data-path="linearalgebra.html"><a href="linearalgebra.html#transpose-of-a-matrix"><i class="fa fa-check"></i><b>6.5</b> Transpose of a matrix</a></li>
-<li class="chapter" data-level="6.6" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors-special-case-of-a-matrix"><i class="fa fa-check"></i><b>6.6</b> Vectors, special case of a matrix</a></li>
-<li class="chapter" data-level="6.7" data-path="linearalgebra.html"><a href="linearalgebra.html#tensor-arithmetic"><i class="fa fa-check"></i><b>6.7</b> Tensor arithmetic</a></li>
-<li class="chapter" data-level="6.8" data-path="linearalgebra.html"><a href="linearalgebra.html#add-a-scalar-to-a-tensor"><i class="fa fa-check"></i><b>6.8</b> Add a scalar to a tensor</a></li>
-<li class="chapter" data-level="6.9" data-path="linearalgebra.html"><a href="linearalgebra.html#multiplying-tensors"><i class="fa fa-check"></i><b>6.9</b> Multiplying tensors</a></li>
-<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a><ul>
-<li class="chapter" data-level="6.10.1" data-path="linearalgebra.html"><a href="linearalgebra.html#d-array-using-python"><i class="fa fa-check"></i><b>6.10.1</b> 2D array using Python</a></li>
-<li class="chapter" data-level="6.10.2" data-path="linearalgebra.html"><a href="linearalgebra.html#d-array-using-r"><i class="fa fa-check"></i><b>6.10.2</b> 2D array using R</a></li>
-<li class="chapter" data-level="6.10.3" data-path="linearalgebra.html"><a href="linearalgebra.html#mm-and-matmul-functions"><i class="fa fa-check"></i><b>6.10.3</b> <code>mm</code> and <code>matmul</code> functions</a></li>
+<li class="chapter" data-level="3.15" data-path="converting-tensors.html"><a href="converting-tensors.html#distributions"><i class="fa fa-check"></i><b>3.15</b> Distributions</a>
+<ul>
+<li class="chapter" data-level="3.15.1" data-path="converting-tensors.html"><a href="converting-tensors.html#uniform-matrix"><i class="fa fa-check"></i><b>3.15.1</b> Uniform matrix</a></li>
+<li class="chapter" data-level="3.15.2" data-path="converting-tensors.html"><a href="converting-tensors.html#binomial-distribution"><i class="fa fa-check"></i><b>3.15.2</b> Binomial distribution</a></li>
+<li class="chapter" data-level="3.15.3" data-path="converting-tensors.html"><a href="converting-tensors.html#exponential-distribution"><i class="fa fa-check"></i><b>3.15.3</b> Exponential distribution</a></li>
+<li class="chapter" data-level="3.15.4" data-path="converting-tensors.html"><a href="converting-tensors.html#weibull-distribution"><i class="fa fa-check"></i><b>3.15.4</b> Weibull distribution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a><ul>
-<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a><ul>
-<li class="chapter" data-level="7.1.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-1-one-layer-nn"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: One layer NN</a></li>
-<li class="chapter" data-level="7.1.2" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-2-logistic-regression"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: Logistic Regression</a></li>
+<li class="chapter" data-level="4" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>4</b> Linear Algebra with Torch</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="linearalgebra.html"><a href="linearalgebra.html#scalars"><i class="fa fa-check"></i><b>4.1</b> Scalars</a></li>
+<li class="chapter" data-level="4.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>4.2</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="linearalgebra.html"><a href="linearalgebra.html#vector-to-matrix"><i class="fa fa-check"></i><b>4.2.1</b> Vector to matrix</a></li>
+<li class="chapter" data-level="4.2.2" data-path="linearalgebra.html"><a href="linearalgebra.html#matrix-to-tensor"><i class="fa fa-check"></i><b>4.2.2</b> Matrix to tensor</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="linearalgebra.html"><a href="linearalgebra.html#matrices"><i class="fa fa-check"></i><b>4.3</b> Matrices</a></li>
+<li class="chapter" data-level="4.4" data-path="linearalgebra.html"><a href="linearalgebra.html#d-tensors"><i class="fa fa-check"></i><b>4.4</b> 3D+ tensors</a></li>
+<li class="chapter" data-level="4.5" data-path="linearalgebra.html"><a href="linearalgebra.html#transpose-of-a-matrix"><i class="fa fa-check"></i><b>4.5</b> Transpose of a matrix</a></li>
+<li class="chapter" data-level="4.6" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors-special-case-of-a-matrix"><i class="fa fa-check"></i><b>4.6</b> Vectors, special case of a matrix</a></li>
+<li class="chapter" data-level="4.7" data-path="linearalgebra.html"><a href="linearalgebra.html#tensor-arithmetic"><i class="fa fa-check"></i><b>4.7</b> Tensor arithmetic</a></li>
+<li class="chapter" data-level="4.8" data-path="linearalgebra.html"><a href="linearalgebra.html#add-a-scalar-to-a-tensor"><i class="fa fa-check"></i><b>4.8</b> Add a scalar to a tensor</a></li>
+<li class="chapter" data-level="4.9" data-path="linearalgebra.html"><a href="linearalgebra.html#multiplying-tensors"><i class="fa fa-check"></i><b>4.9</b> Multiplying tensors</a></li>
+<li class="chapter" data-level="4.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>4.10</b> Dot product</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="linearalgebra.html"><a href="linearalgebra.html#d-array-using-python"><i class="fa fa-check"></i><b>4.10.1</b> 2D array using Python</a></li>
+<li class="chapter" data-level="4.10.2" data-path="linearalgebra.html"><a href="linearalgebra.html#d-array-using-r"><i class="fa fa-check"></i><b>4.10.2</b> 2D array using R</a></li>
+<li class="chapter" data-level="4.10.3" data-path="linearalgebra.html"><a href="linearalgebra.html#mm-and-matmul-functions"><i class="fa fa-check"></i><b>4.10.3</b> <code>mm</code> and <code>matmul</code> functions</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>III Logistic Regression</b></span></li>
-<li class="chapter" data-level="8" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem</a><ul>
-<li class="chapter" data-level="8.1" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html#code-in-python"><i class="fa fa-check"></i><b>8.1</b> Code in Python</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a><ul>
-<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="mnistdigits.html"><a href="mnistdigits.html#hyperparameters"><i class="fa fa-check"></i><b>9.1.1</b> Hyperparameters</a></li>
-<li class="chapter" data-level="9.1.2" data-path="mnistdigits.html"><a href="mnistdigits.html#read-datasets"><i class="fa fa-check"></i><b>9.1.2</b> Read datasets</a></li>
-<li class="chapter" data-level="9.1.3" data-path="mnistdigits.html"><a href="mnistdigits.html#define-the-model"><i class="fa fa-check"></i><b>9.1.3</b> Define the model</a></li>
-<li class="chapter" data-level="9.1.4" data-path="mnistdigits.html"><a href="mnistdigits.html#training"><i class="fa fa-check"></i><b>9.1.4</b> Training</a></li>
-<li class="chapter" data-level="9.1.5" data-path="mnistdigits.html"><a href="mnistdigits.html#prediction"><i class="fa fa-check"></i><b>9.1.5</b> Prediction</a></li>
-<li class="chapter" data-level="9.1.6" data-path="mnistdigits.html"><a href="mnistdigits.html#save-the-model"><i class="fa fa-check"></i><b>9.1.6</b> Save the model</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-python-1"><i class="fa fa-check"></i><b>9.2</b> Code in Python</a></li>
-</ul></li>
-<li class="part"><span><b>IV Linear Regression</b></span></li>
-<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a><ul>
-<li class="chapter" data-level="10.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
-<li class="chapter" data-level="10.2" data-path="linear-regression.html"><a href="linear-regression.html#generate-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Generate the dataset</a></li>
-<li class="chapter" data-level="10.3" data-path="linear-regression.html"><a href="linear-regression.html#convert-arrays-to-tensors"><i class="fa fa-check"></i><b>10.3</b> Convert arrays to tensors</a></li>
-<li class="chapter" data-level="10.4" data-path="linear-regression.html"><a href="linear-regression.html#numpy-array-to-tensor-1"><i class="fa fa-check"></i><b>10.4</b> <code>numpy</code> array to tensor</a></li>
-<li class="chapter" data-level="10.5" data-path="linear-regression.html"><a href="linear-regression.html#creating-the-network-model"><i class="fa fa-check"></i><b>10.5</b> Creating the network model</a></li>
-<li class="chapter" data-level="10.6" data-path="linear-regression.html"><a href="linear-regression.html#optimizer-and-loss"><i class="fa fa-check"></i><b>10.6</b> Optimizer and Loss</a></li>
-<li class="chapter" data-level="10.7" data-path="linear-regression.html"><a href="linear-regression.html#training-1"><i class="fa fa-check"></i><b>10.7</b> Training</a></li>
-<li class="chapter" data-level="10.8" data-path="linear-regression.html"><a href="linear-regression.html#results"><i class="fa fa-check"></i><b>10.8</b> Results</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="linear-regression-1.html"><a href="linear-regression-1.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a><ul>
-<li class="chapter" data-level="11.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#rainfall-prediction"><i class="fa fa-check"></i><b>11.1</b> Rainfall prediction</a></li>
-<li class="chapter" data-level="11.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#training-data"><i class="fa fa-check"></i><b>11.2</b> Training data</a></li>
-<li class="chapter" data-level="11.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#convert-arrays-to-tensors-1"><i class="fa fa-check"></i><b>11.3</b> Convert arrays to tensors</a></li>
-<li class="chapter" data-level="11.4" data-path="linear-regression-1.html"><a href="linear-regression-1.html#build-the-model"><i class="fa fa-check"></i><b>11.4</b> Build the model</a></li>
-<li class="chapter" data-level="11.5" data-path="linear-regression-1.html"><a href="linear-regression-1.html#generate-predictions"><i class="fa fa-check"></i><b>11.5</b> Generate predictions</a></li>
-<li class="chapter" data-level="11.6" data-path="linear-regression-1.html"><a href="linear-regression-1.html#loss-function"><i class="fa fa-check"></i><b>11.6</b> Loss Function</a></li>
-<li class="chapter" data-level="11.7" data-path="linear-regression-1.html"><a href="linear-regression-1.html#step-by-step-process"><i class="fa fa-check"></i><b>11.7</b> Step by step process</a><ul>
-<li class="chapter" data-level="11.7.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#compute-the-losses"><i class="fa fa-check"></i><b>11.7.1</b> Compute the losses</a></li>
-<li class="chapter" data-level="11.7.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#compute-gradients"><i class="fa fa-check"></i><b>11.7.2</b> Compute Gradients</a></li>
-<li class="chapter" data-level="11.7.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#reset-the-gradients"><i class="fa fa-check"></i><b>11.7.3</b> Reset the gradients</a></li>
-</ul></li>
-<li class="chapter" data-level="11.8" data-path="linear-regression-1.html"><a href="linear-regression-1.html#all-together"><i class="fa fa-check"></i><b>11.8</b> All together</a></li>
-</ul></li>
-<li class="part"><span><b>V Neural Networks</b></span></li>
-<li class="chapter" data-level="12" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a><ul>
-<li class="chapter" data-level="12.1" data-path="neural-networks.html"><a href="neural-networks.html#rtorch-and-pytorch"><i class="fa fa-check"></i><b>12.1</b> rTorch and PyTorch</a></li>
-<li class="chapter" data-level="12.2" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-with-numpy"><i class="fa fa-check"></i><b>12.2</b> A neural network with <code>numpy</code></a></li>
-<li class="chapter" data-level="12.3" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-with-r-base"><i class="fa fa-check"></i><b>12.3</b> A neural network with <code>r-base</code></a></li>
-<li class="chapter" data-level="12.4" data-path="neural-networks.html"><a href="neural-networks.html#a-pytorch-neural-network"><i class="fa fa-check"></i><b>12.4</b> A <code>PyTorch</code> neural network</a></li>
-<li class="chapter" data-level="12.5" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> A neural network in <code>rTorch</code></a><ul>
-<li class="chapter" data-level="12.5.1" data-path="neural-networks.html"><a href="neural-networks.html#load-the-libraries"><i class="fa fa-check"></i><b>12.5.1</b> Load the libraries</a></li>
-<li class="chapter" data-level="12.5.2" data-path="neural-networks.html"><a href="neural-networks.html#dataset"><i class="fa fa-check"></i><b>12.5.2</b> Dataset</a></li>
-<li class="chapter" data-level="12.5.3" data-path="neural-networks.html"><a href="neural-networks.html#initialize-the-weights"><i class="fa fa-check"></i><b>12.5.3</b> Initialize the weights</a></li>
-<li class="chapter" data-level="12.5.4" data-path="neural-networks.html"><a href="neural-networks.html#iterate-through-the-dataset"><i class="fa fa-check"></i><b>12.5.4</b> Iterate through the dataset</a></li>
-</ul></li>
-<li class="chapter" data-level="12.6" data-path="neural-networks.html"><a href="neural-networks.html#full-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.6</b> Full Neural Network in rTorch</a></li>
-<li class="chapter" data-level="12.7" data-path="neural-networks.html"><a href="neural-networks.html#exercise-2"><i class="fa fa-check"></i><b>12.7</b> Exercise</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html"><i class="fa fa-check"></i><b>13</b> A neural network step-by-step</a><ul>
-<li class="chapter" data-level="13.1" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#introduction-1"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
-<li class="chapter" data-level="13.2" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#select-device"><i class="fa fa-check"></i><b>13.2</b> Select device</a></li>
-<li class="chapter" data-level="13.3" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
-<li class="chapter" data-level="13.4" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
-<li class="chapter" data-level="13.5" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
-<li class="chapter" data-level="13.6" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
-<li class="chapter" data-level="13.7" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#using-r-generics"><i class="fa fa-check"></i><b>13.7</b> Using R generics</a><ul>
-<li class="chapter" data-level="13.7.1" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7.1</b> Simplify tensor operations</a></li>
-</ul></li>
-<li class="chapter" data-level="13.8" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#an-elegant-neural-network"><i class="fa fa-check"></i><b>13.8</b> An elegant neural network</a></li>
-<li class="chapter" data-level="13.9" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#a-browseable-dataframe"><i class="fa fa-check"></i><b>13.9</b> A browseable dataframe</a></li>
-<li class="chapter" data-level="13.10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
-</ul></li>
-<li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
-<li class="chapter" data-level="14" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with a data.frame</a><ul>
-<li class="chapter" data-level="14.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="14.2" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
-<li class="chapter" data-level="14.3" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
+<li class="chapter" data-level="5" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>5</b> Creating PyTorch classes</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>5.1</b> Build a PyTorch model class</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-1-one-layer-nn"><i class="fa fa-check"></i><b>5.1.1</b> Example 1: One layer NN</a></li>
+<li class="chapter" data-level="5.1.2" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-2-logistic-regression"><i class="fa fa-check"></i><b>5.1.2</b> Example 2: Logistic Regression</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a><ul>
-<li class="chapter" data-level="15.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="15.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
-<li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Datasets without normalization</a></li>
-<li class="chapter" data-level="15.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
+<li class="part"><span><b>I Logistic Regression</b></span></li>
+<li class="chapter" data-level="6" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html"><i class="fa fa-check"></i><b>6</b> Example 1: A classification problem</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html#code-in-python"><i class="fa fa-check"></i><b>6.1</b> Code in Python</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>7</b> Example 2: MNIST handwritten digits</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>7.1</b> Code in R</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="mnistdigits.html"><a href="mnistdigits.html#hyperparameters"><i class="fa fa-check"></i><b>7.1.1</b> Hyperparameters</a></li>
+<li class="chapter" data-level="7.1.2" data-path="mnistdigits.html"><a href="mnistdigits.html#read-datasets"><i class="fa fa-check"></i><b>7.1.2</b> Read datasets</a></li>
+<li class="chapter" data-level="7.1.3" data-path="mnistdigits.html"><a href="mnistdigits.html#define-the-model"><i class="fa fa-check"></i><b>7.1.3</b> Define the model</a></li>
+<li class="chapter" data-level="7.1.4" data-path="mnistdigits.html"><a href="mnistdigits.html#training"><i class="fa fa-check"></i><b>7.1.4</b> Training</a></li>
+<li class="chapter" data-level="7.1.5" data-path="mnistdigits.html"><a href="mnistdigits.html#prediction"><i class="fa fa-check"></i><b>7.1.5</b> Prediction</a></li>
+<li class="chapter" data-level="7.1.6" data-path="mnistdigits.html"><a href="mnistdigits.html#save-the-model"><i class="fa fa-check"></i><b>7.1.6</b> Save the model</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-python-1"><i class="fa fa-check"></i><b>7.2</b> Code in Python</a></li>
+</ul></li>
+<li class="part"><span><b>II Linear Regression</b></span></li>
+<li class="chapter" data-level="8" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>8</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="linear-regression.html"><a href="linear-regression.html#generate-the-dataset"><i class="fa fa-check"></i><b>8.2</b> Generate the dataset</a></li>
+<li class="chapter" data-level="8.3" data-path="linear-regression.html"><a href="linear-regression.html#convert-arrays-to-tensors"><i class="fa fa-check"></i><b>8.3</b> Convert arrays to tensors</a></li>
+<li class="chapter" data-level="8.4" data-path="linear-regression.html"><a href="linear-regression.html#numpy-array-to-tensor-1"><i class="fa fa-check"></i><b>8.4</b> <code>numpy</code> array to tensor</a></li>
+<li class="chapter" data-level="8.5" data-path="linear-regression.html"><a href="linear-regression.html#creating-the-network-model"><i class="fa fa-check"></i><b>8.5</b> Creating the network model</a></li>
+<li class="chapter" data-level="8.6" data-path="linear-regression.html"><a href="linear-regression.html#optimizer-and-loss"><i class="fa fa-check"></i><b>8.6</b> Optimizer and Loss</a></li>
+<li class="chapter" data-level="8.7" data-path="linear-regression.html"><a href="linear-regression.html#training-1"><i class="fa fa-check"></i><b>8.7</b> Training</a></li>
+<li class="chapter" data-level="8.8" data-path="linear-regression.html"><a href="linear-regression.html#results"><i class="fa fa-check"></i><b>8.8</b> Results</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="linear-regression-1.html"><a href="linear-regression-1.html"><i class="fa fa-check"></i><b>9</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#rainfall-prediction"><i class="fa fa-check"></i><b>9.1</b> Rainfall prediction</a></li>
+<li class="chapter" data-level="9.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#training-data"><i class="fa fa-check"></i><b>9.2</b> Training data</a></li>
+<li class="chapter" data-level="9.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#convert-arrays-to-tensors-1"><i class="fa fa-check"></i><b>9.3</b> Convert arrays to tensors</a></li>
+<li class="chapter" data-level="9.4" data-path="linear-regression-1.html"><a href="linear-regression-1.html#build-the-model"><i class="fa fa-check"></i><b>9.4</b> Build the model</a></li>
+<li class="chapter" data-level="9.5" data-path="linear-regression-1.html"><a href="linear-regression-1.html#generate-predictions"><i class="fa fa-check"></i><b>9.5</b> Generate predictions</a></li>
+<li class="chapter" data-level="9.6" data-path="linear-regression-1.html"><a href="linear-regression-1.html#loss-function"><i class="fa fa-check"></i><b>9.6</b> Loss Function</a></li>
+<li class="chapter" data-level="9.7" data-path="linear-regression-1.html"><a href="linear-regression-1.html#step-by-step-process"><i class="fa fa-check"></i><b>9.7</b> Step by step process</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#compute-the-losses"><i class="fa fa-check"></i><b>9.7.1</b> Compute the losses</a></li>
+<li class="chapter" data-level="9.7.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#compute-gradients"><i class="fa fa-check"></i><b>9.7.2</b> Compute Gradients</a></li>
+<li class="chapter" data-level="9.7.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#reset-the-gradients"><i class="fa fa-check"></i><b>9.7.3</b> Reset the gradients</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="linear-regression-1.html"><a href="linear-regression-1.html#all-together"><i class="fa fa-check"></i><b>9.8</b> All together</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#part-neural-networks"><i class="fa fa-check"></i>(PART) Neural Networks</a>
+<ul>
+<li class="chapter" data-level="9.9" data-path="linear-regression-1.html"><a href="linear-regression-1.html#rtorch-and-pytorch"><i class="fa fa-check"></i><b>9.9</b> rTorch and PyTorch</a></li>
+<li class="chapter" data-level="9.10" data-path="linear-regression-1.html"><a href="linear-regression-1.html#a-neural-network-with-numpy"><i class="fa fa-check"></i><b>9.10</b> A neural network with <code>numpy</code></a></li>
+<li class="chapter" data-level="9.11" data-path="linear-regression-1.html"><a href="linear-regression-1.html#a-neural-network-with-r-base"><i class="fa fa-check"></i><b>9.11</b> A neural network with <code>r-base</code></a></li>
+<li class="chapter" data-level="9.12" data-path="linear-regression-1.html"><a href="linear-regression-1.html#a-pytorch-neural-network"><i class="fa fa-check"></i><b>9.12</b> A <code>PyTorch</code> neural network</a></li>
+<li class="chapter" data-level="9.13" data-path="linear-regression-1.html"><a href="linear-regression-1.html#a-neural-network-in-rtorch"><i class="fa fa-check"></i><b>9.13</b> A neural network in <code>rTorch</code></a>
+<ul>
+<li class="chapter" data-level="9.13.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#load-the-libraries"><i class="fa fa-check"></i><b>9.13.1</b> Load the libraries</a></li>
+<li class="chapter" data-level="9.13.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#dataset"><i class="fa fa-check"></i><b>9.13.2</b> Dataset</a></li>
+<li class="chapter" data-level="9.13.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#initialize-the-weights"><i class="fa fa-check"></i><b>9.13.3</b> Initialize the weights</a></li>
+<li class="chapter" data-level="9.13.4" data-path="linear-regression-1.html"><a href="linear-regression-1.html#iterate-through-the-dataset"><i class="fa fa-check"></i><b>9.13.4</b> Iterate through the dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="9.14" data-path="linear-regression-1.html"><a href="linear-regression-1.html#full-neural-network-in-rtorch"><i class="fa fa-check"></i><b>9.14</b> Full Neural Network in rTorch</a></li>
+<li class="chapter" data-level="9.15" data-path="linear-regression-1.html"><a href="linear-regression-1.html#exercise-2"><i class="fa fa-check"></i><b>9.15</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html"><i class="fa fa-check"></i><b>10</b> A neural network step-by-step</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#introduction-1"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#select-device"><i class="fa fa-check"></i><b>10.2</b> Select device</a></li>
+<li class="chapter" data-level="10.3" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#create-the-dataset"><i class="fa fa-check"></i><b>10.3</b> Create the dataset</a></li>
+<li class="chapter" data-level="10.4" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#define-the-model-1"><i class="fa fa-check"></i><b>10.4</b> Define the model</a></li>
+<li class="chapter" data-level="10.5" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#the-loss-function"><i class="fa fa-check"></i><b>10.5</b> The Loss function</a></li>
+<li class="chapter" data-level="10.6" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>10.6</b> Iterate through the dataset</a></li>
+<li class="chapter" data-level="10.7" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#using-r-generics"><i class="fa fa-check"></i><b>10.7</b> Using R generics</a>
+<ul>
+<li class="chapter" data-level="10.7.1" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#simplify-tensor-operations"><i class="fa fa-check"></i><b>10.7.1</b> Simplify tensor operations</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#an-elegant-neural-network"><i class="fa fa-check"></i><b>10.8</b> An elegant neural network</a></li>
+<li class="chapter" data-level="10.9" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#a-browseable-dataframe"><i class="fa fa-check"></i><b>10.9</b> A browseable dataframe</a></li>
+<li class="chapter" data-level="10.10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>10.10</b> Plot the loss at each iteration</a></li>
+</ul></li>
+<li class="part"><span><b>III PyTorch and R data structures</b></span></li>
+<li class="chapter" data-level="11" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html"><i class="fa fa-check"></i><b>11</b> Working with a data.frame</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>11.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="11.2" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>11.2</b> Load dataset</a></li>
+<li class="chapter" data-level="11.3" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>11.3</b> Summary statistics for tensors</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>11.3.1</b> Using <code>data.frame</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>12</b> Working with data.table</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>12.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="12.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>12.2</b> Load dataset</a></li>
+<li class="chapter" data-level="12.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#datasets-without-normalization"><i class="fa fa-check"></i><b>12.3</b> Datasets without normalization</a></li>
+<li class="chapter" data-level="12.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>12.4</b> Using <code>data.table</code></a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a><ul>
-<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a><ul>
+<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a>
+<ul>
 <li class="chapter" data-level="A.1.1" data-path="appendixA.html"><a href="appendixA.html#five-number-summary"><i class="fa fa-check"></i><b>A.1.1</b> Five-number summary</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a><ul>
+<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a>
+<ul>
 <li class="chapter" data-level="B.1" data-path="appendixB.html"><a href="appendixB.html#sigmoid"><i class="fa fa-check"></i><b>B.1</b> Sigmoid</a></li>
 <li class="chapter" data-level="B.2" data-path="appendixB.html"><a href="appendixB.html#relu"><i class="fa fa-check"></i><b>B.2</b> ReLU</a></li>
 <li class="chapter" data-level="B.3" data-path="appendixB.html"><a href="appendixB.html#tanh"><i class="fa fa-check"></i><b>B.3</b> tanh</a></li>
 <li class="chapter" data-level="B.4" data-path="appendixB.html"><a href="appendixB.html#softmax"><i class="fa fa-check"></i><b>B.4</b> Softmax</a></li>
-<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Activation functions in Python</a><ul>
+<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Activation functions in Python</a>
+<ul>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#linear-activation"><i class="fa fa-check"></i>Linear activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#sigmoid-activation"><i class="fa fa-check"></i>Sigmoid activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#hyperbolic-tangent-activation"><i class="fa fa-check"></i>Hyperbolic Tangent activation</a></li>
@@ -1253,28 +1297,32 @@ code span.wa { color: #bf0303; } /* Warning */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="converting-tensors" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Converting tensors</h1>
+<div id="converting-tensors" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Converting tensors</h1>
 <p><em>Last update: Thu Oct 22 16:46:28 2020 -0500 (54a46ea04)</em></p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="converting-tensors.html#cb103-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
-<div id="tensor-to-numpy-array" class="section level2">
-<h2><span class="header-section-number">4.1</span> Tensor to <code>numpy</code> array</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="converting-tensors.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span></code></pre></div>
+<div id="tensor-to-numpy-array" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Tensor to <code>numpy</code> array</h2>
 <p>This is a frequent operation. I have found that this is necessary when:</p>
 <ul>
 <li>a <code>numpy</code> function is not implemented in PyTorch</li>
 <li>We need to convert a tensor to R</li>
 <li>Perform a boolean operation that is not directly available in PyTorch</li>
 </ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="converting-tensors.html#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> torch<span class="sc">$</span><span class="fu">arange</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span>
+<span id="cb2-2"><a href="converting-tensors.html#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="converting-tensors.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
+<pre><code>#&gt; Error in as.double(x): cannot coerce type &#39;environment&#39; to vector of type &#39;double&#39;</code></pre>
 </div>
-<div id="numpy-array-to-tensor" class="section level2">
-<h2><span class="header-section-number">4.2</span> <code>numpy</code> array to tensor</h2>
+<div id="numpy-array-to-tensor" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> <code>numpy</code> array to tensor</h2>
 <ul>
 <li>Explain how transform a tensor back and forth to <code>numpy</code>.</li>
 <li>Why is this important?</li>
 <li>In what cases in this necessary?</li>
 </ul>
-<div id="numpy-array-to-r" class="section level3">
-<h3><span class="header-section-number">4.2.1</span> <code>numpy</code> array to <code>R</code></h3>
+<div id="numpy-array-to-r" class="section level3" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> <code>numpy</code> array to <code>R</code></h3>
 <p>This is mainly required for these reasons:</p>
 <ol style="list-style-type: decimal">
 <li>Create a data structure in R</li>
@@ -1284,8 +1332,8 @@ code span.wa { color: #bf0303; } /* Warning */
 </ol>
 </div>
 </div>
-<div id="r-objects-to-numpy-objects" class="section level2">
-<h2><span class="header-section-number">4.3</span> R objects to <code>numpy</code> objects</h2>
+<div id="r-objects-to-numpy-objects" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> R objects to <code>numpy</code> objects</h2>
 <ul>
 <li>TODO</li>
 </ul>
@@ -1295,13 +1343,171 @@ code span.wa { color: #bf0303; } /* Warning */
 
 
 
+<div id="tensor-data-types" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Tensor data types</h2>
+<div id="major-tensor-types" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Major tensor types</h3>
+</div>
+<div id="example-a-4d-tensor" class="section level3" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Example: A 4D tensor</h3>
+</div>
+<div id="example-a-3d-tensor" class="section level3" number="3.4.3">
+<h3><span class="header-section-number">3.4.3</span> Example: A 3D tensor</h3>
+</div>
+</div>
+<div id="arithmetic-of-tensors" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Arithmetic of tensors</h2>
+<div id="add-tensors" class="section level3" number="3.5.1">
+<h3><span class="header-section-number">3.5.1</span> Add tensors</h3>
+</div>
+<div id="add-tensor-elements" class="section level3" number="3.5.2">
+<h3><span class="header-section-number">3.5.2</span> Add tensor elements</h3>
+</div>
+<div id="multiply-a-tensor-by-a-scalar" class="section level3" number="3.5.3">
+<h3><span class="header-section-number">3.5.3</span> Multiply a tensor by a scalar</h3>
+</div>
+</div>
+<div id="numpy-and-pytorch" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> NumPy and PyTorch</h2>
+<div id="python-tuples-and-r-vectors" class="section level3" number="3.6.1">
+<h3><span class="header-section-number">3.6.1</span> Python Tuples and R vectors</h3>
+</div>
+<div id="a-numpy-array-from-r-vectors" class="section level3" number="3.6.2">
+<h3><span class="header-section-number">3.6.2</span> A numpy array from R vectors</h3>
+</div>
+<div id="numpy-arrays-to-tensors" class="section level3" number="3.6.3">
+<h3><span class="header-section-number">3.6.3</span> numpy arrays to tensors</h3>
+</div>
+<div id="create-and-fill-a-tensor" class="section level3" number="3.6.4">
+<h3><span class="header-section-number">3.6.4</span> Create and fill a tensor</h3>
+</div>
+<div id="tensor-to-array-and-viceversa" class="section level3" number="3.6.5">
+<h3><span class="header-section-number">3.6.5</span> Tensor to array, and viceversa</h3>
+</div>
+</div>
+<div id="create-tensors" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Create tensors</h2>
+<div id="tensor-fill" class="section level3" number="3.7.1">
+<h3><span class="header-section-number">3.7.1</span> Tensor fill</h3>
+</div>
+<div id="tensor-with-a-range-of-values" class="section level3" number="3.7.2">
+<h3><span class="header-section-number">3.7.2</span> Tensor with a range of values</h3>
+</div>
+<div id="linear-or-log-scale-tensor" class="section level3" number="3.7.3">
+<h3><span class="header-section-number">3.7.3</span> Linear or log scale Tensor</h3>
+</div>
+<div id="in-place-out-of-place-fill" class="section level3" number="3.7.4">
+<h3><span class="header-section-number">3.7.4</span> In-place / Out-of-place fill</h3>
+</div>
+</div>
+<div id="tensor-resizing" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Tensor resizing</h2>
+<div id="exercise" class="section level3" number="3.8.1">
+<h3><span class="header-section-number">3.8.1</span> Exercise</h3>
+</div>
+</div>
+<div id="concatenate-tensors" class="section level2" number="3.9">
+<h2><span class="header-section-number">3.9</span> Concatenate tensors</h2>
+<div id="concatenate-by-rows" class="section level3" number="3.9.1">
+<h3><span class="header-section-number">3.9.1</span> Concatenate by rows</h3>
+</div>
+<div id="concatenate-by-columns" class="section level3" number="3.9.2">
+<h3><span class="header-section-number">3.9.2</span> Concatenate by columns</h3>
+</div>
+</div>
+<div id="reshape-tensors" class="section level2" number="3.10">
+<h2><span class="header-section-number">3.10</span> Reshape tensors</h2>
+<div id="with-chunk" class="section level3" number="3.10.1">
+<h3><span class="header-section-number">3.10.1</span> With <code>chunk()</code>:</h3>
+<div id="exercise-1" class="section level4" number="3.10.1.1">
+<h4><span class="header-section-number">3.10.1.1</span> Exercise</h4>
+</div>
+</div>
+<div id="with-index_select" class="section level3" number="3.10.2">
+<h3><span class="header-section-number">3.10.2</span> With <code>index_select()</code>:</h3>
+</div>
+</div>
+<div id="special-tensors" class="section level2" number="3.11">
+<h2><span class="header-section-number">3.11</span> Special tensors</h2>
+<div id="identity-matrix" class="section level3" number="3.11.1">
+<h3><span class="header-section-number">3.11.1</span> Identity matrix</h3>
+</div>
+<div id="ones" class="section level3" number="3.11.2">
+<h3><span class="header-section-number">3.11.2</span> Ones</h3>
+</div>
+<div id="zeros" class="section level3" number="3.11.3">
+<h3><span class="header-section-number">3.11.3</span> Zeros</h3>
+</div>
+<div id="diagonal-operations" class="section level3" number="3.11.4">
+<h3><span class="header-section-number">3.11.4</span> Diagonal operations</h3>
+<div id="diagonal-matrix" class="section level4" number="3.11.4.1">
+<h4><span class="header-section-number">3.11.4.1</span> Diagonal matrix</h4>
+</div>
+</div>
+</div>
+<div id="access-to-tensor-elements" class="section level2" number="3.12">
+<h2><span class="header-section-number">3.12</span> Access to tensor elements</h2>
+<div id="indices-to-tensor-elements" class="section level3" number="3.12.1">
+<h3><span class="header-section-number">3.12.1</span> Indices to tensor elements</h3>
+</div>
+<div id="using-the-take-function" class="section level3" number="3.12.2">
+<h3><span class="header-section-number">3.12.2</span> Using the <code>take</code> function</h3>
+</div>
+</div>
+<div id="other-tensor-operations" class="section level2" number="3.13">
+<h2><span class="header-section-number">3.13</span> Other tensor operations</h2>
+<div id="cross-product" class="section level3" number="3.13.1">
+<h3><span class="header-section-number">3.13.1</span> Cross product</h3>
+</div>
+<div id="dot-product" class="section level3" number="3.13.2">
+<h3><span class="header-section-number">3.13.2</span> Dot product</h3>
+</div>
+</div>
+<div id="logical-operations" class="section level2" number="3.14">
+<h2><span class="header-section-number">3.14</span> Logical operations</h2>
+<div id="extract-a-unique-logical-result" class="section level3" number="3.14.1">
+<h3><span class="header-section-number">3.14.1</span> Extract a unique logical result</h3>
+</div>
+<div id="greater-than-gt" class="section level3" number="3.14.2">
+<h3><span class="header-section-number">3.14.2</span> Greater than (<code>gt</code>)</h3>
+</div>
+<div id="less-than-or-equal-le" class="section level3" number="3.14.3">
+<h3><span class="header-section-number">3.14.3</span> Less than or equal (<code>le</code>)</h3>
+</div>
+<div id="logical-not" class="section level3" number="3.14.4">
+<h3><span class="header-section-number">3.14.4</span> Logical NOT (<code>!</code>)</h3>
+</div>
+</div>
+<div id="distributions" class="section level2" number="3.15">
+<h2><span class="header-section-number">3.15</span> Distributions</h2>
+<div id="uniform-matrix" class="section level3" number="3.15.1">
+<h3><span class="header-section-number">3.15.1</span> Uniform matrix</h3>
+</div>
+<div id="binomial-distribution" class="section level3" number="3.15.2">
+<h3><span class="header-section-number">3.15.2</span> Binomial distribution</h3>
+</div>
+<div id="exponential-distribution" class="section level3" number="3.15.3">
+<h3><span class="header-section-number">3.15.3</span> Exponential distribution</h3>
+</div>
+<div id="weibull-distribution" class="section level3" number="3.15.4">
+<h3><span class="header-section-number">3.15.4</span> Weibull distribution</h3>
+<div id="constant-scale" class="section level4" number="3.15.4.1">
+<h4><span class="header-section-number">3.15.4.1</span> Constant <code>scale</code></h4>
+</div>
+<div id="constant-concentration" class="section level4" number="3.15.4.2">
+<h4><span class="header-section-number">3.15.4.2</span> Constant <code>concentration</code></h4>
+
+</div>
+</div>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
 <a href="rtorch-vs-pytorch.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tensors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="linearalgebra.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
