@@ -1,4 +1,4 @@
-# Working with data.table
+# Working with data●table
 
 _Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0713-r_data_structures-datatable.Rmd", intern = TRUE)`_
 

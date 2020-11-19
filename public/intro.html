@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Introduction | A Minimal rTorch Book</title>
   <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21.4 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Introduction | A Minimal rTorch Book" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alfonso R. Reyes" />
 
 
-<meta name="date" content="2020-10-22" />
+<meta name="date" content="2020-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,9 +50,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
 <script src="libs/datatables-binding-0.16/datatables.js"></script>
@@ -902,9 +901,9 @@ $(document).ready(function () {
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -913,16 +912,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -934,7 +931,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-le
 div.sourceCode
   { color: #1f1c1b; background-color: #ffffff; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span. { color: #1f1c1b; } /* Normal */
 code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
@@ -1053,7 +1050,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="5.2.3" data-path="tensors.html"><a href="tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>5.2.3</b> Multiply a tensor by a scalar</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#python-tuples-and-r-vectors"><i class="fa fa-check"></i><b>5.3.1</b> Python Tuples and R vectors</a></li>
+<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#python-tuples-and-r-vectors"><i class="fa fa-check"></i><b>5.3.1</b> Python tuples and R vectors</a></li>
 <li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#a-numpy-array-from-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> A numpy array from R vectors</a></li>
 <li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#numpy-arrays-to-tensors"><i class="fa fa-check"></i><b>5.3.3</b> numpy arrays to tensors</a></li>
 <li class="chapter" data-level="5.3.4" data-path="tensors.html"><a href="tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>5.3.4</b> Create and fill a tensor</a></li>
@@ -1198,18 +1195,18 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
-<li class="chapter" data-level="14" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with a data.frame</a><ul>
-<li class="chapter" data-level="14.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="14.2" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
-<li class="chapter" data-level="14.3" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
+<li class="chapter" data-level="14" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html"><i class="fa fa-check"></i><b>14</b> Working with a data●frame</a><ul>
+<li class="chapter" data-level="14.1" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="14.2" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
+<li class="chapter" data-level="14.3" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a><ul>
-<li class="chapter" data-level="15.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="15.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
-<li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Datasets without normalization</a></li>
-<li class="chapter" data-level="15.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
+<li class="chapter" data-level="15" data-path="working-with-datatable.html"><a href="working-with-datatable.html"><i class="fa fa-check"></i><b>15</b> Working with data●table</a><ul>
+<li class="chapter" data-level="15.1" data-path="working-with-datatable.html"><a href="working-with-datatable.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="15.2" data-path="working-with-datatable.html"><a href="working-with-datatable.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
+<li class="chapter" data-level="15.3" data-path="working-with-datatable.html"><a href="working-with-datatable.html#datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Datasets without normalization</a></li>
+<li class="chapter" data-level="15.4" data-path="working-with-datatable.html"><a href="working-with-datatable.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a><ul>
@@ -1255,48 +1252,48 @@ code span.wa { color: #bf0303; } /* Warning */
             <section class="normal" id="section-">
 <div id="intro" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p><em>Last update: Thu Oct 22 16:46:28 2020 -0500 (54a46ea04)</em></p>
+<p><em>Last update: Sun Oct 25 13:00:41 2020 -0500 (265c0b3c1)</em></p>
 <div id="motivation" class="section level2">
 <h2><span class="header-section-number">1.1</span> Motivation</h2>
 <p><em>Why do we want a package of something that is already working well, such as PyTorch?</em></p>
-<p>There are several reasons, but the main one is to bring another machine learning framework to R. Probably it is just me but I feel <em>PyTorch</em> very comfortable to work with. Feels pretty much like everything else in Python. Very Pythonic. I have tried other frameworks in R. The closest that matches a natural language like PyTorch, is <a href="https://mxnet.apache.org/versions/1.7.0/get_started?">MXnet</a>. Unfortunately, <em>MXnet</em> it is the hardest to install and maintain after updates.</p>
-<p>Yes. I could have worked directly with <em>PyTorch</em> in a native Python environment, such as <em>Jupyter</em> or <em>PyCharm</em> or <a href="https://code.visualstudio.com/docs/python/jupyter-support">vscode</a> notebooks but it very hard to quit <strong>RMarkdown</strong> once you get used to it. It is the real thing in regards to <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a>and <strong>reproducibility</strong>. It does not only contribute to improving the quality of the code but establishes a workflow for a better understanding of a subject by your intended readers <span class="citation">(Knuth <a href="references.html#ref-knuth1983" role="doc-biblioref">1983</a>)</span>, in what is been called the <em>literate programming paradigm</em> <span class="citation">(Cordes and Brown <a href="references.html#ref-cordes1991" role="doc-biblioref">1991</a>)</span>.</p>
-<p>This has the additional benefit of giving the ability to write combination of <em>Python</em> and <em>R</em> code together in the same document. There will times when it is better to create a class in <em>Python</em>; and other times where <em>R</em> will be more convenient to handle a data structure. I show some examples using <code>data.frame</code> and <code>data.table</code> along with <em>PyTorch</em> tensors.</p>
+<p>There are several reasons, but the main one is to bring another machine learning framework to R. Probably, it is just me but I feel <em>PyTorch</em> very comfortable to work with. Feels pretty much like everything else in Python. Very <strong>pythonic</strong>. I have tried other frameworks in R. The closest that matches a natural language like PyTorch, is <a href="https://mxnet.apache.org/versions/1.7.0/get_started?">MXnet</a>. Unfortunately, <em>MXnet</em> it is the hardest to install and maintain after updates.</p>
+<p>Yes. I could have worked directly with <em>PyTorch</em> in a native Python environment, such as <em>Jupyter,</em> or <em>PyCharm,</em> or <a href="https://code.visualstudio.com/docs/python/jupyter-support">vscode</a> notebooks but it very hard to quit <strong>RMarkdown</strong> once you get used to it. It is the real thing in regards to <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> and <strong>reproducibility</strong>. It does not only contribute to improving the quality of the code but establishes a workflow for a better understanding of a subject by your intended readers <span class="citation">(Knuth <a href="references.html#ref-knuth1983">1983</a>)</span>, in what is been called the <em>literate programming paradigm</em> <span class="citation">(Cordes and Brown <a href="references.html#ref-cordes1991">1991</a>)</span>.</p>
+<p>This has the additional benefit of giving the ability to write combination of <em>Python</em> and <em>R</em> code together in the same document. There will be times when it is better to create a class in <em>Python</em>; and other times where <em>R</em> will be more convenient to handle a data structure. I show some examples using <code>data.frame</code> and <code>data.table</code> along with <em>PyTorch</em> tensors.</p>
 </div>
 <div id="start-using-rtorch" class="section level2">
 <h2><span class="header-section-number">1.2</span> Start using <code>rTorch</code></h2>
-<p>Start using <code>rTorch</code> is very simple. After installing the minimum system requirements -such as <em>conda</em>- you just call it with:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r badCode"><code class="sourceCode r"><span id="cb10-1"><a href="intro.html#cb10-1"></a><span class="kw">library</span>(rTorch)</span></code></pre></div>
-<p>There are several way of testing if <code>rTorch</code> is up and running. Let’s see some of them:</p>
+<p>Start using <code>rTorch</code> is very simple. After installing the minimum system requirements -such as <em>conda</em> -, you just call it with:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r badCode"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">library</span>(rTorch)</a></code></pre></div>
+<p>There are several ways of testing if <code>rTorch</code> is up and running. Let’s see some of them:</p>
 <div id="get-the-pytorch-version" class="section level3">
 <h3><span class="header-section-number">1.2.1</span> Get the PyTorch version</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="intro.html#cb11-1"></a>rTorch<span class="op">::</span><span class="kw">torch_version</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">rTorch<span class="op">::</span><span class="kw">torch_version</span>()</a></code></pre></div>
 <pre><code>#&gt; [1] &quot;1.6&quot;</code></pre>
 </div>
 <div id="pytorch-configuration" class="section level3">
 <h3><span class="header-section-number">1.2.2</span> PyTorch configuration</h3>
 <p>This will show the PyTorch version and the current version of Python installed, as well as the paths to folders where they reside.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="intro.html#cb13-1"></a>rTorch<span class="op">::</span><span class="kw">torch_config</span>()</span></code></pre></div>
-<pre><code>#&gt; PyTorch v1.6.0 (~/anaconda3/envs/r-torch/lib/python3.7/site-packages/torch)
-#&gt; Python v3.7 (~/anaconda3/envs/r-torch/bin/python)
-#&gt; NumPy v1.19.1)</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">rTorch<span class="op">::</span><span class="kw">torch_config</span>()</a></code></pre></div>
+<pre><code>#&gt; PyTorch v1.6.0 (~/miniconda3/envs/r-torch/lib/python3.7/site-packages/torch)
+#&gt; Python v3.7 (~/miniconda3/envs/r-torch/bin/python)
+#&gt; NumPy v1.19.4)</code></pre>
 <hr />
 </div>
 </div>
 <div id="what-can-you-do-with-rtorch" class="section level2">
 <h2><span class="header-section-number">1.3</span> What can you do with <code>rTorch</code></h2>
 <p>Practically, you can do everything you could with <strong>PyTorch</strong> within the <strong>R</strong> ecosystem. Additionally to the <code>rTorch</code> module, from where you can extract methods, functions and classes, there are available two more modules: <code>torchvision</code> and <code>np</code>, which is short for <code>numpy</code>. We could use the modules with:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="intro.html#cb15-1"></a>rTorch<span class="op">::</span>torchvision</span>
-<span id="cb15-2"><a href="intro.html#cb15-2"></a>rTorch<span class="op">::</span>np</span>
-<span id="cb15-3"><a href="intro.html#cb15-3"></a>rTorch<span class="op">::</span>torch</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">rTorch<span class="op">::</span>torchvision</a>
+<a class="sourceLine" id="cb15-2" title="2">rTorch<span class="op">::</span>np</a>
+<a class="sourceLine" id="cb15-3" title="3">rTorch<span class="op">::</span>torch</a></code></pre></div>
 <pre><code>#&gt; Module(torchvision)
 #&gt; Module(numpy)
 #&gt; Module(torch)</code></pre>
 </div>
 <div id="getting-help" class="section level2">
 <h2><span class="header-section-number">1.4</span> Getting help</h2>
-<p>We get a glimpse of the first lines of the <code>help("torch")</code> via a Python chunk:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="intro.html#cb17-1"></a><span class="bu">help</span>(<span class="st">&quot;torch&quot;</span>)</span></code></pre></div>
+<p>We get a glimpse of the first lines of the <code>help(&quot;torch&quot;)</code> via a Python chunk:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb17-1" title="1"><span class="bu">help</span>(<span class="st">&quot;torch&quot;</span>)</a></code></pre></div>
 <pre><code>...
 #&gt; NAME
 #&gt;     torch
@@ -1307,7 +1304,7 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;     Additionally, it provides many utilities for efficient serializing of
 #&gt;     Tensors and arbitrary types, and other useful utilities.
 ...</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="intro.html#cb19-1"></a><span class="bu">help</span>(<span class="st">&quot;torch.tensor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb19-1" title="1"><span class="bu">help</span>(<span class="st">&quot;torch.tensor&quot;</span>)</a></code></pre></div>
 <pre><code>...
 #&gt; Help on built-in function tensor in torch:
 #&gt; 
@@ -1330,7 +1327,7 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;         and constructs a leaf variable. Therefore ``torch.tensor(x)`` is equivalent to ``x.clone().detach()``
 #&gt;         and ``torch.tensor(x, requires_grad=True)`` is equivalent to ``x.clone().detach().requires_grad_(True)``.
 ...</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="intro.html#cb21-1"></a><span class="bu">help</span>(<span class="st">&quot;torch.cat&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb21-1" title="1"><span class="bu">help</span>(<span class="st">&quot;torch.cat&quot;</span>)</a></code></pre></div>
 <pre><code>...
 #&gt; Help on built-in function cat in torch:
 #&gt; 
@@ -1353,7 +1350,7 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;         dim (int, optional): the dimension over which the tensors are concatenated
 #&gt;         out (Tensor, optional): the output tensor.
 ...</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="intro.html#cb23-1"></a><span class="bu">help</span>(<span class="st">&quot;numpy.arange&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb23-1" title="1"><span class="bu">help</span>(<span class="st">&quot;numpy.arange&quot;</span>)</a></code></pre></div>
 <pre><code>...
 #&gt; Help on built-in function arange in numpy:
 #&gt; 
@@ -1382,7 +1379,7 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;     step : number, optional
 ...</code></pre>
 <p>Finally, these are the classes for the module <code>torchvision.datasets</code>. We are using Python to list them using the <code>help</code> function.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="intro.html#cb25-1"></a><span class="bu">help</span>(<span class="st">&quot;torchvision.datasets&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb25-1" title="1"><span class="bu">help</span>(<span class="st">&quot;torchvision.datasets&quot;</span>)</a></code></pre></div>
 <pre><code>...
 #&gt; Help on package torchvision.datasets in torchvision:
 #&gt; 

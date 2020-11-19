@@ -1,6 +1,6 @@
 # rTorch vs PyTorch
 
-_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0103-rtorch_pytorch_whats_different.Rmd", intern = TRUE)`_
+*Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0103-rtorch_pytorch_whats_different.Rmd", intern = TRUE)`*
 
 ## What's different
 
@@ -20,7 +20,7 @@ We use the dollar sign or `$` to call a class, function or method from the `rTor
 torch$tensor(c(1, 2, 3))
 ```
 
-In Python, what we do is using the dot to separate the sub-members of an object:
+In Python, what we do is using the **dot** to separate the sub-members of an object:
 
 ```{python, engine="python3"}
 import torch
@@ -50,9 +50,7 @@ import torchvision.datasets as dsets
 torch.tensor([1, 2, 3])
 ```
 
-
-Then we can proceed to extract classes, methods and functions from the `nn`, `transforms`, and `dsets` objects. In this example we use the module `torchvision$datasets` and the function `transforms$ToTensor()`
-
+Then we can proceed to extract classes, methods and functions from the `nn`, `transforms`, and `dsets` objects. In this example we use the module `torchvision$datasets` and the function `transforms$ToTensor()`. For example, the `train_dataset` of MNIST:\`
 
 ```{r mnist-digits-train-dataset}
 local_folder <- './datasets/mnist_digits'
@@ -149,7 +147,6 @@ for (i in 1:py$len(x_train)) {
     print(obj[[2]]$item())            # 2nd part or tensor
 }
 ```
-
 
 > We will find very frequently this kind of iterators when we read a dataset read by `torchvision`. There are several different ways to iterate through these objects as you will find.
 

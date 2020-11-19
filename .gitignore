@@ -10,5 +10,5 @@ hide_code.html
 libs/accessible-code-block-0.0.1/empty-anchor.js
 libs/jquery-2.2.3/*
 *.rds
-*.md
 .Rhistory
+.ts/

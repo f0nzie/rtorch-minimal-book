@@ -2,13 +2,12 @@
 
 # Tensors
 
-_Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0201-tensors.Rmd", intern = TRUE)`_
+*Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0201-tensors.Rmd", intern = TRUE)`*
 
-We describe the most important PyTorch methods in this chapter.
+In this chapter, we describe the most important PyTorch methods.
 
 ```{r tensors-load-rtorch}
 library(rTorch)
-
 ```
 
 ## Tensor data types
@@ -26,7 +25,7 @@ torch$tensor(list(1.2, 3))$dtype         # a new floating point tensor
 
 ### Major tensor types
 
-There are five major type of tensors in PyTorch:
+There are five major type of tensors in PyTorch: byte, float, double, long, and boolean.
 
 ```{r all-tensor-types}
 library(rTorch)
@@ -153,13 +152,15 @@ print(scalar)
 print(torch$scalar_tensor(scalar))
 ```
 
+> Notice that we used a NumPy function to create the scalar object `np$float64()`.
+
 Multiply two tensors using the function `mul`:
 
 ```{r}
 (prod = torch$mul(tensor, torch$scalar_tensor(scalar)))
 ```
 
-Short version using generics
+Short version using R generics:
 
 ```{r}
 (prod = tensor * scalar)
@@ -167,7 +168,7 @@ Short version using generics
 
 ## NumPy and PyTorch
 
-`numpy` has been made available as a module in `rTorch`. We can call functions from `numpy` refrerring to it as `np$_a_function`. Examples:
+`numpy` has been made available as a module in `rTorch`, which means that as soon as rTorch is loaded, you also get all the `numpy` functions available to you. We can call functions from `numpy` referring to it as `np$_a_function`. Examples:
 
 ```{r}
 # a 2D numpy array  
@@ -193,9 +194,9 @@ And the dot product of both:
 np$dot(syn0, syn1)
 ```
 
-### Python Tuples and R vectors
+### Python tuples and R vectors
 
-In `numpy` a multidimensional array needs to be defined with a `tuple`. in R we do it with a `vector`.
+In `numpy` the shape of a multidimensional array needs to be defined using a `tuple`. in R we do it instead with a `vector`. There are not tuples in R.
 
 In Python, we use a tuple, `(5, 5)` to indicate the shape of the array:
 
@@ -212,6 +213,8 @@ print(l1)
 ```
 
 ### A numpy array from R vectors
+
+For this matrix, or 2D tensor, we use three R vectors:
 
 ```{r}
 X <- np$array(rbind(c(1,2,3), c(4,5,6), c(7,8,9)))

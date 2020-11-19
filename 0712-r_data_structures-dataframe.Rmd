@@ -1,6 +1,6 @@
 # (PART) PyTorch and R data structures {-}
 
-# Working with a data.frame
+# Working with a data●frame
 
 _Last update: `r system("git log -1 --format=\"%ad (%h)\" -- 0712-r_data_structures-dataframe.Rmd", intern = TRUE)`_
 

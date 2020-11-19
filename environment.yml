@@ -1,0 +1,20 @@
+name: r-torch
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - cpuonly
+  - matplotlib
+  - numpy
+  - pandas
+  - pillow
+  - pip
+  - pyqt
+  - pytorch=1.6
+  - setuptools
+  - sqlite
+  - tk
+  - torchvision=0.7=py37_cpu
+prefix: /home/msfz751/miniconda3/envs/r-torch

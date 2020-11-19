@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 PyTorch and NumPy | A Minimal rTorch Book</title>
   <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21.4 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 PyTorch and NumPy | A Minimal rTorch Book" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alfonso R. Reyes" />
 
 
-<meta name="date" content="2020-10-22" />
+<meta name="date" content="2020-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,9 +50,8 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
 <script src="libs/datatables-binding-0.16/datatables.js"></script>
@@ -902,9 +901,9 @@ $(document).ready(function () {
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -913,16 +912,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -934,7 +931,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-le
 div.sourceCode
   { color: #1f1c1b; background-color: #ffffff; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span. { color: #1f1c1b; } /* Normal */
 code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
@@ -1053,7 +1050,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="5.2.3" data-path="tensors.html"><a href="tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>5.2.3</b> Multiply a tensor by a scalar</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#python-tuples-and-r-vectors"><i class="fa fa-check"></i><b>5.3.1</b> Python Tuples and R vectors</a></li>
+<li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#python-tuples-and-r-vectors"><i class="fa fa-check"></i><b>5.3.1</b> Python tuples and R vectors</a></li>
 <li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#a-numpy-array-from-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> A numpy array from R vectors</a></li>
 <li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#numpy-arrays-to-tensors"><i class="fa fa-check"></i><b>5.3.3</b> numpy arrays to tensors</a></li>
 <li class="chapter" data-level="5.3.4" data-path="tensors.html"><a href="tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>5.3.4</b> Create and fill a tensor</a></li>
@@ -1198,18 +1195,18 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
-<li class="chapter" data-level="14" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with a data.frame</a><ul>
-<li class="chapter" data-level="14.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="14.2" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
-<li class="chapter" data-level="14.3" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
+<li class="chapter" data-level="14" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html"><i class="fa fa-check"></i><b>14</b> Working with a data●frame</a><ul>
+<li class="chapter" data-level="14.1" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="14.2" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
+<li class="chapter" data-level="14.3" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a><ul>
-<li class="chapter" data-level="15.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="15.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
-<li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Datasets without normalization</a></li>
-<li class="chapter" data-level="15.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
+<li class="chapter" data-level="15" data-path="working-with-datatable.html"><a href="working-with-datatable.html"><i class="fa fa-check"></i><b>15</b> Working with data●table</a><ul>
+<li class="chapter" data-level="15.1" data-path="working-with-datatable.html"><a href="working-with-datatable.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="15.2" data-path="working-with-datatable.html"><a href="working-with-datatable.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
+<li class="chapter" data-level="15.3" data-path="working-with-datatable.html"><a href="working-with-datatable.html#datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Datasets without normalization</a></li>
+<li class="chapter" data-level="15.4" data-path="working-with-datatable.html"><a href="working-with-datatable.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a><ul>
@@ -1255,25 +1252,25 @@ code span.wa { color: #bf0303; } /* Warning */
             <section class="normal" id="section-">
 <div id="pytorch-and-numpy" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> PyTorch and NumPy</h1>
-<p><em>Last update: Thu Oct 22 16:46:28 2020 -0500 (54a46ea04)</em></p>
+<p><em>Last update: Thu Nov 19 14:20:26 2020 -0600 (562e6f2c5)</em></p>
 <div id="pytorch-modules-in-rtorch" class="section level2">
 <h2><span class="header-section-number">2.1</span> PyTorch modules in <code>rTorch</code></h2>
 <div id="torchvision" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> torchvision</h3>
-<p>This is an example of using the <code>torchvision</code> module. With <code>torchvision</code> we could download any of the datasets made available by PyTorch. In this example, we will be downloading the training dataset of the <strong>MNIST</strong> handwritten digits. There are 60,000 images in the training set and 10,000 images in the test set. The images will download on the folder <code>./datasets</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="pytorch-and-numpy.html#cb27-1"></a><span class="kw">library</span>(rTorch)</span>
-<span id="cb27-2"><a href="pytorch-and-numpy.html#cb27-2"></a></span>
-<span id="cb27-3"><a href="pytorch-and-numpy.html#cb27-3"></a>transforms  &lt;-<span class="st"> </span>torchvision<span class="op">$</span>transforms</span>
-<span id="cb27-4"><a href="pytorch-and-numpy.html#cb27-4"></a></span>
-<span id="cb27-5"><a href="pytorch-and-numpy.html#cb27-5"></a><span class="co"># this is the folder where the datasets will be downloaded</span></span>
-<span id="cb27-6"><a href="pytorch-and-numpy.html#cb27-6"></a>local_folder &lt;-<span class="st"> &#39;./datasets/mnist_digits&#39;</span></span>
-<span id="cb27-7"><a href="pytorch-and-numpy.html#cb27-7"></a></span>
-<span id="cb27-8"><a href="pytorch-and-numpy.html#cb27-8"></a>train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root =</span> local_folder, </span>
-<span id="cb27-9"><a href="pytorch-and-numpy.html#cb27-9"></a>                                           <span class="dt">train =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb27-10"><a href="pytorch-and-numpy.html#cb27-10"></a>                                           <span class="dt">transform =</span> transforms<span class="op">$</span><span class="kw">ToTensor</span>(),</span>
-<span id="cb27-11"><a href="pytorch-and-numpy.html#cb27-11"></a>                                           <span class="dt">download =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb27-12"><a href="pytorch-and-numpy.html#cb27-12"></a></span>
-<span id="cb27-13"><a href="pytorch-and-numpy.html#cb27-13"></a>train_dataset</span></code></pre></div>
+<p>This is an example of using the <code>torchvision</code> module. With <code>torchvision</code> and its <code>dataset</code> set of function, we could download any of the popular datasets for machine learning made available by PyTorch. In this example, we will be downloading the training dataset of the <strong>MNIST</strong> handwritten digits. There are 60,000 images in the <strong>training</strong> set and 10,000 images in the <strong>test</strong> set. The images will download on the folder <code>./datasets,</code> or any other you want, which can be set with the parameter <code>root</code>.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">library</span>(rTorch)</a>
+<a class="sourceLine" id="cb27-2" title="2"></a>
+<a class="sourceLine" id="cb27-3" title="3">transforms  &lt;-<span class="st"> </span>torchvision<span class="op">$</span>transforms</a>
+<a class="sourceLine" id="cb27-4" title="4"></a>
+<a class="sourceLine" id="cb27-5" title="5"><span class="co"># this is the folder where the datasets will be downloaded</span></a>
+<a class="sourceLine" id="cb27-6" title="6">local_folder &lt;-<span class="st"> &#39;./datasets/mnist_digits&#39;</span></a>
+<a class="sourceLine" id="cb27-7" title="7"></a>
+<a class="sourceLine" id="cb27-8" title="8">train_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root =</span> local_folder, </a>
+<a class="sourceLine" id="cb27-9" title="9">                                           <span class="dt">train =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb27-10" title="10">                                           <span class="dt">transform =</span> transforms<span class="op">$</span><span class="kw">ToTensor</span>(),</a>
+<a class="sourceLine" id="cb27-11" title="11">                                           <span class="dt">download =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb27-12" title="12"></a>
+<a class="sourceLine" id="cb27-13" title="13">train_dataset</a></code></pre></div>
 <pre><code>#&gt; Dataset MNIST
 #&gt;     Number of datapoints: 60000
 #&gt;     Root location: ./datasets/mnist_digits
@@ -1281,10 +1278,10 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;     StandardTransform
 #&gt; Transform: ToTensor()</code></pre>
 <p>You can do similarly for the <code>test</code> dataset if you set the flag <code>train = FALSE</code>. The <code>test</code> dataset has only 10,000 images.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="pytorch-and-numpy.html#cb29-1"></a>test_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root =</span> local_folder, </span>
-<span id="cb29-2"><a href="pytorch-and-numpy.html#cb29-2"></a>                                          <span class="dt">train =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb29-3"><a href="pytorch-and-numpy.html#cb29-3"></a>                                          <span class="dt">transform =</span> transforms<span class="op">$</span><span class="kw">ToTensor</span>())</span>
-<span id="cb29-4"><a href="pytorch-and-numpy.html#cb29-4"></a>test_dataset</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">test_dataset =<span class="st"> </span>torchvision<span class="op">$</span>datasets<span class="op">$</span><span class="kw">MNIST</span>(<span class="dt">root =</span> local_folder, </a>
+<a class="sourceLine" id="cb29-2" title="2">                                          <span class="dt">train =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb29-3" title="3">                                          <span class="dt">transform =</span> transforms<span class="op">$</span><span class="kw">ToTensor</span>())</a>
+<a class="sourceLine" id="cb29-4" title="4">test_dataset</a></code></pre></div>
 <pre><code>#&gt; Dataset MNIST
 #&gt;     Number of datapoints: 10000
 #&gt;     Root location: ./datasets/mnist_digits
@@ -1294,7 +1291,7 @@ code span.wa { color: #bf0303; } /* Warning */
 </div>
 <div id="numpy" class="section level3">
 <h3><span class="header-section-number">2.1.2</span> numpy</h3>
-<p><code>numpy</code> is automaticaly installed when <code>PyTorch</code> is. There is some interdependence between both. Anytime that we need to do some transformation that is not available in <code>PyTorch</code>, we will use <code>numpy</code>. Just keep in mind that <code>numpy</code> does not have support for <em>GPUs</em>.</p>
+<p><code>numpy</code> is automatically installed when <code>PyTorch</code> is. There is some interdependence between both. Anytime that we need to do some transformation that is not available in <code>PyTorch</code>, we will use <code>numpy</code>. Just keep in mind that <code>numpy</code> does not have support for <em>GPUs</em>; you will have to convert the numpy array to a torch tensor afterwards.</p>
 </div>
 </div>
 <div id="common-array-operations" class="section level2">
@@ -1303,29 +1300,40 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="create-an-array" class="section level3 unnumbered">
 <h3>Create an array</h3>
 <p>Create an array:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="pytorch-and-numpy.html#cb31-1"></a><span class="co"># do some array manipulations with NumPy</span></span>
-<span id="cb31-2"><a href="pytorch-and-numpy.html#cb31-2"></a>a &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</span>
-<span id="cb31-3"><a href="pytorch-and-numpy.html#cb31-3"></a>a</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="co"># do some array manipulations with NumPy</span></a>
+<a class="sourceLine" id="cb31-2" title="2">a &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb31-3" title="3">a</a></code></pre></div>
 <pre><code>#&gt; [1] 1 2 3 4</code></pre>
+<p>We could do this if we add instead a Python chunk like this:</p>
+<pre><code>{python}
+import numpy as np
+
+a = np.arange(1, 5)
+a</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" title="1"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb34-2" title="2"></a>
+<a class="sourceLine" id="cb34-3" title="3">a <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb34-4" title="4">a</a></code></pre></div>
+<pre><code>#&gt; array([1, 2, 3, 4])</code></pre>
 <p>Create an array of a desired shape:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="pytorch-and-numpy.html#cb33-1"></a>np<span class="op">$</span><span class="kw">reshape</span>(np<span class="op">$</span><span class="kw">arange</span>(<span class="dv">0</span>, <span class="dv">9</span>), <span class="kw">c</span>(3L, 3L))</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">np<span class="op">$</span><span class="kw">reshape</span>(np<span class="op">$</span><span class="kw">arange</span>(<span class="dv">0</span>, <span class="dv">9</span>), <span class="kw">c</span>(3L, 3L))</a></code></pre></div>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    0    1    2
 #&gt; [2,]    3    4    5
 #&gt; [3,]    6    7    8</code></pre>
 <p>Create an array by spelling out its components and <code>type</code>:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="pytorch-and-numpy.html#cb35-1"></a>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(</span>
-<span id="cb35-2"><a href="pytorch-and-numpy.html#cb35-2"></a>             <span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>),</span>
-<span id="cb35-3"><a href="pytorch-and-numpy.html#cb35-3"></a>             <span class="kw">list</span>(<span class="dv">87</span>, <span class="dv">134</span>, <span class="dv">58</span>),</span>
-<span id="cb35-4"><a href="pytorch-and-numpy.html#cb35-4"></a>             <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>),</span>
-<span id="cb35-5"><a href="pytorch-and-numpy.html#cb35-5"></a>             <span class="kw">list</span>(<span class="dv">73</span>, <span class="dv">67</span>, <span class="dv">43</span>), </span>
-<span id="cb35-6"><a href="pytorch-and-numpy.html#cb35-6"></a>             <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>), </span>
-<span id="cb35-7"><a href="pytorch-and-numpy.html#cb35-7"></a>             <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>), </span>
-<span id="cb35-8"><a href="pytorch-and-numpy.html#cb35-8"></a>             <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>), </span>
-<span id="cb35-9"><a href="pytorch-and-numpy.html#cb35-9"></a>             <span class="kw">list</span>(<span class="dv">91</span>, <span class="dv">88</span>, <span class="dv">64</span>), </span>
-<span id="cb35-10"><a href="pytorch-and-numpy.html#cb35-10"></a>             <span class="kw">list</span>(<span class="dv">102</span>, <span class="dv">43</span>, <span class="dv">37</span>), </span>
-<span id="cb35-11"><a href="pytorch-and-numpy.html#cb35-11"></a>             <span class="kw">list</span>(<span class="dv">69</span>, <span class="dv">96</span>, <span class="dv">70</span>)</span>
-<span id="cb35-12"><a href="pytorch-and-numpy.html#cb35-12"></a>           ), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">np<span class="op">$</span><span class="kw">array</span>(<span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb38-2" title="2">             <span class="kw">list</span>( <span class="dv">73</span>,  <span class="dv">67</span>,  <span class="dv">43</span>),</a>
+<a class="sourceLine" id="cb38-3" title="3">             <span class="kw">list</span>( <span class="dv">87</span>, <span class="dv">134</span>,  <span class="dv">58</span>),</a>
+<a class="sourceLine" id="cb38-4" title="4">             <span class="kw">list</span>(<span class="dv">102</span>,  <span class="dv">43</span>,  <span class="dv">37</span>),</a>
+<a class="sourceLine" id="cb38-5" title="5">             <span class="kw">list</span>( <span class="dv">73</span>,  <span class="dv">67</span>,  <span class="dv">43</span>), </a>
+<a class="sourceLine" id="cb38-6" title="6">             <span class="kw">list</span>( <span class="dv">91</span>,  <span class="dv">88</span>,  <span class="dv">64</span>), </a>
+<a class="sourceLine" id="cb38-7" title="7">             <span class="kw">list</span>(<span class="dv">102</span>,  <span class="dv">43</span>,  <span class="dv">37</span>), </a>
+<a class="sourceLine" id="cb38-8" title="8">             <span class="kw">list</span>( <span class="dv">69</span>,  <span class="dv">96</span>,  <span class="dv">70</span>), </a>
+<a class="sourceLine" id="cb38-9" title="9">             <span class="kw">list</span>( <span class="dv">91</span>,  <span class="dv">88</span>,  <span class="dv">64</span>), </a>
+<a class="sourceLine" id="cb38-10" title="10">             <span class="kw">list</span>(<span class="dv">102</span>,  <span class="dv">43</span>,  <span class="dv">37</span>), </a>
+<a class="sourceLine" id="cb38-11" title="11">             <span class="kw">list</span>( <span class="dv">69</span>,  <span class="dv">96</span>,  <span class="dv">70</span>)</a>
+<a class="sourceLine" id="cb38-12" title="12">           ), <span class="dt">dtype=</span><span class="st">&#39;float32&#39;</span>)</a></code></pre></div>
 <pre><code>#&gt;       [,1] [,2] [,3]
 #&gt;  [1,]   73   67   43
 #&gt;  [2,]   87  134   58
@@ -1348,96 +1356,86 @@ code span.wa { color: #bf0303; } /* Warning */
 <li>Reshape the tensor as a 2D array</li>
 <li>Plot the digit and its label</li>
 </ol>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="pytorch-and-numpy.html#cb37-1"></a>rotate &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">t</span>(<span class="kw">apply</span>(x, <span class="dv">2</span>, rev))   <span class="co"># function to rotate the matrix</span></span>
-<span id="cb37-2"><a href="pytorch-and-numpy.html#cb37-2"></a></span>
-<span id="cb37-3"><a href="pytorch-and-numpy.html#cb37-3"></a><span class="co"># label for the image</span></span>
-<span id="cb37-4"><a href="pytorch-and-numpy.html#cb37-4"></a>label &lt;-<span class="st"> </span>test_dataset[<span class="dv">0</span>][[<span class="dv">2</span>]]</span>
-<span id="cb37-5"><a href="pytorch-and-numpy.html#cb37-5"></a>label    </span>
-<span id="cb37-6"><a href="pytorch-and-numpy.html#cb37-6"></a></span>
-<span id="cb37-7"><a href="pytorch-and-numpy.html#cb37-7"></a><span class="co"># convert tensor to numpy array</span></span>
-<span id="cb37-8"><a href="pytorch-and-numpy.html#cb37-8"></a>.show_img &lt;-<span class="st"> </span>test_dataset[<span class="dv">0</span>][[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">numpy</span>()</span>
-<span id="cb37-9"><a href="pytorch-and-numpy.html#cb37-9"></a><span class="kw">dim</span>(.show_img) </span>
-<span id="cb37-10"><a href="pytorch-and-numpy.html#cb37-10"></a></span>
-<span id="cb37-11"><a href="pytorch-and-numpy.html#cb37-11"></a><span class="co"># reshape 3D array to 2D </span></span>
-<span id="cb37-12"><a href="pytorch-and-numpy.html#cb37-12"></a>show_img &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">reshape</span>(.show_img, <span class="kw">c</span>(28L, 28L))</span>
-<span id="cb37-13"><a href="pytorch-and-numpy.html#cb37-13"></a><span class="kw">dim</span>(show_img)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">rotate &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">t</span>(<span class="kw">apply</span>(x, <span class="dv">2</span>, rev))   <span class="co"># function to rotate the matrix</span></a>
+<a class="sourceLine" id="cb40-2" title="2"></a>
+<a class="sourceLine" id="cb40-3" title="3"><span class="co"># label for the image</span></a>
+<a class="sourceLine" id="cb40-4" title="4">label &lt;-<span class="st"> </span>test_dataset[<span class="dv">0</span>][[<span class="dv">2</span>]]</a>
+<a class="sourceLine" id="cb40-5" title="5">label    </a>
+<a class="sourceLine" id="cb40-6" title="6"></a>
+<a class="sourceLine" id="cb40-7" title="7"><span class="co"># convert tensor to numpy array</span></a>
+<a class="sourceLine" id="cb40-8" title="8">.show_img &lt;-<span class="st"> </span>test_dataset[<span class="dv">0</span>][[<span class="dv">1</span>]]<span class="op">$</span><span class="kw">numpy</span>()</a>
+<a class="sourceLine" id="cb40-9" title="9"><span class="kw">dim</span>(.show_img) </a>
+<a class="sourceLine" id="cb40-10" title="10"></a>
+<a class="sourceLine" id="cb40-11" title="11"><span class="co"># reshape 3D array to 2D </span></a>
+<a class="sourceLine" id="cb40-12" title="12">show_img &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">reshape</span>(.show_img, <span class="kw">c</span>(28L, 28L))</a>
+<a class="sourceLine" id="cb40-13" title="13"><span class="kw">dim</span>(show_img)</a></code></pre></div>
 <pre><code>#&gt; [1] 7
 #&gt; [1]  1 28 28
 #&gt; [1] 28 28</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="pytorch-and-numpy.html#cb39-1"></a><span class="co"># show in gray shades and rotate</span></span>
-<span id="cb39-2"><a href="pytorch-and-numpy.html#cb39-2"></a><span class="kw">image</span>(<span class="kw">rotate</span>(show_img), <span class="dt">col =</span> <span class="kw">gray.colors</span>(<span class="dv">64</span>))</span>
-<span id="cb39-3"><a href="pytorch-and-numpy.html#cb39-3"></a><span class="kw">title</span>(label)</span></code></pre></div>
-<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>We are simply using the <code>r-base</code> <code>image</code> function:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="co"># show in gray shades and rotate</span></a>
+<a class="sourceLine" id="cb42-2" title="2"><span class="kw">image</span>(<span class="kw">rotate</span>(show_img), <span class="dt">col =</span> <span class="kw">gray.colors</span>(<span class="dv">64</span>))</a>
+<a class="sourceLine" id="cb42-3" title="3"><span class="kw">title</span>(label)</a></code></pre></div>
+<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="generate-a-random-array-in-numpy" class="section level3 unnumbered">
 <h3>Generate a random array in NumPy</h3>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="pytorch-and-numpy.html#cb40-1"></a><span class="co"># set the seed</span></span>
-<span id="cb40-2"><a href="pytorch-and-numpy.html#cb40-2"></a>np<span class="op">$</span>random<span class="op">$</span><span class="kw">seed</span>(123L)</span>
-<span id="cb40-3"><a href="pytorch-and-numpy.html#cb40-3"></a><span class="co"># generate a random array</span></span>
-<span id="cb40-4"><a href="pytorch-and-numpy.html#cb40-4"></a>x =<span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L)</span>
-<span id="cb40-5"><a href="pytorch-and-numpy.html#cb40-5"></a>x</span>
-<span id="cb40-6"><a href="pytorch-and-numpy.html#cb40-6"></a><span class="co"># calculate the y array</span></span>
-<span id="cb40-7"><a href="pytorch-and-numpy.html#cb40-7"></a>y =<span class="st"> </span>np<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>np<span class="op">$</span><span class="kw">power</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></span>
-<span id="cb40-8"><a href="pytorch-and-numpy.html#cb40-8"></a><span class="kw">class</span>(x)</span>
-<span id="cb40-9"><a href="pytorch-and-numpy.html#cb40-9"></a><span class="kw">class</span>(y)</span></code></pre></div>
-<pre><code>#&gt;   [1] 0.6965 0.2861 0.2269 0.5513 0.7195 0.4231 0.9808 0.6848 0.4809 0.3921
-#&gt;  [11] 0.3432 0.7290 0.4386 0.0597 0.3980 0.7380 0.1825 0.1755 0.5316 0.5318
-#&gt;  [21] 0.6344 0.8494 0.7245 0.6110 0.7224 0.3230 0.3618 0.2283 0.2937 0.6310
-#&gt;  [31] 0.0921 0.4337 0.4309 0.4937 0.4258 0.3123 0.4264 0.8934 0.9442 0.5018
-#&gt;  [41] 0.6240 0.1156 0.3173 0.4148 0.8663 0.2505 0.4830 0.9856 0.5195 0.6129
-#&gt;  [51] 0.1206 0.8263 0.6031 0.5451 0.3428 0.3041 0.4170 0.6813 0.8755 0.5104
-#&gt;  [61] 0.6693 0.5859 0.6249 0.6747 0.8423 0.0832 0.7637 0.2437 0.1942 0.5725
-#&gt;  [71] 0.0957 0.8853 0.6272 0.7234 0.0161 0.5944 0.5568 0.1590 0.1531 0.6955
-#&gt;  [81] 0.3188 0.6920 0.5544 0.3890 0.9251 0.8417 0.3574 0.0436 0.3048 0.3982
-#&gt;  [91] 0.7050 0.9954 0.3559 0.7625 0.5932 0.6917 0.1511 0.3989 0.2409 0.3435
-#&gt; [1] &quot;array&quot;
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="co"># set the seed</span></a>
+<a class="sourceLine" id="cb43-2" title="2">np<span class="op">$</span>random<span class="op">$</span><span class="kw">seed</span>(123L)</a>
+<a class="sourceLine" id="cb43-3" title="3"><span class="co"># generate a random array</span></a>
+<a class="sourceLine" id="cb43-4" title="4">x =<span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L)</a>
+<a class="sourceLine" id="cb43-5" title="5"><span class="kw">dim</span>(x)</a>
+<a class="sourceLine" id="cb43-6" title="6"><span class="co"># calculate the y array</span></a>
+<a class="sourceLine" id="cb43-7" title="7">y =<span class="st"> </span>np<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>np<span class="op">$</span><span class="kw">power</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></a>
+<a class="sourceLine" id="cb43-8" title="8"><span class="kw">class</span>(y)</a></code></pre></div>
+<pre><code>#&gt; [1] 100
 #&gt; [1] &quot;array&quot;</code></pre>
-<p>From the classes, we can tell that the <code>numpy</code> arrays are automatically converted to <code>R</code> arrays.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="pytorch-and-numpy.html#cb42-1"></a><span class="kw">plot</span>(x, y)</span></code></pre></div>
-<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>From the classes, we can tell that the <code>numpy</code> arrays are automatically converted to <code>R</code> arrays. Let’s plot <code>x</code> vs <code>y</code>:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw">plot</span>(x, y)</a></code></pre></div>
+<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="common-tensor-operations" class="section level2">
 <h2><span class="header-section-number">2.3</span> Common tensor operations</h2>
 <div id="generate-random-tensors" class="section level3 unnumbered">
 <h3>Generate random tensors</h3>
-<p>The same operation can be performed with pure <code>torch</code> tensors:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="pytorch-and-numpy.html#cb43-1"></a><span class="kw">library</span>(rTorch)</span>
-<span id="cb43-2"><a href="pytorch-and-numpy.html#cb43-2"></a></span>
-<span id="cb43-3"><a href="pytorch-and-numpy.html#cb43-3"></a><span class="kw">invisible</span>(torch<span class="op">$</span><span class="kw">manual_seed</span>(123L))</span>
-<span id="cb43-4"><a href="pytorch-and-numpy.html#cb43-4"></a>x &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(100L)     <span class="co"># use torch$randn(100L): positive and negative numbers</span></span>
-<span id="cb43-5"><a href="pytorch-and-numpy.html#cb43-5"></a>y &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>torch<span class="op">$</span><span class="kw">pow</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></span>
-<span id="cb43-6"><a href="pytorch-and-numpy.html#cb43-6"></a><span class="kw">class</span>(x)</span>
-<span id="cb43-7"><a href="pytorch-and-numpy.html#cb43-7"></a><span class="kw">class</span>(y)</span></code></pre></div>
+<p>The same operation can be performed with pure torch tensors:. This is very similar to the example above. The only difference is that this time we are using tensors and not <code>numpy</code> arrays.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">library</span>(rTorch)</a>
+<a class="sourceLine" id="cb46-2" title="2"></a>
+<a class="sourceLine" id="cb46-3" title="3"><span class="kw">invisible</span>(torch<span class="op">$</span><span class="kw">manual_seed</span>(123L))</a>
+<a class="sourceLine" id="cb46-4" title="4">x &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(100L)     <span class="co"># use torch$randn(100L): positive and negative numbers</span></a>
+<a class="sourceLine" id="cb46-5" title="5">y &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>torch<span class="op">$</span><span class="kw">pow</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>torch<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></a>
+<a class="sourceLine" id="cb46-6" title="6"><span class="kw">class</span>(x)</a>
+<a class="sourceLine" id="cb46-7" title="7"><span class="kw">class</span>(y)</a></code></pre></div>
 <pre><code>#&gt; [1] &quot;torch.Tensor&quot;          &quot;torch._C._TensorBase&quot;  &quot;python.builtin.object&quot;
 #&gt; [1] &quot;torch.Tensor&quot;          &quot;torch._C._TensorBase&quot;  &quot;python.builtin.object&quot;</code></pre>
-<p>Since the clasess are <code>torch</code> tensors, to plot them in R, they need to be converted to numpy, and then R:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="pytorch-and-numpy.html#cb45-1"></a><span class="kw">plot</span>(x<span class="op">$</span><span class="kw">numpy</span>(), y<span class="op">$</span><span class="kw">numpy</span>())</span></code></pre></div>
-<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Since the classes are <code>torch</code> tensors, to plot them in R, they first need to be converted to numpy, and then to R:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">plot</span>(x<span class="op">$</span><span class="kw">numpy</span>(), y<span class="op">$</span><span class="kw">numpy</span>())</a></code></pre></div>
+<p><img src="0102-pytorch_and_numpy_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="numpy-array-to-pytorch-tensor" class="section level3 unnumbered">
 <h3><code>numpy</code> array to PyTorch tensor</h3>
 <p>Converting a <code>numpy</code> array to a PyTorch tensor is a very common operation that I have seen in examples using PyTorch. Creating first the array in <code>numpy</code>. and then convert it to a <code>torch</code> tensor.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="pytorch-and-numpy.html#cb46-1"></a><span class="co"># input array</span></span>
-<span id="cb46-2"><a href="pytorch-and-numpy.html#cb46-2"></a>x =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">rbind</span>(</span>
-<span id="cb46-3"><a href="pytorch-and-numpy.html#cb46-3"></a>            <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb46-4"><a href="pytorch-and-numpy.html#cb46-4"></a>            <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
-<span id="cb46-5"><a href="pytorch-and-numpy.html#cb46-5"></a>            <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb46-6"><a href="pytorch-and-numpy.html#cb46-6"></a>            <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)))</span>
-<span id="cb46-7"><a href="pytorch-and-numpy.html#cb46-7"></a></span>
-<span id="cb46-8"><a href="pytorch-and-numpy.html#cb46-8"></a><span class="co"># the numpy array</span></span>
-<span id="cb46-9"><a href="pytorch-and-numpy.html#cb46-9"></a>x</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="co"># input array</span></a>
+<a class="sourceLine" id="cb49-2" title="2">x =<span class="st"> </span>np<span class="op">$</span><span class="kw">array</span>(<span class="kw">rbind</span>(</a>
+<a class="sourceLine" id="cb49-3" title="3">            <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb49-4" title="4">            <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb49-5" title="5">            <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb49-6" title="6">            <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb49-7" title="7"></a>
+<a class="sourceLine" id="cb49-8" title="8"><span class="co"># the numpy array</span></a>
+<a class="sourceLine" id="cb49-9" title="9">x</a></code></pre></div>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    0    0    1
 #&gt; [2,]    0    1    1
 #&gt; [3,]    1    0    1
 #&gt; [4,]    1    1    1</code></pre>
 <p>This is another common operation that will find in the PyTorch tutorials: converting a <code>numpy</code> array from a certain type to a tensor of the same type:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="pytorch-and-numpy.html#cb48-1"></a><span class="co"># convert the numpy array to a float type</span></span>
-<span id="cb48-2"><a href="pytorch-and-numpy.html#cb48-2"></a>Xn &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">float32</span>(x)</span>
-<span id="cb48-3"><a href="pytorch-and-numpy.html#cb48-3"></a><span class="co"># convert the numpy array to a float tensor</span></span>
-<span id="cb48-4"><a href="pytorch-and-numpy.html#cb48-4"></a>Xt &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(Xn)</span>
-<span id="cb48-5"><a href="pytorch-and-numpy.html#cb48-5"></a>Xt</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="co"># convert the numpy array to a float type</span></a>
+<a class="sourceLine" id="cb51-2" title="2">Xn &lt;-<span class="st"> </span>np<span class="op">$</span><span class="kw">float32</span>(x)</a>
+<a class="sourceLine" id="cb51-3" title="3"><span class="co"># convert the numpy array to a float tensor</span></a>
+<a class="sourceLine" id="cb51-4" title="4">Xt &lt;-<span class="st"> </span>torch<span class="op">$</span><span class="kw">FloatTensor</span>(Xn)</a>
+<a class="sourceLine" id="cb51-5" title="5">Xt</a></code></pre></div>
 <pre><code>#&gt; tensor([[0., 0., 1.],
 #&gt;         [0., 1., 1.],
 #&gt;         [1., 0., 1.],
@@ -1447,9 +1445,10 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="python-built-in-functions" class="section level2">
 <h2><span class="header-section-number">2.4</span> Python built-in functions</h2>
 <p>To access the Python built-in functions we make use of the package <code>reticulate</code> and the function <code>import_builtins()</code>.</p>
-<p>Here are part of the built-in functions and operators offered by <code>reticulate</code>:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="pytorch-and-numpy.html#cb50-1"></a>py_bi &lt;-<span class="st"> </span><span class="kw">import_builtins</span>()</span>
-<span id="cb50-2"><a href="pytorch-and-numpy.html#cb50-2"></a><span class="kw">grep</span>(<span class="st">&quot;Error|Warning|Exit&quot;</span>, <span class="kw">names</span>(py_bi), <span class="dt">value =</span> <span class="ot">TRUE</span>, <span class="dt">invert =</span> <span class="ot">TRUE</span>, <span class="dt">perl =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>Here are part of the built-in functions and operators offered by the R package <code>reticulate</code>. I am using the R function <code>grep()</code> to discard those which carry the keywords <code>Error</code>, or <code>Warning</code>, or <code>Exit</code>.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1">py_bi &lt;-<span class="st"> </span>reticulate<span class="op">::</span><span class="kw">import_builtins</span>()</a>
+<a class="sourceLine" id="cb53-2" title="2"><span class="kw">grep</span>(<span class="st">&quot;Error|Warning|Exit&quot;</span>, <span class="kw">names</span>(py_bi), <span class="dt">value =</span> <span class="ot">TRUE</span>, <span class="dt">invert =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb53-3" title="3">     <span class="dt">perl =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>#&gt;  [1] &quot;abs&quot;                &quot;all&quot;                &quot;any&quot;               
 #&gt;  [4] &quot;ascii&quot;              &quot;BaseException&quot;      &quot;bin&quot;               
 #&gt;  [7] &quot;bool&quot;               &quot;breakpoint&quot;         &quot;bytearray&quot;         
@@ -1481,135 +1480,135 @@ code span.wa { color: #bf0303; } /* Warning */
 <div id="length-of-a-dataset" class="section level4 unnumbered">
 <h4>Length of a dataset</h4>
 <p>Sometimes, we will need the Python <code>len</code> function to find out the length of an object:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="pytorch-and-numpy.html#cb52-1"></a>py_bi<span class="op">$</span><span class="kw">len</span>(train_dataset)</span>
-<span id="cb52-2"><a href="pytorch-and-numpy.html#cb52-2"></a>py_bi<span class="op">$</span><span class="kw">len</span>(test_dataset)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">py_bi<span class="op">$</span><span class="kw">len</span>(train_dataset)</a>
+<a class="sourceLine" id="cb55-2" title="2">py_bi<span class="op">$</span><span class="kw">len</span>(test_dataset)</a></code></pre></div>
 <pre><code>#&gt; [1] 60000
 #&gt; [1] 10000</code></pre>
 </div>
 <div id="iterators" class="section level4 unnumbered">
 <h4>Iterators</h4>
-<p>Iterators are used a lot in dataset operations when running a neural network. In this example we will iterate through only 100 elements of the 60,000 of the <code>train</code> dataset. The goal is printing the “label” or “class” for the digits we are reading. The digits are not show here; they are stored in tensors.</p>
+<p>Iterators are used a lot in dataset operations when running a neural network. In this example we will iterate through only 100 elements of the 60,000 of the MNIST <code>train</code> dataset. The goal is printing the “label” or “class” for the digits we are reading. The digits are not show here; they are stored in tensors.</p>
 <!-- we use results="hold" to wait for the header of the table -->
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="pytorch-and-numpy.html#cb54-1"></a><span class="co"># iterate through training dataset</span></span>
-<span id="cb54-2"><a href="pytorch-and-numpy.html#cb54-2"></a>enum_train_dataset &lt;-<span class="st"> </span>py_bi<span class="op">$</span><span class="kw">enumerate</span>(train_dataset)</span>
-<span id="cb54-3"><a href="pytorch-and-numpy.html#cb54-3"></a><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%8s %8s </span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;index&quot;</span>, <span class="st">&quot;label&quot;</span>))</span>
-<span id="cb54-4"><a href="pytorch-and-numpy.html#cb54-4"></a></span>
-<span id="cb54-5"><a href="pytorch-and-numpy.html#cb54-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>py_bi<span class="op">$</span><span class="kw">len</span>(train_dataset)) {</span>
-<span id="cb54-6"><a href="pytorch-and-numpy.html#cb54-6"></a>    obj &lt;-<span class="st"> </span>reticulate<span class="op">::</span><span class="kw">iter_next</span>(enum_train_dataset)</span>
-<span id="cb54-7"><a href="pytorch-and-numpy.html#cb54-7"></a>    idx   &lt;-<span class="st"> </span>obj[[<span class="dv">1</span>]]        <span class="co"># index number</span></span>
-<span id="cb54-8"><a href="pytorch-and-numpy.html#cb54-8"></a>    <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%8d %5d </span><span class="ch">\n</span><span class="st">&quot;</span>, idx, obj[[<span class="dv">2</span>]][[<span class="dv">2</span>]]))</span>
-<span id="cb54-9"><a href="pytorch-and-numpy.html#cb54-9"></a>    <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span>   <span class="co"># print only 100 labels</span></span>
-<span id="cb54-10"><a href="pytorch-and-numpy.html#cb54-10"></a>}</span>
-<span id="cb54-11"><a href="pytorch-and-numpy.html#cb54-11"></a><span class="co">#&gt;    index    label </span></span>
-<span id="cb54-12"><a href="pytorch-and-numpy.html#cb54-12"></a><span class="co">#&gt;        0     5 </span></span>
-<span id="cb54-13"><a href="pytorch-and-numpy.html#cb54-13"></a><span class="co">#&gt;        1     0 </span></span>
-<span id="cb54-14"><a href="pytorch-and-numpy.html#cb54-14"></a><span class="co">#&gt;        2     4 </span></span>
-<span id="cb54-15"><a href="pytorch-and-numpy.html#cb54-15"></a><span class="co">#&gt;        3     1 </span></span>
-<span id="cb54-16"><a href="pytorch-and-numpy.html#cb54-16"></a><span class="co">#&gt;        4     9 </span></span>
-<span id="cb54-17"><a href="pytorch-and-numpy.html#cb54-17"></a><span class="co">#&gt;        5     2 </span></span>
-<span id="cb54-18"><a href="pytorch-and-numpy.html#cb54-18"></a><span class="co">#&gt;        6     1 </span></span>
-<span id="cb54-19"><a href="pytorch-and-numpy.html#cb54-19"></a><span class="co">#&gt;        7     3 </span></span>
-<span id="cb54-20"><a href="pytorch-and-numpy.html#cb54-20"></a><span class="co">#&gt;        8     1 </span></span>
-<span id="cb54-21"><a href="pytorch-and-numpy.html#cb54-21"></a><span class="co">#&gt;        9     4 </span></span>
-<span id="cb54-22"><a href="pytorch-and-numpy.html#cb54-22"></a><span class="co">#&gt;       10     3 </span></span>
-<span id="cb54-23"><a href="pytorch-and-numpy.html#cb54-23"></a><span class="co">#&gt;       11     5 </span></span>
-<span id="cb54-24"><a href="pytorch-and-numpy.html#cb54-24"></a><span class="co">#&gt;       12     3 </span></span>
-<span id="cb54-25"><a href="pytorch-and-numpy.html#cb54-25"></a><span class="co">#&gt;       13     6 </span></span>
-<span id="cb54-26"><a href="pytorch-and-numpy.html#cb54-26"></a><span class="co">#&gt;       14     1 </span></span>
-<span id="cb54-27"><a href="pytorch-and-numpy.html#cb54-27"></a><span class="co">#&gt;       15     7 </span></span>
-<span id="cb54-28"><a href="pytorch-and-numpy.html#cb54-28"></a><span class="co">#&gt;       16     2 </span></span>
-<span id="cb54-29"><a href="pytorch-and-numpy.html#cb54-29"></a><span class="co">#&gt;       17     8 </span></span>
-<span id="cb54-30"><a href="pytorch-and-numpy.html#cb54-30"></a><span class="co">#&gt;       18     6 </span></span>
-<span id="cb54-31"><a href="pytorch-and-numpy.html#cb54-31"></a><span class="co">#&gt;       19     9 </span></span>
-<span id="cb54-32"><a href="pytorch-and-numpy.html#cb54-32"></a><span class="co">#&gt;       20     4 </span></span>
-<span id="cb54-33"><a href="pytorch-and-numpy.html#cb54-33"></a><span class="co">#&gt;       21     0 </span></span>
-<span id="cb54-34"><a href="pytorch-and-numpy.html#cb54-34"></a><span class="co">#&gt;       22     9 </span></span>
-<span id="cb54-35"><a href="pytorch-and-numpy.html#cb54-35"></a><span class="co">#&gt;       23     1 </span></span>
-<span id="cb54-36"><a href="pytorch-and-numpy.html#cb54-36"></a><span class="co">#&gt;       24     1 </span></span>
-<span id="cb54-37"><a href="pytorch-and-numpy.html#cb54-37"></a><span class="co">#&gt;       25     2 </span></span>
-<span id="cb54-38"><a href="pytorch-and-numpy.html#cb54-38"></a><span class="co">#&gt;       26     4 </span></span>
-<span id="cb54-39"><a href="pytorch-and-numpy.html#cb54-39"></a><span class="co">#&gt;       27     3 </span></span>
-<span id="cb54-40"><a href="pytorch-and-numpy.html#cb54-40"></a><span class="co">#&gt;       28     2 </span></span>
-<span id="cb54-41"><a href="pytorch-and-numpy.html#cb54-41"></a><span class="co">#&gt;       29     7 </span></span>
-<span id="cb54-42"><a href="pytorch-and-numpy.html#cb54-42"></a><span class="co">#&gt;       30     3 </span></span>
-<span id="cb54-43"><a href="pytorch-and-numpy.html#cb54-43"></a><span class="co">#&gt;       31     8 </span></span>
-<span id="cb54-44"><a href="pytorch-and-numpy.html#cb54-44"></a><span class="co">#&gt;       32     6 </span></span>
-<span id="cb54-45"><a href="pytorch-and-numpy.html#cb54-45"></a><span class="co">#&gt;       33     9 </span></span>
-<span id="cb54-46"><a href="pytorch-and-numpy.html#cb54-46"></a><span class="co">#&gt;       34     0 </span></span>
-<span id="cb54-47"><a href="pytorch-and-numpy.html#cb54-47"></a><span class="co">#&gt;       35     5 </span></span>
-<span id="cb54-48"><a href="pytorch-and-numpy.html#cb54-48"></a><span class="co">#&gt;       36     6 </span></span>
-<span id="cb54-49"><a href="pytorch-and-numpy.html#cb54-49"></a><span class="co">#&gt;       37     0 </span></span>
-<span id="cb54-50"><a href="pytorch-and-numpy.html#cb54-50"></a><span class="co">#&gt;       38     7 </span></span>
-<span id="cb54-51"><a href="pytorch-and-numpy.html#cb54-51"></a><span class="co">#&gt;       39     6 </span></span>
-<span id="cb54-52"><a href="pytorch-and-numpy.html#cb54-52"></a><span class="co">#&gt;       40     1 </span></span>
-<span id="cb54-53"><a href="pytorch-and-numpy.html#cb54-53"></a><span class="co">#&gt;       41     8 </span></span>
-<span id="cb54-54"><a href="pytorch-and-numpy.html#cb54-54"></a><span class="co">#&gt;       42     7 </span></span>
-<span id="cb54-55"><a href="pytorch-and-numpy.html#cb54-55"></a><span class="co">#&gt;       43     9 </span></span>
-<span id="cb54-56"><a href="pytorch-and-numpy.html#cb54-56"></a><span class="co">#&gt;       44     3 </span></span>
-<span id="cb54-57"><a href="pytorch-and-numpy.html#cb54-57"></a><span class="co">#&gt;       45     9 </span></span>
-<span id="cb54-58"><a href="pytorch-and-numpy.html#cb54-58"></a><span class="co">#&gt;       46     8 </span></span>
-<span id="cb54-59"><a href="pytorch-and-numpy.html#cb54-59"></a><span class="co">#&gt;       47     5 </span></span>
-<span id="cb54-60"><a href="pytorch-and-numpy.html#cb54-60"></a><span class="co">#&gt;       48     9 </span></span>
-<span id="cb54-61"><a href="pytorch-and-numpy.html#cb54-61"></a><span class="co">#&gt;       49     3 </span></span>
-<span id="cb54-62"><a href="pytorch-and-numpy.html#cb54-62"></a><span class="co">#&gt;       50     3 </span></span>
-<span id="cb54-63"><a href="pytorch-and-numpy.html#cb54-63"></a><span class="co">#&gt;       51     0 </span></span>
-<span id="cb54-64"><a href="pytorch-and-numpy.html#cb54-64"></a><span class="co">#&gt;       52     7 </span></span>
-<span id="cb54-65"><a href="pytorch-and-numpy.html#cb54-65"></a><span class="co">#&gt;       53     4 </span></span>
-<span id="cb54-66"><a href="pytorch-and-numpy.html#cb54-66"></a><span class="co">#&gt;       54     9 </span></span>
-<span id="cb54-67"><a href="pytorch-and-numpy.html#cb54-67"></a><span class="co">#&gt;       55     8 </span></span>
-<span id="cb54-68"><a href="pytorch-and-numpy.html#cb54-68"></a><span class="co">#&gt;       56     0 </span></span>
-<span id="cb54-69"><a href="pytorch-and-numpy.html#cb54-69"></a><span class="co">#&gt;       57     9 </span></span>
-<span id="cb54-70"><a href="pytorch-and-numpy.html#cb54-70"></a><span class="co">#&gt;       58     4 </span></span>
-<span id="cb54-71"><a href="pytorch-and-numpy.html#cb54-71"></a><span class="co">#&gt;       59     1 </span></span>
-<span id="cb54-72"><a href="pytorch-and-numpy.html#cb54-72"></a><span class="co">#&gt;       60     4 </span></span>
-<span id="cb54-73"><a href="pytorch-and-numpy.html#cb54-73"></a><span class="co">#&gt;       61     4 </span></span>
-<span id="cb54-74"><a href="pytorch-and-numpy.html#cb54-74"></a><span class="co">#&gt;       62     6 </span></span>
-<span id="cb54-75"><a href="pytorch-and-numpy.html#cb54-75"></a><span class="co">#&gt;       63     0 </span></span>
-<span id="cb54-76"><a href="pytorch-and-numpy.html#cb54-76"></a><span class="co">#&gt;       64     4 </span></span>
-<span id="cb54-77"><a href="pytorch-and-numpy.html#cb54-77"></a><span class="co">#&gt;       65     5 </span></span>
-<span id="cb54-78"><a href="pytorch-and-numpy.html#cb54-78"></a><span class="co">#&gt;       66     6 </span></span>
-<span id="cb54-79"><a href="pytorch-and-numpy.html#cb54-79"></a><span class="co">#&gt;       67     1 </span></span>
-<span id="cb54-80"><a href="pytorch-and-numpy.html#cb54-80"></a><span class="co">#&gt;       68     0 </span></span>
-<span id="cb54-81"><a href="pytorch-and-numpy.html#cb54-81"></a><span class="co">#&gt;       69     0 </span></span>
-<span id="cb54-82"><a href="pytorch-and-numpy.html#cb54-82"></a><span class="co">#&gt;       70     1 </span></span>
-<span id="cb54-83"><a href="pytorch-and-numpy.html#cb54-83"></a><span class="co">#&gt;       71     7 </span></span>
-<span id="cb54-84"><a href="pytorch-and-numpy.html#cb54-84"></a><span class="co">#&gt;       72     1 </span></span>
-<span id="cb54-85"><a href="pytorch-and-numpy.html#cb54-85"></a><span class="co">#&gt;       73     6 </span></span>
-<span id="cb54-86"><a href="pytorch-and-numpy.html#cb54-86"></a><span class="co">#&gt;       74     3 </span></span>
-<span id="cb54-87"><a href="pytorch-and-numpy.html#cb54-87"></a><span class="co">#&gt;       75     0 </span></span>
-<span id="cb54-88"><a href="pytorch-and-numpy.html#cb54-88"></a><span class="co">#&gt;       76     2 </span></span>
-<span id="cb54-89"><a href="pytorch-and-numpy.html#cb54-89"></a><span class="co">#&gt;       77     1 </span></span>
-<span id="cb54-90"><a href="pytorch-and-numpy.html#cb54-90"></a><span class="co">#&gt;       78     1 </span></span>
-<span id="cb54-91"><a href="pytorch-and-numpy.html#cb54-91"></a><span class="co">#&gt;       79     7 </span></span>
-<span id="cb54-92"><a href="pytorch-and-numpy.html#cb54-92"></a><span class="co">#&gt;       80     9 </span></span>
-<span id="cb54-93"><a href="pytorch-and-numpy.html#cb54-93"></a><span class="co">#&gt;       81     0 </span></span>
-<span id="cb54-94"><a href="pytorch-and-numpy.html#cb54-94"></a><span class="co">#&gt;       82     2 </span></span>
-<span id="cb54-95"><a href="pytorch-and-numpy.html#cb54-95"></a><span class="co">#&gt;       83     6 </span></span>
-<span id="cb54-96"><a href="pytorch-and-numpy.html#cb54-96"></a><span class="co">#&gt;       84     7 </span></span>
-<span id="cb54-97"><a href="pytorch-and-numpy.html#cb54-97"></a><span class="co">#&gt;       85     8 </span></span>
-<span id="cb54-98"><a href="pytorch-and-numpy.html#cb54-98"></a><span class="co">#&gt;       86     3 </span></span>
-<span id="cb54-99"><a href="pytorch-and-numpy.html#cb54-99"></a><span class="co">#&gt;       87     9 </span></span>
-<span id="cb54-100"><a href="pytorch-and-numpy.html#cb54-100"></a><span class="co">#&gt;       88     0 </span></span>
-<span id="cb54-101"><a href="pytorch-and-numpy.html#cb54-101"></a><span class="co">#&gt;       89     4 </span></span>
-<span id="cb54-102"><a href="pytorch-and-numpy.html#cb54-102"></a><span class="co">#&gt;       90     6 </span></span>
-<span id="cb54-103"><a href="pytorch-and-numpy.html#cb54-103"></a><span class="co">#&gt;       91     7 </span></span>
-<span id="cb54-104"><a href="pytorch-and-numpy.html#cb54-104"></a><span class="co">#&gt;       92     4 </span></span>
-<span id="cb54-105"><a href="pytorch-and-numpy.html#cb54-105"></a><span class="co">#&gt;       93     6 </span></span>
-<span id="cb54-106"><a href="pytorch-and-numpy.html#cb54-106"></a><span class="co">#&gt;       94     8 </span></span>
-<span id="cb54-107"><a href="pytorch-and-numpy.html#cb54-107"></a><span class="co">#&gt;       95     0 </span></span>
-<span id="cb54-108"><a href="pytorch-and-numpy.html#cb54-108"></a><span class="co">#&gt;       96     7 </span></span>
-<span id="cb54-109"><a href="pytorch-and-numpy.html#cb54-109"></a><span class="co">#&gt;       97     8 </span></span>
-<span id="cb54-110"><a href="pytorch-and-numpy.html#cb54-110"></a><span class="co">#&gt;       98     3 </span></span>
-<span id="cb54-111"><a href="pytorch-and-numpy.html#cb54-111"></a><span class="co">#&gt;       99     1</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="co"># iterate through training dataset</span></a>
+<a class="sourceLine" id="cb57-2" title="2">enum_train_dataset &lt;-<span class="st"> </span>py_bi<span class="op">$</span><span class="kw">enumerate</span>(train_dataset)</a>
+<a class="sourceLine" id="cb57-3" title="3"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%8s %8s </span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;index&quot;</span>, <span class="st">&quot;label&quot;</span>))</a>
+<a class="sourceLine" id="cb57-4" title="4"></a>
+<a class="sourceLine" id="cb57-5" title="5"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>py_bi<span class="op">$</span><span class="kw">len</span>(train_dataset)) {</a>
+<a class="sourceLine" id="cb57-6" title="6">    obj &lt;-<span class="st"> </span>reticulate<span class="op">::</span><span class="kw">iter_next</span>(enum_train_dataset)</a>
+<a class="sourceLine" id="cb57-7" title="7">    idx   &lt;-<span class="st"> </span>obj[[<span class="dv">1</span>]]        <span class="co"># index number</span></a>
+<a class="sourceLine" id="cb57-8" title="8">    <span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%8d %5d </span><span class="ch">\n</span><span class="st">&quot;</span>, idx, obj[[<span class="dv">2</span>]][[<span class="dv">2</span>]]))</a>
+<a class="sourceLine" id="cb57-9" title="9">    <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span>   <span class="co"># print only 100 labels</span></a>
+<a class="sourceLine" id="cb57-10" title="10">}</a>
+<a class="sourceLine" id="cb57-11" title="11"><span class="co">#&gt;    index    label </span></a>
+<a class="sourceLine" id="cb57-12" title="12"><span class="co">#&gt;        0     5 </span></a>
+<a class="sourceLine" id="cb57-13" title="13"><span class="co">#&gt;        1     0 </span></a>
+<a class="sourceLine" id="cb57-14" title="14"><span class="co">#&gt;        2     4 </span></a>
+<a class="sourceLine" id="cb57-15" title="15"><span class="co">#&gt;        3     1 </span></a>
+<a class="sourceLine" id="cb57-16" title="16"><span class="co">#&gt;        4     9 </span></a>
+<a class="sourceLine" id="cb57-17" title="17"><span class="co">#&gt;        5     2 </span></a>
+<a class="sourceLine" id="cb57-18" title="18"><span class="co">#&gt;        6     1 </span></a>
+<a class="sourceLine" id="cb57-19" title="19"><span class="co">#&gt;        7     3 </span></a>
+<a class="sourceLine" id="cb57-20" title="20"><span class="co">#&gt;        8     1 </span></a>
+<a class="sourceLine" id="cb57-21" title="21"><span class="co">#&gt;        9     4 </span></a>
+<a class="sourceLine" id="cb57-22" title="22"><span class="co">#&gt;       10     3 </span></a>
+<a class="sourceLine" id="cb57-23" title="23"><span class="co">#&gt;       11     5 </span></a>
+<a class="sourceLine" id="cb57-24" title="24"><span class="co">#&gt;       12     3 </span></a>
+<a class="sourceLine" id="cb57-25" title="25"><span class="co">#&gt;       13     6 </span></a>
+<a class="sourceLine" id="cb57-26" title="26"><span class="co">#&gt;       14     1 </span></a>
+<a class="sourceLine" id="cb57-27" title="27"><span class="co">#&gt;       15     7 </span></a>
+<a class="sourceLine" id="cb57-28" title="28"><span class="co">#&gt;       16     2 </span></a>
+<a class="sourceLine" id="cb57-29" title="29"><span class="co">#&gt;       17     8 </span></a>
+<a class="sourceLine" id="cb57-30" title="30"><span class="co">#&gt;       18     6 </span></a>
+<a class="sourceLine" id="cb57-31" title="31"><span class="co">#&gt;       19     9 </span></a>
+<a class="sourceLine" id="cb57-32" title="32"><span class="co">#&gt;       20     4 </span></a>
+<a class="sourceLine" id="cb57-33" title="33"><span class="co">#&gt;       21     0 </span></a>
+<a class="sourceLine" id="cb57-34" title="34"><span class="co">#&gt;       22     9 </span></a>
+<a class="sourceLine" id="cb57-35" title="35"><span class="co">#&gt;       23     1 </span></a>
+<a class="sourceLine" id="cb57-36" title="36"><span class="co">#&gt;       24     1 </span></a>
+<a class="sourceLine" id="cb57-37" title="37"><span class="co">#&gt;       25     2 </span></a>
+<a class="sourceLine" id="cb57-38" title="38"><span class="co">#&gt;       26     4 </span></a>
+<a class="sourceLine" id="cb57-39" title="39"><span class="co">#&gt;       27     3 </span></a>
+<a class="sourceLine" id="cb57-40" title="40"><span class="co">#&gt;       28     2 </span></a>
+<a class="sourceLine" id="cb57-41" title="41"><span class="co">#&gt;       29     7 </span></a>
+<a class="sourceLine" id="cb57-42" title="42"><span class="co">#&gt;       30     3 </span></a>
+<a class="sourceLine" id="cb57-43" title="43"><span class="co">#&gt;       31     8 </span></a>
+<a class="sourceLine" id="cb57-44" title="44"><span class="co">#&gt;       32     6 </span></a>
+<a class="sourceLine" id="cb57-45" title="45"><span class="co">#&gt;       33     9 </span></a>
+<a class="sourceLine" id="cb57-46" title="46"><span class="co">#&gt;       34     0 </span></a>
+<a class="sourceLine" id="cb57-47" title="47"><span class="co">#&gt;       35     5 </span></a>
+<a class="sourceLine" id="cb57-48" title="48"><span class="co">#&gt;       36     6 </span></a>
+<a class="sourceLine" id="cb57-49" title="49"><span class="co">#&gt;       37     0 </span></a>
+<a class="sourceLine" id="cb57-50" title="50"><span class="co">#&gt;       38     7 </span></a>
+<a class="sourceLine" id="cb57-51" title="51"><span class="co">#&gt;       39     6 </span></a>
+<a class="sourceLine" id="cb57-52" title="52"><span class="co">#&gt;       40     1 </span></a>
+<a class="sourceLine" id="cb57-53" title="53"><span class="co">#&gt;       41     8 </span></a>
+<a class="sourceLine" id="cb57-54" title="54"><span class="co">#&gt;       42     7 </span></a>
+<a class="sourceLine" id="cb57-55" title="55"><span class="co">#&gt;       43     9 </span></a>
+<a class="sourceLine" id="cb57-56" title="56"><span class="co">#&gt;       44     3 </span></a>
+<a class="sourceLine" id="cb57-57" title="57"><span class="co">#&gt;       45     9 </span></a>
+<a class="sourceLine" id="cb57-58" title="58"><span class="co">#&gt;       46     8 </span></a>
+<a class="sourceLine" id="cb57-59" title="59"><span class="co">#&gt;       47     5 </span></a>
+<a class="sourceLine" id="cb57-60" title="60"><span class="co">#&gt;       48     9 </span></a>
+<a class="sourceLine" id="cb57-61" title="61"><span class="co">#&gt;       49     3 </span></a>
+<a class="sourceLine" id="cb57-62" title="62"><span class="co">#&gt;       50     3 </span></a>
+<a class="sourceLine" id="cb57-63" title="63"><span class="co">#&gt;       51     0 </span></a>
+<a class="sourceLine" id="cb57-64" title="64"><span class="co">#&gt;       52     7 </span></a>
+<a class="sourceLine" id="cb57-65" title="65"><span class="co">#&gt;       53     4 </span></a>
+<a class="sourceLine" id="cb57-66" title="66"><span class="co">#&gt;       54     9 </span></a>
+<a class="sourceLine" id="cb57-67" title="67"><span class="co">#&gt;       55     8 </span></a>
+<a class="sourceLine" id="cb57-68" title="68"><span class="co">#&gt;       56     0 </span></a>
+<a class="sourceLine" id="cb57-69" title="69"><span class="co">#&gt;       57     9 </span></a>
+<a class="sourceLine" id="cb57-70" title="70"><span class="co">#&gt;       58     4 </span></a>
+<a class="sourceLine" id="cb57-71" title="71"><span class="co">#&gt;       59     1 </span></a>
+<a class="sourceLine" id="cb57-72" title="72"><span class="co">#&gt;       60     4 </span></a>
+<a class="sourceLine" id="cb57-73" title="73"><span class="co">#&gt;       61     4 </span></a>
+<a class="sourceLine" id="cb57-74" title="74"><span class="co">#&gt;       62     6 </span></a>
+<a class="sourceLine" id="cb57-75" title="75"><span class="co">#&gt;       63     0 </span></a>
+<a class="sourceLine" id="cb57-76" title="76"><span class="co">#&gt;       64     4 </span></a>
+<a class="sourceLine" id="cb57-77" title="77"><span class="co">#&gt;       65     5 </span></a>
+<a class="sourceLine" id="cb57-78" title="78"><span class="co">#&gt;       66     6 </span></a>
+<a class="sourceLine" id="cb57-79" title="79"><span class="co">#&gt;       67     1 </span></a>
+<a class="sourceLine" id="cb57-80" title="80"><span class="co">#&gt;       68     0 </span></a>
+<a class="sourceLine" id="cb57-81" title="81"><span class="co">#&gt;       69     0 </span></a>
+<a class="sourceLine" id="cb57-82" title="82"><span class="co">#&gt;       70     1 </span></a>
+<a class="sourceLine" id="cb57-83" title="83"><span class="co">#&gt;       71     7 </span></a>
+<a class="sourceLine" id="cb57-84" title="84"><span class="co">#&gt;       72     1 </span></a>
+<a class="sourceLine" id="cb57-85" title="85"><span class="co">#&gt;       73     6 </span></a>
+<a class="sourceLine" id="cb57-86" title="86"><span class="co">#&gt;       74     3 </span></a>
+<a class="sourceLine" id="cb57-87" title="87"><span class="co">#&gt;       75     0 </span></a>
+<a class="sourceLine" id="cb57-88" title="88"><span class="co">#&gt;       76     2 </span></a>
+<a class="sourceLine" id="cb57-89" title="89"><span class="co">#&gt;       77     1 </span></a>
+<a class="sourceLine" id="cb57-90" title="90"><span class="co">#&gt;       78     1 </span></a>
+<a class="sourceLine" id="cb57-91" title="91"><span class="co">#&gt;       79     7 </span></a>
+<a class="sourceLine" id="cb57-92" title="92"><span class="co">#&gt;       80     9 </span></a>
+<a class="sourceLine" id="cb57-93" title="93"><span class="co">#&gt;       81     0 </span></a>
+<a class="sourceLine" id="cb57-94" title="94"><span class="co">#&gt;       82     2 </span></a>
+<a class="sourceLine" id="cb57-95" title="95"><span class="co">#&gt;       83     6 </span></a>
+<a class="sourceLine" id="cb57-96" title="96"><span class="co">#&gt;       84     7 </span></a>
+<a class="sourceLine" id="cb57-97" title="97"><span class="co">#&gt;       85     8 </span></a>
+<a class="sourceLine" id="cb57-98" title="98"><span class="co">#&gt;       86     3 </span></a>
+<a class="sourceLine" id="cb57-99" title="99"><span class="co">#&gt;       87     9 </span></a>
+<a class="sourceLine" id="cb57-100" title="100"><span class="co">#&gt;       88     0 </span></a>
+<a class="sourceLine" id="cb57-101" title="101"><span class="co">#&gt;       89     4 </span></a>
+<a class="sourceLine" id="cb57-102" title="102"><span class="co">#&gt;       90     6 </span></a>
+<a class="sourceLine" id="cb57-103" title="103"><span class="co">#&gt;       91     7 </span></a>
+<a class="sourceLine" id="cb57-104" title="104"><span class="co">#&gt;       92     4 </span></a>
+<a class="sourceLine" id="cb57-105" title="105"><span class="co">#&gt;       93     6 </span></a>
+<a class="sourceLine" id="cb57-106" title="106"><span class="co">#&gt;       94     8 </span></a>
+<a class="sourceLine" id="cb57-107" title="107"><span class="co">#&gt;       95     0 </span></a>
+<a class="sourceLine" id="cb57-108" title="108"><span class="co">#&gt;       96     7 </span></a>
+<a class="sourceLine" id="cb57-109" title="109"><span class="co">#&gt;       97     8 </span></a>
+<a class="sourceLine" id="cb57-110" title="110"><span class="co">#&gt;       98     3 </span></a>
+<a class="sourceLine" id="cb57-111" title="111"><span class="co">#&gt;       99     1</span></a></code></pre></div>
 </div>
 <div id="types-and-instances" class="section level4 unnumbered">
 <h4>Types and instances</h4>
 <p>Types, instances and classes are important to take decisions on how we will process data that is being read from the datasets. In this example, we want to know if an object is of certain instance:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="pytorch-and-numpy.html#cb55-1"></a><span class="co"># get the class of the object</span></span>
-<span id="cb55-2"><a href="pytorch-and-numpy.html#cb55-2"></a>py_bi<span class="op">$</span><span class="kw">type</span>(train_dataset)</span>
-<span id="cb55-3"><a href="pytorch-and-numpy.html#cb55-3"></a></span>
-<span id="cb55-4"><a href="pytorch-and-numpy.html#cb55-4"></a><span class="co"># is train_dataset a torchvision dataset class</span></span>
-<span id="cb55-5"><a href="pytorch-and-numpy.html#cb55-5"></a>py_bi<span class="op">$</span><span class="kw">isinstance</span>(train_dataset, torchvision<span class="op">$</span>datasets<span class="op">$</span>mnist<span class="op">$</span>MNIST)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="co"># get the class of the object</span></a>
+<a class="sourceLine" id="cb58-2" title="2">py_bi<span class="op">$</span><span class="kw">type</span>(train_dataset)</a>
+<a class="sourceLine" id="cb58-3" title="3"></a>
+<a class="sourceLine" id="cb58-4" title="4"><span class="co"># is train_dataset a torchvision dataset class</span></a>
+<a class="sourceLine" id="cb58-5" title="5">py_bi<span class="op">$</span><span class="kw">isinstance</span>(train_dataset, torchvision<span class="op">$</span>datasets<span class="op">$</span>mnist<span class="op">$</span>MNIST)</a></code></pre></div>
 <pre><code>#&gt; &lt;class &#39;torchvision.datasets.mnist.MNIST&#39;&gt;
 #&gt; [1] TRUE</code></pre>
 
