@@ -33,13 +33,13 @@ endif
 
 
 # create conda environment
-create_condaenv:
+conda_create:
 	source ${HOME}/${CONDA_TYPE}/etc/profile.d/conda.sh ;\
 	conda deactivate
 	conda remove --name ${CONDA_ENV} --all -y
 	conda env create -f ${ENV_RECIPE}
 
-remove_condaenv:
+conda_remove:
 	source ${HOME}/${CONDA_TYPE}/etc/profile.d/conda.sh ;\
 	conda deactivate
 	conda remove --name ${CONDA_ENV} --all -y
@@ -58,6 +58,9 @@ else
 	exit
 endif
 
+conda_deactivate:
+	source ${HOME}/${CONDA_TYPE}/etc/profile.d/conda.sh ;\
+	conda deactivate
 
 .PHONY: gitbook bs4book bs4book_open
 gitbook_render:
@@ -69,10 +72,9 @@ bs4book_render:
 
 
 # activate conda environment first; then render; finally, open index.html in a browser
-bs4book_open: conda_activate bs4book_render open_book
+bs4_book: conda_activate bs4book_render open_book conda_deactivate
 
-gitbook_open: conda_activate gitbook_render open_book
-
+git_book: conda_activate gitbook_render open_book conda_deactivate
 
 
 open_book:
