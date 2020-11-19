@@ -1,3 +1,7 @@
+bookdown::bs4_book:
+  repo: https://github.com/f0nzie/rtorch-minimal-book
+
+
 bookdown::gitbook:
   includes:
     in_header: hide_code.html

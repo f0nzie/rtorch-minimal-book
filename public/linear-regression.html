@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 Linear Regression | A Minimal rTorch Book</title>
   <meta name="description" content="This is a minimal tutorial about using the rTorch package to have fun while doing machine learning. This book was written with bookdown." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21.4 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 Linear Regression | A Minimal rTorch Book" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Alfonso R. Reyes" />
 
 
-<meta name="date" content="2020-10-25" />
+<meta name="date" content="2020-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,6 @@
   
 <link rel="prev" href="mnistdigits.html"/>
 <link rel="next" href="linear-regression-1.html"/>
-<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,8 +50,8 @@
 
 
 
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
 <script src="libs/datatables-binding-0.16/datatables.js"></script>
@@ -902,26 +901,25 @@ $(document).ready(function () {
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -933,9 +931,9 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-le
 div.sourceCode
   { color: #1f1c1b; background-color: #ffffff; }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
-code span { color: #1f1c1b; } /* Normal */
+code span. { color: #1f1c1b; } /* Normal */
 code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
 code span.an { color: #ca60ca; } /* Annotation */
 code span.at { color: #0057ae; } /* Attribute */
@@ -983,156 +981,128 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="./">The rTorch Minimal Book</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a>
-<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a>
-<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#python-anaconda"><i class="fa fa-check"></i>Python Anaconda</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#example"><i class="fa fa-check"></i>Example</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#automatic-installation"><i class="fa fa-check"></i>Automatic installation</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>I Getting Started</b></span></li>
-<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
-<ul>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#motivation"><i class="fa fa-check"></i><b>1.1</b> Motivation</a></li>
-<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> Start using <code>rTorch</code></a>
-<ul>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#start-using-rtorch"><i class="fa fa-check"></i><b>1.2</b> Start using <code>rTorch</code></a><ul>
 <li class="chapter" data-level="1.2.1" data-path="intro.html"><a href="intro.html#get-the-pytorch-version"><i class="fa fa-check"></i><b>1.2.1</b> Get the PyTorch version</a></li>
 <li class="chapter" data-level="1.2.2" data-path="intro.html"><a href="intro.html#pytorch-configuration"><i class="fa fa-check"></i><b>1.2.2</b> PyTorch configuration</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#what-can-you-do-with-rtorch"><i class="fa fa-check"></i><b>1.3</b> What can you do with <code>rTorch</code></a></li>
 <li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#getting-help"><i class="fa fa-check"></i><b>1.4</b> Getting help</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#pytorch-modules-in-rtorch"><i class="fa fa-check"></i><b>2.1</b> PyTorch modules in <code>rTorch</code></a>
-<ul>
+<li class="chapter" data-level="2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html"><i class="fa fa-check"></i><b>2</b> PyTorch and NumPy</a><ul>
+<li class="chapter" data-level="2.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#pytorch-modules-in-rtorch"><i class="fa fa-check"></i><b>2.1</b> PyTorch modules in <code>rTorch</code></a><ul>
 <li class="chapter" data-level="2.1.1" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#torchvision"><i class="fa fa-check"></i><b>2.1.1</b> torchvision</a></li>
 <li class="chapter" data-level="2.1.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#numpy"><i class="fa fa-check"></i><b>2.1.2</b> numpy</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-operations"><i class="fa fa-check"></i><b>2.2</b> Common array operations</a>
-<ul>
+<li class="chapter" data-level="2.2" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-array-operations"><i class="fa fa-check"></i><b>2.2</b> Common array operations</a><ul>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#create-an-array"><i class="fa fa-check"></i>Create an array</a></li>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#reshape-an-array"><i class="fa fa-check"></i>Reshape an array</a></li>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-a-random-array-in-numpy"><i class="fa fa-check"></i>Generate a random array in NumPy</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-tensor-operations"><i class="fa fa-check"></i><b>2.3</b> Common tensor operations</a>
-<ul>
+<li class="chapter" data-level="2.3" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#common-tensor-operations"><i class="fa fa-check"></i><b>2.3</b> Common tensor operations</a><ul>
 <li class="chapter" data-level="" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#generate-random-tensors"><i class="fa fa-check"></i>Generate random tensors</a></li>
 <li><a href="pytorch-and-numpy.html#numpy-array-to-pytorch-tensor"><code>numpy</code> array to PyTorch tensor</a></li>
 </ul></li>
 <li class="chapter" data-level="2.4" data-path="pytorch-and-numpy.html"><a href="pytorch-and-numpy.html#python-built-in-functions"><i class="fa fa-check"></i><b>2.4</b> Python built-in functions</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch</a>
-<ul>
+<li class="chapter" data-level="3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html"><i class="fa fa-check"></i><b>3</b> rTorch vs PyTorch</a><ul>
 <li class="chapter" data-level="3.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#whats-different"><i class="fa fa-check"></i><b>3.1</b> What’s different</a></li>
 <li class="chapter" data-level="3.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#calling-objects-from-pytorch"><i class="fa fa-check"></i><b>3.2</b> Calling objects from PyTorch</a></li>
 <li class="chapter" data-level="3.3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#call-functions-from-torch"><i class="fa fa-check"></i><b>3.3</b> Call functions from <code>torch</code></a></li>
 <li class="chapter" data-level="3.4" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#python-objects"><i class="fa fa-check"></i><b>3.4</b> Python objects</a></li>
-<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#iterating-through-datasets"><i class="fa fa-check"></i><b>3.5</b> Iterating through datasets</a>
-<ul>
+<li class="chapter" data-level="3.5" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#iterating-through-datasets"><i class="fa fa-check"></i><b>3.5</b> Iterating through datasets</a><ul>
 <li class="chapter" data-level="3.5.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#enumeration"><i class="fa fa-check"></i><b>3.5.1</b> Enumeration</a></li>
 <li class="chapter" data-level="3.5.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#enumerate-and-iterate"><i class="fa fa-check"></i><b>3.5.2</b> <code>enumerate</code> and <code>iterate</code></a></li>
 <li class="chapter" data-level="3.5.3" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#for-loop-for-iteration"><i class="fa fa-check"></i><b>3.5.3</b> <code>for-loop</code> for iteration</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#zero-gradient"><i class="fa fa-check"></i><b>3.6</b> Zero gradient</a>
-<ul>
+<li class="chapter" data-level="3.6" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#zero-gradient"><i class="fa fa-check"></i><b>3.6</b> Zero gradient</a><ul>
 <li class="chapter" data-level="3.6.1" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#code-version-in-python"><i class="fa fa-check"></i><b>3.6.1</b> Code version in Python</a></li>
 <li class="chapter" data-level="3.6.2" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#code-version-in-r"><i class="fa fa-check"></i><b>3.6.2</b> Code version in R</a></li>
 </ul></li>
 <li class="chapter" data-level="3.7" data-path="rtorch-vs-pytorch.html"><a href="rtorch-vs-pytorch.html#r-generic-functions"><i class="fa fa-check"></i><b>3.7</b> R generic functions</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a>
-<ul>
+<li class="chapter" data-level="4" data-path="converting-tensors.html"><a href="converting-tensors.html"><i class="fa fa-check"></i><b>4</b> Converting tensors</a><ul>
 <li class="chapter" data-level="4.1" data-path="converting-tensors.html"><a href="converting-tensors.html#tensor-to-numpy-array"><i class="fa fa-check"></i><b>4.1</b> Tensor to <code>numpy</code> array</a></li>
-<li class="chapter" data-level="4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-tensor"><i class="fa fa-check"></i><b>4.2</b> <code>numpy</code> array to tensor</a>
-<ul>
+<li class="chapter" data-level="4.2" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-tensor"><i class="fa fa-check"></i><b>4.2</b> <code>numpy</code> array to tensor</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="converting-tensors.html"><a href="converting-tensors.html#numpy-array-to-r"><i class="fa fa-check"></i><b>4.2.1</b> <code>numpy</code> array to <code>R</code></a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="converting-tensors.html"><a href="converting-tensors.html#r-objects-to-numpy-objects"><i class="fa fa-check"></i><b>4.3</b> R objects to <code>numpy</code> objects</a></li>
 </ul></li>
 <li class="part"><span><b>II Basic Tensor Operations</b></span></li>
-<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a>
-<ul>
+<li class="chapter" data-level="5" data-path="tensors.html"><a href="tensors.html"><i class="fa fa-check"></i><b>5</b> Tensors</a><ul>
+<li class="chapter" data-level="5.1" data-path="tensors.html"><a href="tensors.html#tensor-data-types"><i class="fa fa-check"></i><b>5.1</b> Tensor data types</a><ul>
 <li class="chapter" data-level="5.1.1" data-path="tensors.html"><a href="tensors.html#major-tensor-types"><i class="fa fa-check"></i><b>5.1.1</b> Major tensor types</a></li>
 <li class="chapter" data-level="5.1.2" data-path="tensors.html"><a href="tensors.html#example-a-4d-tensor"><i class="fa fa-check"></i><b>5.1.2</b> Example: A 4D tensor</a></li>
 <li class="chapter" data-level="5.1.3" data-path="tensors.html"><a href="tensors.html#example-a-3d-tensor"><i class="fa fa-check"></i><b>5.1.3</b> Example: A 3D tensor</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a>
-<ul>
+<li class="chapter" data-level="5.2" data-path="tensors.html"><a href="tensors.html#arithmetic-of-tensors"><i class="fa fa-check"></i><b>5.2</b> Arithmetic of tensors</a><ul>
 <li class="chapter" data-level="5.2.1" data-path="tensors.html"><a href="tensors.html#add-tensors"><i class="fa fa-check"></i><b>5.2.1</b> Add tensors</a></li>
 <li class="chapter" data-level="5.2.2" data-path="tensors.html"><a href="tensors.html#add-tensor-elements"><i class="fa fa-check"></i><b>5.2.2</b> Add tensor elements</a></li>
 <li class="chapter" data-level="5.2.3" data-path="tensors.html"><a href="tensors.html#multiply-a-tensor-by-a-scalar"><i class="fa fa-check"></i><b>5.2.3</b> Multiply a tensor by a scalar</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a>
-<ul>
+<li class="chapter" data-level="5.3" data-path="tensors.html"><a href="tensors.html#numpy-and-pytorch"><i class="fa fa-check"></i><b>5.3</b> NumPy and PyTorch</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="tensors.html"><a href="tensors.html#python-tuples-and-r-vectors"><i class="fa fa-check"></i><b>5.3.1</b> Python tuples and R vectors</a></li>
 <li class="chapter" data-level="5.3.2" data-path="tensors.html"><a href="tensors.html#a-numpy-array-from-r-vectors"><i class="fa fa-check"></i><b>5.3.2</b> A numpy array from R vectors</a></li>
 <li class="chapter" data-level="5.3.3" data-path="tensors.html"><a href="tensors.html#numpy-arrays-to-tensors"><i class="fa fa-check"></i><b>5.3.3</b> numpy arrays to tensors</a></li>
 <li class="chapter" data-level="5.3.4" data-path="tensors.html"><a href="tensors.html#create-and-fill-a-tensor"><i class="fa fa-check"></i><b>5.3.4</b> Create and fill a tensor</a></li>
 <li class="chapter" data-level="5.3.5" data-path="tensors.html"><a href="tensors.html#tensor-to-array-and-viceversa"><i class="fa fa-check"></i><b>5.3.5</b> Tensor to array, and viceversa</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a>
-<ul>
+<li class="chapter" data-level="5.4" data-path="tensors.html"><a href="tensors.html#create-tensors"><i class="fa fa-check"></i><b>5.4</b> Create tensors</a><ul>
 <li class="chapter" data-level="5.4.1" data-path="tensors.html"><a href="tensors.html#tensor-fill"><i class="fa fa-check"></i><b>5.4.1</b> Tensor fill</a></li>
 <li class="chapter" data-level="5.4.2" data-path="tensors.html"><a href="tensors.html#tensor-with-a-range-of-values"><i class="fa fa-check"></i><b>5.4.2</b> Tensor with a range of values</a></li>
 <li class="chapter" data-level="5.4.3" data-path="tensors.html"><a href="tensors.html#linear-or-log-scale-tensor"><i class="fa fa-check"></i><b>5.4.3</b> Linear or log scale Tensor</a></li>
 <li class="chapter" data-level="5.4.4" data-path="tensors.html"><a href="tensors.html#in-place-out-of-place-fill"><i class="fa fa-check"></i><b>5.4.4</b> In-place / Out-of-place fill</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a>
-<ul>
+<li class="chapter" data-level="5.5" data-path="tensors.html"><a href="tensors.html#tensor-resizing"><i class="fa fa-check"></i><b>5.5</b> Tensor resizing</a><ul>
 <li class="chapter" data-level="5.5.1" data-path="tensors.html"><a href="tensors.html#exercise"><i class="fa fa-check"></i><b>5.5.1</b> Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a>
-<ul>
+<li class="chapter" data-level="5.6" data-path="tensors.html"><a href="tensors.html#concatenate-tensors"><i class="fa fa-check"></i><b>5.6</b> Concatenate tensors</a><ul>
 <li class="chapter" data-level="5.6.1" data-path="tensors.html"><a href="tensors.html#concatenate-by-rows"><i class="fa fa-check"></i><b>5.6.1</b> Concatenate by rows</a></li>
 <li class="chapter" data-level="5.6.2" data-path="tensors.html"><a href="tensors.html#concatenate-by-columns"><i class="fa fa-check"></i><b>5.6.2</b> Concatenate by columns</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a>
-<ul>
+<li class="chapter" data-level="5.7" data-path="tensors.html"><a href="tensors.html#reshape-tensors"><i class="fa fa-check"></i><b>5.7</b> Reshape tensors</a><ul>
 <li class="chapter" data-level="5.7.1" data-path="tensors.html"><a href="tensors.html#with-chunk"><i class="fa fa-check"></i><b>5.7.1</b> With <code>chunk()</code>:</a></li>
 <li class="chapter" data-level="5.7.2" data-path="tensors.html"><a href="tensors.html#with-index_select"><i class="fa fa-check"></i><b>5.7.2</b> With <code>index_select()</code>:</a></li>
 </ul></li>
-<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a>
-<ul>
+<li class="chapter" data-level="5.8" data-path="tensors.html"><a href="tensors.html#special-tensors"><i class="fa fa-check"></i><b>5.8</b> Special tensors</a><ul>
 <li class="chapter" data-level="5.8.1" data-path="tensors.html"><a href="tensors.html#identity-matrix"><i class="fa fa-check"></i><b>5.8.1</b> Identity matrix</a></li>
 <li class="chapter" data-level="5.8.2" data-path="tensors.html"><a href="tensors.html#ones"><i class="fa fa-check"></i><b>5.8.2</b> Ones</a></li>
 <li class="chapter" data-level="5.8.3" data-path="tensors.html"><a href="tensors.html#zeros"><i class="fa fa-check"></i><b>5.8.3</b> Zeros</a></li>
 <li class="chapter" data-level="5.8.4" data-path="tensors.html"><a href="tensors.html#diagonal-operations"><i class="fa fa-check"></i><b>5.8.4</b> Diagonal operations</a></li>
 </ul></li>
-<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a>
-<ul>
+<li class="chapter" data-level="5.9" data-path="tensors.html"><a href="tensors.html#access-to-tensor-elements"><i class="fa fa-check"></i><b>5.9</b> Access to tensor elements</a><ul>
 <li class="chapter" data-level="5.9.1" data-path="tensors.html"><a href="tensors.html#indices-to-tensor-elements"><i class="fa fa-check"></i><b>5.9.1</b> Indices to tensor elements</a></li>
 <li class="chapter" data-level="5.9.2" data-path="tensors.html"><a href="tensors.html#using-the-take-function"><i class="fa fa-check"></i><b>5.9.2</b> Using the <code>take</code> function</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a>
-<ul>
+<li class="chapter" data-level="5.10" data-path="tensors.html"><a href="tensors.html#other-tensor-operations"><i class="fa fa-check"></i><b>5.10</b> Other tensor operations</a><ul>
 <li class="chapter" data-level="5.10.1" data-path="tensors.html"><a href="tensors.html#cross-product"><i class="fa fa-check"></i><b>5.10.1</b> Cross product</a></li>
 <li class="chapter" data-level="5.10.2" data-path="tensors.html"><a href="tensors.html#dot-product"><i class="fa fa-check"></i><b>5.10.2</b> Dot product</a></li>
 </ul></li>
-<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a>
-<ul>
+<li class="chapter" data-level="5.11" data-path="tensors.html"><a href="tensors.html#logical-operations"><i class="fa fa-check"></i><b>5.11</b> Logical operations</a><ul>
 <li class="chapter" data-level="5.11.1" data-path="tensors.html"><a href="tensors.html#extract-a-unique-logical-result"><i class="fa fa-check"></i><b>5.11.1</b> Extract a unique logical result</a></li>
 <li class="chapter" data-level="5.11.2" data-path="tensors.html"><a href="tensors.html#greater-than-gt"><i class="fa fa-check"></i><b>5.11.2</b> Greater than (<code>gt</code>)</a></li>
 <li class="chapter" data-level="5.11.3" data-path="tensors.html"><a href="tensors.html#less-than-or-equal-le"><i class="fa fa-check"></i><b>5.11.3</b> Less than or equal (<code>le</code>)</a></li>
 <li class="chapter" data-level="5.11.4" data-path="tensors.html"><a href="tensors.html#logical-not"><i class="fa fa-check"></i><b>5.11.4</b> Logical NOT (<code>!</code>)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a>
-<ul>
+<li class="chapter" data-level="5.12" data-path="tensors.html"><a href="tensors.html#distributions"><i class="fa fa-check"></i><b>5.12</b> Distributions</a><ul>
 <li class="chapter" data-level="5.12.1" data-path="tensors.html"><a href="tensors.html#uniform-matrix"><i class="fa fa-check"></i><b>5.12.1</b> Uniform matrix</a></li>
 <li class="chapter" data-level="5.12.2" data-path="tensors.html"><a href="tensors.html#binomial-distribution"><i class="fa fa-check"></i><b>5.12.2</b> Binomial distribution</a></li>
 <li class="chapter" data-level="5.12.3" data-path="tensors.html"><a href="tensors.html#exponential-distribution"><i class="fa fa-check"></i><b>5.12.3</b> Exponential distribution</a></li>
 <li class="chapter" data-level="5.12.4" data-path="tensors.html"><a href="tensors.html#weibull-distribution"><i class="fa fa-check"></i><b>5.12.4</b> Weibull distribution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a>
-<ul>
+<li class="chapter" data-level="6" data-path="linearalgebra.html"><a href="linearalgebra.html"><i class="fa fa-check"></i><b>6</b> Linear Algebra with Torch</a><ul>
 <li class="chapter" data-level="6.1" data-path="linearalgebra.html"><a href="linearalgebra.html#scalars"><i class="fa fa-check"></i><b>6.1</b> Scalars</a></li>
-<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a>
-<ul>
+<li class="chapter" data-level="6.2" data-path="linearalgebra.html"><a href="linearalgebra.html#vectors"><i class="fa fa-check"></i><b>6.2</b> Vectors</a><ul>
 <li class="chapter" data-level="6.2.1" data-path="linearalgebra.html"><a href="linearalgebra.html#vector-to-matrix"><i class="fa fa-check"></i><b>6.2.1</b> Vector to matrix</a></li>
 <li class="chapter" data-level="6.2.2" data-path="linearalgebra.html"><a href="linearalgebra.html#matrix-to-tensor"><i class="fa fa-check"></i><b>6.2.2</b> Matrix to tensor</a></li>
 </ul></li>
@@ -1143,30 +1113,24 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="6.7" data-path="linearalgebra.html"><a href="linearalgebra.html#tensor-arithmetic"><i class="fa fa-check"></i><b>6.7</b> Tensor arithmetic</a></li>
 <li class="chapter" data-level="6.8" data-path="linearalgebra.html"><a href="linearalgebra.html#add-a-scalar-to-a-tensor"><i class="fa fa-check"></i><b>6.8</b> Add a scalar to a tensor</a></li>
 <li class="chapter" data-level="6.9" data-path="linearalgebra.html"><a href="linearalgebra.html#multiplying-tensors"><i class="fa fa-check"></i><b>6.9</b> Multiplying tensors</a></li>
-<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a>
-<ul>
+<li class="chapter" data-level="6.10" data-path="linearalgebra.html"><a href="linearalgebra.html#dot-product-1"><i class="fa fa-check"></i><b>6.10</b> Dot product</a><ul>
 <li class="chapter" data-level="6.10.1" data-path="linearalgebra.html"><a href="linearalgebra.html#d-array-using-python"><i class="fa fa-check"></i><b>6.10.1</b> 2D array using Python</a></li>
 <li class="chapter" data-level="6.10.2" data-path="linearalgebra.html"><a href="linearalgebra.html#d-array-using-r"><i class="fa fa-check"></i><b>6.10.2</b> 2D array using R</a></li>
 <li class="chapter" data-level="6.10.3" data-path="linearalgebra.html"><a href="linearalgebra.html#mm-and-matmul-functions"><i class="fa fa-check"></i><b>6.10.3</b> <code>mm</code> and <code>matmul</code> functions</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a>
-<ul>
+<li class="chapter" data-level="7" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html"><i class="fa fa-check"></i><b>7</b> Creating PyTorch classes</a><ul>
+<li class="chapter" data-level="7.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#build-a-pytorch-model-class"><i class="fa fa-check"></i><b>7.1</b> Build a PyTorch model class</a><ul>
 <li class="chapter" data-level="7.1.1" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-1-one-layer-nn"><i class="fa fa-check"></i><b>7.1.1</b> Example 1: One layer NN</a></li>
 <li class="chapter" data-level="7.1.2" data-path="creating-pytorch-classes.html"><a href="creating-pytorch-classes.html#example-2-logistic-regression"><i class="fa fa-check"></i><b>7.1.2</b> Example 2: Logistic Regression</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Logistic Regression</b></span></li>
-<li class="chapter" data-level="8" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem</a>
-<ul>
+<li class="chapter" data-level="8" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html"><i class="fa fa-check"></i><b>8</b> Example 1: A classification problem</a><ul>
 <li class="chapter" data-level="8.1" data-path="example-1-a-classification-problem.html"><a href="example-1-a-classification-problem.html#code-in-python"><i class="fa fa-check"></i><b>8.1</b> Code in Python</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a>
-<ul>
+<li class="chapter" data-level="9" data-path="mnistdigits.html"><a href="mnistdigits.html"><i class="fa fa-check"></i><b>9</b> Example 2: MNIST handwritten digits</a><ul>
+<li class="chapter" data-level="9.1" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-r"><i class="fa fa-check"></i><b>9.1</b> Code in R</a><ul>
 <li class="chapter" data-level="9.1.1" data-path="mnistdigits.html"><a href="mnistdigits.html#hyperparameters"><i class="fa fa-check"></i><b>9.1.1</b> Hyperparameters</a></li>
 <li class="chapter" data-level="9.1.2" data-path="mnistdigits.html"><a href="mnistdigits.html#read-datasets"><i class="fa fa-check"></i><b>9.1.2</b> Read datasets</a></li>
 <li class="chapter" data-level="9.1.3" data-path="mnistdigits.html"><a href="mnistdigits.html#define-the-model"><i class="fa fa-check"></i><b>9.1.3</b> Define the model</a></li>
@@ -1177,8 +1141,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="9.2" data-path="mnistdigits.html"><a href="mnistdigits.html#code-in-python-1"><i class="fa fa-check"></i><b>9.2</b> Code in Python</a></li>
 </ul></li>
 <li class="part"><span><b>IV Linear Regression</b></span></li>
-<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a>
-<ul>
+<li class="chapter" data-level="10" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>10</b> Linear Regression</a><ul>
 <li class="chapter" data-level="10.1" data-path="linear-regression.html"><a href="linear-regression.html#introduction"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
 <li class="chapter" data-level="10.2" data-path="linear-regression.html"><a href="linear-regression.html#generate-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Generate the dataset</a></li>
 <li class="chapter" data-level="10.3" data-path="linear-regression.html"><a href="linear-regression.html#convert-arrays-to-tensors"><i class="fa fa-check"></i><b>10.3</b> Convert arrays to tensors</a></li>
@@ -1188,16 +1151,14 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="10.7" data-path="linear-regression.html"><a href="linear-regression.html#training-1"><i class="fa fa-check"></i><b>10.7</b> Training</a></li>
 <li class="chapter" data-level="10.8" data-path="linear-regression.html"><a href="linear-regression.html#results"><i class="fa fa-check"></i><b>10.8</b> Results</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="linear-regression-1.html"><a href="linear-regression-1.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a>
-<ul>
+<li class="chapter" data-level="11" data-path="linear-regression-1.html"><a href="linear-regression-1.html"><i class="fa fa-check"></i><b>11</b> Linear Regression</a><ul>
 <li class="chapter" data-level="11.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#rainfall-prediction"><i class="fa fa-check"></i><b>11.1</b> Rainfall prediction</a></li>
 <li class="chapter" data-level="11.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#training-data"><i class="fa fa-check"></i><b>11.2</b> Training data</a></li>
 <li class="chapter" data-level="11.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#convert-arrays-to-tensors-1"><i class="fa fa-check"></i><b>11.3</b> Convert arrays to tensors</a></li>
 <li class="chapter" data-level="11.4" data-path="linear-regression-1.html"><a href="linear-regression-1.html#build-the-model"><i class="fa fa-check"></i><b>11.4</b> Build the model</a></li>
 <li class="chapter" data-level="11.5" data-path="linear-regression-1.html"><a href="linear-regression-1.html#generate-predictions"><i class="fa fa-check"></i><b>11.5</b> Generate predictions</a></li>
 <li class="chapter" data-level="11.6" data-path="linear-regression-1.html"><a href="linear-regression-1.html#loss-function"><i class="fa fa-check"></i><b>11.6</b> Loss Function</a></li>
-<li class="chapter" data-level="11.7" data-path="linear-regression-1.html"><a href="linear-regression-1.html#step-by-step-process"><i class="fa fa-check"></i><b>11.7</b> Step by step process</a>
-<ul>
+<li class="chapter" data-level="11.7" data-path="linear-regression-1.html"><a href="linear-regression-1.html#step-by-step-process"><i class="fa fa-check"></i><b>11.7</b> Step by step process</a><ul>
 <li class="chapter" data-level="11.7.1" data-path="linear-regression-1.html"><a href="linear-regression-1.html#compute-the-losses"><i class="fa fa-check"></i><b>11.7.1</b> Compute the losses</a></li>
 <li class="chapter" data-level="11.7.2" data-path="linear-regression-1.html"><a href="linear-regression-1.html#compute-gradients"><i class="fa fa-check"></i><b>11.7.2</b> Compute Gradients</a></li>
 <li class="chapter" data-level="11.7.3" data-path="linear-regression-1.html"><a href="linear-regression-1.html#reset-the-gradients"><i class="fa fa-check"></i><b>11.7.3</b> Reset the gradients</a></li>
@@ -1205,14 +1166,12 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="11.8" data-path="linear-regression-1.html"><a href="linear-regression-1.html#all-together"><i class="fa fa-check"></i><b>11.8</b> All together</a></li>
 </ul></li>
 <li class="part"><span><b>V Neural Networks</b></span></li>
-<li class="chapter" data-level="12" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a>
-<ul>
+<li class="chapter" data-level="12" data-path="neural-networks.html"><a href="neural-networks.html"><i class="fa fa-check"></i><b>12</b> Neural Networks</a><ul>
 <li class="chapter" data-level="12.1" data-path="neural-networks.html"><a href="neural-networks.html#rtorch-and-pytorch"><i class="fa fa-check"></i><b>12.1</b> rTorch and PyTorch</a></li>
 <li class="chapter" data-level="12.2" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-with-numpy"><i class="fa fa-check"></i><b>12.2</b> A neural network with <code>numpy</code></a></li>
 <li class="chapter" data-level="12.3" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-with-r-base"><i class="fa fa-check"></i><b>12.3</b> A neural network with <code>r-base</code></a></li>
 <li class="chapter" data-level="12.4" data-path="neural-networks.html"><a href="neural-networks.html#a-pytorch-neural-network"><i class="fa fa-check"></i><b>12.4</b> A <code>PyTorch</code> neural network</a></li>
-<li class="chapter" data-level="12.5" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> A neural network in <code>rTorch</code></a>
-<ul>
+<li class="chapter" data-level="12.5" data-path="neural-networks.html"><a href="neural-networks.html#a-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.5</b> A neural network in <code>rTorch</code></a><ul>
 <li class="chapter" data-level="12.5.1" data-path="neural-networks.html"><a href="neural-networks.html#load-the-libraries"><i class="fa fa-check"></i><b>12.5.1</b> Load the libraries</a></li>
 <li class="chapter" data-level="12.5.2" data-path="neural-networks.html"><a href="neural-networks.html#dataset"><i class="fa fa-check"></i><b>12.5.2</b> Dataset</a></li>
 <li class="chapter" data-level="12.5.3" data-path="neural-networks.html"><a href="neural-networks.html#initialize-the-weights"><i class="fa fa-check"></i><b>12.5.3</b> Initialize the weights</a></li>
@@ -1221,16 +1180,14 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="12.6" data-path="neural-networks.html"><a href="neural-networks.html#full-neural-network-in-rtorch"><i class="fa fa-check"></i><b>12.6</b> Full Neural Network in rTorch</a></li>
 <li class="chapter" data-level="12.7" data-path="neural-networks.html"><a href="neural-networks.html#exercise-2"><i class="fa fa-check"></i><b>12.7</b> Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html"><i class="fa fa-check"></i><b>13</b> A neural network step-by-step</a>
-<ul>
+<li class="chapter" data-level="13" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html"><i class="fa fa-check"></i><b>13</b> A neural network step-by-step</a><ul>
 <li class="chapter" data-level="13.1" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#introduction-1"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
 <li class="chapter" data-level="13.2" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#select-device"><i class="fa fa-check"></i><b>13.2</b> Select device</a></li>
 <li class="chapter" data-level="13.3" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#create-the-dataset"><i class="fa fa-check"></i><b>13.3</b> Create the dataset</a></li>
 <li class="chapter" data-level="13.4" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#define-the-model-1"><i class="fa fa-check"></i><b>13.4</b> Define the model</a></li>
 <li class="chapter" data-level="13.5" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#the-loss-function"><i class="fa fa-check"></i><b>13.5</b> The Loss function</a></li>
 <li class="chapter" data-level="13.6" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#iterate-through-the-dataset-1"><i class="fa fa-check"></i><b>13.6</b> Iterate through the dataset</a></li>
-<li class="chapter" data-level="13.7" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#using-r-generics"><i class="fa fa-check"></i><b>13.7</b> Using R generics</a>
-<ul>
+<li class="chapter" data-level="13.7" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#using-r-generics"><i class="fa fa-check"></i><b>13.7</b> Using R generics</a><ul>
 <li class="chapter" data-level="13.7.1" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#simplify-tensor-operations"><i class="fa fa-check"></i><b>13.7.1</b> Simplify tensor operations</a></li>
 </ul></li>
 <li class="chapter" data-level="13.8" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#an-elegant-neural-network"><i class="fa fa-check"></i><b>13.8</b> An elegant neural network</a></li>
@@ -1238,38 +1195,31 @@ code span.wa { color: #bf0303; } /* Warning */
 <li class="chapter" data-level="13.10" data-path="a-neural-network-step-by-step.html"><a href="a-neural-network-step-by-step.html#plot-the-loss-at-each-iteration"><i class="fa fa-check"></i><b>13.10</b> Plot the loss at each iteration</a></li>
 </ul></li>
 <li class="part"><span><b>VI PyTorch and R data structures</b></span></li>
-<li class="chapter" data-level="14" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html"><i class="fa fa-check"></i><b>14</b> Working with a data.frame</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="14.2" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
-<li class="chapter" data-level="14.3" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a>
-<ul>
-<li class="chapter" data-level="14.3.1" data-path="working-with-a-data-frame.html"><a href="working-with-a-data-frame.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
+<li class="chapter" data-level="14" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html"><i class="fa fa-check"></i><b>14</b> Working with a data●frame</a><ul>
+<li class="chapter" data-level="14.1" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#load-pytorch-libraries"><i class="fa fa-check"></i><b>14.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="14.2" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#load-dataset"><i class="fa fa-check"></i><b>14.2</b> Load dataset</a></li>
+<li class="chapter" data-level="14.3" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#summary-statistics-for-tensors"><i class="fa fa-check"></i><b>14.3</b> Summary statistics for tensors</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="working-with-a-dataframe.html"><a href="working-with-a-dataframe.html#using-data.frame"><i class="fa fa-check"></i><b>14.3.1</b> Using <code>data.frame</code></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="working-with-data-table.html"><a href="working-with-data-table.html"><i class="fa fa-check"></i><b>15</b> Working with data.table</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
-<li class="chapter" data-level="15.2" data-path="working-with-data-table.html"><a href="working-with-data-table.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
-<li class="chapter" data-level="15.3" data-path="working-with-data-table.html"><a href="working-with-data-table.html#datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Datasets without normalization</a></li>
-<li class="chapter" data-level="15.4" data-path="working-with-data-table.html"><a href="working-with-data-table.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
+<li class="chapter" data-level="15" data-path="working-with-datatable.html"><a href="working-with-datatable.html"><i class="fa fa-check"></i><b>15</b> Working with data●table</a><ul>
+<li class="chapter" data-level="15.1" data-path="working-with-datatable.html"><a href="working-with-datatable.html#load-pytorch-libraries-1"><i class="fa fa-check"></i><b>15.1</b> Load PyTorch libraries</a></li>
+<li class="chapter" data-level="15.2" data-path="working-with-datatable.html"><a href="working-with-datatable.html#load-dataset-1"><i class="fa fa-check"></i><b>15.2</b> Load dataset</a></li>
+<li class="chapter" data-level="15.3" data-path="working-with-datatable.html"><a href="working-with-datatable.html#datasets-without-normalization"><i class="fa fa-check"></i><b>15.3</b> Datasets without normalization</a></li>
+<li class="chapter" data-level="15.4" data-path="working-with-datatable.html"><a href="working-with-datatable.html#using-data.table"><i class="fa fa-check"></i><b>15.4</b> Using <code>data.table</code></a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a>
-<ul>
-<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a>
-<ul>
+<li class="chapter" data-level="A" data-path="appendixA.html"><a href="appendixA.html"><i class="fa fa-check"></i><b>A</b> Statistical Background</a><ul>
+<li class="chapter" data-level="A.1" data-path="appendixA.html"><a href="appendixA.html#basic-statistical-terms"><i class="fa fa-check"></i><b>A.1</b> Basic statistical terms</a><ul>
 <li class="chapter" data-level="A.1.1" data-path="appendixA.html"><a href="appendixA.html#five-number-summary"><i class="fa fa-check"></i><b>A.1.1</b> Five-number summary</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a>
-<ul>
+<li class="chapter" data-level="B" data-path="appendixB.html"><a href="appendixB.html"><i class="fa fa-check"></i><b>B</b> Activation Functions</a><ul>
 <li class="chapter" data-level="B.1" data-path="appendixB.html"><a href="appendixB.html#sigmoid"><i class="fa fa-check"></i><b>B.1</b> Sigmoid</a></li>
 <li class="chapter" data-level="B.2" data-path="appendixB.html"><a href="appendixB.html#relu"><i class="fa fa-check"></i><b>B.2</b> ReLU</a></li>
 <li class="chapter" data-level="B.3" data-path="appendixB.html"><a href="appendixB.html#tanh"><i class="fa fa-check"></i><b>B.3</b> tanh</a></li>
 <li class="chapter" data-level="B.4" data-path="appendixB.html"><a href="appendixB.html#softmax"><i class="fa fa-check"></i><b>B.4</b> Softmax</a></li>
-<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Activation functions in Python</a>
-<ul>
+<li class="chapter" data-level="B.5" data-path="appendixB.html"><a href="appendixB.html#activation-functions-in-python"><i class="fa fa-check"></i><b>B.5</b> Activation functions in Python</a><ul>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#linear-activation"><i class="fa fa-check"></i>Linear activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#sigmoid-activation"><i class="fa fa-check"></i>Sigmoid activation</a></li>
 <li class="chapter" data-level="" data-path="appendixB.html"><a href="appendixB.html#hyperbolic-tangent-activation"><i class="fa fa-check"></i>Hyperbolic Tangent activation</a></li>
@@ -1300,43 +1250,43 @@ code span.wa { color: #bf0303; } /* Warning */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="linear-regression" class="section level1" number="10">
+<div id="linear-regression" class="section level1">
 <h1><span class="header-section-number">Chapter 10</span> Linear Regression</h1>
 <p><em>Last update: Thu Oct 22 16:46:28 2020 -0500 (54a46ea04)</em></p>
-<div id="introduction" class="section level2" number="10.1">
+<div id="introduction" class="section level2">
 <h2><span class="header-section-number">10.1</span> Introduction</h2>
 <p>Source: <a href="https://www.guru99.com/pytorch-tutorial.html" class="uri">https://www.guru99.com/pytorch-tutorial.html</a></p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="linear-regression.html#cb485-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rTorch)</span>
-<span id="cb485-2"><a href="linear-regression.html#cb485-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb485-3"><a href="linear-regression.html#cb485-3" aria-hidden="true" tabindex="-1"></a>nn       <span class="ot">&lt;-</span> torch<span class="sc">$</span>nn</span>
-<span id="cb485-4"><a href="linear-regression.html#cb485-4" aria-hidden="true" tabindex="-1"></a>Variable <span class="ot">&lt;-</span> torch<span class="sc">$</span>autograd<span class="sc">$</span>Variable</span>
-<span id="cb485-5"><a href="linear-regression.html#cb485-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb485-6"><a href="linear-regression.html#cb485-6" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(torch<span class="sc">$</span><span class="fu">manual_seed</span>(<span class="dv">123</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb488-1" title="1"><span class="kw">library</span>(rTorch)</a>
+<a class="sourceLine" id="cb488-2" title="2"></a>
+<a class="sourceLine" id="cb488-3" title="3">nn       &lt;-<span class="st"> </span>torch<span class="op">$</span>nn</a>
+<a class="sourceLine" id="cb488-4" title="4">Variable &lt;-<span class="st"> </span>torch<span class="op">$</span>autograd<span class="op">$</span>Variable</a>
+<a class="sourceLine" id="cb488-5" title="5"></a>
+<a class="sourceLine" id="cb488-6" title="6"><span class="kw">invisible</span>(torch<span class="op">$</span><span class="kw">manual_seed</span>(<span class="dv">123</span>))</a></code></pre></div>
 </div>
-<div id="generate-the-dataset" class="section level2" number="10.2">
+<div id="generate-the-dataset" class="section level2">
 <h2><span class="header-section-number">10.2</span> Generate the dataset</h2>
 <p>Before you start the training process, you need to know our data. You make a random function to test our model. <span class="math inline">\(Y = x3 sin(x)+ 3x+0.8 rand(100)\)</span></p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="linear-regression.html#cb486-1" aria-hidden="true" tabindex="-1"></a>np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">seed</span>(123L)</span>
-<span id="cb486-2"><a href="linear-regression.html#cb486-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb486-3"><a href="linear-regression.html#cb486-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">rand</span>(100L)</span>
-<span id="cb486-4"><a href="linear-regression.html#cb486-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> np<span class="sc">$</span><span class="fu">sin</span>(x) <span class="sc">*</span> np<span class="sc">$</span><span class="fu">power</span>(x, 3L) <span class="sc">+</span> 3L <span class="sc">*</span> x <span class="sc">+</span> np<span class="sc">$</span>random<span class="sc">$</span><span class="fu">rand</span>(100L) <span class="sc">*</span> <span class="fl">0.8</span></span>
-<span id="cb486-5"><a href="linear-regression.html#cb486-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb486-6"><a href="linear-regression.html#cb486-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb489-1" title="1">np<span class="op">$</span>random<span class="op">$</span><span class="kw">seed</span>(123L)</a>
+<a class="sourceLine" id="cb489-2" title="2"></a>
+<a class="sourceLine" id="cb489-3" title="3">x =<span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L)</a>
+<a class="sourceLine" id="cb489-4" title="4">y =<span class="st"> </span>np<span class="op">$</span><span class="kw">sin</span>(x) <span class="op">*</span><span class="st"> </span>np<span class="op">$</span><span class="kw">power</span>(x, 3L) <span class="op">+</span><span class="st"> </span>3L <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>np<span class="op">$</span>random<span class="op">$</span><span class="kw">rand</span>(100L) <span class="op">*</span><span class="st"> </span><span class="fl">0.8</span></a>
+<a class="sourceLine" id="cb489-5" title="5"></a>
+<a class="sourceLine" id="cb489-6" title="6"><span class="kw">plot</span>(x, y)</a></code></pre></div>
 <p><img src="0401-linear_regression_files/figure-html/datasets-lr-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="convert-arrays-to-tensors" class="section level2" number="10.3">
+<div id="convert-arrays-to-tensors" class="section level2">
 <h2><span class="header-section-number">10.3</span> Convert arrays to tensors</h2>
 <p>Before you start the training process, you need to convert the numpy array to Variables that supported by Torch and autograd.</p>
 </div>
-<div id="numpy-array-to-tensor-1" class="section level2" number="10.4">
+<div id="numpy-array-to-tensor-1" class="section level2">
 <h2><span class="header-section-number">10.4</span> <code>numpy</code> array to tensor</h2>
 <p>Notice that before converting to a Torch tensor, we need first to convert the R numeric vector to a <code>numpy</code> array:</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="linear-regression.html#cb487-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert numpy array to tensor in shape of input size</span></span>
-<span id="cb487-2"><a href="linear-regression.html#cb487-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(x)</span>
-<span id="cb487-3"><a href="linear-regression.html#cb487-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">r_to_py</span>(y)</span>
-<span id="cb487-4"><a href="linear-regression.html#cb487-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">from_numpy</span>(x<span class="sc">$</span><span class="fu">reshape</span>(<span class="sc">-</span>1L, 1L))<span class="sc">$</span><span class="fu">float</span>()</span>
-<span id="cb487-5"><a href="linear-regression.html#cb487-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> torch<span class="sc">$</span><span class="fu">from_numpy</span>(y<span class="sc">$</span><span class="fu">reshape</span>(<span class="sc">-</span>1L, 1L))<span class="sc">$</span><span class="fu">float</span>()</span>
-<span id="cb487-6"><a href="linear-regression.html#cb487-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb490-1" title="1"><span class="co"># convert numpy array to tensor in shape of input size</span></a>
+<a class="sourceLine" id="cb490-2" title="2">x &lt;-<span class="st"> </span><span class="kw">r_to_py</span>(x)</a>
+<a class="sourceLine" id="cb490-3" title="3">y &lt;-<span class="st"> </span><span class="kw">r_to_py</span>(y)</a>
+<a class="sourceLine" id="cb490-4" title="4">x =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(x<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 1L))<span class="op">$</span><span class="kw">float</span>()</a>
+<a class="sourceLine" id="cb490-5" title="5">y =<span class="st"> </span>torch<span class="op">$</span><span class="kw">from_numpy</span>(y<span class="op">$</span><span class="kw">reshape</span>(<span class="op">-</span>1L, 1L))<span class="op">$</span><span class="kw">float</span>()</a>
+<a class="sourceLine" id="cb490-6" title="6"><span class="kw">print</span>(x, y)</a></code></pre></div>
 <pre><code>#&gt; tensor([[0.6965],
 #&gt;         [0.2861],
 #&gt;         [0.2269],
@@ -1438,45 +1388,45 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt;         [0.2409],
 #&gt;         [0.3435]])</code></pre>
 </div>
-<div id="creating-the-network-model" class="section level2" number="10.5">
+<div id="creating-the-network-model" class="section level2">
 <h2><span class="header-section-number">10.5</span> Creating the network model</h2>
 <p>Our network model is a simple Linear layer with an input and an output shape of one.</p>
 <p>And the network output should be like this</p>
 <pre><code>Net(
   (hidden): Linear(in_features=1, out_features=1, bias=True)
 )</code></pre>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="linear-regression.html#cb490-1" aria-hidden="true" tabindex="-1"></a><span class="fu">py_run_string</span>(<span class="st">&quot;import torch&quot;</span>)</span>
-<span id="cb490-2"><a href="linear-regression.html#cb490-2" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="fu">py_run_string</span>(</span>
-<span id="cb490-3"><a href="linear-regression.html#cb490-3" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
-<span id="cb490-4"><a href="linear-regression.html#cb490-4" aria-hidden="true" tabindex="-1"></a><span class="st">import torch.nn as nn</span></span>
-<span id="cb490-5"><a href="linear-regression.html#cb490-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb490-6"><a href="linear-regression.html#cb490-6" aria-hidden="true" tabindex="-1"></a><span class="st">class Net(nn.Module):</span></span>
-<span id="cb490-7"><a href="linear-regression.html#cb490-7" aria-hidden="true" tabindex="-1"></a><span class="st">   def __init__(self):</span></span>
-<span id="cb490-8"><a href="linear-regression.html#cb490-8" aria-hidden="true" tabindex="-1"></a><span class="st">       super(Net, self).__init__()</span></span>
-<span id="cb490-9"><a href="linear-regression.html#cb490-9" aria-hidden="true" tabindex="-1"></a><span class="st">       self.layer = torch.nn.Linear(1, 1)</span></span>
-<span id="cb490-10"><a href="linear-regression.html#cb490-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb490-11"><a href="linear-regression.html#cb490-11" aria-hidden="true" tabindex="-1"></a><span class="st">   def forward(self, x):</span></span>
-<span id="cb490-12"><a href="linear-regression.html#cb490-12" aria-hidden="true" tabindex="-1"></a><span class="st">       x = self.layer(x)      </span></span>
-<span id="cb490-13"><a href="linear-regression.html#cb490-13" aria-hidden="true" tabindex="-1"></a><span class="st">       return x</span></span>
-<span id="cb490-14"><a href="linear-regression.html#cb490-14" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span>)</span>
-<span id="cb490-15"><a href="linear-regression.html#cb490-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb490-16"><a href="linear-regression.html#cb490-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb490-17"><a href="linear-regression.html#cb490-17" aria-hidden="true" tabindex="-1"></a><span class="co"># build a Linear Rgression model</span></span>
-<span id="cb490-18"><a href="linear-regression.html#cb490-18" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> main<span class="sc">$</span><span class="fu">Net</span>()</span>
-<span id="cb490-19"><a href="linear-regression.html#cb490-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb490-20"><a href="linear-regression.html#cb490-20" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(net)</span></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb493-1" title="1"><span class="kw">py_run_string</span>(<span class="st">&quot;import torch&quot;</span>)</a>
+<a class="sourceLine" id="cb493-2" title="2">main =<span class="st"> </span><span class="kw">py_run_string</span>(</a>
+<a class="sourceLine" id="cb493-3" title="3"><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb493-4" title="4"><span class="st">import torch.nn as nn</span></a>
+<a class="sourceLine" id="cb493-5" title="5"></a>
+<a class="sourceLine" id="cb493-6" title="6"><span class="st">class Net(nn.Module):</span></a>
+<a class="sourceLine" id="cb493-7" title="7"><span class="st">   def __init__(self):</span></a>
+<a class="sourceLine" id="cb493-8" title="8"><span class="st">       super(Net, self).__init__()</span></a>
+<a class="sourceLine" id="cb493-9" title="9"><span class="st">       self.layer = torch.nn.Linear(1, 1)</span></a>
+<a class="sourceLine" id="cb493-10" title="10"></a>
+<a class="sourceLine" id="cb493-11" title="11"><span class="st">   def forward(self, x):</span></a>
+<a class="sourceLine" id="cb493-12" title="12"><span class="st">       x = self.layer(x)      </span></a>
+<a class="sourceLine" id="cb493-13" title="13"><span class="st">       return x</span></a>
+<a class="sourceLine" id="cb493-14" title="14"><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb493-15" title="15"></a>
+<a class="sourceLine" id="cb493-16" title="16"></a>
+<a class="sourceLine" id="cb493-17" title="17"><span class="co"># build a Linear Rgression model</span></a>
+<a class="sourceLine" id="cb493-18" title="18">net &lt;-<span class="st"> </span>main<span class="op">$</span><span class="kw">Net</span>()</a>
+<a class="sourceLine" id="cb493-19" title="19"></a>
+<a class="sourceLine" id="cb493-20" title="20"><span class="kw">print</span>(net)</a></code></pre></div>
 <pre><code>#&gt; Net(
 #&gt;   (layer): Linear(in_features=1, out_features=1, bias=True)
 #&gt; )</code></pre>
 </div>
-<div id="optimizer-and-loss" class="section level2" number="10.6">
+<div id="optimizer-and-loss" class="section level2">
 <h2><span class="header-section-number">10.6</span> Optimizer and Loss</h2>
 <p>Next, you should define the Optimizer and the Loss Function for our training process.</p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="linear-regression.html#cb492-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define Optimizer and Loss Function</span></span>
-<span id="cb492-2"><a href="linear-regression.html#cb492-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="ot">&lt;-</span> torch<span class="sc">$</span>optim<span class="sc">$</span><span class="fu">SGD</span>(net<span class="sc">$</span><span class="fu">parameters</span>(), <span class="at">lr=</span><span class="fl">0.2</span>)</span>
-<span id="cb492-3"><a href="linear-regression.html#cb492-3" aria-hidden="true" tabindex="-1"></a>loss_func <span class="ot">&lt;-</span> torch<span class="sc">$</span>nn<span class="sc">$</span><span class="fu">MSELoss</span>()</span>
-<span id="cb492-4"><a href="linear-regression.html#cb492-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(optimizer)</span>
-<span id="cb492-5"><a href="linear-regression.html#cb492-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(loss_func)</span></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb495-1" title="1"><span class="co"># Define Optimizer and Loss Function</span></a>
+<a class="sourceLine" id="cb495-2" title="2">optimizer &lt;-<span class="st"> </span>torch<span class="op">$</span>optim<span class="op">$</span><span class="kw">SGD</span>(net<span class="op">$</span><span class="kw">parameters</span>(), <span class="dt">lr=</span><span class="fl">0.2</span>)</a>
+<a class="sourceLine" id="cb495-3" title="3">loss_func &lt;-<span class="st"> </span>torch<span class="op">$</span>nn<span class="op">$</span><span class="kw">MSELoss</span>()</a>
+<a class="sourceLine" id="cb495-4" title="4"><span class="kw">print</span>(optimizer)</a>
+<a class="sourceLine" id="cb495-5" title="5"><span class="kw">print</span>(loss_func)</a></code></pre></div>
 <pre><code>#&gt; SGD (
 #&gt; Parameter Group 0
 #&gt;     dampening: 0
@@ -1487,39 +1437,39 @@ code span.wa { color: #bf0303; } /* Warning */
 #&gt; )
 #&gt; MSELoss()</code></pre>
 </div>
-<div id="training-1" class="section level2" number="10.7">
+<div id="training-1" class="section level2">
 <h2><span class="header-section-number">10.7</span> Training</h2>
 <p>Now let’s start our training process. With an epoch of 250, you will iterate our data to find the best value for our hyperparameters.</p>
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="linear-regression.html#cb494-1" aria-hidden="true" tabindex="-1"></a><span class="co"># x = x$type(torch$float)   # make it a a FloatTensor</span></span>
-<span id="cb494-2"><a href="linear-regression.html#cb494-2" aria-hidden="true" tabindex="-1"></a><span class="co"># y = y$type(torch$float)</span></span>
-<span id="cb494-3"><a href="linear-regression.html#cb494-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb494-4"><a href="linear-regression.html#cb494-4" aria-hidden="true" tabindex="-1"></a><span class="co"># x &lt;- torch$as_tensor(x, dtype = torch$float)</span></span>
-<span id="cb494-5"><a href="linear-regression.html#cb494-5" aria-hidden="true" tabindex="-1"></a><span class="co"># y &lt;- torch$as_tensor(y, dtype = torch$float)</span></span>
-<span id="cb494-6"><a href="linear-regression.html#cb494-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb494-7"><a href="linear-regression.html#cb494-7" aria-hidden="true" tabindex="-1"></a>inputs  <span class="ot">=</span> <span class="fu">Variable</span>(x)</span>
-<span id="cb494-8"><a href="linear-regression.html#cb494-8" aria-hidden="true" tabindex="-1"></a>outputs <span class="ot">=</span> <span class="fu">Variable</span>(y)</span>
-<span id="cb494-9"><a href="linear-regression.html#cb494-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb494-10"><a href="linear-regression.html#cb494-10" aria-hidden="true" tabindex="-1"></a><span class="co"># base plot</span></span>
-<span id="cb494-11"><a href="linear-regression.html#cb494-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x<span class="sc">$</span>data<span class="sc">$</span><span class="fu">numpy</span>(), y<span class="sc">$</span>data<span class="sc">$</span><span class="fu">numpy</span>(), <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb494-12"><a href="linear-regression.html#cb494-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">250</span>) {</span>
-<span id="cb494-13"><a href="linear-regression.html#cb494-13" aria-hidden="true" tabindex="-1"></a>   prediction <span class="ot">=</span> <span class="fu">net</span>(inputs)</span>
-<span id="cb494-14"><a href="linear-regression.html#cb494-14" aria-hidden="true" tabindex="-1"></a>   loss <span class="ot">=</span> <span class="fu">loss_func</span>(prediction, outputs)</span>
-<span id="cb494-15"><a href="linear-regression.html#cb494-15" aria-hidden="true" tabindex="-1"></a>   optimizer<span class="sc">$</span><span class="fu">zero_grad</span>()</span>
-<span id="cb494-16"><a href="linear-regression.html#cb494-16" aria-hidden="true" tabindex="-1"></a>   loss<span class="sc">$</span><span class="fu">backward</span>()</span>
-<span id="cb494-17"><a href="linear-regression.html#cb494-17" aria-hidden="true" tabindex="-1"></a>   optimizer<span class="sc">$</span><span class="fu">step</span>()</span>
-<span id="cb494-18"><a href="linear-regression.html#cb494-18" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb494-19"><a href="linear-regression.html#cb494-19" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span> (i <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="cf">break</span></span>
-<span id="cb494-20"><a href="linear-regression.html#cb494-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb494-21"><a href="linear-regression.html#cb494-21" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span> (i <span class="sc">%%</span> <span class="dv">10</span> <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb494-22"><a href="linear-regression.html#cb494-22" aria-hidden="true" tabindex="-1"></a>       <span class="co"># plot and show learning process</span></span>
-<span id="cb494-23"><a href="linear-regression.html#cb494-23" aria-hidden="true" tabindex="-1"></a>      <span class="co"># points(x$data$numpy(), y$data$numpy())</span></span>
-<span id="cb494-24"><a href="linear-regression.html#cb494-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">points</span>(x<span class="sc">$</span>data<span class="sc">$</span><span class="fu">numpy</span>(), prediction<span class="sc">$</span>data<span class="sc">$</span><span class="fu">numpy</span>(), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb494-25"><a href="linear-regression.html#cb494-25" aria-hidden="true" tabindex="-1"></a>       <span class="co"># cat(i, loss$data$numpy(), &quot;\n&quot;)</span></span>
-<span id="cb494-26"><a href="linear-regression.html#cb494-26" aria-hidden="true" tabindex="-1"></a>   }</span>
-<span id="cb494-27"><a href="linear-regression.html#cb494-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb497-1" title="1"><span class="co"># x = x$type(torch$float)   # make it a a FloatTensor</span></a>
+<a class="sourceLine" id="cb497-2" title="2"><span class="co"># y = y$type(torch$float)</span></a>
+<a class="sourceLine" id="cb497-3" title="3"></a>
+<a class="sourceLine" id="cb497-4" title="4"><span class="co"># x &lt;- torch$as_tensor(x, dtype = torch$float)</span></a>
+<a class="sourceLine" id="cb497-5" title="5"><span class="co"># y &lt;- torch$as_tensor(y, dtype = torch$float)</span></a>
+<a class="sourceLine" id="cb497-6" title="6"></a>
+<a class="sourceLine" id="cb497-7" title="7">inputs  =<span class="st"> </span><span class="kw">Variable</span>(x)</a>
+<a class="sourceLine" id="cb497-8" title="8">outputs =<span class="st"> </span><span class="kw">Variable</span>(y)</a>
+<a class="sourceLine" id="cb497-9" title="9"></a>
+<a class="sourceLine" id="cb497-10" title="10"><span class="co"># base plot</span></a>
+<a class="sourceLine" id="cb497-11" title="11"><span class="kw">plot</span>(x<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), y<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</a>
+<a class="sourceLine" id="cb497-12" title="12"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">250</span>) {</a>
+<a class="sourceLine" id="cb497-13" title="13">   prediction =<span class="st"> </span><span class="kw">net</span>(inputs)</a>
+<a class="sourceLine" id="cb497-14" title="14">   loss =<span class="st"> </span><span class="kw">loss_func</span>(prediction, outputs)</a>
+<a class="sourceLine" id="cb497-15" title="15">   optimizer<span class="op">$</span><span class="kw">zero_grad</span>()</a>
+<a class="sourceLine" id="cb497-16" title="16">   loss<span class="op">$</span><span class="kw">backward</span>()</a>
+<a class="sourceLine" id="cb497-17" title="17">   optimizer<span class="op">$</span><span class="kw">step</span>()</a>
+<a class="sourceLine" id="cb497-18" title="18">   </a>
+<a class="sourceLine" id="cb497-19" title="19">   <span class="cf">if</span> (i <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) <span class="cf">break</span></a>
+<a class="sourceLine" id="cb497-20" title="20"></a>
+<a class="sourceLine" id="cb497-21" title="21">   <span class="cf">if</span> (i <span class="op">%%</span><span class="st"> </span><span class="dv">10</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb497-22" title="22">       <span class="co"># plot and show learning process</span></a>
+<a class="sourceLine" id="cb497-23" title="23">      <span class="co"># points(x$data$numpy(), y$data$numpy())</span></a>
+<a class="sourceLine" id="cb497-24" title="24">      <span class="kw">points</span>(x<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), prediction<span class="op">$</span>data<span class="op">$</span><span class="kw">numpy</span>(), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb497-25" title="25">       <span class="co"># cat(i, loss$data$numpy(), &quot;\n&quot;)</span></a>
+<a class="sourceLine" id="cb497-26" title="26">   }</a>
+<a class="sourceLine" id="cb497-27" title="27">}</a></code></pre></div>
 <p><img src="0401-linear_regression_files/figure-html/plot-xy-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="results" class="section level2" number="10.8">
+<div id="results" class="section level2">
 <h2><span class="header-section-number">10.8</span> Results</h2>
 <p>As you can see, you successfully performed regression with a neural network. Actually, on every iteration, the red line in the plot will update and change its position to fit the data. But in this picture, you only show you the final result.</p>
 
