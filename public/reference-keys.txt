@@ -165,12 +165,12 @@ simplify-tensor-operations
 an-elegant-neural-network
 a-browseable-dataframe
 plot-the-loss-at-each-iteration
-working-with-a-data.frame
+working-with-a-dataframe
 load-pytorch-libraries
 load-dataset
 summary-statistics-for-tensors
 using-data.frame
-working-with-data.table
+working-with-datatable
 load-pytorch-libraries-1
 load-dataset-1
 datasets-without-normalization
