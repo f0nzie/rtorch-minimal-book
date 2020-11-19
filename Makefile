@@ -14,11 +14,77 @@ else
         OSFLAG = OSX
     endif
 endif
+# conda exists? Works in Linux
+ifeq (,$(shell which conda))
+    HAS_CONDA=False
+else
+    HAS_CONDA=True
+    # ENV_DIR=$(shell conda info --base)
+	CONDA_BASE_DIR=$(shell conda info --base)
+    MY_ENV_DIR=$(CONDA_BASE_DIR)/envs/$(CONDA_ENV)
+    CONDA_ACTIVATE=source $$(conda info --base)/etc/profile.d/conda.sh ; conda activate ; conda activate
+endif
 
 
-.PHONY: render-book
-render-book:
+# create conda environment
+create_condaenv:
+	source ${HOME}/${CONDA_TYPE}/etc/profile.d/conda.sh ;\
+	conda deactivate
+	conda remove --name ${CONDA_ENV} --all -y
+	conda env create -f ${ENV_RECIPE}
+
+remove_condaenv:
+	source ${HOME}/${CONDA_TYPE}/etc/profile.d/conda.sh ;\
+	conda deactivate
+	conda remove --name ${CONDA_ENV} --all -y
+
+# activate conda only if environment exists
+conda_activate:
+ifeq (True,$(HAS_CONDA))
+ifneq ("$(wildcard $(MY_ENV_DIR))","") 
+	source ${HOME}/${CONDA_TYPE}/etc/profile.d/conda.sh ;\
+	conda activate $(CONDA_ENV)
+else
+	@echo ">>> Detected conda, but $(CONDA_ENV) is missing in $(CONDA_BASE_DIR). Install conda first ..."
+endif
+else
+	@echo ">>> Install conda first."
+	exit
+endif
+
+
+.PHONY: gitbook bs4book bs4book_open
+gitbook_render:
 	Rscript -e "bookdown::render_book(input='.', output_format = 'bookdown::gitbook', config_file='_bookdown.yml')"
+
+bs4book_render:
+	export RSTUDIO_PANDOC="/usr/lib/rstudio/bin/pandoc";\
+	Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::bs4_book")'
+
+
+# activate conda environment first; then render; finally, open index.html in a browser
+bs4book_open: conda_activate bs4book_render open_book
+
+gitbook_open: conda_activate gitbook_render open_book
+
+
+
+open_book:
+ifeq ($(OSFLAG), OSX)
+    @open -a firefox  $(PUBLISH_BOOK_DIR)/index.html
+endif
+ifeq ($(OSFLAG), LINUX)
+	@firefox  $(PUBLISH_BOOK_DIR)/index.html
+endif
+ifeq ($(OSFLAG), WINDOWS)
+	@"C:\Program Files\Mozilla Firefox\firefox" $(PUBLISH_BOOK_DIR)/index.html
+endif
+
+
+
+git_push:
+	git push ;\
+	git subtree push --prefix ${PUBLISH_BOOK_DIR} origin gh-pages	
 
 
 
