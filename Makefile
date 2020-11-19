@@ -32,3 +32,14 @@ tidy:
 	if [ -d ${BOOKDOWN_FILES} ]; then rm -rf ${BOOKDOWN_FILES};fi \
 
 
+
+# provide some essential info about the tikz files
+.PHONY: info
+info:
+	@echo "OS is:" $(OSFLAG)
+	@echo "Bookdown publication folder:" $(PUBLISH_BOOK_DIR)
+	@echo "Has Conda?:" ${HAS_CONDA}
+	@# @echo "Environment:" ${ENV_DIR}
+	@echo "Conda Base  Dir:" ${CONDA_BASE_DIR}
+	@echo "Environment Dir:" ${MY_ENV_DIR}
+	@echo ${CONDA_ENV}
