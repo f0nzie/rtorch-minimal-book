@@ -1,7 +1,13 @@
+SHELL := /bin/bash
 OUTPUT_DIR = .
 BOOKDOWN_FILES = _bookdown_files
 PKGNAME = `sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION`
 PKGVERS = `sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION`
+PUBLISH_DIR = ./public
+PUBLISH_BOOK_DIR = public
+CONDA_ENV = r-torch
+CONDA_TYPE = miniconda3
+ENV_RECIPE = environment.yml
 # Detect operating system. Sort of tricky for Windows because of MSYS, cygwin, MGWIN
 ifeq ($(OS), Windows_NT)
     OSFLAG = WINDOWS
