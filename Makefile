@@ -2,6 +2,18 @@ OUTPUT_DIR = .
 BOOKDOWN_FILES = _bookdown_files
 PKGNAME = `sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION`
 PKGVERS = `sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION`
+# Detect operating system. Sort of tricky for Windows because of MSYS, cygwin, MGWIN
+ifeq ($(OS), Windows_NT)
+    OSFLAG = WINDOWS
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S), Linux)
+        OSFLAG = LINUX
+    endif
+    ifeq ($(UNAME_S), Darwin)
+        OSFLAG = OSX
+    endif
+endif
 
 
 .PHONY: render-book
