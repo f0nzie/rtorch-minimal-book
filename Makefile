@@ -93,11 +93,24 @@ git_push:
 	git subtree push --prefix ${PUBLISH_BOOK_DIR} origin gh-pages	
 
 
+.PHONY: clean
+clean: tidy
+		find $(OUTPUT_DIR) -maxdepth 1 -name \*.tex -delete
+		find $(FIGURE_DIR) -maxdepth 1 -name \*.png -delete ;\
+		$(RM) -rf $(BOOKDOWN_FILES_DIRS)
+		if [ -f ${MAIN_RMD} ]; then rm -rf ${MAIN_RMD};fi ;\
+		if [ -f ${LIBRARY} ]; then rm ${LIBRARY};fi ;\
+		if [ -d ${PUBLISH_BOOK_DIR} ]; then rm -rf ${PUBLISH_BOOK_DIR};fi
+		if [ -d ${CHECKPOINTS} ]; then rm -rf ${CHECKPOINTS};fi
 
 # delete unwanted files and folders in bookdown folder
 .PHONY: tidy
 tidy:
-	find $(OUTPUT_DIR) -maxdepth 1 -name \*.md -delete
+	# delete all markdown files but keep README.md
+	find $(OUTPUT_DIR) -maxdepth 1 -name \*.md -not -name 'README.md' -delete
+	find $(OUTPUT_DIR) -maxdepth 1 -name \*-book.html -delete
+	find $(OUTPUT_DIR) -maxdepth 1 -name \*.png -delete
+	find $(OUTPUT_DIR) -maxdepth 1 -name \*.log -delete
 	find $(OUTPUT_DIR) -maxdepth 1 -name \*.rds -delete
 	find $(OUTPUT_DIR) -maxdepth 1 -name \*.ckpt -delete
 	find $(OUTPUT_DIR) -maxdepth 1 -name \*.nb.html -delete
