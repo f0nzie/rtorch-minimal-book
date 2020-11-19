@@ -1,10 +1,25 @@
+# bookdown \
+ BOOKDOWN_FILES = _bookdown_files \
+ BOOKDOWN_FILES_DIRS = _bookdown_files    # remove folder(s) for clean rule \
+ OUTPUT_DIR = .                           # parent folder for output \
+ PUBLISH_BOOK_DIR = public                # remove folder for clean rule \
+ FIGURE_DIR =         # do we have a folder for figure files? Specify folder \
+ LIBRARY =            # do we have a temp folder with JS libraries? Specify folder \
+ MAIN_RMD = rtorch-minimal-book.Rmd      # get rid off main.Rmd when cleaning 
+
 SHELL := /bin/bash
-OUTPUT_DIR = .
-BOOKDOWN_FILES = _bookdown_files
+# R packages
 PKGNAME = `sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION`
 PKGVERS = `sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION`
-PUBLISH_DIR = ./public
+# bookdown
+BOOKDOWN_FILES = _bookdown_files
+BOOKDOWN_FILES_DIRS = _bookdown_files
+OUTPUT_DIR = .
 PUBLISH_BOOK_DIR = public
+FIGURE_DIR =
+LIBRARY =
+MAIN_RMD = rtorch-minimal-book.Rmd
+# conda
 CONDA_ENV = r-torch
 CONDA_TYPE = miniconda3
 ENV_RECIPE = environment.yml
